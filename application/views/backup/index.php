@@ -14,7 +14,7 @@
     </div>
     <div class="box-body">
       
-      <div style="background: aliceblue; padding: 2%;">
+      <div class="bg-alice">
         <span><u>File yang di download akan berformat .zip, extract untuk mengambil file .sql di dalamnya</u></span>
         <br/> 
         <span><u>Klik download database</u></span> 

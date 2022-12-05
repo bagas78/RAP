@@ -48,6 +48,9 @@
 
   <script src="<?php echo base_url() ?>adminLTE/bower_components/ckeditor/ckeditor.js"></script>
 
+  <!--number format-->
+  <script src="<?php echo base_url() ?>assets/js/number_format.js"></script>
+
 
 <style type="text/css">
   ::-webkit-scrollbar {
@@ -129,6 +132,12 @@
 
 thead{
   background: aliceblue;
+}
+
+.bg-alice{
+  background: aliceblue;
+  padding: 2%;
+  margin: 0;
 }
 
 </style>
@@ -233,10 +242,42 @@ thead{
           </ul>
         </li>
 
-        <li <?php echo @$pembelian; ?>>
-          <a href="<?= base_url('pembelian') ?>">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">add_shopping_cart</i></div> <div class="col-md-5 col-xs-5"><span>Pembelian</span></div>
+        <li class="treeview <?php echo @$pembelian_open ?>">
+          <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">add_shopping_cart</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Pembelian</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu" <?php echo @$pembelian_block ?>>
+
+            <li <?php echo @$pembelian_bahan_active; ?>>
+              <a href="<?php echo base_url('pembelian/bahan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Master Bahan</span>
+              </a>
+            </li>
+            <li <?php echo @$pembelian_po_active; ?>>
+              <a href="<?php echo base_url('pembelian/po') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Purchase Order ( PO )</span>
+              </a>
+            </li>
+            <li <?php echo @$pembelian_avalan_active; ?>>
+              <a href="<?php echo base_url('pembelian/avalan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Avalan</span>
+              </a>
+            </li>
+            <li <?php echo @$pembelian_utama_active; ?>>
+              <a href="<?php echo base_url('pembelian/utama') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Bahan Baku Utama</span>
+              </a>
+            </li>
+            
+          </ul>
         </li>
 
         <li <?php echo @$penjualan; ?>>

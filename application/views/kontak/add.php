@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form action="<?=base_url('kontak/save')?>" method="POST" accept-charset="utf-8" style="background: aliceblue;padding: 2%;">
+          <form class="bg-alice" action="<?=base_url('kontak/save')?>" method="POST" accept-charset="utf-8">
             
             <!--hidden-->
             <input type="hidden" name="jenis" value="<?=@$jenis?>">

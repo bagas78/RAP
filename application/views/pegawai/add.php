@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form action="<?=base_url('pegawai/save')?>" method="POST" accept-charset="utf-8" style="background: aliceblue;padding: 2%;">
+          <form class="bg-alice" action="<?=base_url('pegawai/save')?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
               <label>Nama</label>
@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input required="" type="admin" name="email" class="form-control">
+              <input required="" type="email" name="email" class="form-control">
             </div>
             <div class="form-group">
               <label>Password</label>

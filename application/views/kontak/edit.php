@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form action="<?=base_url('kontak/update/'.$data['kontak_id'])?>" method="POST" style="background: aliceblue;padding: 2%;">
+          <form class="bg-alice" action="<?=base_url('kontak/update/'.$data['kontak_id'])?>" method="POST">
             
             <!--hidden-->
             <input type="hidden" name="jenis" value="<?=@$jenis?>">

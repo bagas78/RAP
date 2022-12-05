@@ -17,7 +17,7 @@
          
           <form action="<?=base_url('mesin/save')?>" method="POST" accept-charset="utf-8">
             
-            <div class="row" style="background: aliceblue; margin: 0; padding: 2%;">
+            <div class="row bg-alice">
               <div class="col-lg-6">
                 <div class="form-group">
                   <label>Kode Mesin</label>

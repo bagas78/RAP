@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form action="<?=base_url('pegawai/update/'.@$data['user_id'])?>" method="POST" accept-charset="utf-8" style="background: aliceblue;padding: 2%;">
+          <form class="bg-alice" action="<?=base_url('pegawai/update/'.@$data['user_id'])?>" method="POST">
             
             <div class="form-group">
               <label>Nama</label>

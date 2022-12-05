@@ -14,7 +14,7 @@
     </div>
     <div class="box-body">
       
-      <div class="row" style="background: aliceblue; padding: 2%; margin: 0;">
+      <div class="row bg-alice">
         <div class="col-md-9">
           <form action="<?=base_url('logo/update/'.@$data['logo_id']) ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
