@@ -267,13 +267,19 @@ thead{
             <li <?php echo @$pembelian_avalan_active; ?>>
               <a href="<?php echo base_url('pembelian/avalan') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Avalan</span>
+                <span class="multi-li">Bahan Avalan</span>
               </a>
             </li>
             <li <?php echo @$pembelian_utama_active; ?>>
               <a href="<?php echo base_url('pembelian/utama') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Bahan Baku Utama</span>
+              </a>
+            </li>
+            <li <?php echo @$pembelian_bayar_active; ?>>
+              <a href="<?php echo base_url('pembelian/bayar') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pembayaran Hutang</span>
               </a>
             </li>
             

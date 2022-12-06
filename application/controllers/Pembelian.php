@@ -5,6 +5,9 @@ class Pembelian extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_pembelian');
 	}  
+
+	//Master Bahan
+
 	function bahan(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'Pembelian';
@@ -111,5 +114,42 @@ class Pembelian extends CI_Controller{
 		}
 		
 		redirect(base_url('pembelian/bahan'));
+	}
+
+	//Purchase Order
+
+	function po(){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'Purchase Order';
+		    $data['pembelian_open'] = 'menu-open';
+		    $data['pembelian_block'] = 'style="display: block;"';
+		    $data['pembelian_po_active'] = 'class="active"';
+
+		    //generate nomor transaksi
+		    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0");
+		    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
+
+		    //kontak
+		    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
+
+		    //barang
+		    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
+
+		    //ppn
+		    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('pembelian/po');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function get_barang($id){
+		//barang
+		$db = $this->query_builder->view_row("SELECT * FROM t_bahan WHERE bahan_id = '$id'");
+		echo json_encode($db);
 	}
 }
