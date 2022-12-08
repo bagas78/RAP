@@ -152,4 +152,48 @@ class Pembelian extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_bahan WHERE bahan_id = '$id'");
 		echo json_encode($db);
 	}
+	function save(){
+		
+		//pembelian
+		$nomor = strip_tags($_POST['nomor']);
+		$set1 = array(
+						'pembelian_nomor' => $nomor,
+						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_supplier' => strip_tags($_POST['supplier']),
+						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'pembelian_status' => strip_tags($_POST['status']),
+						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
+						'pembelian_lampiran' => '',
+						'pembelian_qty_akhir' => strip_tags($_POST['qty_akhir']),
+						'pembelian_ppn' => strip_tags($_POST['ppn']),
+						'pembelian_total' => strip_tags($_POST['total']), 
+					);
+
+		$db = $this->query_builder->add('t_pembelian',$set1);
+
+		//barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'pembelian_barang_nomor' => $nomor,
+						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'pembelian_barang_qty' => strip_tags($_POST['qty'][$i]),
+						'pembelian_barang_potongan' => strip_tags($_POST['potongan'][$i]),
+						'pembelian_barang_harga' => strip_tags($_POST['harga'][$i]),
+						'pembelian_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+					);	
+
+			$this->query_builder->add('t_pembelian_barang',$set2);
+		}
+
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('pembelian/po'));
+	}
 }

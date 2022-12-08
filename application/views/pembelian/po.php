@@ -20,7 +20,7 @@
     </div>
     <div class="box-body">
 
-      <form action="#" method="post" enctype="multipart/form-data" class="bg-alice">
+      <form action="<?=base_url('pembelian/save')?>" method="post" enctype="multipart/form-data" class="bg-alice">
         <div class="row">
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
@@ -44,7 +44,7 @@
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
               <label>Jatuh Tempo</label>
-              <input type="date" name="Jatuh_tempo" class="form-control" required>
+              <input type="date" name="jatuh_tempo" class="form-control" required>
             </div>
             <div class="col-md-12 mb-7">
               <label>Status Pembayaran</label>
@@ -66,7 +66,7 @@
 
               <label>Lampiran Photo</label>
               <img id="previewImg" onclick="clickFile()" style="width: 100%;" src="<?= base_url('assets/gambar/camera.png') ?>">
-              <input style="visibility: hidden;" id="file" type="file" name="lampiran" onchange="previewFile(this);" required>
+              <input style="visibility: hidden;" id="file" type="file" name="lampiran">
           
             </div>
           </div>
@@ -88,39 +88,44 @@
           <tbody id="paste">
             <tr id="copy">
               <td>
-                <select id="barang" class="form-control" name="barang">
+                <select required id="barang" class="form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
-              <td><input type="number" name="qty" class="form-control" value="1" required></td>
-              <td><input type="number" name="potongan" class="form-control" value="0" required></td>
-              <td><input readonly="" type="number" name="harga" class="form-control" required></td>
-              <td><input readonly="" type="number" name="subtotal" class="subtotal form-control" required></td>
+              <td><input min="1" type="number" name="qty[]" class="qty form-control" value="1" required></td>
+              <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
+              <td><input readonly="" type="number" name="harga[]" class="harga form-control" required value="0" min="0"></td>
+              <td><input readonly="" type="number" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
               <td colspan="3"></td>
               <td align="right">Qty Akhir</td>
-              <td><input readonly="" type="text" name="qty_akhir" class="form-control"></td>
+              <td><input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control"></td>
             </tr>
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">PPN</td>
+              <td align="right">PPN ( % )</td>
               <td>
-                <input readonly="" type="text" class="form-control" value="<?=$ppn['pajak_persen'].'%'?>">
-                <input type="hidden" name="ppn" class="form-control" value="<?=$ppn['pajak_persen']?>">
+                <input readonly="" id="ppn" type="text" name="ppn" class="form-control" value="<?=$ppn['pajak_persen']?>">
               </td>
             </tr>
 
             <tr>
               <td colspan="3"></td>
               <td align="right">Total Akhir</td>
-              <td><input readonly="" type="text" name="total" class="form-control"></td>
+              <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Bayar</td>
+              <td><input type="text" name="bayar" class="form-control" min="0" required></td>
             </tr>
 
             <tr>
@@ -153,8 +158,15 @@
 
   //copy paste
   function clone(){
+    //paste
     $('#paste').prepend($('#copy').clone());
-    $('#copy').find('#harga','select').val('');
+
+    //blank new input
+    $('#copy').find('select').val('');
+    $('#copy').find('.potongan').val(0);
+    $('#copy').find('.qty').val(1);
+    $('#copy').find('.harga').val(0);
+    $('#copy').find('.subtotal').val(0);
   }
 
   //foto preview
@@ -162,7 +174,7 @@
     $('#file').click();
   }
   function previewFile(input){
-      var file = $("input[type=file]").get(0).files[0];
+      var file = $("#file]").get(0).files[0];
 
       if(file){
           var reader = new FileReader();
@@ -177,5 +189,42 @@
 
   //border none
   $('td').css('border-top', 'none');
+
+  function auto(){
+    
+    var num_qty = 0;
+    $.each($('.qty'), function(index, val) {
+       var i = index+1;
+       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > input').val();
+       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
+       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
+       var diskon = $('#copy:nth-child('+i+') > td:nth-child(3) > input').val();
+       var potongan = (parseInt(diskon) * parseInt(harga) / 100); 
+       var subtotal = parseInt(qty) * parseInt(harga) - potongan;
+       num_qty += parseInt($(this).val());
+
+       //subtotal
+       $(sub).val(subtotal);
+    });
+
+    //qty akhir
+    $('#qty_akhir').val(num_qty);
+
+    //total akhir
+    var num_total = 0;
+    $.each($('.subtotal'), function(index, val) {
+        
+      num_total += parseInt($(this).val());
+    });
+
+    //total akhir
+    $('#total').val(num_total);
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+  }
+
+  auto();
 
 </script>
