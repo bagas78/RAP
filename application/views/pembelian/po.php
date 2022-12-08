@@ -123,12 +123,6 @@
             </tr>
 
             <tr>
-              <td colspan="3"></td>
-              <td align="right">Bayar</td>
-              <td><input type="text" name="bayar" class="form-control" min="0" required></td>
-            </tr>
-
-            <tr>
               <td colspan="5" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <button type="button" onclick="location.reload()" class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
