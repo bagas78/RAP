@@ -3,16 +3,16 @@
 class M_pembelian extends CI_Model { 
 
 	//nama tabel
-	var $table = 't_bahan'; 
+	var $table = 't_pembelian'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'bahan_nama','bahan_kategori'); 
+	var $column_order = array(null,'pembelian_nomor','kontak_nama','pembelian_jatuh_tempo','pembelian_status'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('bahan_nama','bahan_kategori'); 
+	var $column_search = array('pembelian_nomor','kontak_nama','pembelian_jatuh_tempo','pembelian_status'); 
 
 	//urutan 
-	var $order = array('bahan_id' => 'asc'); 
+	var $order = array('pembelian_id' => 'desc'); 
 
 	public function __construct()
 	{
@@ -64,7 +64,7 @@ class M_pembelian extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
-		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
+		$this->db->join('t_kontak', 't_pembelian.pembelian_supplier = t_kontak.kontak_id');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -73,7 +73,7 @@ class M_pembelian extends CI_Model {
 	function count_filtered($where)
 	{
 		$this->_get_datatables_query();
-		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
+		$this->db->join('t_kontak', 't_pembelian.pembelian_supplier = t_kontak.kontak_id');
 		$this->db->where($where);
 		$query = $this->db->get();
 		return $query->num_rows();
@@ -82,7 +82,7 @@ class M_pembelian extends CI_Model {
 	public function count_all($where)
 	{
 		$this->db->from($this->table);
-		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
+		$this->db->join('t_kontak', 't_pembelian.pembelian_supplier = t_kontak.kontak_id');
 		$this->db->where($where);
 		return $this->db->count_all_results();
 	}

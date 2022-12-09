@@ -15,17 +15,17 @@
         </div>
         <div class="box-body">
          
-          <form action="<?=base_url('mesin/save')?>" method="POST" accept-charset="utf-8">
+          <form action="<?=base_url('pengaturan/mesin_update/'.@$data['mesin_id'])?>" method="POST" accept-charset="utf-8">
             
             <div class="row bg-alice">
               <div class="col-lg-6">
                 <div class="form-group">
                   <label>Kode Mesin</label>
-                  <input type="text" name="kode" class="form-control" required>
+                  <input type="text" name="kode" class="form-control" required value="<?=@$data['mesin_kode'] ?>">
                 </div>
                 <div class="form-group">
                   <label>Nama Mesin</label>
-                  <input type="text" name="nama" class="form-control" required>
+                  <input type="text" name="nama" class="form-control" required value="<?=@$data['mesin_nama'] ?>">
                 </div>
               </div>
               <div class="col-md-12">

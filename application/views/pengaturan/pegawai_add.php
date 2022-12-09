@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form class="bg-alice" action="<?=base_url('pegawai/save')?>" method="POST" accept-charset="utf-8">
+          <form class="bg-alice" action="<?=base_url('pengaturan/pegawai_save')?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
               <label>Nama</label>

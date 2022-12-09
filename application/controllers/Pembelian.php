@@ -4,6 +4,7 @@ class Pembelian extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('m_pembelian');
+		$this->load->model('m_bahan');
 	}  
 
 	//Master Bahan
@@ -27,9 +28,9 @@ class Pembelian extends CI_Controller{
 	function get_bahan(){
 		$where = array('bahan_hapus' => 0);
 
-	    $data = $this->m_pembelian->get_datatables($where);
-		$total = $this->m_pembelian->count_all($where);
-		$filter = $this->m_pembelian->count_filtered($where);
+	    $data = $this->m_bahan->get_datatables($where);
+		$total = $this->m_bahan->count_all($where);
+		$filter = $this->m_bahan->count_filtered($where);
 
 		$output = array(
 			"draw" => $_GET['draw'],
@@ -125,19 +126,6 @@ class Pembelian extends CI_Controller{
 		    $data['pembelian_block'] = 'style="display: block;"';
 		    $data['pembelian_po_active'] = 'class="active"';
 
-		    //generate nomor transaksi
-		    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0");
-		    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
-
-		    //kontak
-		    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
-
-		    //barang
-		    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
-
-		    //ppn
-		    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
-
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('pembelian/po');
 		    $this->load->view('v_template_admin/admin_footer');
@@ -147,12 +135,64 @@ class Pembelian extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
-	function get_barang($id){
+	function po_get_data(){
+		$where = array('pembelian_hapus' => 0);
+
+	    $data = $this->m_pembelian->get_datatables($where);
+		$total = $this->m_pembelian->count_all($where);
+		$filter = $this->m_pembelian->count_filtered($where);
+
+		$output = array(
+			"draw" => $_GET['draw'],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+		//output dalam format JSON
+		echo json_encode($output);
+	}
+	function po_delete($id){
+		$set = ['pembelian_hapus' => 1];
+		$where = ['pembelian_id' => $id];
+		$db = $this->query_builder->update('t_pembelian',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+		
+		redirect(base_url('pembelian/po'));
+	}
+	function po_add(){
+		$data['title'] = 'Purchase Order';
+	    $data['pembelian_open'] = 'menu-open';
+	    $data['pembelian_block'] = 'style="display: block;"';
+	    $data['pembelian_po_active'] = 'class="active"';
+
+	    //generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0");
+	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
+
+	    //kontak
+	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
+
+	    //barang
+	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
+
+	    //ppn
+	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/po_add');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function po_get_barang($id){
 		//barang
-		$db = $this->query_builder->view_row("SELECT * FROM t_bahan WHERE bahan_id = '$id'");
+		$db = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
 		echo json_encode($db);
 	}
-	function save(){
+	function po_save(){
 		
 		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
@@ -163,13 +203,48 @@ class Pembelian extends CI_Controller{
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'pembelian_status' => strip_tags($_POST['status']),
 						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
-						'pembelian_lampiran' => '',
 						'pembelian_qty_akhir' => strip_tags($_POST['qty_akhir']),
 						'pembelian_ppn' => strip_tags($_POST['ppn']),
 						'pembelian_total' => strip_tags($_POST['total']), 
 					);
 
-		$db = $this->query_builder->add('t_pembelian',$set1);
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+		if ($lampiran['name']) {
+
+			//type file
+			$typefile = explode('/', $lampiran['type']);
+
+			//replace Karakter name foto
+			$filename = $lampiran['name'];
+
+			//replace name foto
+			$type = explode(".", $filename);
+	    	$no = count($type) - 1;
+	    	$new_name = md5(time()).'.'.$type[$no];
+
+		 	//config
+			  $config = array(
+			  'upload_path' 	=> './assets/gambar/pembelian/po',
+			  'allowed_types' 	=> "gif|jpg|png|jpeg",
+			  'overwrite' 		=> TRUE,
+			  'max_size' 		=> "2000",
+			  'file_name'		=> $new_name,
+			  );
+
+	          //Load upload library
+	          $this->load->library('upload',$config);
+	          
+	          if ($this->upload->do_upload('lampiran')) {
+	          	$push = array('pembelian_lampiran' => $new_name);
+	          	$result = array_merge($set1,$push);
+	          }
+
+		}else{
+			$result = $set1;
+		}
+
+		$db = $this->query_builder->add('t_pembelian',$result);
 
 		//barang
 		$barang = $_POST['barang'];

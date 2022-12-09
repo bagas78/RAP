@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2022 at 07:34 PM
+-- Generation Time: Dec 08, 2022 at 01:09 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `rap`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_bahan`
+--
+
+CREATE TABLE `t_bahan` (
+  `bahan_id` int(11) NOT NULL,
+  `bahan_nama` text NOT NULL,
+  `bahan_stok` text NOT NULL DEFAULT '0',
+  `bahan_satuan` text NOT NULL,
+  `bahan_kategori` set('avalan','utama') NOT NULL,
+  `bahan_harga` text NOT NULL,
+  `bahan_tanggal` date NOT NULL DEFAULT curdate(),
+  `bahan_hapus` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_bahan`
+--
+
+INSERT INTO `t_bahan` (`bahan_id`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
+(1, 'Kawat las', '0', '1', 'avalan', '2500', '2022-12-05', 0),
+(2, 'Velg sepeda', '0', '1', 'avalan', '5000', '2022-12-05', 0),
+(3, 'Paku', '0', '1', 'avalan', '3000', '2022-12-05', 0),
+(4, 'Plat kapal', '0', '1', 'utama', '55000', '2022-12-05', 0),
+(5, 'Rel kereta', '0', '1', 'utama', '30000', '2022-12-05', 0);
 
 -- --------------------------------------------------------
 
@@ -228,7 +256,7 @@ CREATE TABLE `t_logo` (
 --
 
 INSERT INTO `t_logo` (`logo_id`, `logo_foto`, `logo_nama`) VALUES
-(1, '3d00876ae06414f4347830ac266f84c4.png', 'RAJAWALI   ALUMUNIUM   PERKASA');
+(1, '3d00876ae06414f4347830ac266f84c4.png', 'RAJAWALI  ALUMUNIUM  PERKASA');
 
 -- --------------------------------------------------------
 
@@ -278,6 +306,85 @@ INSERT INTO `t_pajak` (`pajak_id`, `pajak_jenis`, `pajak_persen`, `pajak_tanggal
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_pembelian`
+--
+
+CREATE TABLE `t_pembelian` (
+  `pembelian_id` int(11) NOT NULL,
+  `pembelian_nomor` text NOT NULL,
+  `pembelian_supplier` text NOT NULL,
+  `pembelian_tanggal` date NOT NULL,
+  `pembelian_jatuh_tempo` date NOT NULL,
+  `pembelian_status` set('l','b') NOT NULL,
+  `pembelian_keterangan` text NOT NULL,
+  `pembelian_lampiran` text NOT NULL,
+  `pembelian_qty_akhir` text NOT NULL,
+  `pembelian_ppn` text NOT NULL,
+  `pembelian_total` text NOT NULL,
+  `pembelian_hapus` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_pembelian`
+--
+
+INSERT INTO `t_pembelian` (`pembelian_id`, `pembelian_nomor`, `pembelian_supplier`, `pembelian_tanggal`, `pembelian_jatuh_tempo`, `pembelian_status`, `pembelian_keterangan`, `pembelian_lampiran`, `pembelian_qty_akhir`, `pembelian_ppn`, `pembelian_total`, `pembelian_hapus`) VALUES
+(12, 'PA-08122022-1', '1', '2022-12-08', '2022-12-08', 'b', 'keterangam', '', '6', '11', '19350', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_pembelian_barang`
+--
+
+CREATE TABLE `t_pembelian_barang` (
+  `pembelian_barang_id` int(11) NOT NULL,
+  `pembelian_barang_nomor` text NOT NULL,
+  `pembelian_barang_barang` text NOT NULL,
+  `pembelian_barang_qty` text NOT NULL,
+  `pembelian_barang_potongan` text NOT NULL,
+  `pembelian_barang_harga` text NOT NULL,
+  `pembelian_barang_subtotal` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_pembelian_barang`
+--
+
+INSERT INTO `t_pembelian_barang` (`pembelian_barang_id`, `pembelian_barang_nomor`, `pembelian_barang_barang`, `pembelian_barang_qty`, `pembelian_barang_potongan`, `pembelian_barang_harga`, `pembelian_barang_subtotal`) VALUES
+(3, 'PA-08122022-1', '1', '1', '10', '2500', '2250'),
+(4, 'PA-08122022-1', '2', '2', '20', '5000', '9000'),
+(5, 'PA-08122022-1', '3', '3', '30', '3000', '8100');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_satuan`
+--
+
+CREATE TABLE `t_satuan` (
+  `satuan_id` int(11) NOT NULL,
+  `satuan_kepanjangan` text NOT NULL,
+  `satuan_singkatan` text NOT NULL,
+  `satuan_tanggal` date NOT NULL DEFAULT curdate(),
+  `satuan_hapus` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_satuan`
+--
+
+INSERT INTO `t_satuan` (`satuan_id`, `satuan_kepanjangan`, `satuan_singkatan`, `satuan_tanggal`, `satuan_hapus`) VALUES
+(1, 'Kilogram', 'Kg', '2022-12-05', 0),
+(2, '1 Kardus', 'Dus', '2022-12-05', 0),
+(3, '1 Pak', 'Pak', '2022-12-05', 0),
+(4, '1 Box', 'Box', '2022-12-05', 0),
+(5, 'Gram', 'Gr', '2022-12-05', 0),
+(6, 'Gelas', 'Gls', '2022-12-05', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_user`
 --
 
@@ -312,6 +419,12 @@ INSERT INTO `t_user` (`user_id`, `user_email`, `user_password`, `user_name`, `us
 --
 
 --
+-- Indexes for table `t_bahan`
+--
+ALTER TABLE `t_bahan`
+  ADD PRIMARY KEY (`bahan_id`);
+
+--
 -- Indexes for table `t_bank`
 --
 ALTER TABLE `t_bank`
@@ -342,6 +455,24 @@ ALTER TABLE `t_pajak`
   ADD PRIMARY KEY (`pajak_id`);
 
 --
+-- Indexes for table `t_pembelian`
+--
+ALTER TABLE `t_pembelian`
+  ADD PRIMARY KEY (`pembelian_id`);
+
+--
+-- Indexes for table `t_pembelian_barang`
+--
+ALTER TABLE `t_pembelian_barang`
+  ADD PRIMARY KEY (`pembelian_barang_id`);
+
+--
+-- Indexes for table `t_satuan`
+--
+ALTER TABLE `t_satuan`
+  ADD PRIMARY KEY (`satuan_id`);
+
+--
 -- Indexes for table `t_user`
 --
 ALTER TABLE `t_user`
@@ -350,6 +481,12 @@ ALTER TABLE `t_user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `t_bahan`
+--
+ALTER TABLE `t_bahan`
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `t_bank`
@@ -380,6 +517,24 @@ ALTER TABLE `t_mesin`
 --
 ALTER TABLE `t_pajak`
   MODIFY `pajak_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `t_pembelian`
+--
+ALTER TABLE `t_pembelian`
+  MODIFY `pembelian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `t_pembelian_barang`
+--
+ALTER TABLE `t_pembelian_barang`
+  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `t_satuan`
+--
+ALTER TABLE `t_satuan`
+  MODIFY `satuan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `t_user`

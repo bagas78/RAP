@@ -19,7 +19,7 @@
         <br/> 
         <span><u>Klik download database</u></span> 
         <br/><br/>
-        <a href="<?= base_url('backup/download') ?>"><button class="btn btn-primary">Download <i class="fa fa-download"></i></button></a>
+        <a href="<?= base_url('pengaturan/backup_download') ?>"><button class="btn btn-primary">Download <i class="fa fa-download"></i></button></a>
       </div>
 
     </div>

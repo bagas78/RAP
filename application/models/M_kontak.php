@@ -12,7 +12,7 @@ class M_kontak extends CI_Model {
 	var $column_search = array('kontak_kode','kontak_nama'); 
 
 	//urutan 
-	var $order = array('kontak_id' => 'asc'); 
+	var $order = array('kontak_id' => 'desc'); 
 
 	public function __construct()
 	{

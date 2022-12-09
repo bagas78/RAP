@@ -51,6 +51,9 @@
   <!--number format-->
   <script src="<?php echo base_url() ?>assets/js/number_format.js"></script>
 
+  <!--date format-->
+  <script src="<?php echo base_url() ?>assets/js/moment.js"></script>
+
 
 <style type="text/css">
   ::-webkit-scrollbar {
@@ -333,19 +336,19 @@ thead{
           <ul class="treeview-menu" <?php echo @$pengaturan_block ?>>
 
             <li <?php echo @$pajak_active; ?>>
-              <a href="<?php echo base_url('pajak') ?>">
+              <a href="<?php echo base_url('pengaturan/pajak') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Setting Pajak</span>
               </a>
             </li>
             <li <?php echo @$backup_active; ?>>
-              <a href="<?php echo base_url('backup') ?>">
+              <a href="<?php echo base_url('pengaturan/backup') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Backup Database</span>
               </a>
             </li>
             <li <?php echo @$logo_active; ?>>
-              <a href="<?php echo base_url('logo') ?>">
+              <a href="<?php echo base_url('pengaturan/logo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Logo dan Perusahaan</span>
               </a>
@@ -357,13 +360,13 @@ thead{
               </a>
             </li>
             <li <?php echo @$pegawai_active; ?>>
-              <a href="<?php echo base_url('pegawai') ?>">
+              <a href="<?php echo base_url('pengaturan/pegawai') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Master Pegawai</span>
               </a>
             </li>
             <li <?php echo @$mesin_active; ?>>
-              <a href="<?php echo base_url('mesin') ?>">
+              <a href="<?php echo base_url('pengaturan/mesin') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Master Mesin</span>
               </a>

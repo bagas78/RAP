@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form class="bg-alice" action="<?=base_url('pegawai/update/'.@$data['user_id'])?>" method="POST">
+          <form class="bg-alice" action="<?=base_url('pengaturan/pegawai_update/'.@$data['user_id'])?>" method="POST">
             
             <div class="form-group">
               <label>Nama</label>
@@ -73,5 +73,7 @@ $('form').submit(function (e) {
       $('form').submit();
     }
 });
+
+$('#pass').val();
 
 </script>

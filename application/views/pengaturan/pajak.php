@@ -49,7 +49,7 @@
                           <h4 class="modal-title">Edit Data</h4>
                         </div>
                         <div class="modal-body">
-                          <form role="form" method="post" action="<?= base_url() ?>pajak/update/<?= $key['pajak_id'] ?>" enctype="multipart/form-data">
+                          <form role="form" method="post" action="<?= base_url() ?>pengaturan/pajak_update/<?= $key['pajak_id'] ?>" enctype="multipart/form-data">
                             <div class="box-body">
                               <div class="form-group">
                                 <label>Jenis Pajak</label>

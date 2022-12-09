@@ -1,18 +1,18 @@
 <?php
 
-class M_pegawai extends CI_Model { 
+class M_bahan extends CI_Model { 
 
 	//nama tabel
-	var $table = 't_user'; 
+	var $table = 't_bahan'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'user_name','user_email'); 
+	var $column_order = array(null, 'bahan_nama','bahan_kategori'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('user_name','user_email'); 
+	var $column_search = array('bahan_nama','bahan_kategori'); 
 
 	//urutan 
-	var $order = array('user_id' => 'desc'); 
+	var $order = array('bahan_id' => 'desc'); 
 
 	public function __construct()
 	{
@@ -64,6 +64,7 @@ class M_pegawai extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
+		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -72,6 +73,7 @@ class M_pegawai extends CI_Model {
 	function count_filtered($where)
 	{
 		$this->_get_datatables_query();
+		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
 		$this->db->where($where);
 		$query = $this->db->get();
 		return $query->num_rows();
@@ -80,6 +82,7 @@ class M_pegawai extends CI_Model {
 	public function count_all($where)
 	{
 		$this->db->from($this->table);
+		$this->db->join('t_satuan', 't_bahan.bahan_satuan = t_satuan.satuan_id');
 		$this->db->where($where);
 		return $this->db->count_all_results();
 	}

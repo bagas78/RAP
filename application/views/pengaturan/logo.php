@@ -16,7 +16,7 @@
       
       <div class="row bg-alice">
         <div class="col-md-9">
-          <form action="<?=base_url('logo/update/'.@$data['logo_id']) ?>" method="post" enctype="multipart/form-data">
+          <form action="<?=base_url('pengaturan/logo_update/'.@$data['logo_id']) ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label>Logo Aplikasi</label>
               <input type="file" name="foto" class="form-control">

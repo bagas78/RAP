@@ -12,7 +12,7 @@ class M_mesin extends CI_Model {
 	var $column_search = array('mesin_nama','mesin_kode'); 
 
 	//urutan 
-	var $order = array('mesin_id' => 'asc'); 
+	var $order = array('mesin_id' => 'desc'); 
 
 	public function __construct()
 	{
