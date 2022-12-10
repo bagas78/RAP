@@ -40,6 +40,9 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
 
+  <!-- jqueryui css-->
+  <link href="<?php echo base_url() ?>assets/css/jquery-ui.css" rel="stylesheet">
+
   <!--material icon-->
   <link href="<?php echo base_url() ?>adminLTE/dist/css/material/material-icon.css" rel="stylesheet"/>
 
@@ -54,6 +57,8 @@
   <!--date format-->
   <script src="<?php echo base_url() ?>assets/js/moment.js"></script>
 
+  <!--jquery-ui-->
+  <script src="<?php echo base_url() ?>assets/js/jquery-ui.js"></script>
 
 <style type="text/css">
   ::-webkit-scrollbar {
@@ -391,7 +396,7 @@ thead{
     
     <div class="tab-content">
       <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab" style="background: white;">
+      <div class="tab-pane active" style="background: white;">
        <ul class="control-sidebar-menu">
           <li>
             <a href="<?php echo base_url() ?>profile">
@@ -404,7 +409,6 @@ thead{
               <i class="fa fa-sort"></i><span> Logout</span>
             </a>
           </li>
-            
         </ul>
       </div>
     </div>

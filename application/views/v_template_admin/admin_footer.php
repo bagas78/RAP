@@ -1,7 +1,4 @@
-
-<!-- ./wrapper -->
-<!-- jQuery UI 1.11.4 -->
-<script src="<?php echo base_url() ?>adminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- <script src="<?php echo base_url() ?>adminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script> -->
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button); 
@@ -36,7 +33,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url() ?>adminLTE/dist/js/demo.js"></script>
 
-<script src="<?php echo base_url() ?>adminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- <script src="<?php echo base_url() ?>adminLTE/bower_components/jquery/dist/jquery.min.js"></script> -->
 <!-- ChartJS -->
 <script src="<?php echo base_url() ?>adminLTE/bower_components/chart/Chart.js"></script>
 
