@@ -20,52 +20,62 @@
     </div>
     <div class="box-body">
 
-      <form action="<?=base_url('pembelian/po_save')?>" method="post" enctype="multipart/form-data" class="bg-alice">
+      <form action="<?=base_url('pembelian/po_update/'.@$data['pembelian_nomor'])?>" method="post" enctype="multipart/form-data" class="bg-alice">
         <div class="row">
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
               <label>Nomor Transaksi</label>
-              <input type="text" name="nomor" class="form-control" required value="<?=@$nomor?>">
+              <input type="text" name="nomor" class="form-control" required value="<?=@$data['pembelian_nomor']?>">
             </div>
             <div class="col-md-12 mb-7">
               <label>Tanggal Transaksi</label>
-              <input type="date" name="tanggal" class="form-control" required value="<?= date('Y-m-d') ?>">
+              <input type="date" name="tanggal" class="form-control" required value="<?=@$data['pembelian_tanggal']?>">
             </div>
             <div class="col-md-12 mb-7">
               <label>Supplier</label>
-              <select name="supplier" class="form-control select2" required>
+              <select name="supplier" class="form-control select2" required id="supplier">
                 <option value="" hidden>-- Pilih --</option>
                 <?php foreach ($kontak_data as $s): ?>
                   <option value="<?= $s['kontak_id']?>"><?= $s['kontak_nama']?></option>
                 <?php endforeach ?>
               </select>
+
+              <script type="text/javascript">
+                $('#supplier').val('<?=@$data['pembelian_supplier']?>').change();
+              </script>
+
             </div>
           </div>
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
               <label>Jatuh Tempo</label>
-              <input type="date" name="jatuh_tempo" class="form-control" required>
+              <input type="date" name="jatuh_tempo" class="form-control" required value="<?=@$data['pembelian_jatuh_tempo']?>">
             </div>
             <div class="col-md-12 mb-7">
               <label>Status Pembayaran</label>
-              <select name="status" class="form-control" required>
+              <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>
                 <option value="l">Lunas</option>
                 <option value="b">Belum Lunas</option>
               </select>
+
+              <script type="text/javascript">
+                $('#status').val('<?=@$data['pembelian_status']?>').change();
+              </script>
+
             </div>
           </div>
           <div class="col-md-4">
             <div class="col-md-12 mb-7">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 110px;"></textarea>
+              <textarea name="keterangan" class="form-control" style="height: 110px;"><?=@$data['pembelian_keterangan']?></textarea>
             </div>
           </div>
           <div class="col-md-2">
             <div class="col-md-12 mb-7">
 
               <label>Lampiran Photo</label>
-              <img id="previewImg" onclick="clickFile()" style="width: 100%;" src="<?= base_url('assets/gambar/camera.png') ?>">
+              <img id="previewImg" onclick="clickFile()" style="width: 100%;" src="<?= (@$data['pembelian_lampiran'] != '')? base_url('assets/gambar/pembelian/po/'.@$data['pembelian_lampiran']) : base_url('assets/gambar/camera.png') ?>">
               <input style="visibility: hidden;" id="file" type="file" name="lampiran" onchange="previewFile(this)">
           
             </div>
@@ -86,7 +96,8 @@
             </tr>
           </thead>
           <tbody id="paste">
-            <tr id="copy">
+
+             <tr id="copy">
               <td>
                 <select required id="barang" class="form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
@@ -130,7 +141,7 @@
             <tr>
               <td colspan="5" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
-                <button type="button" onclick="location.reload()" class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
+                <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
             </tr>
 
@@ -144,6 +155,33 @@
   <!-- /.box -->
 
 <script>;
+
+  //get pembelian
+  $.get('<?=base_url('pembelian/po_get_pembelian/'.$data['pembelian_nomor'])?>', function(data) {
+    var json = JSON.parse(data);
+
+    //clone
+    for (var num = 1; num <= json.length - 1; num++) {
+       clone();
+    }
+
+    $.each(json, function(index, val) {
+      
+      var i = index+1;
+
+      //insert value
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.pembelian_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.pembelian_barang_qty);
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.pembelian_barang_potongan);
+
+      //ppn 0
+      if (<?=@$data['pembelian_ppn']?> == 0) {
+        $('.check').removeAttr('checked').change();
+      }
+
+    });
+
+  });
   
   //get barang
   $(document).on('change', '#barang', function() {
