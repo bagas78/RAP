@@ -7,116 +7,9 @@ class Pembelian extends CI_Controller{
 		$this->load->model('m_bahan');
 	} 
 
-	//Master Bahan
+///////////////////////// pembelian //////////////////////////////////////////////////
 
-	function bahan(){
-		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Pembelian';
-		    $data['pembelian_open'] = 'menu-open';
-		    $data['pembelian_block'] = 'style="display: block;"';
-		    $data['pembelian_bahan_active'] = 'class="active"';
-
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/bahan');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-	function get_bahan(){
-		$where = array('bahan_hapus' => 0);
-
-	    $data = $this->m_bahan->get_datatables($where);
-		$total = $this->m_bahan->count_all($where);
-		$filter = $this->m_bahan->count_filtered($where);
-
-		$output = array(
-			"draw" => $_GET['draw'],
-			"recordsTotal" => $total,
-			"recordsFiltered" => $filter,
-			"data" => $data,
-		);
-		//output dalam format JSON
-		echo json_encode($output);
-	} 
-	function add_bahan(){
-		$data['title'] = 'Pembelian';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_bahan_active'] = 'class="active"';
-
-	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/bahan_add');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function save_bahan(){
-		$set = array(
-						'bahan_nama' => strip_tags($_POST['nama']),
-						'bahan_kategori' => strip_tags($_POST['kategori']),
-						'bahan_satuan' => strip_tags($_POST['satuan']),
-						'bahan_harga' => strip_tags($_POST['harga']),
-					);
-
-		$db = $this->query_builder->add('t_bahan',$set);
-
-		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di tambah');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di tambah');
-		}
-		
-		redirect(base_url('pembelian/bahan'));
-	}
-	function edit_bahan($id){
-		$data['title'] = 'Pembelian';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_bahan_active'] = 'class="active"';
-
-	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
-	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/bahan_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function update_bahan($id){
-		$set = array(
-						'bahan_nama' => strip_tags($_POST['nama']),
-						'bahan_kategori' => strip_tags($_POST['kategori']),
-						'bahan_satuan' => strip_tags($_POST['satuan']),
-						'bahan_harga' => strip_tags($_POST['harga']),
-					);
-
-		$where = ['bahan_id' => $id];
-		$db = $this->query_builder->update('t_bahan',$set,$where);
-		
-		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
-		}
-
-		redirect(base_url('pembelian/bahan'));
-	}
-	function delete_bahan($id){
-		$set = ['bahan_hapus' => 1];
-		$where = ['bahan_id' => $id];
-		$db = $this->query_builder->update('t_bahan',$set,$where);
-		
-		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
-		}
-		
-		redirect(base_url('pembelian/bahan'));
-	}
-	function stok_bahan(){
+	function update_stok(){
 
 		//sum stok bahan update
 		$db = $this->query_builder->view("SELECT b.pembelian_barang_barang AS id_barang ,SUM(b.pembelian_barang_qty) AS jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_status = 'l' GROUP BY b.pembelian_barang_barang");
@@ -135,88 +28,67 @@ class Pembelian extends CI_Controller{
 
 		return;
 	}
+	function atribut($active){
+		$data["title"] = strtoupper($active);
+	    $data["pembelian_open"] = "menu-open";
+	    $data["pembelian_block"] = "style='display: block;'";
+	    $data["pembelian_{$active}_active"] = "class='active'";
 
-	//Purchase Order
-	function po(){
-		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Purchase Order';
-		    $data['pembelian_open'] = 'menu-open';
-		    $data['pembelian_block'] = 'style="display: block;"';
-		    $data['pembelian_po_active'] = 'class="active"';
-
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/po');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
+	    return $data;
 	}
-	function po_get_data(){
-		$where = array('pembelian_kategori' => 'avalan','pembelian_po' => 1,'pembelian_hapus' => 0);
-
-	    $data = $this->m_pembelian->get_datatables($where);
-		$total = $this->m_pembelian->count_all($where);
-		$filter = $this->m_pembelian->count_filtered($where);
+	function serverside($where,$model){
+	    $data = $this->$model->get_datatables($where);
+		$total = $this->$model->count_all($where);
+		$filter = $this->$model->count_filtered($where);
 
 		$output = array(
-			"draw" => $_GET['draw'],
+			"draw" => $_GET["draw"],
 			"recordsTotal" => $total,
 			"recordsFiltered" => $filter,
 			"data" => $data,
 		);
-		//output dalam format JSON
-		echo json_encode($output);
+
+		return $output;
 	}
-	function po_delete($id,$redirect = 'po'){
-		$set = ['pembelian_hapus' => 1];
-		$where = ['pembelian_id' => $id];
-		$db = $this->query_builder->update('t_pembelian',$set,$where);
-		
-		if ($db == 1) {
-			
-			//update stok
-			$this->stok_bahan();
+	function add($kategori,$active){
 
-			$this->session->set_flashdata('success','Data berhasil di hapus');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
-		}
-		
-		redirect(base_url('pembelian/'.$redirect));
-	}
-	function po_add(){
-		$data['title'] = 'Purchase Order';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_po_active'] = 'class="active"';
+		$data = $this->atribut($active);
 
-	    //generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan'");
-	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
-
-	    //kontak
+		//kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
 
 	    //barang
-	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan'");
+	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
 
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/avalan_form');
-	    $this->load->view('pembelian/po_add');
-	    $this->load->view('v_template_admin/admin_footer');
+	    return $data;
 	}
-	function po_get_barang($id){
+	function delete($table, $id, $redirect){
+		$set = ["{$table}_hapus" => 1];
+		$where = ["{$table}_id" => $id];
+		$db = $this->query_builder->update("t_{$table}",$set,$where);
+
+		if ($db == 1) {
+			
+			//update stok bahan
+			$this->update_stok();
+
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('pembelian/'.$redirect));
+	}
+	function get_barang($id){
 		//barang
 		$db = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
 		echo json_encode($db);
 	}
-	function po_save($po = 1, $redirect = 'po', $kategori = 'avalan'){
-		
+	function save($po, $redirect, $kategori){
+
 		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
 		$set1 = array(
@@ -290,8 +162,8 @@ class Pembelian extends CI_Controller{
 
 		if ($db == 1) {
 			
-			//update stok
-			$this->stok_bahan();
+			//update stok bahan
+			$this->update_stok();
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -300,40 +172,35 @@ class Pembelian extends CI_Controller{
 
 		redirect(base_url('pembelian/'.$redirect));
 	}
-	function po_edit($id, $active = 'po', $url = 'po_update'){
-		$data['title'] = 'Purchase Order';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_'.$active.'_active'] = 'class="active"';
+	function edit($id, $active, $kategori){
 
-	    //generate nomor transaksi
+		$data = $this->atribut($active);
+
+	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
 
 	    //kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
 
 	    //barang
-	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan'");
+	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
 
-	    $data['url'] = $url;
+	    $data['url'] = $active;
 
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/avalan_form');
-	    $this->load->view('pembelian/po_edit');
-	    $this->load->view('v_template_admin/admin_footer');
+	    return $data;
 	}
-	function po_get_pembelian($nomor){
+	function get_pembelian($nomor){
 		//pembelian barang
 		$db = $this->query_builder->view("SELECT * FROM t_pembelian_barang WHERE pembelian_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
-	function po_update($nomor,$redirect = 'po'){
-		//pembelian
+	function update($po, $redirect){
 		$nomor = strip_tags($_POST['nomor']);
 		$set1 = array(
+						'pembelian_po' => $po,
 						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
 						'pembelian_supplier' => strip_tags($_POST['supplier']),
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
@@ -407,7 +274,7 @@ class Pembelian extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok
-			$this->stok_bahan();
+			$this->update_stok();
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -416,17 +283,192 @@ class Pembelian extends CI_Controller{
 
 		redirect(base_url('pembelian/'.$redirect));
 	}
+	function search(){
+		$output = $this->query_builder->view("SELECT pembelian_nomor as nomor FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan' AND pembelian_po = 1");
+		echo json_encode($output);
+	}
+	function search_data($nomor){
+		$output = $this->query_builder->view("SELECT * FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_nomor = '$nomor'");
+		echo json_encode($output);
+	}
 
-	//pembelian avalan
-	function avalan(){
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////// Master Bahan //////////////////////////////////
+
+	function bahan(){
 		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Avalan';
-		    $data['pembelian_open'] = 'menu-open';
-		    $data['pembelian_block'] = 'style="display: block;"';
-		    $data['pembelian_avalan_active'] = 'class="active"';
+		    $data = $this->atribut('bahan');
 
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/avalan');
+		    $this->load->view('pembelian/bahan');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function get_bahan(){
+		
+		$model = 'm_bahan';
+		$where = array('bahan_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	} 
+	function add_bahan(){
+
+		$data = $this->atribut('bahan');
+
+	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/bahan_add');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function save_bahan(){
+		
+		$set = array(
+						'bahan_nama' => strip_tags($_POST['nama']),
+						'bahan_kategori' => strip_tags($_POST['kategori']),
+						'bahan_satuan' => strip_tags($_POST['satuan']),
+						'bahan_harga' => strip_tags($_POST['harga']),
+					);
+
+		$db = $this->query_builder->add('t_bahan',$set);
+
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+		
+		redirect(base_url('pembelian/bahan'));
+	}
+	function edit_bahan($id){
+		
+		$data = $this->atribut('bahan');
+
+	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/bahan_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function update_bahan($id){
+		
+		$set = array(
+						'bahan_nama' => strip_tags($_POST['nama']),
+						'bahan_kategori' => strip_tags($_POST['kategori']),
+						'bahan_satuan' => strip_tags($_POST['satuan']),
+						'bahan_harga' => strip_tags($_POST['harga']),
+					);
+
+		$where = ['bahan_id' => $id];
+		$db = $this->query_builder->update('t_bahan',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+
+		redirect(base_url('pembelian/bahan'));
+	}
+	function delete_bahan($id){
+
+		$table = 'bahan';
+		$redirect = 'bahan';
+		$this->delete($table, $id, $redirect);
+	}	
+
+	
+////////////////// Purchase Order///////////////////////////////
+
+	function po(){
+		if ( $this->session->userdata('login') == 1) {
+
+			$active = 'po';
+			$data = $this->atribut($active);
+			$data['url'] = $active;
+		    
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('pembelian/table');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+
+	function po_get_data(){
+		
+		$model = 'm_pembelian';
+		$where = array('pembelian_kategori' => 'avalan','pembelian_po' => 1,'pembelian_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function po_delete($id){
+
+		$table = 'pembelian';
+		$redirect = 'po';
+		$this->delete('pembelian', $id, $redirect);
+	}
+	function po_add(){
+
+		$kategori = 'avalan';
+		$redirect = 'po';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan'");
+	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function po_save(){
+		
+		$po = 1;
+		$redirect = 'po';
+		$kategori = 'avalan';
+		$this->save($po, $redirect, $kategori);
+	}
+	function po_edit($id){
+		
+		$active = 'po';
+		$kategori = 'avalan';
+		$data = $this->edit($id, $active, $kategori);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}	
+	function po_update(){
+
+		$po = 1;
+		$redirect = 'po';
+		$this->update($po, $redirect);
+	}
+
+///////// pembelian avalan //////////////////////////////////////////////
+
+	function avalan(){
+		
+		if ( $this->session->userdata('login') == 1) {
+
+		    $active = 'avalan';
+			$data = $this->atribut($active);
+			$data['url'] = $active;
+		    
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('pembelian/table');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -435,90 +477,84 @@ class Pembelian extends CI_Controller{
 		}
 	}
 	function avalan_get_data(){
+
+		$model = 'm_pembelian';
 		$where = array('pembelian_kategori' => 'avalan','pembelian_po' => 0,'pembelian_hapus' => 0);
-
-	    $data = $this->m_pembelian->get_datatables($where);
-		$total = $this->m_pembelian->count_all($where);
-		$filter = $this->m_pembelian->count_filtered($where);
-
-		$output = array(
-			"draw" => $_GET['draw'],
-			"recordsTotal" => $total,
-			"recordsFiltered" => $filter,
-			"data" => $data,
-		);
-		//output dalam format JSON
+		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
 	function avalan_add(){
-		$data['title'] = 'Avalan';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_avalan_active'] = 'class="active"';
 
-	    //generate nomor transaksi
+		$kategori = 'avalan';
+		$redirect = 'avalan';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan'");
 	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
 
-	    //kontak
-	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
-
-	    //barang
-	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan'");
-
-	    //ppn
-	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
-
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/avalan_form');
-	    $this->load->view('pembelian/avalan_add');
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/search');
 	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function avalan_search(){
-		$output = $this->query_builder->view("SELECT pembelian_nomor as nomor FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan' AND pembelian_po = 1");
-		echo json_encode($output);
-	}
-	function avalan_search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_nomor = '$nomor'");
-		echo json_encode($output);
 	}
 	function avalan_save(){
 		
 		//pembelian
+		$po = 0;
+		$redirect = 'avalan';
 		$nomor = strip_tags($_POST['nomor']);
+		
 		$cek = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_nomor = '$nomor'");
 		if ($cek > 0) {
 			//update
-			$set = ['pembelian_po' => 0];
+			$set = ['pembelian_po' => $po];
 			$where = ['pembelian_nomor' => $nomor];
 			$db = $this->query_builder->update('t_pembelian',$set,$where);
-			$this->po_update($nomor,'avalan');
+
+			$this->update($po, $redirect);
 
 		}else{
 			//new
-			$this->po_save(0,'avalan');
+			$kategori = 'avalan';
+			$this->save($po, $redirect, $kategori);
 		}
 	}
 	function avalan_edit($id){
-		$this->po_edit($id,'avalan','avalan_update');
+		$active = 'avalan';
+		$kategori = 'avalan';
+		$data = $this->edit($id, $active, $kategori);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function avalan_update($nomor){
-		$this->po_update($nomor,'avalan');
+		
+		$po = 0;
+		$redirect = 'avalan';
+		$this->update($po, $redirect);
 	}
 	function avalan_delete($id){
-		$this->po_delete($id,'avalan');
+		
+		$table = 'pembelian';
+		$redirect = 'avalan';
+		$this->delete('pembelian', $id, $redirect);
 	}
 
-	//pembelian bahan utama
+////////// pembelian bahan utama ///////////////////////////////////
+
 	function utama(){
 		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Bahan Baku Utama';
-		    $data['pembelian_open'] = 'menu-open';
-		    $data['pembelian_block'] = 'style="display: block;"';
-		    $data['pembelian_utama_active'] = 'class="active"';
 
+		    $active = 'utama';
+			$data = $this->atribut($active);
+			$data['url'] = $active;
+		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/utama');
+		    $this->load->view('pembelian/table');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -527,49 +563,109 @@ class Pembelian extends CI_Controller{
 		}
 	}
 	function utama_get_data(){
-		$where = array('pembelian_kategori' => 'utama','pembelian_hapus' => 0);
-
-	    $data = $this->m_pembelian->get_datatables($where);
-		$total = $this->m_pembelian->count_all($where);
-		$filter = $this->m_pembelian->count_filtered($where);
-
-		$output = array(
-			"draw" => $_GET['draw'],
-			"recordsTotal" => $total,
-			"recordsFiltered" => $filter,
-			"data" => $data,
-		);
-		//output dalam format JSON
+		
+		$model = 'm_pembelian';
+		$where = array('pembelian_kategori' => 'utama','pembelian_po' => 0,'pembelian_hapus' => 0);
+		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
 	function utama_add(){
-		$data['title'] = 'Purchase Order';
-	    $data['pembelian_open'] = 'menu-open';
-	    $data['pembelian_block'] = 'style="display: block;"';
-	    $data['pembelian_utama_active'] = 'class="active"';
+		
+		$kategori = 'utama';
+		$redirect = 'utama';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
 
-	    //generate nomor transaksi
+		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'utama'");
 	    $data['nomor'] = 'PB-'.date('dmY').'-'.($pb+1);
 
-	    //kontak
-	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
-
-	    //barang
-	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'utama'");
-
-	    //ppn
-	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
-
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/avalan_form');
-	    $this->load->view('pembelian/utama_add');
+	    $this->load->view('pembelian/form');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function utama_save(){
-		$this->po_save(0, 'utama', 'utama');
+		
+		$po = 0;
+		$redirect = 'utama';
+		$kategori = 'utama';
+		$this->save($po, $redirect, $kategori);
+	}
+	function utama_edit($id){
+		
+		$active = 'utama';
+		$kategori = 'utama';
+		$data = $this->edit($id, $active, $kategori);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}	
+	function utama_update(){
+
+		$po = 0;
+		$redirect = 'utama';
+		$this->update($po, $redirect);
 	}
 	function utama_delete($id){
-		$this->po_delete($id,'utama');
+		
+		$table = 'pembelian';
+		$redirect = 'utama';
+		$this->delete('pembelian', $id, $redirect);
+	}
+
+
+//////// bayar hutang /////////////////////////////////////////////////
+
+	function bayar(){
+		$data = $this->atribut('bayar');
+
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/bayar');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function bayar_get_data(){
+		$model = 'm_pembelian';
+		$where = array('pembelian_status' => 'b','pembelian_po' => 0,'pembelian_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function bayar_rotate($id){
+		$set = ['pembelian_status' => 'l'];
+		$where = ['pembelian_id' => $id];
+		$db = $this->query_builder->update('t_pembelian',$set,$where);
+
+		if ($db == 1) {
+			
+			//update stok bahan
+			$this->update_stok();
+
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('pembelian/bayar'));
+	}
+	function bayar_edit($id){
+
+		//ambil kategori
+		$db = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+
+		$active = 'bayar';
+		$kategori = $db['pembelian_kategori'];
+		$data = $this->edit($id, $active, $kategori);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function bayar_update(){
+
+		$po = 0;
+		$redirect = 'bayar';
+		$this->update($po, $redirect);
 	}
 }

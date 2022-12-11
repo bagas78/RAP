@@ -1,7 +1,7 @@
 <script>;
 
   //atribut form
-  $('form').attr('action', '<?=base_url('pembelian/'.@$url.'/'.@$data['pembelian_nomor'])?>');
+  $('form').attr('action', '<?=base_url('pembelian/'.@$url.'_update/'.@$data['pembelian_nomor'])?>');
   $('#nomor').val('<?=@$data['pembelian_nomor']?>');
   $('#tanggal').val('<?=@$data['pembelian_tanggal']?>');
   $('#supplier').val('<?=@$data['pembelian_supplier']?>').change();
@@ -16,7 +16,7 @@
   }
 
   //get pembelian
-  $.get('<?=base_url('pembelian/po_get_pembelian/'.$data['pembelian_nomor'])?>', function(data) {
+  $.get('<?=base_url('pembelian/get_pembelian/'.$data['pembelian_nomor'])?>', function(data) {
     var json = JSON.parse(data);
 
     //clone

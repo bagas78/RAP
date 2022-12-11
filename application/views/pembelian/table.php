@@ -1,13 +1,13 @@
 
     <!-- Main content --> 
     <section class="content">
-
+ 
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('pembelian/avalan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('pembelian/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
                <button onclick="filter('l')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
               <button onclick="filter('b')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>
@@ -54,7 +54,7 @@
             "scrollX": true, 
             
             "ajax": {
-                "url": "<?=site_url('pembelian/avalan_get_data')?>",
+                "url": "<?=site_url('pembelian/'.@$url.'_get_data')?>",
                 "type": "GET"
             },
             "columns": [                               
@@ -76,8 +76,8 @@
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('pembelian/avalan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pembelian/avalan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

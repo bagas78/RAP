@@ -1,15 +1,14 @@
 
     <!-- Main content --> 
     <section class="content">
-
+ 
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('pembelian/utama_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-               <button onclick="filter('l')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
-              <button onclick="filter('b')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
+              <button onclick="filter('avalan')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Avalan</button>
+              <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -27,7 +26,7 @@
                   <th>Nomor</th>
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
-                  <th>Status</th>
+                  <th>Kategori</th>
                   <th width="50">Action</th>
                 </tr>
                 </thead>
@@ -54,7 +53,7 @@
             "scrollX": true, 
             
             "ajax": {
-                "url": "<?=site_url('pembelian/utama_get_data')?>",
+                "url": "<?=site_url('pembelian/bayar_get_data')?>",
                 "type": "GET"
             },
             "columns": [                               
@@ -66,18 +65,18 @@
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
-                        { "data": "pembelian_status",
+                        { "data": "pembelian_kategori",
                         "render": 
                         function( data ) {
-                            if (data == 'l') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
+                            if (data == 'avalan') {var s = 'Bahan Avalan';} else {var s = 'Bahan Baku Utama';}
                             return "<span>"+s+"</span>";
                           }
                         },
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('pembelian/utama_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pembelian/utama_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<button onclick=bayar('<?php echo base_url('pembelian/bayar_rotate/')?>"+data+"') class='btn btn-xs btn-success'><i class='fa fa-exchange'></i></button> "+
+                            "<a href='<?php echo base_url('pembelian/bayar_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a>";
                           }
                         },
                         
@@ -91,5 +90,21 @@ function filter($val){
   table.search($val).draw();
 }
 
+function bayar(url){
+    swal({
+      title: "Apa kamu yakin?",
+      text: "Bayar Lunas Transaksi Ini ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+  
+        $(location).attr('href',url);
+        
+      }
+    });
+  }
  
 </script>

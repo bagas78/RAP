@@ -155,11 +155,17 @@
 
 <script type="text/javascript">
 
+//atribut
+$('form').attr('action', '<?=base_url('pembelian/'.@$url.'_save')?>');
+$('#nomor').val('<?=@$nomor?>');
+$('#tanggal').val('<?=date('Y-m-d')?>');
+$('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
+
   //get barang
   $(document).on('change', '#barang', function() {
       var id = $(this).val();
       var index = $(this).closest('tr').index();
-      $.get('<?=base_url('pembelian/po_get_barang/')?>'+id, function(data) {
+      $.get('<?=base_url('pembelian/get_barang/')?>'+id, function(data) {
         var val = JSON.parse(data);
         var i = (index + 1);
         

@@ -1,17 +1,11 @@
 <script>;
 
-//atribut
-$('form').attr('action', '<?=base_url('pembelian/avalan_save')?>');
-$('#nomor').val('<?=@$nomor?>');
-$('#tanggal').val('<?=date('Y-m-d')?>');
-$('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
-
 //search
 $('#search').removeAttr('hidden',true);
 
 $(function(){
 
-  $.get('<?=base_url('pembelian/avalan_search')?>', function(response) {
+  $.get('<?=base_url('pembelian/search')?>', function(response) {
   	
   	var json = JSON.parse(response);
   	var data = new Array();
@@ -36,7 +30,7 @@ $(document).on('click', '#po_get', function() {
 
 		var nomor = $('#po').val();
 
-	     $.get('<?=base_url('pembelian/avalan_search_data/')?>'+nomor, function(response) {
+	     $.get('<?=base_url('pembelian/search_data/')?>'+nomor, function(response) {
 	     	
 	     	var json = JSON.parse(response);
 
