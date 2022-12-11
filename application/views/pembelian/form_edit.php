@@ -10,7 +10,7 @@
   $('#keterangan').val('<?=@$data['pembelian_keterangan']?>');
 
   if ('<?=@$data['pembelian_lampiran']?>' != '') {
-    $('#previewImg').attr('src', '<?=base_url('assets/gambar/pembelian/po/'.@$data['pembelian_lampiran'])?>');
+    $('#previewImg').attr('src', '<?=base_url('assets/gambar/pembelian/'.@$data['pembelian_lampiran'])?>');
   } else {
     $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
   }

@@ -122,7 +122,7 @@ class Pembelian extends CI_Controller{
 
 		 	//config
 			  $config = array(
-			  'upload_path' 	=> './assets/gambar/pembelian/po',
+			  'upload_path' 	=> './assets/gambar/pembelian',
 			  'allowed_types' 	=> "gif|jpg|png|jpeg",
 			  'overwrite' 		=> TRUE,
 			  'max_size' 		=> "2000",
@@ -228,7 +228,7 @@ class Pembelian extends CI_Controller{
 
 		 	//config
 			  $config = array(
-			  'upload_path' 	=> './assets/gambar/pembelian/po',
+			  'upload_path' 	=> './assets/gambar/pembelian',
 			  'allowed_types' 	=> "gif|jpg|png|jpeg",
 			  'overwrite' 		=> TRUE,
 			  'max_size' 		=> "2000",
