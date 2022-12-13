@@ -29,7 +29,7 @@ class Pembelian extends CI_Controller{
 		return;
 	}
 	function atribut($active){
-		$data["title"] = strtoupper($active);
+		$data["title"] = $active;
 	    $data["pembelian_open"] = "menu-open";
 	    $data["pembelian_block"] = "style='display: block;'";
 	    $data["pembelian_{$active}_active"] = "class='active'";

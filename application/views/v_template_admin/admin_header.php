@@ -5,7 +5,7 @@
 <head> 
   <meta charset="utf-8"> 
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-  <title><?= @$title ?> | <?=@$set['logo_nama'] ?></title> 
+  <title><?= strtoupper(@$title) ?> | <?=@$set['logo_nama'] ?></title> 
   <!-- <link rel="shortcut icon" href="<?php echo base_url() ?>assets/gambar/icon.png" /> -->
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -294,6 +294,26 @@ thead{
           </ul>
         </li>
 
+        <li class="treeview <?php echo @$produksi_open ?>">
+          <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">multiline_chart</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Produksi</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" <?php echo @$produksi_block ?>>
+
+            <li <?php echo @$peleburan_active; ?>>
+              <a href="<?php echo base_url('produksi/peleburan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Peleburan</span>
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+
         <li <?php echo @$penjualan; ?>>
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">local_grocery_store</i></div> <div class="col-md-5 col-xs-5"><span>Penjualan</span></div>
@@ -309,12 +329,6 @@ thead{
         <li <?php echo @$laporan; ?>>
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">assignment</i></div> <div class="col-md-5 col-xs-5"><span>Laporan</span></div>
-          </a>
-        </li>
-
-        <li <?php echo @$produksi; ?>>
-          <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">multiline_chart</i></div> <div class="col-md-5 col-xs-5"><span>Produksi / Rakitan</span></div>
           </a>
         </li>
 

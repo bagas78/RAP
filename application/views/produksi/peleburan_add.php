@@ -1,0 +1,237 @@
+<style type="text/css">
+  .mb-7{
+    margin-bottom: 7%;
+  }
+</style>
+
+<!-- Main content --> 
+<section class="content">
+
+  <!-- Default box -->  
+  <div class="box"> 
+    <div class="box-header with-border">
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+          <i class="fa fa-minus"></i></button>
+        <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+          <i class="fa fa-times"></i></button>
+      </div>
+
+      <div hidden id="search" align="left">
+        <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
+          <input id="po" type="text" class="form-control" placeholder="-- Tarik transaksi PO --">
+        </div>
+        <div class="col-md-1 col-xs-1">
+          <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+
+    </div>
+    <div class="box-body">
+
+      <form method="post" enctype="multipart/form-data" class="bg-alice">
+
+        <div class="row" style="margin-left: -8px;">
+          <div class="col-md-3">
+            <label>Nomor Peleburan</label>
+            <input type="text" name="nomor" class="form-control" required id="nomor">
+          </div>
+          <div class="col-md-3">
+            <label>Tanggal Peleburan</label>
+            <input type="date" name="tanggal" class="form-control" required id="tanggal">
+          </div>
+        </div>
+
+        <table class="table table-responsive table-borderless">
+          <thead>
+            <tr>
+              <th width="200">Avalan</th>
+              <th>Qty</th>
+              <th>Stok</th>
+              <th>Harga</th>
+              <th>Subtotal</th>
+              <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
+            </tr>
+          </thead>
+          <tbody id="paste">
+
+             <tr id="copy">
+              <td>
+                <select required id="barang" class="form-control" name="barang[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach ($bahan_data as $b): ?>
+                    <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
+                  <?php endforeach ?>
+                </select>
+              </td>
+              <td>
+                <div class="input-group">
+                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+                  <span class="satuan input-group-addon"></span>
+                </div>
+              <td>
+                <div class="input-group">
+                  <input type="number" name="stok[]" class="stok form-control" required>
+                  <span class="input-group-addon">Kg</span>
+                </div>
+              </td>
+              <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
+              <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Qty Akhir</td>
+              <td>
+                <div class="input-group">
+                  <input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control">
+                  <span class="input-group-addon">Kg &#160;</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Magnesium</td>
+              <td>
+                <div class="input-group">
+                  <input type="number" name="" class="form-control" id="magnesium">
+                  <span class="input-group-addon">Kg &#160;</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Bahan Pembantu</td>
+              <td>
+                <div class="input-group">
+                  <input type="number" name="" class="form-control" id="pembantu">
+                  <span class="input-group-addon">Kg &#160;</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Hasil Billet</td>
+              <td>
+                <div class="input-group">
+                  <input type="number" name="" class="form-control">
+                  <span class="input-group-addon">Pcs</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
+              <td align="right">Total Biaya</td>
+              <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
+            </tr>
+
+            <tr>
+              <td colspan="5" align="right">
+                <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
+                <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </form>
+
+    </div>
+  </div>
+  <!-- /.box -->
+
+<script type="text/javascript">
+
+//atribut
+$('form').attr('action', '<?=base_url('pembelian/'.@$url.'_save')?>');
+$('#nomor').val('<?=@$nomor?>');
+$('#tanggal').val('<?=date('Y-m-d')?>');
+
+  //get barang
+  $(document).on('change', '#barang', function() {
+      var id = $(this).val();
+      var index = $(this).closest('tr').index();
+      $.get('<?=base_url('pembelian/get_barang/')?>'+id, function(data) {
+        var val = JSON.parse(data);
+        var i = (index + 1);
+        
+        //stok
+        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
+        //harga
+        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
+        //satuan
+        var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
+        $(satuan).empty().html(val['satuan_singkatan']);
+
+      });
+  });
+
+  //copy paste
+  function clone(){
+    //paste
+    $('#paste').prepend($('#copy').clone());
+
+    //blank new input
+    $('#copy').find('select').val('');
+    $('#copy').find('.potongan').val(0);
+    $('#copy').find('.qty').val(1);
+    $('#copy').find('.harga').val(0);
+    $('#copy').find('.subtotal').val(0);
+    $('#copy').find('.satuan').html('');
+  }
+
+  function auto(){
+
+    //border none
+    $('td').css('border-top', 'none');
+    
+    var num_qty = 0;
+    $.each($('.qty'), function(index, val) {
+       var i = index+1;
+
+       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
+       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val().replace(/,/g, '');
+       var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val();
+
+       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
+       var subtotal = parseInt(qty.val()) * parseInt(harga);
+       num_qty += parseInt($(this).val());
+
+       //subtotal
+       $(sub).val(number_format(subtotal));
+
+       if (parseInt(qty.val()) > parseInt(stok)) {
+          
+          alert('Stok kurang dari Qty');
+          qty.val(1);
+       }
+
+    });
+
+    //qty akhir
+    $('#qty_akhir').val(num_qty);
+
+    //total akhir
+    var num_total = 0;
+    $.each($('.subtotal'), function(index, val) {
+        
+      num_total += parseInt($(this).val().replace(/,/g, ''));
+    });
+
+    //total akhir
+    $('#total').val(number_format(num_total));
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+  }
+
+  auto();
+
+</script>

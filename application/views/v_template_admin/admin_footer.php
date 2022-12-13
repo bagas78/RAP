@@ -175,6 +175,17 @@ $(function () {
       });
     }
 
+  //alert
+  function alert(val){
+    swal({
+        title: "Oops ...",
+        text: val,
+        icon: "error",
+        buttons: false,
+        dangerMode: true,
+    });
+  }
+
 </script>
 
 </body>
