@@ -57,7 +57,7 @@
 
              <tr id="copy">
               <td>
-                <select required id="barang" class="form-control" name="barang[]">
+                <select required id="barang" class="barang form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
@@ -169,6 +169,22 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
         var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
         $(satuan).empty().html(val['satuan_singkatan']);
 
+
+        /////// cek exist barang ///////////
+        var arr = new Array();
+        $.each($('.barang'), function(idx, val) {
+            
+            if (index != idx)
+            arr.push($(this).val());
+
+        });
+
+        if ($.inArray(id, arr) != -1) {
+          alert_sweet('Bahan avalan sudah ada');
+          $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
+        }
+        ////// end exist barang ///////////
+
       });
   });
 
@@ -206,11 +222,14 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
        //subtotal
        $(sub).val(number_format(subtotal));
 
+       //cek stok
        if (parseInt(qty.val()) > parseInt(stok)) {
           
-          alert('Stok kurang dari Qty');
+          alert_sweet('Stok kurang dari Qty');
           qty.val(1);
        }
+
+       //cek barang exis
 
     });
 

@@ -176,7 +176,7 @@ $(function () {
     }
 
   //alert
-  function alert(val){
+  function alert_sweet(val){
     swal({
         title: "Oops ...",
         text: val,

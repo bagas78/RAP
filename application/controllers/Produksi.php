@@ -47,7 +47,9 @@ class Produksi extends CI_Controller{
 		$title = 'peleburan';
 		$data = $this->atribut($title);
 
-		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan'");
+
+		//stok > 0
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan' AND bahan_stok > 0");
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan WHERE peleburan_hapus = 0");
