@@ -55,24 +55,45 @@ class Produksi extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan WHERE peleburan_hapus = 0");
 	    $data['nomor'] = 'PLB-'.date('dmY').'-'.($pb+1);
 
+	    //url
+	    $data['url'] = 'peleburan';
+
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/peleburan_add');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
-	function save(){
+	function peleburan_save(){
+
+		$nomor = strip_tags($_POST['nomor']);
+
+		//table peleburan
 		$set = array(
-						'kontak_jenis' => strip_tags($_POST['jenis']),
-						'kontak_kode' => strip_tags($_POST['kode']),
-						'kontak_nama' => strip_tags($_POST['nama']),
-						'kontak_alamat' => strip_tags($_POST['alamat']),
-						'kontak_tlp' => strip_tags($_POST['tlp']),
-						'kontak_email' => strip_tags($_POST['email']),
-						'kontak_rek' => strip_tags($_POST['rek']),
-						'kontak_bank' => strip_tags($_POST['bank']),
-						'kontak_npwp' => strip_tags($_POST['npwp']),
+						'peleburan_nomor' => $nomor,
+						'peleburan_tanggal' => strip_tags($_POST['tanggal']),
+						'peleburan_qty_akhir' => strip_tags($_POST['qty_akhir']),
+						'peleburan_magnesium' => strip_tags($_POST['magnesium']),
+						'peleburan_pembantu' => strip_tags($_POST['pembantu']),
+						'peleburan_billet' => strip_tags($_POST['billet']),
+						'peleburan_biaya' => strip_tags($_POST['total']),
 					);
 
-		$db = $this->query_builder->add('t_kontak',$set);
+		$db = $this->query_builder->add('t_peleburan',$set);
+
+		//table peleburan barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'peleburan_barang_nomor' => $nomor,
+						'peleburan_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'peleburan_barang_qty' => strip_tags($_POST['qty'][$i]),
+						'peleburan_barang_harga' => strip_tags($_POST['harga'][$i]),
+						'peleburan_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+					);	
+
+			$this->query_builder->add('t_peleburan_barang',$set2);
+		}
 
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di tambah');
@@ -80,19 +101,13 @@ class Produksi extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
 		}
 		
-		if ($_POST['jenis'] == 's') {
-			redirect(base_url('kontak/supplier'));	
-		} else {
-			redirect(base_url('kontak/pelanggan'));
-		}
-
-
+		redirect(base_url('produksi/peleburan'));
 	}
-	function delete($id,$jenis){
+	function peleburan_delete($id){
 
-		$set = ['kontak_hapus' => 1];
-		$where = ['kontak_id' => $id];
-		$db = $this->query_builder->update('t_kontak',$set,$where);
+		$set = ['peleburan_hapus' => 1];
+		$where = ['peleburan_id' => $id];
+		$db = $this->query_builder->update('t_peleburan',$set,$where);
 		
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di hapus');
@@ -100,11 +115,7 @@ class Produksi extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di hapus');
 		}
 		
-		if ($jenis == 's') {
-			redirect(base_url('kontak/supplier'));	
-		} else {
-			redirect(base_url('kontak/pelanggan'));
-		}
+		redirect(base_url('produksi/peleburan'));	
 	}
 	function edit($id,$jenis){
 		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_kontak where kontak_id = '$id'");

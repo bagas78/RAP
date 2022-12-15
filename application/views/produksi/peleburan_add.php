@@ -72,7 +72,7 @@
               <td>
                 <div class="input-group">
                   <input type="number" name="stok[]" class="stok form-control" required>
-                  <span class="input-group-addon">Kg</span>
+                  <span class="satuan input-group-addon"></span>
                 </div>
               </td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
@@ -84,10 +84,7 @@
               <td colspan="3"></td>
               <td align="right">Qty Akhir</td>
               <td>
-                <div class="input-group">
-                  <input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control">
-                  <span class="input-group-addon">Kg &#160;</span>
-                </div>
+                <input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control">
               </td>
             </tr>
 
@@ -96,7 +93,7 @@
               <td align="right">Magnesium</td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="" class="form-control" id="magnesium">
+                  <input type="number" name="magnesium" class="form-control" id="magnesium">
                   <span class="input-group-addon">Kg &#160;</span>
                 </div>
               </td>
@@ -107,7 +104,7 @@
               <td align="right">Bahan Pembantu</td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="" class="form-control" id="pembantu">
+                  <input type="number" name="pembantu" class="form-control" id="pembantu">
                   <span class="input-group-addon">Kg &#160;</span>
                 </div>
               </td>
@@ -118,7 +115,7 @@
               <td align="right">Hasil Billet</td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="" class="form-control">
+                  <input type="number" name="billet" class="form-control">
                   <span class="input-group-addon">Pcs</span>
                 </div>
               </td>
@@ -126,7 +123,7 @@
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">Total Biaya</td>
+              <td align="right">Total Biaya Avalan</td>
               <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
             </tr>
 
@@ -149,7 +146,7 @@
 <script type="text/javascript">
 
 //atribut
-$('form').attr('action', '<?=base_url('pembelian/'.@$url.'_save')?>');
+$('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 
@@ -166,7 +163,7 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
         //harga
         $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
         //satuan
-        var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
+        var satuan = $('#copy:nth-child('+i+')').find('.satuan');
         $(satuan).empty().html(val['satuan_singkatan']);
 
 
@@ -182,6 +179,8 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
         if ($.inArray(id, arr) != -1) {
           alert_sweet('Bahan avalan sudah ada');
           $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
+          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
+          $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
         }
         ////// end exist barang ///////////
 
@@ -200,6 +199,7 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
     $('#copy').find('.satuan').html('');
+    $('#copy').find('.stok').val('');
   }
 
   function auto(){
@@ -228,8 +228,6 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
           alert_sweet('Stok kurang dari Qty');
           qty.val(1);
        }
-
-       //cek barang exis
 
     });
 

@@ -24,8 +24,8 @@
                 <tr>
                   <th>Nomor</th>
                   <th>Jumlah Billet</th>
-                  <th>Tanggal</th>
-                  <th width="70">Action</th>
+                  <th>Tanggal Peleburan</th>
+                  <th width="10">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,13 +56,23 @@
             },
             "columns": [                               
                         { "data": "peleburan_nomor"},
-                        { "data": "peleburan_billet"},
-                        { "data": "peleburan_tanggal"},
+                        { "data": "peleburan_billet",
+                        "render":
+                        function( data ){
+                          return data+" pcs";
+                        }
+                        },
+                        { "data": "peleburan_tanggal",
+                        "render":
+                        function( data ){
+                          return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
+                        }
+                        },
                         { "data": "peleburan_id",
                         "render": 
-                        function( data, type, row, meta ) {
-                            return "<a href='<?php echo base_url('peleburan/view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('peleburan/delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                        function( data ) {
+                            return "<a href='<?php echo base_url('produksi/peleburan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produksi/peleburan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         
