@@ -90,9 +90,9 @@ class Mesin extends CI_Controller{
 		$db = $this->query_builder->update('t_mesin',$set,$where);
 		
 		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
+			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 		
 		redirect(base_url('mesin'));

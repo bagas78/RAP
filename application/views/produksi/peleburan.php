@@ -20,18 +20,31 @@
         <div class="box-body">
           
           <table id="example" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Nomor</th>
-                  <th>Jumlah Billet</th>
-                  <th>Tanggal Peleburan</th>
-                  <th width="10">Action</th>
-                </tr>
-                </thead>
-                <tbody>
+            <thead>
+            <tr>
+              <th>Nomor</th>
+              <th>Jumlah Billet</th>
+              <th>Tanggal Peleburan</th>
+              <th width="10">Action</th>
+            </tr>
+            </thead>
+            <tbody>
 
-                </tbody>
-              </table>
+            </tbody>
+          </table>
+
+          <div class="col-md-6 row">
+            <table class="table table-bordered">
+              <tr>
+                <td style="background: cornsilk;">Stok Billet</td>
+                <td><?=$total['billet_stok'].' pcs'?></td>
+              </tr>
+              <tr>
+                <td style="background: ghostwhite;">Terakir Di Tambah</td>
+                <td><?php $date = date_create($total['billet_update']); echo date_format($date,'d/m/Y');?></td>
+              </tr>
+            </table>
+          </div>
 
         </div>
 

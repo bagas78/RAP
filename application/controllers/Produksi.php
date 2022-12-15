@@ -31,6 +31,8 @@ class Produksi extends CI_Controller{
 		$title = 'peleburan';
 		$data = $this->atribut($title);
 
+		$data['total'] = $this->query_builder->view_row("SELECT * FROM t_billet");
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/peleburan');
 	    $this->load->view('v_template_admin/admin_footer');
@@ -47,7 +49,6 @@ class Produksi extends CI_Controller{
 		$title = 'peleburan';
 		$data = $this->atribut($title);
 
-
 		//stok > 0
 		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan' AND bahan_stok > 0");
 
@@ -56,10 +57,10 @@ class Produksi extends CI_Controller{
 	    $data['nomor'] = 'PLB-'.date('dmY').'-'.($pb+1);
 
 	    //url
-	    $data['url'] = 'peleburan';
+	    $data['url'] = 'peleburan_save';
 
 		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/peleburan_add');
+	    $this->load->view('produksi/peleburan_form');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function peleburan_save(){
@@ -95,6 +96,12 @@ class Produksi extends CI_Controller{
 			$this->query_builder->add('t_peleburan_barang',$set2);
 		}
 
+		//update billet
+		$this->stok->update_billet();
+
+		//update stok bahan
+		$this->stok->update_bahan();
+
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -110,6 +117,13 @@ class Produksi extends CI_Controller{
 		$db = $this->query_builder->update('t_peleburan',$set,$where);
 		
 		if ($db == 1) {
+
+			//update billet
+			$this->stok->update_billet();
+
+			//update stok bahan
+			$this->stok->update_bahan();
+
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di hapus');
@@ -117,60 +131,77 @@ class Produksi extends CI_Controller{
 		
 		redirect(base_url('produksi/peleburan'));	
 	}
-	function edit($id,$jenis){
-		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_kontak where kontak_id = '$id'");
-		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
+	function peleburan_edit($id){
+		$title = 'peleburan';
+		$data = $this->atribut($title);
 
-		$data['title'] = 'Supplier';
-		$data['jenis'] = @$jenis;
-	    $data['supplier_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
+		//data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
+
+		//stok > 0
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan' AND bahan_stok > 0");
+
+	    //url
+	    $data['url'] = 'peleburan_update/'.$id;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('kontak/edit');
+	    $this->load->view('produksi/peleburan_form');
+	    $this->load->view('produksi/peleburan_edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
-	function update($id){
+	function get_peleburan($nomor){
+		//pembelian barang
+		$db = $this->query_builder->view("SELECT * FROM t_peleburan_barang WHERE peleburan_barang_nomor = '$nomor'");
+		echo json_encode($db);
+	}
+	function peleburan_update($id){
 
+		$nomor = strip_tags($_POST['nomor']);
+
+		//table peleburan
 		$set = array(
-						'kontak_jenis' => strip_tags($_POST['jenis']),
-						'kontak_nama' => strip_tags($_POST['nama']),
-						'kontak_alamat' => strip_tags($_POST['alamat']),
-						'kontak_tlp' => strip_tags($_POST['tlp']),
-						'kontak_email' => strip_tags($_POST['email']),
-						'kontak_rek' => strip_tags($_POST['rek']),
-						'kontak_bank' => strip_tags($_POST['bank']),
-						'kontak_npwp' => strip_tags($_POST['npwp']),
+						'peleburan_tanggal' => strip_tags($_POST['tanggal']),
+						'peleburan_qty_akhir' => strip_tags($_POST['qty_akhir']),
+						'peleburan_magnesium' => strip_tags($_POST['magnesium']),
+						'peleburan_pembantu' => strip_tags($_POST['pembantu']),
+						'peleburan_billet' => strip_tags($_POST['billet']),
+						'peleburan_biaya' => strip_tags($_POST['total']),
 					);
 
-		$where = ['kontak_id' => $id];
-		$db = $this->query_builder->update('t_kontak',$set,$where);
+		$where = ['peleburan_id' => $id];
+		$db = $this->query_builder->update('t_peleburan',$set,$where);
+
+		//table peleburan barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+
+		//hapus barang
+		$this->query_builder->delete('t_peleburan_barang',['peleburan_barang_nomor' => $nomor]);
 		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'peleburan_barang_nomor' => $nomor,
+						'peleburan_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'peleburan_barang_qty' => strip_tags($_POST['qty'][$i]),
+						'peleburan_barang_harga' => strip_tags($_POST['harga'][$i]),
+						'peleburan_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+					);	
+
+			$this->query_builder->add('t_peleburan_barang',$set2);
+		}
+
+		//update billet
+		$this->stok->update_billet();
+
+		//update stok bahan
+		$this->stok->update_bahan();
+
 		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
+			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 		
-		if ($_POST['jenis'] == 's') {
-			redirect(base_url('kontak/supplier'));	
-		} else {
-			redirect(base_url('kontak/pelanggan'));
-		}
-	}
-	function view($id,$jenis){
-
-		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_kontak as a JOIN t_bank as b ON a.kontak_bank = b.bank_id where kontak_id = '$id'");
-
-		$data['title'] = 'Supplier';
-		$data['jenis'] = @$jenis;
-	    $data['supplier_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('kontak/view');
-	    $this->load->view('v_template_admin/admin_footer');
+		redirect(base_url('produksi/peleburan'));
 	}
 }

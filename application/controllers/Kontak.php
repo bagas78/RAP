@@ -154,9 +154,9 @@ class Kontak extends CI_Controller{
 		$db = $this->query_builder->update('t_kontak',$set,$where);
 		
 		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
+			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 		
 		if ($_POST['jenis'] == 's') {

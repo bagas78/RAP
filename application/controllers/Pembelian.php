@@ -9,25 +9,6 @@ class Pembelian extends CI_Controller{
 
 ///////////////////////// pembelian //////////////////////////////////////////////////
 
-	function update_stok(){
-
-		//sum stok bahan update
-		$db = $this->query_builder->view("SELECT b.pembelian_barang_barang AS id_barang ,SUM(b.pembelian_barang_qty) AS jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_status = 'l' GROUP BY b.pembelian_barang_barang");
-
-		foreach ($db as $val) {
-
-			//variable
-			$id = $val['id_barang'];
-			$jumlah = $val['jumlah'];
-
-			//update stok
-			$set = ['bahan_stok' => $jumlah];
-			$where = ['bahan_id' => $id];
-			$db = $this->query_builder->update('t_bahan',$set,$where);
-		}
-
-		return;
-	}
 	function atribut($active){
 		$data["title"] = $active;
 	    $data["pembelian_open"] = "menu-open";
@@ -73,11 +54,11 @@ class Pembelian extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok bahan
-			$this->update_stok();
+			$this->stok->update_bahan();
 
-			$this->session->set_flashdata('success','Data berhasil di tambah');
+			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di tambah');
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
 		}
 
 		redirect(base_url('pembelian/'.$redirect));
@@ -163,7 +144,7 @@ class Pembelian extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok bahan
-			$this->update_stok();
+			$this->stok->update_bahan();
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -274,11 +255,11 @@ class Pembelian extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok
-			$this->update_stok();
+			$this->stok->update_bahan();
 
-			$this->session->set_flashdata('success','Data berhasil di tambah');
+			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di tambah');
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 
 		redirect(base_url('pembelian/'.$redirect));
@@ -370,9 +351,9 @@ class Pembelian extends CI_Controller{
 		$db = $this->query_builder->update('t_bahan',$set,$where);
 		
 		if ($db == 1) {
-			$this->session->set_flashdata('success','Data berhasil di hapus');
+			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di hapus');
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 
 		redirect(base_url('pembelian/bahan'));
@@ -639,11 +620,11 @@ class Pembelian extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok bahan
-			$this->update_stok();
+			$this->stok->update_bahan();
 
-			$this->session->set_flashdata('success','Data berhasil di tambah');
+			$this->session->set_flashdata('success','Berhasil di bayar');
 		} else {
-			$this->session->set_flashdata('gagal','Data gagal di tambah');
+			$this->session->set_flashdata('gagal','Gagal di bayar');
 		}
 
 		redirect(base_url('pembelian/bayar'));
