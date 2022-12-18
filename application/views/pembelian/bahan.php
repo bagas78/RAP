@@ -10,6 +10,7 @@
               <a href="<?= base_url('pembelian/add_bahan') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
               <button onclick="filter('avalan')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Avalan</button>
               <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
+              <button onclick="filter('pembantu')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Pembantu</button>
             </div>
 
           <div class="box-tools pull-right">

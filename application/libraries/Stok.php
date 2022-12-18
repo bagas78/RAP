@@ -14,6 +14,8 @@ class Stok{
         foreach ($peleburan as $pl) {
             
             if ($pb['pembelian_barang'] == $pl['peleburan_barang']) {
+
+                //sudah di lebur
                 
                 //kurang stok dengan produksi
                 $id = $pl['peleburan_barang'];
@@ -27,6 +29,21 @@ class Stok{
                 $this->sql->db->where($where);
                 $this->sql->db->update('t_bahan');
 
+            }else{
+
+              //belum di lebur
+
+              //kurang stok dengan produksi
+              $id = $pb['pembelian_barang'];
+              $jumlah = $pb['pembelian_jumlah'];
+
+              //update stok
+              $set = ['bahan_stok' => $jumlah];
+              $where = ['bahan_id' => $id];
+
+              $this->sql->db->set($set);
+              $this->sql->db->where($where);
+              $this->sql->db->update('t_bahan');
             }
 
         }
@@ -45,7 +62,7 @@ class Stok{
     $get = $this->sql->db->query("SELECT * FROM t_billet")->row_array();
     $id = $get['billet_id']; 
 
-    $set = ['billet_stok' => $jumlah];
+    $set = ['billet_stok' => $jumlah, 'billet_update' => date('Y-m-d')];
     $where = ['billet_id' => $id];
 
     $this->sql->db->set($set);

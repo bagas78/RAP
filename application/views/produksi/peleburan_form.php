@@ -45,7 +45,7 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Avalan</th>
+              <th width="200">Bahan</th>
               <th>Qty</th>
               <th>Stok</th>
               <th>Harga</th>
@@ -90,24 +90,19 @@
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">Magnesium</td>
+              <td align="right">Biaya Jasa</td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="magnesium" class="form-control" id="magnesium">
-                  <span class="input-group-addon">Kg &#160;</span>
+                  <input type="number" name="jasa" class="form-control" id="jasa" value="0" min="0">
+                  <span class="input-group-addon">Rp &#160;</span>
                 </div>
               </td>
             </tr>
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">Bahan Pembantu</td>
-              <td>
-                <div class="input-group">
-                  <input type="number" name="pembantu" class="form-control" id="pembantu">
-                  <span class="input-group-addon">Kg &#160;</span>
-                </div>
-              </td>
+              <td align="right">Total Biaya</td>
+              <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
@@ -123,8 +118,10 @@
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">Total Biaya Avalan</td>
-              <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
+              <td align="right">HPP</td>
+              <td>
+                <input required readonly="" type="number" name="hpp" class="form-control" id="hpp">
+              </td>
             </tr>
 
             <tr>
@@ -194,11 +191,9 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
 
     //blank new input
     $('#copy').find('select').val('');
-    $('#copy').find('.potongan').val(0);
     $('#copy').find('.qty').val(1);
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
-    $('#copy').find('.satuan').html('');
     $('#copy').find('.stok').val('');
   }
 
@@ -232,7 +227,7 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     });
 
     //qty akhir
-    $('#qty_akhir').val(num_qty);
+    $('#qty_akhir').val(number_format(num_qty));
 
     //total akhir
     var num_total = 0;
@@ -242,7 +237,12 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     });
 
     //total akhir
-    $('#total').val(number_format(num_total));
+    var total = parseInt(num_total) + parseInt($('#jasa').val());
+    $('#total').val(number_format(total));
+
+    //HPP
+    var hpp = total / parseInt($('#billet').val());
+    $('#hpp').val(Math.round(hpp));
 
     setTimeout(function() {
         auto();

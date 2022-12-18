@@ -50,7 +50,7 @@ class Produksi extends CI_Controller{
 		$data = $this->atribut($title);
 
 		//stok > 0
-		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan' AND bahan_stok > 0");
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan WHERE peleburan_hapus = 0");
@@ -71,11 +71,11 @@ class Produksi extends CI_Controller{
 		$set = array(
 						'peleburan_nomor' => $nomor,
 						'peleburan_tanggal' => strip_tags($_POST['tanggal']),
-						'peleburan_qty_akhir' => strip_tags($_POST['qty_akhir']),
-						'peleburan_magnesium' => strip_tags($_POST['magnesium']),
-						'peleburan_pembantu' => strip_tags($_POST['pembantu']),
-						'peleburan_billet' => strip_tags($_POST['billet']),
-						'peleburan_biaya' => strip_tags($_POST['total']),
+						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'peleburan_jasa' => strip_tags(str_replace(',', '', $_POST['jasa'])),
+						'peleburan_billet' => strip_tags(str_replace(',', '', $_POST['billet'])),
+						'peleburan_biaya' => strip_tags(str_replace(',', '', $_POST['total'])),
+						'peleburan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
 					);
 
 		$db = $this->query_builder->add('t_peleburan',$set);
@@ -88,9 +88,9 @@ class Produksi extends CI_Controller{
 			$set2 = array(
 						'peleburan_barang_nomor' => $nomor,
 						'peleburan_barang_barang' => strip_tags($_POST['barang'][$i]),
-						'peleburan_barang_qty' => strip_tags($_POST['qty'][$i]),
-						'peleburan_barang_harga' => strip_tags($_POST['harga'][$i]),
-						'peleburan_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+						'peleburan_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'peleburan_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'peleburan_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
 					);	
 
 			$this->query_builder->add('t_peleburan_barang',$set2);
@@ -161,11 +161,11 @@ class Produksi extends CI_Controller{
 		//table peleburan
 		$set = array(
 						'peleburan_tanggal' => strip_tags($_POST['tanggal']),
-						'peleburan_qty_akhir' => strip_tags($_POST['qty_akhir']),
-						'peleburan_magnesium' => strip_tags($_POST['magnesium']),
-						'peleburan_pembantu' => strip_tags($_POST['pembantu']),
-						'peleburan_billet' => strip_tags($_POST['billet']),
-						'peleburan_biaya' => strip_tags($_POST['total']),
+						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'peleburan_jasa' => strip_tags(str_replace(',', '', $_POST['jasa'])),
+						'peleburan_billet' => strip_tags(str_replace(',', '', $_POST['billet'])),
+						'peleburan_biaya' => strip_tags(str_replace(',', '', $_POST['total'])),
+						'peleburan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
 					);
 
 		$where = ['peleburan_id' => $id];
@@ -182,9 +182,9 @@ class Produksi extends CI_Controller{
 			$set2 = array(
 						'peleburan_barang_nomor' => $nomor,
 						'peleburan_barang_barang' => strip_tags($_POST['barang'][$i]),
-						'peleburan_barang_qty' => strip_tags($_POST['qty'][$i]),
-						'peleburan_barang_harga' => strip_tags($_POST['harga'][$i]),
-						'peleburan_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+						'peleburan_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'peleburan_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'peleburan_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
 					);	
 
 			$this->query_builder->add('t_peleburan_barang',$set2);

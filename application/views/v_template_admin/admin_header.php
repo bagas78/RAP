@@ -272,6 +272,12 @@ thead{
                 <span class="multi-li">Purchase Order ( PO )</span>
               </a>
             </li>
+            <li <?php echo @$pembelian_umum_active; ?>>
+              <a href="<?php echo base_url('pembelian/umum') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pembelian Umum</span>
+              </a>
+            </li>
             <li <?php echo @$pembelian_avalan_active; ?>>
               <a href="<?php echo base_url('pembelian/avalan') ?>">
                 <i class="material-icons">more_horiz</i>

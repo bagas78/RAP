@@ -235,7 +235,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     });
 
     //qty akhir
-    $('#qty_akhir').val(num_qty);
+    $('#qty_akhir').val(number_format(num_qty));
 
     //total akhir
     var num_total = 0;

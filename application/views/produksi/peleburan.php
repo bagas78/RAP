@@ -24,6 +24,7 @@
             <tr>
               <th>Nomor</th>
               <th>Jumlah Billet</th>
+              <th>HPP</th>
               <th>Tanggal Peleburan</th>
               <th width="10">Action</th>
             </tr>
@@ -38,6 +39,14 @@
               <tr>
                 <td style="background: cornsilk;">Stok Billet</td>
                 <td><?=$total['billet_stok'].' pcs'?></td>
+              </tr>
+              <tr>
+                <td style="background: cornsilk;">HPP</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td style="background: cornsilk;">HPP Total</td>
+                <td>0</td>
               </tr>
               <tr>
                 <td style="background: ghostwhite;">Terakir Di Tambah</td>
@@ -73,6 +82,12 @@
                         "render":
                         function( data ){
                           return data+" pcs";
+                        }
+                        },
+                        { "data": "peleburan_hpp",
+                        "render":
+                        function(data) {
+                          return number_format(data);
                         }
                         },
                         { "data": "peleburan_tanggal",
