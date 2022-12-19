@@ -3,8 +3,8 @@
   //atribut form
   $('#nomor').val('<?=@$data['peleburan_nomor']?>');
   $('#tanggal').val('<?=@$data['peleburan_tanggal']?>');
-  $('#magnesium').val('<?=@$data['peleburan_magnesium']?>');
-  $('#pembantu').val('<?=@$data['peleburan_pembantu']?>');
+  $('#jasa').val('<?=@$data['peleburan_jasa']?>');
+  $('#hpp').val('<?=@$data['peleburan_hpp']?>');
   $('#billet').val('<?=@$data['peleburan_billet']?>');
 
   //get peleburan
@@ -16,7 +16,7 @@
        clone();
     }
 
-    $.each(json, function(index, val) {
+    $.each(json, function(index, val) { 
       
       var i = index+1;
 

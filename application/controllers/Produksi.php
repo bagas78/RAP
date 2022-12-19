@@ -139,7 +139,7 @@ class Produksi extends CI_Controller{
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
 
 		//stok > 0
-		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = 'avalan' AND bahan_stok > 0");
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
 
 	    //url
 	    $data['url'] = 'peleburan_update/'.$id;

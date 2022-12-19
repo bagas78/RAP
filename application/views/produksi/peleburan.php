@@ -42,11 +42,11 @@
               </tr>
               <tr>
                 <td style="background: cornsilk;">HPP</td>
-                <td>0</td>
+                <td><?=number_format($total['billet_hpp'])?></td>
               </tr>
               <tr>
                 <td style="background: cornsilk;">HPP Total</td>
-                <td>0</td>
+                <td><?=number_format($total['billet_hpp'] * $total['billet_stok'])?></td>
               </tr>
               <tr>
                 <td style="background: ghostwhite;">Terakir Di Tambah</td>

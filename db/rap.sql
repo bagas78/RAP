@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2022 at 04:13 PM
+-- Generation Time: Dec 19, 2022 at 04:45 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -32,7 +32,7 @@ CREATE TABLE `t_bahan` (
   `bahan_nama` text NOT NULL,
   `bahan_stok` text NOT NULL DEFAULT '0',
   `bahan_satuan` text NOT NULL,
-  `bahan_kategori` set('avalan','utama') NOT NULL,
+  `bahan_kategori` set('avalan','utama','pembantu') NOT NULL,
   `bahan_harga` text NOT NULL,
   `bahan_tanggal` date NOT NULL DEFAULT curdate(),
   `bahan_hapus` int(11) NOT NULL DEFAULT 0
@@ -43,12 +43,14 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(1, 'Kawat las', '40', '1', 'avalan', '2500', '2022-12-05', 0),
-(2, 'Velg sepeda', '90', '1', 'avalan', '5000', '2022-12-05', 0),
-(3, 'Paku', '570', '1', 'avalan', '3000', '2022-12-05', 0),
+(1, 'Kawat las', '70', '1', 'pembantu', '2500', '2022-12-05', 0),
+(2, 'Velg sepeda', '155', '1', 'avalan', '5000', '2022-12-05', 0),
+(3, 'Paku', '600', '1', 'avalan', '3000', '2022-12-05', 0),
 (4, 'Plat kapal', '3', '1', 'utama', '55000', '2022-12-05', 0),
 (5, 'Rel kereta', '2', '1', 'utama', '30000', '2022-12-05', 0),
-(6, 'Rangka Motor', '0', '1', 'avalan', '30000', '2022-12-11', 0);
+(6, 'Rangka Motor', '30', '1', 'avalan', '30000', '2022-12-11', 0),
+(7, 'Kawat Jemuran', '100', '1', 'pembantu', '3000', '2022-12-18', 0),
+(8, 'Paku Bekas', '120', '1', 'pembantu', '1200', '2022-12-18', 0);
 
 -- --------------------------------------------------------
 
@@ -219,6 +221,7 @@ INSERT INTO `t_bank` (`bank_id`, `bank_kode`, `bank_nama`, `bank_tanggal`) VALUE
 CREATE TABLE `t_billet` (
   `billet_id` int(11) NOT NULL,
   `billet_stok` text NOT NULL,
+  `billet_hpp` text NOT NULL,
   `billet_update` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -226,8 +229,8 @@ CREATE TABLE `t_billet` (
 -- Dumping data for table `t_billet`
 --
 
-INSERT INTO `t_billet` (`billet_id`, `billet_stok`, `billet_update`) VALUES
-(1, '35', '2022-12-15');
+INSERT INTO `t_billet` (`billet_id`, `billet_stok`, `billet_hpp`, `billet_update`) VALUES
+(1, '25', '570', '2022-12-19');
 
 -- --------------------------------------------------------
 
@@ -334,10 +337,10 @@ CREATE TABLE `t_peleburan` (
   `peleburan_nomor` text NOT NULL,
   `peleburan_tanggal` date NOT NULL,
   `peleburan_qty_akhir` text NOT NULL,
-  `peleburan_magnesium` text NOT NULL,
-  `peleburan_pembantu` text NOT NULL,
+  `peleburan_jasa` text NOT NULL,
   `peleburan_billet` text NOT NULL,
   `peleburan_biaya` text NOT NULL,
+  `peleburan_hpp` text NOT NULL,
   `peleburan_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -345,9 +348,9 @@ CREATE TABLE `t_peleburan` (
 -- Dumping data for table `t_peleburan`
 --
 
-INSERT INTO `t_peleburan` (`peleburan_id`, `peleburan_nomor`, `peleburan_tanggal`, `peleburan_qty_akhir`, `peleburan_magnesium`, `peleburan_pembantu`, `peleburan_billet`, `peleburan_biaya`, `peleburan_hapus`) VALUES
-(8, 'PLB-15122022-1', '2022-12-15', '40', '10', '10', '25', '175,000', 0),
-(9, 'PLB-15122022-2', '2022-12-15', '60', '10', '10', '10', '215,000', 0);
+INSERT INTO `t_peleburan` (`peleburan_id`, `peleburan_nomor`, `peleburan_tanggal`, `peleburan_qty_akhir`, `peleburan_jasa`, `peleburan_billet`, `peleburan_biaya`, `peleburan_hpp`, `peleburan_hapus`) VALUES
+(10, 'PLB-19122022-1', '2022-12-19', '20', '10000', '10', '85000', '8500', 0),
+(11, 'PLB-19122022-2', '2022-12-19', '30', '1200', '15', '86200', '5747', 0);
 
 -- --------------------------------------------------------
 
@@ -370,11 +373,11 @@ CREATE TABLE `t_peleburan_barang` (
 --
 
 INSERT INTO `t_peleburan_barang` (`peleburan_barang_id`, `peleburan_barang_nomor`, `peleburan_barang_barang`, `peleburan_barang_qty`, `peleburan_barang_harga`, `peleburan_barang_subtotal`, `peleburan_barang_tanggal`) VALUES
-(27, 'PLB-15122022-1', '2', '30', '5,000', '150,000', '2022-12-15'),
-(28, 'PLB-15122022-1', '1', '10', '2,500', '25,000', '2022-12-15'),
-(29, 'PLB-15122022-2', '1', '10', '2,500', '25,000', '2022-12-15'),
-(30, 'PLB-15122022-2', '2', '20', '5,000', '100,000', '2022-12-15'),
-(31, 'PLB-15122022-2', '3', '30', '3,000', '90,000', '2022-12-15');
+(39, 'PLB-19122022-1', '2', '10', '5000', '50000', '2022-12-19'),
+(40, 'PLB-19122022-1', '1', '10', '2500', '25000', '2022-12-19'),
+(41, 'PLB-19122022-2', '3', '10', '3000', '30000', '2022-12-19'),
+(42, 'PLB-19122022-2', '7', '10', '3000', '30000', '2022-12-19'),
+(43, 'PLB-19122022-2', '1', '10', '2500', '25000', '2022-12-19');
 
 -- --------------------------------------------------------
 
@@ -384,7 +387,7 @@ INSERT INTO `t_peleburan_barang` (`peleburan_barang_id`, `peleburan_barang_nomor
 
 CREATE TABLE `t_pembelian` (
   `pembelian_id` int(11) NOT NULL,
-  `pembelian_kategori` set('avalan','utama') NOT NULL,
+  `pembelian_kategori` set('avalan','utama','umum') NOT NULL,
   `pembelian_po` int(11) NOT NULL DEFAULT 0,
   `pembelian_nomor` text NOT NULL,
   `pembelian_supplier` text NOT NULL,
@@ -404,10 +407,17 @@ CREATE TABLE `t_pembelian` (
 --
 
 INSERT INTO `t_pembelian` (`pembelian_id`, `pembelian_kategori`, `pembelian_po`, `pembelian_nomor`, `pembelian_supplier`, `pembelian_tanggal`, `pembelian_jatuh_tempo`, `pembelian_status`, `pembelian_keterangan`, `pembelian_lampiran`, `pembelian_qty_akhir`, `pembelian_ppn`, `pembelian_total`, `pembelian_hapus`) VALUES
-(32, 'avalan', 0, 'PA-11122022-1', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 1', '', '130', '0', '425,000', 0),
-(33, 'avalan', 0, 'PA-11122022-2', '4', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 2', 'd9aed766c73c96bf5610fb642049a963.png', '70', '0', '225,000', 0),
-(34, 'avalan', 0, 'PA-11122022-3', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 3', '', '600', '0', '2,000,000', 0),
-(35, 'utama', 0, 'PB-11122022-1', '1', '2022-12-11', '2022-12-11', 'b', 'Transaksi ke 1', '', '5', '11', '249,750', 0);
+(32, 'avalan', 0, 'PA-11122022-1', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 1', '', '130', '0', '425000', 0),
+(33, 'avalan', 0, 'PA-11122022-2', '4', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 2', 'd9aed766c73c96bf5610fb642049a963.png', '70', '0', '225000', 0),
+(34, 'avalan', 0, 'PA-11122022-3', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 3', '', '600', '0', '2000000', 0),
+(35, 'utama', 0, 'PB-11122022-1', '1', '2022-12-11', '2022-12-11', 'b', 'Transaksi ke 1', '', '5', '11', '249750', 0),
+(37, 'umum', 0, 'PU-18122022-1', '1', '2022-12-18', '2022-12-18', 'l', 'umum 1', '', '220', '0', '444000', 0),
+(38, 'avalan', 0, 'PA-18122022-4', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '50000', 0),
+(39, 'avalan', 0, 'PA-18122022-5', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
+(40, 'avalan', 0, 'PA-18122022-6', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
+(41, 'avalan', 0, 'PA-18122022-7', '4', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
+(42, 'umum', 0, 'PU-19122022-2', '4', '2022-12-19', '2022-12-19', 'l', '', '', '15', '0', '42500', 0),
+(45, 'umum', 0, 'PU-19122022-3', '4', '2022-12-19', '2022-12-19', 'l', '', '', '10', '0', '37500', 0);
 
 -- --------------------------------------------------------
 
@@ -430,15 +440,25 @@ CREATE TABLE `t_pembelian_barang` (
 --
 
 INSERT INTO `t_pembelian_barang` (`pembelian_barang_id`, `pembelian_barang_nomor`, `pembelian_barang_barang`, `pembelian_barang_qty`, `pembelian_barang_potongan`, `pembelian_barang_harga`, `pembelian_barang_subtotal`) VALUES
-(182, 'PB-11122022-1', '4', '3', '0', '55,000', '165,000'),
-(183, 'PB-11122022-1', '5', '2', '0', '30,000', '60,000'),
-(191, 'PA-11122022-2', '1', '50', '0', '2,500', '125,000'),
-(192, 'PA-11122022-2', '2', '20', '0', '5,000', '100,000'),
-(193, 'PA-11122022-1', '3', '100', '0', '3,000', '300,000'),
-(194, 'PA-11122022-1', '1', '10', '0', '2,500', '25,000'),
-(195, 'PA-11122022-1', '2', '20', '0', '5,000', '100,000'),
-(206, 'PA-11122022-3', '2', '100', '0', '5,000', '500,000'),
-(207, 'PA-11122022-3', '3', '500', '0', '3,000', '1,500,000');
+(182, 'PB-11122022-1', '4', '3', '0', '55000', '165000'),
+(183, 'PB-11122022-1', '5', '2', '0', '30000', '60000'),
+(191, 'PA-11122022-2', '1', '50', '0', '2500', '125000'),
+(192, 'PA-11122022-2', '2', '20', '0', '5000', '100000'),
+(193, 'PA-11122022-1', '3', '100', '0', '3000', '300000'),
+(194, 'PA-11122022-1', '1', '10', '0', '2500', '25000'),
+(195, 'PA-11122022-1', '2', '20', '0', '5000', '100000'),
+(206, 'PA-11122022-3', '2', '100', '0', '5000', '500000'),
+(207, 'PA-11122022-3', '3', '500', '0', '3000', '1500000'),
+(212, 'PA-18122022-4', '2', '10', '0', '5000', '50000'),
+(213, 'PA-18122022-5', '6', '10', '0', '30000', '300000'),
+(215, 'PA-18122022-6', '6', '10', '0', '30000', '300000'),
+(216, 'PA-18122022-7', '6', '10', '0', '30000', '300000'),
+(217, 'PU-18122022-1', '7', '100', '0', '3000', '300000'),
+(218, 'PU-18122022-1', '8', '120', '0', '1200', '144000'),
+(219, 'PU-19122022-2', '7', '10', '0', '3000', '30000'),
+(220, 'PU-19122022-2', '1', '5', '0', '2500', '12500'),
+(223, 'PU-19122022-3', '1', '5', '0', '2500', '12500'),
+(224, 'PU-19122022-3', '2', '5', '0', '5000', '25000');
 
 -- --------------------------------------------------------
 
@@ -588,7 +608,7 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT for table `t_bahan`
 --
 ALTER TABLE `t_bahan`
-  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `t_bank`
@@ -630,25 +650,25 @@ ALTER TABLE `t_pajak`
 -- AUTO_INCREMENT for table `t_peleburan`
 --
 ALTER TABLE `t_peleburan`
-  MODIFY `peleburan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `peleburan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `t_peleburan_barang`
 --
 ALTER TABLE `t_peleburan_barang`
-  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `t_pembelian`
 --
 ALTER TABLE `t_pembelian`
-  MODIFY `pembelian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `pembelian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `t_pembelian_barang`
 --
 ALTER TABLE `t_pembelian_barang`
-  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
+  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT for table `t_satuan`
