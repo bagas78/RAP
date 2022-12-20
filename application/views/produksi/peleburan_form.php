@@ -110,7 +110,7 @@
               <td align="right">Hasil Billet</td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="billet" class="form-control" id="billet">
+                  <input required type="number" name="billet" class="form-control" id="billet">
                   <span class="input-group-addon">Pcs</span>
                 </div>
               </td>
