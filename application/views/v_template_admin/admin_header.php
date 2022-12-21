@@ -315,9 +315,39 @@ thead{
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Peleburan</span>
               </a>
+            </li> 
+            <li <?php echo @$pesanan_active; ?>>
+              <a href="<?php echo base_url('produksi/pesanan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pesanan Produksi</span>
+              </a>
+            </li>
+            <li <?php echo @$transaksi_active; ?>>
+              <a href="<?php echo base_url('produksi/transaksi') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Transkasi Produksi</span>
+              </a>
+            </li>
+            <li <?php echo @$proses_active; ?>>
+              <a href="<?php echo base_url('produksi/proses') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Proses Produksi</span>
+              </a>
+            </li>
+            <li <?php echo @$pewarnaan_active; ?>>
+              <a href="<?php echo base_url('pewarnaan/pesanan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pewarnaan</span>
+              </a>
             </li>
             
           </ul>
+        </li>
+
+        <li <?php echo @$master; ?>>
+          <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
+          </a>
         </li>
 
         <li <?php echo @$penjualan; ?>>
@@ -335,12 +365,6 @@ thead{
         <li <?php echo @$laporan; ?>>
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">assignment</i></div> <div class="col-md-5 col-xs-5"><span>Laporan</span></div>
-          </a>
-        </li>
-
-        <li <?php echo @$master; ?>>
-          <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
           </a>
         </li>
 

@@ -59,7 +59,11 @@
             },
             "columns": [  
                         { "data": "bahan_nama"},
-                        { "data": "bahan_stok"},
+                        { "data": "bahan_stok",
+                        "render":
+                        function(data) {
+                          return "<span>"+number_format(data)+"</span>";
+                        }},
                         { "data": "bahan_harga",
                         "render":
                           function(data) {

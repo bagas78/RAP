@@ -4,7 +4,11 @@ class Produksi extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('m_peleburan');
+		$this->load->model('m_produksi');
 	}  
+
+///////////////// atribut //////////////////////////////////////////
+
 	function atribut($title){
 		$data["title"] = $title;
 	    $data["{$title}_active"] = "class='active'";
@@ -27,6 +31,33 @@ class Produksi extends CI_Controller{
 
 		return $output;
 	}
+	function add($kategori,$active){
+
+		$data = $this->atribut($active);
+
+		//user
+	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
+
+	    //billet
+	    $data['billet'] = $this->query_builder->view_row("SELECT * FROM t_billet");
+
+	    //barang
+	    if ($kategori == 'all') {
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");	
+	    }else{
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
+	    }
+
+	    return $data;
+	}
+	function get_barang($id){
+		//barang
+		$db = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
+		echo json_encode($db);
+	}
+
+//////////////////////////////////////////////////////////////////////
+
 	function peleburan(){
 		$title = 'peleburan';
 		$data = $this->atribut($title);
@@ -203,5 +234,38 @@ class Produksi extends CI_Controller{
 		}
 		
 		redirect(base_url('produksi/peleburan'));
+	}
+	function pesanan(){
+		$title = 'pesanan';
+		$data = $this->atribut($title);
+
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_produksi");
+		$data['url'] = 'pesanan';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/table');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pesanan_get_data()
+	{
+		$model = 'm_produksi';
+		$where = array('produksi_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function pesanan_add(){
+		
+		$kategori = 'all';
+		$redirect = 'pesanan';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
 }
