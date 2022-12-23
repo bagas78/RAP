@@ -56,12 +56,11 @@
             },
             "columns": [                               
                         { "data": "produksi_nomor"},
-                        { "data": "kontak_nama"},
-                        { "data": "produksi_status",
+                        { "data": "user_name"},
+                        { "data": "produksi_tanggal",
                         "render": 
                         function( data ) {
-                            if (data == 'l') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
-                            return "<span>"+s+"</span>";
+                            return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
                         { "data": "produksi_id",

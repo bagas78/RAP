@@ -55,6 +55,71 @@ class Produksi extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
 		echo json_encode($db);
 	}
+	function save($status, $redirect){
+
+		//pembelian
+		$nomor = strip_tags($_POST['nomor']);
+		$set1 = array(
+						'produksi_status' => $status,
+						'produksi_nomor' => $nomor,
+						'produksi_tanggal' => strip_tags($_POST['tanggal']),
+						'produksi_shift' => strip_tags($_POST['shift']),
+						'produksi_keterangan' => strip_tags($_POST['keterangan']),
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
+						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
+						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
+						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
+						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
+					);
+
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+
+		$arr = [];
+		if ($lampiran) {
+			//jumlah loop
+			$file = $lampiran;
+			$path = './assets/gambar/produksi';
+			$name = 'produksi_lampiran';
+			$upload = $this->upload_builder->multiple($file,$path,$name);	
+
+      		if ($upload != 0) {
+      			$arr = array_merge($arr,$upload);
+     		}			
+		}
+		
+		$merge = array_merge($set1,$arr);
+		$db = $this->query_builder->add('t_produksi',$merge);
+
+		//barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'produksi_barang_nomor' => $nomor,
+						'produksi_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'produksi_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'produksi_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
+					);	
+
+			$this->query_builder->add('t_produksi_barang',$set2);
+		}
+
+		if ($db == 1) {
+			
+			//update
+			// $this->stok->update_bahan();
+			// $this->stok->update_billet();
+
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('produksi/'.$redirect));
+	}
 
 //////////////////////////////////////////////////////////////////////
 
@@ -267,5 +332,10 @@ class Produksi extends CI_Controller{
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
 	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pesanan_save(){
+		$status = 1;
+		$redirect = 'pesanan';
+		$this->save($status, $redirect);
 	}
 }

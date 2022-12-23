@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-12 mb-7">
               <label>Shift</label>
-              <select name="supplier" class="form-control select2" required id="supplier">
+              <select name="shift" class="form-control select2" required id="supplier">
                 <option value="" hidden>-- Pilih --</option>
                 <?php foreach ($user_data as $u): ?>
                   <option value="<?= $u['user_id']?>"><?= $u['user_name']?></option>
@@ -61,7 +61,7 @@
 
               <label>Sebelum Produksi</label>
               <img id="previewImg1" onclick="clickFile(1)" style="width: 100%;">
-              <input style="visibility: hidden;" id="file1" type="file" name="lampiran1" onchange="previewFile(this,1)">
+              <input style="visibility: hidden;" id="file1" type="file" name="lampiran[]" onchange="previewFile(this,1)">
           
             </div>
           </div>
@@ -70,7 +70,7 @@
 
               <label>Sesudah Produksi</label>
               <img id="previewImg2" onclick="clickFile(2)" style="width: 100%;">
-              <input style="visibility: hidden;" id="file2" type="file" name="lampiran2" onchange="previewFile(this,2)">
+              <input style="visibility: hidden;" id="file2" type="file" name="lampiran[]" onchange="previewFile(this,2)">
           
             </div>
           </div>
@@ -120,7 +120,7 @@
             <tr>
               <td colspan="3"></td>
               <td align="right">Qty Barang</td>
-              <td><input id="qty_barang" readonly="" type="text" name="qty_akhir" class="form-control"></td>
+              <td><input id="qty_barang" readonly="" type="text" name="qty_barang" class="form-control"></td>
             </tr>
 
             <tr>
@@ -145,13 +145,13 @@
             <tr>
               <td colspan="3"></td>
               <td align="right">Total Akhir</td>
-              <td><input id="total_akhir" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
+              <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
               <td colspan="3"></td>
               <td align="right">HPP</td>
-              <td><input id="hpp" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
+              <td><input id="hpp" readonly="" type="text" name="hpp" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
@@ -173,7 +173,7 @@
 <script type="text/javascript">
 
 //atribut
-$('form').attr('action', '<?=base_url('pembelian/'.@$url.'_save')?>');
+$('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 $('#previewImg1').attr('src', '<?=base_url('assets/gambar/1.png')?>');
@@ -317,7 +317,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#qty_barang').val(number_format(num_qty));
 
     //hpp billet
-    var hpp_billet = <?=@$billet['billet_hpp']?> * parseInt($('#qty_billet').val());
+    var hpp_billet = Math.round(<?=@$billet['billet_hpp']?> * parseInt($('#qty_billet').val()));
     $('#hpp_billet').val(number_format(hpp_billet));
 
     //total akhir

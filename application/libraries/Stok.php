@@ -55,11 +55,11 @@ class Stok{
   function update_billet(){
 
     //sum stok billet
-    $db = $this->sql->db->query("SELECT SUM(peleburan_billet) AS jumlah, ROUND(SUM(peleburan_hpp) / SUM(peleburan_billet)) AS hpp FROM t_peleburan")->row_array();
+    $db1 = $this->sql->db->query("SELECT SUM(peleburan_billet) AS jumlah, ROUND(SUM(peleburan_hpp)) AS hpp FROM t_peleburan")->row_array();
+    $db2 = $this->sql->db->query("SELECT SUM(produksi_billet_qty) AS qty FROM t_produksi")->row_array();
 
-
-    $jumlah = $db['jumlah'];
-    $hpp = $db['hpp'];
+    $jumlah = $db1['jumlah'];
+    $hpp = $db1['hpp'] / ($jumlah - $db2['qty']);
 
     $get = $this->sql->db->query("SELECT * FROM t_billet")->row_array();
     $id = $get['billet_id']; 
