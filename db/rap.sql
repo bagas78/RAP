@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2022 at 04:45 PM
+-- Generation Time: Dec 24, 2022 at 06:54 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `t_bahan` (
   `bahan_id` int(11) NOT NULL,
   `bahan_nama` text NOT NULL,
-  `bahan_stok` text NOT NULL DEFAULT '0',
+  `bahan_stok` float NOT NULL DEFAULT 0,
   `bahan_satuan` text NOT NULL,
   `bahan_kategori` set('avalan','utama','pembantu') NOT NULL,
   `bahan_harga` text NOT NULL,
@@ -43,14 +43,15 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(1, 'Kawat las', '70', '1', 'pembantu', '2500', '2022-12-05', 0),
-(2, 'Velg sepeda', '155', '1', 'avalan', '5000', '2022-12-05', 0),
-(3, 'Paku', '600', '1', 'avalan', '3000', '2022-12-05', 0),
-(4, 'Plat kapal', '3', '1', 'utama', '55000', '2022-12-05', 0),
-(5, 'Rel kereta', '2', '1', 'utama', '30000', '2022-12-05', 0),
-(6, 'Rangka Motor', '30', '1', 'avalan', '30000', '2022-12-11', 0),
-(7, 'Kawat Jemuran', '100', '1', 'pembantu', '3000', '2022-12-18', 0),
-(8, 'Paku Bekas', '120', '1', 'pembantu', '1200', '2022-12-18', 0);
+(1, 'Kawat las', 65, '1', 'pembantu', '2500', '2022-12-05', 0),
+(2, 'Velg sepeda', 150, '1', 'avalan', '5000', '2022-12-05', 0),
+(3, 'Paku', 598, '1', 'avalan', '3000', '2022-12-05', 0),
+(4, 'Plat kapal', 3, '1', 'utama', '55000', '2022-12-05', 0),
+(5, 'Rel kereta', 2, '1', 'utama', '30000', '2022-12-05', 0),
+(6, 'Rangka Motor', 30, '1', 'avalan', '30000', '2022-12-11', 0),
+(7, 'Kawat Jemuran', 100, '1', 'pembantu', '3000', '2022-12-18', 0),
+(8, 'Paku Bekas', 120, '1', 'pembantu', '1200', '2022-12-18', 0),
+(9, 'Matras', 1000, '1', 'pembantu', '10000', '2022-12-21', 0);
 
 -- --------------------------------------------------------
 
@@ -222,7 +223,7 @@ CREATE TABLE `t_billet` (
   `billet_id` int(11) NOT NULL,
   `billet_stok` text NOT NULL,
   `billet_hpp` text NOT NULL,
-  `billet_update` date NOT NULL
+  `billet_update` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -230,7 +231,7 @@ CREATE TABLE `t_billet` (
 --
 
 INSERT INTO `t_billet` (`billet_id`, `billet_stok`, `billet_hpp`, `billet_update`) VALUES
-(1, '25', '570', '2022-12-19');
+(1, '15', '949.8', '2022-12-24');
 
 -- --------------------------------------------------------
 
@@ -417,7 +418,8 @@ INSERT INTO `t_pembelian` (`pembelian_id`, `pembelian_kategori`, `pembelian_po`,
 (40, 'avalan', 0, 'PA-18122022-6', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
 (41, 'avalan', 0, 'PA-18122022-7', '4', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
 (42, 'umum', 0, 'PU-19122022-2', '4', '2022-12-19', '2022-12-19', 'l', '', '', '15', '0', '42500', 0),
-(45, 'umum', 0, 'PU-19122022-3', '4', '2022-12-19', '2022-12-19', 'l', '', '', '10', '0', '37500', 0);
+(45, 'umum', 0, 'PU-19122022-3', '4', '2022-12-19', '2022-12-19', 'l', '', '', '10', '0', '37500', 0),
+(46, 'umum', 0, 'PU-21122022-4', '4', '2022-12-21', '2022-12-21', 'l', 'matras', '', '1000', '0', '10000000', 0);
 
 -- --------------------------------------------------------
 
@@ -458,7 +460,65 @@ INSERT INTO `t_pembelian_barang` (`pembelian_barang_id`, `pembelian_barang_nomor
 (219, 'PU-19122022-2', '7', '10', '0', '3000', '30000'),
 (220, 'PU-19122022-2', '1', '5', '0', '2500', '12500'),
 (223, 'PU-19122022-3', '1', '5', '0', '2500', '12500'),
-(224, 'PU-19122022-3', '2', '5', '0', '5000', '25000');
+(224, 'PU-19122022-3', '2', '5', '0', '5000', '25000'),
+(225, 'PU-21122022-4', '9', '1000', '0', '10000', '10000000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_produksi`
+--
+
+CREATE TABLE `t_produksi` (
+  `produksi_id` int(11) NOT NULL,
+  `produksi_status` set('1','2','3') NOT NULL,
+  `produksi_nomor` text NOT NULL,
+  `produksi_tanggal` date NOT NULL,
+  `produksi_shift` text NOT NULL,
+  `produksi_keterangan` text NOT NULL,
+  `produksi_lampiran_1` text NOT NULL,
+  `produksi_lampiran_2` text NOT NULL,
+  `produksi_barang_qty` text NOT NULL,
+  `produksi_billet_qty` text NOT NULL,
+  `produksi_billet_hpp` text NOT NULL,
+  `produksi_total_akhir` text NOT NULL,
+  `produksi_hpp` text NOT NULL,
+  `produksi_hapus` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_produksi`
+--
+
+INSERT INTO `t_produksi` (`produksi_id`, `produksi_status`, `produksi_nomor`, `produksi_tanggal`, `produksi_shift`, `produksi_keterangan`, `produksi_lampiran_1`, `produksi_lampiran_2`, `produksi_barang_qty`, `produksi_billet_qty`, `produksi_billet_hpp`, `produksi_total_akhir`, `produksi_hpp`, `produksi_hapus`) VALUES
+(39, '1', 'PR-24122022-1', '2022-12-24', '78', 'ada gambar', '695369021ebe6deb7ed7c652a3a9e17f.png', 'a031438ed25ae7b454d84a301140a48f.png', '6', '5', '4749', '32749', '2977', 0),
+(40, '1', 'PR-24122022-2', '2022-12-24', '78', 'Tanpa Foto', '', '', '10', '5', '2849', '30349', '2023', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_produksi_barang`
+--
+
+CREATE TABLE `t_produksi_barang` (
+  `produksi_barang_id` int(11) NOT NULL,
+  `produksi_barang_nomor` text NOT NULL,
+  `produksi_barang_barang` text NOT NULL,
+  `produksi_barang_qty` text NOT NULL,
+  `produksi_barang_harga` text NOT NULL,
+  `produksi_barang_subtotal` text NOT NULL,
+  `produksi_barang_tanggal` date NOT NULL DEFAULT curdate()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_produksi_barang`
+--
+
+INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, `produksi_barang_barang`, `produksi_barang_qty`, `produksi_barang_harga`, `produksi_barang_subtotal`, `produksi_barang_tanggal`) VALUES
+(44, 'PR-24122022-2', '3', '1', '3000', '3000', '2022-12-24'),
+(45, 'PR-24122022-2', '1', '5', '2500', '12500', '2022-12-24'),
+(50, 'PR-24122022-1', '3', '1', '3000', '3000', '2022-12-24'),
+(51, 'PR-24122022-1', '2', '5', '5000', '25000', '2022-12-24');
 
 -- --------------------------------------------------------
 
@@ -516,7 +576,7 @@ CREATE TABLE `t_user` (
 
 INSERT INTO `t_user` (`user_id`, `user_email`, `user_password`, `user_name`, `user_ttl`, `user_nohp`, `user_alamat`, `user_biodata`, `user_foto`, `user_level`, `user_pelajaran`, `user_kelas`, `user_email_2`, `user_tanggal`, `user_hapus`) VALUES
 (5, 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', 'Bagas Pramono', '2021-11-09', '085555111555', 'Alamat', 'Biodata', '4c293a141d8c17800a44b816d35238cd.png', 1, NULL, NULL, NULL, '2022-11-29', 0),
-(78, 'siskae@gmail.com', 'afa0b885505255964c06188e2b4e8f59', 'Siska Elisa', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2022-12-04', 0);
+(78, 'siskae@gmail.com', 'afa0b885505255964c06188e2b4e8f59', 'Siska Elisa', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL, NULL, '2022-12-04', 0);
 
 --
 -- Indexes for dumped tables
@@ -589,6 +649,18 @@ ALTER TABLE `t_pembelian_barang`
   ADD PRIMARY KEY (`pembelian_barang_id`);
 
 --
+-- Indexes for table `t_produksi`
+--
+ALTER TABLE `t_produksi`
+  ADD PRIMARY KEY (`produksi_id`);
+
+--
+-- Indexes for table `t_produksi_barang`
+--
+ALTER TABLE `t_produksi_barang`
+  ADD PRIMARY KEY (`produksi_barang_id`);
+
+--
 -- Indexes for table `t_satuan`
 --
 ALTER TABLE `t_satuan`
@@ -608,7 +680,7 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT for table `t_bahan`
 --
 ALTER TABLE `t_bahan`
-  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `t_bank`
@@ -620,7 +692,7 @@ ALTER TABLE `t_bank`
 -- AUTO_INCREMENT for table `t_billet`
 --
 ALTER TABLE `t_billet`
-  MODIFY `billet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `billet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `t_kontak`
@@ -650,25 +722,37 @@ ALTER TABLE `t_pajak`
 -- AUTO_INCREMENT for table `t_peleburan`
 --
 ALTER TABLE `t_peleburan`
-  MODIFY `peleburan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `peleburan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `t_peleburan_barang`
 --
 ALTER TABLE `t_peleburan_barang`
-  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `t_pembelian`
 --
 ALTER TABLE `t_pembelian`
-  MODIFY `pembelian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `pembelian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `t_pembelian_barang`
 --
 ALTER TABLE `t_pembelian_barang`
-  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+
+--
+-- AUTO_INCREMENT for table `t_produksi`
+--
+ALTER TABLE `t_produksi`
+  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `t_produksi_barang`
+--
+ALTER TABLE `t_produksi_barang`
+  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `t_satuan`
