@@ -225,8 +225,6 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     clone.find("select").select2({ placeholder: "-- Pilih --" });
     clone.find("span.select2 ").css('width', '100%');
     $("#paste").prepend(clone);
-
-    // masalah //
     
 
     //blank new input

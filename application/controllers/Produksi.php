@@ -57,7 +57,6 @@ class Produksi extends CI_Controller{
 	}
 	function save($status, $redirect){
 
-		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
 		$set1 = array(
 						'produksi_status' => $status,
@@ -164,6 +163,71 @@ class Produksi extends CI_Controller{
 		//pembelian barang
 		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang WHERE produksi_barang_nomor = '$nomor'");
 		echo json_encode($db);
+	}
+	function update($nomor, $redirect){
+
+		$set1 = array(						
+						'produksi_tanggal' => strip_tags($_POST['tanggal']),
+						'produksi_shift' => strip_tags($_POST['shift']),
+						'produksi_keterangan' => strip_tags($_POST['keterangan']),
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
+						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
+						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
+						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
+						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
+					);
+
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+
+		$arr = [];
+		if (@$lampiran['name']) {
+			//jumlah loop
+			$file = $lampiran;
+			$path = './assets/gambar/produksi';
+			$name = 'produksi_lampiran';
+			$upload = $this->upload_builder->multiple($file,$path,$name);	
+
+      		if ($upload != 0) {
+      			$arr = array_merge($arr,$upload);
+     		}			
+		}
+		
+		$merge = array_merge($set1,$arr);
+		$db = $this->query_builder->update('t_produksi',$merge, ['produksi_nomor' => $nomor]);
+
+
+		//delete barang
+		$this->query_builder->delete('t_produksi_barang',['produksi_barang_nomor' => $nomor]);
+
+		//barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'produksi_barang_nomor' => $nomor,
+						'produksi_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'produksi_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'produksi_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
+					);	
+
+			$this->query_builder->add('t_produksi_barang',$set2);
+		}
+
+		if ($db == 1) {
+			
+			//update
+			$this->stok->update_bahan();
+			$this->stok->update_billet();
+
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+
+		redirect(base_url('produksi/'.$redirect));
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -395,9 +459,15 @@ class Produksi extends CI_Controller{
 		$active = 'pesanan';
 		$data = $this->edit($id, $active, $kategori);
 
+		$data['url'] = 'pesanan';
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
 	    $this->load->view('produksi/form_edit');
 	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pesanan_update($nomor){
+		$redirect = 'pesanan';
+		$this->update($nomor, $redirect);
 	}
 }

@@ -15,13 +15,27 @@
     $('#previewImg2').attr('src', '<?=base_url('assets/gambar/produksi/'.@$data['produksi_lampiran_2'])?>');
   }
 
+  //Qty
+  $('#qty_billet').val('<?=@$data['produksi_billet_qty']?>');
+
   //get produksi
   $.get('<?=base_url('produksi/get_produksi/'.$data['produksi_nomor'])?>', function(data) {
     var json = JSON.parse(data);
 
     //clone
     for (var num = 1; num <= json.length - 1; num++) {
-       clone();
+     
+      //paste
+      $('#paste').prepend($('#copy').clone());
+      
+      //blank new input
+      $('#copy').find('select').val('');
+      $('#copy').find('.qty').val(1);
+      $('#copy').find('.harga').val(0);
+      $('#copy').find('.subtotal').val(0);
+      $('#copy').find('.satuan').html('');
+      $('#copy').find('.stok').val('');
+
     }
 
     $.each(json, function(index, val) {
