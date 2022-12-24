@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-12 mb-7">
               <label>Shift</label>
-              <select name="shift" class="form-control select2" required id="supplier">
+              <select name="shift" class="form-control select2" required id="shift">
                 <option value="" hidden>-- Pilih --</option>
                 <?php foreach ($user_data as $u): ?>
                   <option value="<?= $u['user_id']?>"><?= $u['user_name']?></option>
@@ -225,6 +225,8 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     clone.find("select").select2({ placeholder: "-- Pilih --" });
     clone.find("span.select2 ").css('width', '100%');
     $("#paste").prepend(clone);
+
+    // masalah //
     
 
     //blank new input

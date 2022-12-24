@@ -39,11 +39,11 @@ class Upload_builder{
 
         if ($this->to->upload->do_upload('file')) {
           
-          $send [$name.'_'.($i+1)] = $new_name;
+          @$send [$name.'_'.($i+1)] = $new_name;
         }
     }
     
-    return $send;
+    return @$send;
   }
   function single($file,$path,$name){
 

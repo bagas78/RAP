@@ -66,7 +66,7 @@ class Produksi extends CI_Controller{
 						'produksi_shift' => strip_tags($_POST['shift']),
 						'produksi_keterangan' => strip_tags($_POST['keterangan']),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
-						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
+						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
 						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
 						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
@@ -76,7 +76,7 @@ class Produksi extends CI_Controller{
 		$lampiran = @$_FILES['lampiran'];
 
 		$arr = [];
-		if ($lampiran) {
+		if (@$lampiran['name']) {
 			//jumlah loop
 			$file = $lampiran;
 			$path = './assets/gambar/produksi';
@@ -110,8 +110,8 @@ class Produksi extends CI_Controller{
 		if ($db == 1) {
 			
 			//update
-			// $this->stok->update_bahan();
-			// $this->stok->update_billet();
+			$this->stok->update_bahan();
+			$this->stok->update_billet();
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -119,6 +119,51 @@ class Produksi extends CI_Controller{
 		}
 
 		redirect(base_url('produksi/'.$redirect));
+	}
+	function delete($table, $id, $redirect){
+		$set = ["{$table}_hapus" => 1];
+		$where = ["{$table}_id" => $id];
+		$db = $this->query_builder->update("t_{$table}",$set,$where);
+
+		if ($db == 1) {
+			
+			//update
+			$this->stok->update_bahan();
+			$this->stok->update_billet();
+
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+
+		redirect(base_url('produksi/'.$redirect));
+	}
+	function edit($id, $active, $kategori){
+
+		$data = $this->atribut($active);
+
+	    //data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
+
+		//user
+	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
+
+	    //billet
+	    $data['billet'] = $this->query_builder->view_row("SELECT * FROM t_billet");
+
+	    //barang
+	    if ($kategori == 'all') {
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");	
+	    }else{
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
+	    }
+
+	    return $data;
+	}
+	function get_produksi($nomor){
+		//pembelian barang
+		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang WHERE produksi_barang_nomor = '$nomor'");
+		echo json_encode($db);
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -337,5 +382,22 @@ class Produksi extends CI_Controller{
 		$status = 1;
 		$redirect = 'pesanan';
 		$this->save($status, $redirect);
+	}
+	function pesanan_delete($id){
+		
+		$table = 'produksi';
+		$redirect = 'pesanan';
+		$this->delete($table, $id, $redirect);
+	}
+	function pesanan_edit($id){
+
+		$kategori = 'all';
+		$active = 'pesanan';
+		$data = $this->edit($id, $active, $kategori);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
 }
