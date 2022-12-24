@@ -150,7 +150,7 @@
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">HPP</td>
+              <td align="right">HPP Produksi</td>
               <td><input id="hpp" readonly="" type="text" name="hpp" class="form-control" value="0" min="0"></td>
             </tr>
 
