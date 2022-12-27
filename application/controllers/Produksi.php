@@ -43,9 +43,9 @@ class Produksi extends CI_Controller{
 
 	    //barang
 	    if ($kategori == 'all') {
-	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");	
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");	
 	    }else{
-	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
+	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori' AND bahan_stok > 0");
 	    }
 
 	    return $data;
@@ -164,9 +164,10 @@ class Produksi extends CI_Controller{
 		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang WHERE produksi_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
-	function update($nomor, $redirect){
+	function update($nomor, $status, $redirect){
 
 		$set1 = array(						
+						'produksi_status' => $status,
 						'produksi_tanggal' => strip_tags($_POST['tanggal']),
 						'produksi_shift' => strip_tags($_POST['shift']),
 						'produksi_keterangan' => strip_tags($_POST['keterangan']),
@@ -228,6 +229,14 @@ class Produksi extends CI_Controller{
 		}
 
 		redirect(base_url('produksi/'.$redirect));
+	}
+	function search(){
+		$output = $this->query_builder->view("SELECT produksi_nomor as nomor FROM t_produksi WHERE produksi_hapus = 0 AND produksi_status = '1'");
+		echo json_encode($output);
+	}
+	function search_data($nomor){
+		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE a.produksi_nomor = '$nomor'");
+		echo json_encode($output);
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -412,8 +421,6 @@ class Produksi extends CI_Controller{
 	function pesanan(){
 		$title = 'pesanan';
 		$data = $this->atribut($title);
-
-		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_produksi");
 		$data['url'] = 'pesanan';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -423,7 +430,7 @@ class Produksi extends CI_Controller{
 	function pesanan_get_data()
 	{
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0);
+		$where = array('produksi_hapus' => 0, 'produksi_status' => 1);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -468,6 +475,82 @@ class Produksi extends CI_Controller{
 	}
 	function pesanan_update($nomor){
 		$redirect = 'pesanan';
-		$this->update($nomor, $redirect);
+		$status = 1;
+		$this->update($nomor, $status, $redirect);
+	}
+
+//////////////// transaksi /////////////////////////////
+
+	function transaksi(){
+		$title = 'transaksi';
+		$data = $this->atribut($title);		
+		$data['url'] = 'transaksi';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/table');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function transaksi_get_data()
+	{
+		$model = 'm_produksi';
+		$where = array('produksi_hapus' => 0, 'produksi_status' => 2);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function transaksi_add(){
+		
+		$kategori = 'all';
+		$redirect = 'transaksi';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/search');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function transaksi_save(){
+		$status = 2;
+		$redirect = 'transaksi';
+		$nomor = strip_tags($_POST['nomor']);
+		
+		$cek = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_nomor = '$nomor'");
+		if ($cek > 0) {
+			//update
+			$this->update($nomor, $status, $redirect);
+
+		}else{
+			//new
+			$status = 2;
+			$this->save($status, $redirect);
+		}
+	}
+	function transaksi_delete($id){
+		
+		$table = 'produksi';
+		$redirect = 'transaksi';
+		$this->delete($table, $id, $redirect);
+	}
+	function transaksi_edit($id){
+
+		$kategori = 'all';
+		$active = 'transaksi';
+		$data = $this->edit($id, $active, $kategori);
+
+		$data['url'] = 'transaksi';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function transaksi_update($nomor){
+		$redirect = 'transaksi';
+		$status = 2;
+		$this->update($nomor, $status, $redirect);
 	}
 }

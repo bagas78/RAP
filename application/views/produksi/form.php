@@ -19,7 +19,7 @@
 
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control" placeholder="-- Tarik transaksi PO --">
+          <input id="po" type="text" class="form-control" placeholder="-- Tarik Pesanan Produksi --">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -188,7 +188,9 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
         var i = (index + 1);
         
         //stok
-        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
+        if ($(location).attr('href').split("/").splice(5, 1).join("/") != '<?=@$url.'_edit'?>') {
+          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
+        }
 
         //harga
         $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));

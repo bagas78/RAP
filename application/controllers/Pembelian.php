@@ -499,10 +499,6 @@ class Pembelian extends CI_Controller{
 		$cek = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_nomor = '$nomor'");
 		if ($cek > 0) {
 			//update
-			$set = ['pembelian_po' => $po];
-			$where = ['pembelian_nomor' => $nomor];
-			$db = $this->query_builder->update('t_pembelian',$set,$where);
-
 			$this->update($po, $redirect);
 
 		}else{
