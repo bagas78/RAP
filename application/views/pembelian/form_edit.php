@@ -19,7 +19,18 @@
 
     //clone
     for (var num = 1; num <= json.length - 1; num++) {
-       clone();
+      
+      //paste
+      $('#paste').prepend($('#copy').clone());
+
+      //blank new input
+      $('#copy').find('select').val('');
+      $('#copy').find('.potongan').val(0);
+      $('#copy').find('.qty').val(1);
+      $('#copy').find('.harga').val(0);
+      $('#copy').find('.subtotal').val(0);
+      $('#copy').find('.satuan').html('');
+    
     }
 
     $.each(json, function(index, val) {

@@ -19,7 +19,7 @@
 
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control" placeholder="-- Tarik Pesanan Produksi --">
+          <input id="po" type="text" class="form-control">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -81,7 +81,7 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Nama Barang</th>
+              <th width="200">Bahan</th>
               <th>Qty</th>
               <th>Stok</th>
               <th>Harga</th>
@@ -142,6 +142,28 @@
               </td>
             </tr>
 
+            <tr hidden>
+              <td colspan="3"></td>
+              <td align="right">Biaya Jasa</td>
+              <td>
+                <div class="input-group">
+                  <input id="jasa" type="number" name="jasa" class="form-control" value="0" min="0">
+                  <span class="input-group-addon">Rp &#160;</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr hidden>
+              <td colspan="3"></td>
+              <td align="right">Produk ( 1/2 ) Jadi</td>
+              <td>
+                <div class="input-group">
+                  <input id="produk" type="number" name="produk" class="form-control" value="" min="0">
+                  <span class="input-group-addon">Pcs</span>
+                </div>
+              </td>
+            </tr>
+
             <tr>
               <td colspan="3"></td>
               <td align="right">Total Akhir</td>
@@ -171,6 +193,15 @@
   <!-- /.box -->
 
 <script type="text/javascript">
+
+<?php if ($url == 'proses'): ?>
+
+// hidden menu proses produksi
+$('#jasa').closest('tr').removeAttr('hidden', true);
+$('#produk').closest('tr').removeAttr('hidden', true);
+$('#produk').attr("required", true);
+
+<?php endif ?>
 
 //atribut
 $('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
@@ -330,7 +361,8 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     });
 
     //total akhir
-    var total = parseInt(num_total) + hpp_billet;
+    var jasa = parseInt($('#jasa').val());
+    var total = parseInt(num_total) + hpp_billet + jasa;
     $('#total_akhir').val(number_format(total));
 
     //hpp

@@ -1,11 +1,14 @@
 <script>;
+//place holder
+$('#po').attr('placeholder', '<?=@$place?>');
+
 
 //search
 $('#search').removeAttr('hidden',true);
 
 $(function(){
 
-  $.get('<?=base_url('produksi/search')?>', function(response) {
+  $.get('<?=base_url('produksi/search/'.@$tarik)?>', function(response) {
   	
   	var json = JSON.parse(response);
   	var data = new Array();

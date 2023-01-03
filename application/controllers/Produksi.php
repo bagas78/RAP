@@ -22,7 +22,7 @@ class Produksi extends CI_Controller{
 		$total = $this->$model->count_all($where);
 		$filter = $this->$model->count_filtered($where);
 
-		$output = array(
+		$output = array( 
 			"draw" => $_GET["draw"],
 			"recordsTotal" => $total,
 			"recordsFiltered" => $filter,
@@ -69,6 +69,8 @@ class Produksi extends CI_Controller{
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
 						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
 						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
+						'produksi_jasa' => strip_tags($_POST['jasa']),
+						'produksi_setengah_jadi' => strip_tags($_POST['produk']),
 					);
 
 		//upload lampiran
@@ -176,6 +178,8 @@ class Produksi extends CI_Controller{
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
 						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
 						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
+						'produksi_jasa' => strip_tags($_POST['jasa']),
+						'produksi_setengah_jadi' => strip_tags($_POST['produk']),
 					);
 
 		//upload lampiran
@@ -230,8 +234,8 @@ class Produksi extends CI_Controller{
 
 		redirect(base_url('produksi/'.$redirect));
 	}
-	function search(){
-		$output = $this->query_builder->view("SELECT produksi_nomor as nomor FROM t_produksi WHERE produksi_hapus = 0 AND produksi_status = '1'");
+	function search($status){
+		$output = $this->query_builder->view("SELECT produksi_nomor as nomor FROM t_produksi WHERE produksi_hapus = 0 AND produksi_status = '$status'");
 		echo json_encode($output);
 	}
 	function search_data($nomor){
@@ -508,6 +512,9 @@ class Produksi extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
+	    $data['place'] = '-- Tarik Pesanan Produksi --';
+	    $data['tarik'] = 1;
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
 	    $this->load->view('produksi/search');
@@ -551,6 +558,83 @@ class Produksi extends CI_Controller{
 	function transaksi_update($nomor){
 		$redirect = 'transaksi';
 		$status = 2;
+		$this->update($nomor, $status, $redirect);
+	}
+
+//////////////// proses /////////////////////////////
+
+	function proses(){
+		$title = 'proses';
+		$data = $this->atribut($title);		
+		$data['url'] = 'proses';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/table');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function proses_get_data()
+	{
+		$model = 'm_produksi';
+		$where = array('produksi_hapus' => 0, 'produksi_status' => 3);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function proses_add(){
+		
+		$kategori = 'all';
+		$redirect = 'proses';
+		$data = $this->add($kategori, $redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
+
+	    $data['place'] = '-- Tarik Transaksi Produksi --';
+	    $data['tarik'] = 2;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/search');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function proses_save(){
+		$status = 3;
+		$redirect = 'proses';
+		$nomor = strip_tags($_POST['nomor']);
+		
+		$cek = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_nomor = '$nomor'");
+		if ($cek > 0) {
+			//update
+			$this->update($nomor, $status, $redirect);
+
+		}else{
+			//new
+			$this->save($status, $redirect);
+		}
+	}
+	function proses_delete($id){
+		
+		$table = 'produksi';
+		$redirect = 'proses';
+		$this->delete($table, $id, $redirect);
+	}
+	function proses_edit($id){
+
+		$kategori = 'all';
+		$active = 'proses';
+		$data = $this->edit($id, $active, $kategori);
+
+		$data['url'] = 'proses';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function proses_update($nomor){
+		$redirect = 'proses';
+		$status = 3;
 		$this->update($nomor, $status, $redirect);
 	}
 }

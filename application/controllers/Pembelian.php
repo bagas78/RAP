@@ -15,7 +15,7 @@ class Pembelian extends CI_Controller{
 	    $data["pembelian_block"] = "style='display: block;'";
 	    $data["pembelian_{$active}_active"] = "class='active'";
 
-	    return $data;
+	    return $data; 
 	}
 	function serverside($where,$model){
 	    $data = $this->$model->get_datatables($where);
@@ -94,33 +94,15 @@ class Pembelian extends CI_Controller{
 		$lampiran = @$_FILES['lampiran'];
 		if ($lampiran['name']) {
 
-			//type file
-			$typefile = explode('/', $lampiran['type']);
+			$file = $lampiran;
+			$path = './assets/gambar/pembelian';
+			$name = 'lampiran';
+			$upload = $this->upload_builder->single($file,$path,$name);	
 
-			//replace Karakter name foto
-			$filename = $lampiran['name'];
-
-			//replace name foto
-			$type = explode(".", $filename);
-	    	$no = count($type) - 1;
-	    	$new_name = md5(time()).'.'.$type[$no];
-
-		 	//config
-			  $config = array(
-			  'upload_path' 	=> './assets/gambar/pembelian',
-			  'allowed_types' 	=> "gif|jpg|png|jpeg",
-			  'overwrite' 		=> TRUE,
-			  'max_size' 		=> "2000",
-			  'file_name'		=> $new_name,
-			  );
-
-	          //Load upload library
-	          $this->load->library('upload',$config);
-	          
-	          if ($this->upload->do_upload('lampiran')) {
-	          	$push = array('pembelian_lampiran' => $new_name);
+      		if ($upload != 0) {
+      			$push = array('pembelian_lampiran' => $upload);
 	          	$result = array_merge($set1,$push);
-	          }
+     		}	
 
 		}else{
 			$result = $set1;
@@ -205,33 +187,15 @@ class Pembelian extends CI_Controller{
 		$lampiran = @$_FILES['lampiran'];
 		if ($lampiran['name']) {
 
-			//type file
-			$typefile = explode('/', $lampiran['type']);
+			$file = $lampiran;
+			$path = './assets/gambar/pembelian';
+			$name = 'lampiran';
+			$upload = $this->upload_builder->single($file,$path,$name);	
 
-			//replace Karakter name foto
-			$filename = $lampiran['name'];
-
-			//replace name foto
-			$type = explode(".", $filename);
-	    	$no = count($type) - 1;
-	    	$new_name = md5(time()).'.'.$type[$no];
-
-		 	//config
-			  $config = array(
-			  'upload_path' 	=> './assets/gambar/pembelian',
-			  'allowed_types' 	=> "gif|jpg|png|jpeg",
-			  'overwrite' 		=> TRUE,
-			  'max_size' 		=> "2000",
-			  'file_name'		=> $new_name,
-			  );
-
-	          //Load upload library
-	          $this->load->library('upload',$config);
-	          
-	          if ($this->upload->do_upload('lampiran')) {
-	          	$push = array('pembelian_lampiran' => $new_name);
+      		if ($upload != 0) {
+      			$push = array('pembelian_lampiran' => $upload);
 	          	$result = array_merge($set1,$push);
-	          }
+     		}	
 
 		}else{
 			$result = $set1;

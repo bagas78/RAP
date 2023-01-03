@@ -16,7 +16,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
           <i class="fa fa-times"></i></button>
       </div>
-
+ 
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
           <input id="po" type="text" class="form-control" placeholder="-- Tarik Transaksi PO --">
@@ -86,7 +86,7 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Nama Barang</th>
+              <th width="200">Bahan</th>
               <th>Qty</th>
               <th>Potongan ( % )</th>
               <th>Harga</th>
@@ -98,7 +98,7 @@
 
              <tr id="copy">
               <td>
-                <select required id="barang" class="form-control" name="barang[]">
+                <select required id="barang" class="form-control select2" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
@@ -182,7 +182,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
   //copy paste
   function clone(){
     //paste
-    $('#paste').prepend($('#copy').clone());
+    var clone = $('#copy').clone();
+    clone.find("span.select2 ").remove();
+    clone.find("select").select2({ placeholder: "-- Pilih --" });
+    clone.find("span.select2 ").css('width', '100%');
+    $("#paste").prepend(clone);
 
     //blank new input
     $('#copy').find('select').val('');

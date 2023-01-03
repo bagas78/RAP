@@ -15,8 +15,10 @@
     $('#previewImg2').attr('src', '<?=base_url('assets/gambar/produksi/'.@$data['produksi_lampiran_2'])?>');
   }
 
-  //Qty
+  //qty
   $('#qty_billet').val('<?=@$data['produksi_billet_qty']?>');
+  $('#jasa').val('<?=@$data['produksi_jasa']?>');
+  $('#produk').val('<?=@$data['produksi_setengah_jadi']?>');
 
   //get produksi
   $.get('<?=base_url('produksi/get_produksi/'.$data['produksi_nomor'])?>', function(data) {
