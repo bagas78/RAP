@@ -131,6 +131,7 @@ class Produksi extends CI_Controller{
 			//update
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
+			$this->stok->update_setengah_jadi();
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -226,6 +227,7 @@ class Produksi extends CI_Controller{
 			//update
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
+			$this->stok->update_setengah_jadi();
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {

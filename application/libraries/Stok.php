@@ -84,4 +84,21 @@ class Stok{
     $this->sql->db->where($where);
     return $this->sql->db->update('t_billet');
   }
+  function update_setengah_jadi(){
+    $db = $this->sql->db->query("SELECT SUM(produksi_setengah_jadi) AS total FROM t_produksi WHERE produksi_hapus = 0")->row_array();
+
+    $total = $db['total'];
+    $current = date('Y-m-d');
+
+    $get = $this->sql->db->query("SELECT * FROM t_setengah_jadi")->row_array();
+    $id = $get['setengah_jadi_id']; 
+
+    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_update' => $current];
+    $where = ['setengah_jadi_id' => $id];
+
+    $this->sql->db->set($set);
+    $this->sql->db->where($where);
+    return $this->sql->db->update('t_setengah_jadi');
+
+  }
 }
