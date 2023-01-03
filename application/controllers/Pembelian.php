@@ -9,14 +9,6 @@ class Pembelian extends CI_Controller{
 
 ///////////////////////// pembelian //////////////////////////////////////////////////
 
-	function atribut($active){
-		$data["title"] = $active;
-	    $data["pembelian_open"] = "menu-open";
-	    $data["pembelian_block"] = "style='display: block;'";
-	    $data["pembelian_{$active}_active"] = "class='active'";
-
-	    return $data; 
-	}
 	function serverside($where,$model){
 	    $data = $this->$model->get_datatables($where);
 		$total = $this->$model->count_all($where);
@@ -32,8 +24,6 @@ class Pembelian extends CI_Controller{
 		return $output;
 	}
 	function add($kategori,$active){
-
-		$data = $this->atribut($active);
 
 		//kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
@@ -140,8 +130,6 @@ class Pembelian extends CI_Controller{
 		redirect(base_url('pembelian/'.$redirect));
 	}
 	function edit($id, $active, $kategori){
-
-		$data = $this->atribut($active);
 
 	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
@@ -253,7 +241,7 @@ class Pembelian extends CI_Controller{
 
 	function bahan(){
 		if ( $this->session->userdata('login') == 1) {
-		    $data = $this->atribut('bahan');
+		    $data["title"] = 'bahan';
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('pembelian/bahan');
@@ -273,7 +261,7 @@ class Pembelian extends CI_Controller{
 	} 
 	function bahan_add(){
 
-		$data = $this->atribut('bahan');
+		$data["title"] = 'bahan';
 
 	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
 
@@ -302,7 +290,7 @@ class Pembelian extends CI_Controller{
 	}
 	function bahan_edit($id){
 		
-		$data = $this->atribut('bahan');
+		$data["title"] = 'bahan';
 
 	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
@@ -345,7 +333,7 @@ class Pembelian extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 			$active = 'po';
-			$data = $this->atribut($active);
+			$data["title"] = $active;
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
@@ -418,7 +406,7 @@ class Pembelian extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 		    $active = 'avalan';
-			$data = $this->atribut($active);
+			$data["title"] = $active;
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
@@ -500,7 +488,7 @@ class Pembelian extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 		    $active = 'utama';
-			$data = $this->atribut($active);
+			$data["title"] = $active;
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
@@ -571,7 +559,7 @@ class Pembelian extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 		    $active = 'umum';
-			$data = $this->atribut($active);
+			$data["title"] = $active;
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
@@ -639,7 +627,7 @@ class Pembelian extends CI_Controller{
 //////// bayar hutang /////////////////////////////////////////////////
 
 	function bayar(){
-		$data = $this->atribut('bayar');
+		$data["title"] = 'bayar';
 
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/bayar');

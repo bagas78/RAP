@@ -9,14 +9,6 @@ class Produksi extends CI_Controller{
 
 ///////////////// atribut //////////////////////////////////////////
 
-	function atribut($title){
-		$data["title"] = $title;
-	    $data["{$title}_active"] = "class='active'";
-	    $data["produksi_open"] = "menu-open";
-	    $data["produksi_block"] = "style='display: block;'";
-
-	    return $data;
-	}
 	function serverside($where,$model){
 	    $data = $this->$model->get_datatables($where);
 		$total = $this->$model->count_all($where);
@@ -32,8 +24,6 @@ class Produksi extends CI_Controller{
 		return $output;
 	}
 	function add($kategori,$active){
-
-		$data = $this->atribut($active);
 
 		//user
 	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
@@ -142,8 +132,6 @@ class Produksi extends CI_Controller{
 	}
 	function edit($id, $active, $kategori){
 
-		$data = $this->atribut($active);
-
 	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
 
@@ -248,8 +236,7 @@ class Produksi extends CI_Controller{
 //////////////////////////////////////////////////////////////////////
 
 	function peleburan(){
-		$title = 'peleburan';
-		$data = $this->atribut($title);
+		$data["title"] = 'peleburan';
 
 		$data['total'] = $this->query_builder->view_row("SELECT * FROM t_billet");
 
@@ -266,8 +253,7 @@ class Produksi extends CI_Controller{
 	}
 	function peleburan_add(){ 
 
-		$title = 'peleburan';
-		$data = $this->atribut($title);
+		$data["title"] = 'peleburan';
 
 		//stok > 0
 		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
@@ -352,8 +338,7 @@ class Produksi extends CI_Controller{
 		redirect(base_url('produksi/peleburan'));	
 	}
 	function peleburan_edit($id){
-		$title = 'peleburan';
-		$data = $this->atribut($title);
+		$data["title"] = 'peleburan';
 
 		//data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
@@ -426,8 +411,8 @@ class Produksi extends CI_Controller{
 	}
 	function pesanan(){
 		$title = 'pesanan';
-		$data = $this->atribut($title);
-		$data['url'] = 'pesanan';
+		$data["title"] = $title;
+		$data['url'] = $title;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/table');
@@ -489,8 +474,8 @@ class Produksi extends CI_Controller{
 
 	function transaksi(){
 		$title = 'transaksi';
-		$data = $this->atribut($title);		
-		$data['url'] = 'transaksi';
+		$data["title"] = $title;		
+		$data['url'] = $title;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/table');
@@ -567,8 +552,8 @@ class Produksi extends CI_Controller{
 
 	function proses(){
 		$title = 'proses';
-		$data = $this->atribut($title);		
-		$data['url'] = 'proses';
+		$data["title"] = $title;	
+		$data['url'] = $title;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/table');
@@ -638,5 +623,15 @@ class Produksi extends CI_Controller{
 		$redirect = 'proses';
 		$status = 3;
 		$this->update($nomor, $status, $redirect);
+	}
+
+
+	//////////////// pewarnaan ////////////
+
+	function pewarnaan(){
+		$data['title'] = 'pewarnaan';
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/pewarnaan');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
 }
