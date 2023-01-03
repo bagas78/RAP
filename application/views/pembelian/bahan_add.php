@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form class="bg-alice" action="<?=base_url('pembelian/save_bahan')?>" method="POST" accept-charset="utf-8">
+          <form class="bg-alice" action="<?=base_url('pembelian/bahan_save')?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
               <label>Nama Bahan</label>
@@ -45,7 +45,7 @@
             </div>            
 
             <button type="submit" class="btn btn-success">Simpan <i class="fa fa-check"></i></button>
-            <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
+            <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
 
           </form>
 

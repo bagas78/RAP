@@ -7,7 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('pembelian/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('pembelian/'.@$url.'_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
                <button onclick="filter('l')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
               <button onclick="filter('b')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>

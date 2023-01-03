@@ -8,9 +8,6 @@ class Kontak extends CI_Controller{
 	function supplier(){
 		$data['title'] = 'Supplier';
 		$data['jenis'] = 's';
-	    $data['supplier_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/index');
@@ -19,9 +16,6 @@ class Kontak extends CI_Controller{
 	function pelanggan(){
 		$data['title'] = 'Pelanggan';
 		$data['jenis'] = 'p';
-	    $data['pelanggan_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/index');
@@ -50,7 +44,6 @@ class Kontak extends CI_Controller{
 			//supplier
 			$data['jenis'] = 's';
 			$data['title'] = 'Supplier';
-		    $data['supplier_active'] = 'class="active"';
 
 		    //generate kode
 		    $num = $this->query_builder->count("SELECT * FROM t_kontak WHERE kontak_jenis = 's'") + 1;
@@ -60,7 +53,6 @@ class Kontak extends CI_Controller{
 			//pelanggan
 			$data['jenis'] = 'p';
 			$data['title'] = 'Pelanggan';
-		    $data['pelanggan_active'] = 'class="active"';
 
 		    //generate kode
 		    $num = $this->query_builder->count("SELECT * FROM t_kontak WHERE kontak_jenis = 'p'") + 1;
@@ -68,9 +60,6 @@ class Kontak extends CI_Controller{
 		}
 
 		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
-
-		$data['kontak_open'] = 'menu-open';
-		$data['kontak_block'] = 'style="display: block;"';
 
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/add');
@@ -123,15 +112,11 @@ class Kontak extends CI_Controller{
 			redirect(base_url('kontak/pelanggan'));
 		}
 	}
-	function edit($id,$jenis){
+	function edit($id){
 		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_kontak where kontak_id = '$id'");
 		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
 
 		$data['title'] = 'Supplier';
-		$data['jenis'] = @$jenis;
-	    $data['supplier_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/edit');
@@ -165,15 +150,11 @@ class Kontak extends CI_Controller{
 			redirect(base_url('kontak/pelanggan'));
 		}
 	}
-	function view($id,$jenis){
+	function view($id){
 
 		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_kontak as a JOIN t_bank as b ON a.kontak_bank = b.bank_id where kontak_id = '$id'");
 
 		$data['title'] = 'Supplier';
-		$data['jenis'] = @$jenis;
-	    $data['supplier_active'] = 'class="active"';
-	    $data['kontak_open'] = 'menu-open';
-	    $data['kontak_block'] = 'style="display: block;"';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/view');

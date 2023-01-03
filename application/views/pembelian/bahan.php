@@ -7,7 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('pembelian/add_bahan') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('pembelian/bahan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
               <button onclick="filter('avalan')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Avalan</button>
               <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
               <button onclick="filter('pembantu')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Pembantu</button>
@@ -54,7 +54,7 @@
             "scrollX"     : true,
             
             "ajax": {
-                "url": "<?=site_url('pembelian/get_bahan') ?>",
+                "url": "<?=site_url('pembelian/bahan_get_data') ?>",
                 "type": "GET"
             },
             "columns": [  
@@ -75,8 +75,8 @@
                         { "data": "bahan_id",
                         "render": 
                         function(data) {
-                            return "<a href='<?= base_url('pembelian/edit_bahan/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('pembelian/delete_bahan/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?= base_url('pembelian/bahan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('pembelian/bahan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

@@ -52,3 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//kontak
+$route['kontak/([a-z]+)/add'] = 'kontak/add/$1';
+$route['kontak/([a-z]+)/edit/(:num)'] = 'kontak/edit/$2';
+$route['kontak/([a-z]+)/view/(:num)'] = 'kontak/view/$2';

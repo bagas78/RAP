@@ -264,14 +264,14 @@ class Pembelian extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
-	function get_bahan(){
+	function bahan_get_data(){
 		
 		$model = 'm_bahan';
 		$where = array('bahan_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	} 
-	function add_bahan(){
+	function bahan_add(){
 
 		$data = $this->atribut('bahan');
 
@@ -281,7 +281,7 @@ class Pembelian extends CI_Controller{
 	    $this->load->view('pembelian/bahan_add');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
-	function save_bahan(){
+	function bahan_save(){
 		
 		$set = array(
 						'bahan_nama' => strip_tags($_POST['nama']),
@@ -300,7 +300,7 @@ class Pembelian extends CI_Controller{
 		
 		redirect(base_url('pembelian/bahan'));
 	}
-	function edit_bahan($id){
+	function bahan_edit($id){
 		
 		$data = $this->atribut('bahan');
 
@@ -311,7 +311,7 @@ class Pembelian extends CI_Controller{
 	    $this->load->view('pembelian/bahan_edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
-	function update_bahan($id){
+	function bahan_update($id){
 		
 		$set = array(
 						'bahan_nama' => strip_tags($_POST['nama']),
@@ -331,7 +331,7 @@ class Pembelian extends CI_Controller{
 
 		redirect(base_url('pembelian/bahan'));
 	}
-	function delete_bahan($id){
+	function bahan_delete($id){
 
 		$table = 'bahan';
 		$redirect = 'bahan';
