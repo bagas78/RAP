@@ -85,20 +85,44 @@ class Stok{
     return $this->sql->db->update('t_billet');
   }
   function update_setengah_jadi(){
-    $db = $this->sql->db->query("SELECT SUM(produksi_setengah_jadi) AS total FROM t_produksi WHERE produksi_hapus = 0")->row_array();
+    $db1 = $this->sql->db->query("SELECT SUM(produksi_setengah_jadi) AS total, ROUND(SUM(produksi_hpp) / SUM(produksi_setengah_jadi)) AS hpp_item, ROUND(SUM(produksi_hpp)) AS hpp_asli FROM t_produksi WHERE produksi_hapus = 0 AND produksi_setengah_jadi != ''")->row_array();
+    $db2 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total FROM t_pewarnaan WHERE pewarnaan_hapus = 0")->row_array();
 
-    $total = $db['total'];
+    $total = $db1['total'] - $db2['total'];
     $current = date('Y-m-d');
+    $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
 
     $get = $this->sql->db->query("SELECT * FROM t_setengah_jadi")->row_array();
     $id = $get['setengah_jadi_id']; 
 
-    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_update' => $current];
+    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_hpp' => $hpp, 'setengah_jadi_update' => $current];
     $where = ['setengah_jadi_id' => $id];
 
     $this->sql->db->set($set);
     $this->sql->db->where($where);
     return $this->sql->db->update('t_setengah_jadi');
 
+  }
+  function update_produk(){
+
+    $db1 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total, pewarnaan_produk AS produk, pewarnaan_hpp AS hpp, pewarnaan_hpp_total AS hpp_total FROM t_pewarnaan WHERE pewarnaan_hapus = 0 GROUP BY pewarnaan_produk")->result_array();
+
+    //0 value
+    $this->sql->db->query("UPDATE t_master_produk SET master_produk_stok = 0");
+    
+    foreach ($db1 as $val) {
+
+      $produk = $val['produk'];
+      $total = $val['total'];
+      $hpp = $val['hpp'];
+      $hpp_total = $val['hpp_total'];
+
+      $this->sql->db->set(['master_produk_stok' => $total, 'master_produk_hpp' => $hpp, 'master_produk_hpp_total' => $hpp_total ]);
+      $this->sql->db->where(['master_produk_id'=> $produk]);
+      $this->sql->db->update('t_master_produk');
+      
+    }
+
+    return;
   }
 }

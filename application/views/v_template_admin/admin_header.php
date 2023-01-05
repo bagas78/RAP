@@ -60,6 +60,9 @@
   <!--jquery-ui-->
   <script src="<?php echo base_url() ?>assets/js/jquery-ui.js"></script>
 
+  <!--alert-->
+  <script src="<?php echo base_url('assets/') ?>sweetalert/sweet-alert.js"></script>
+
 <style type="text/css">
   ::-webkit-scrollbar {
     width: 10px;
@@ -345,7 +348,7 @@ thead{
         </li>
 
         <li>
-          <a href="#">
+          <a href="<?php echo base_url('master_produk') ?>">
             <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
           </a>
         </li>

@@ -5,6 +5,7 @@ class Produksi extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_peleburan');
 		$this->load->model('m_produksi');
+		$this->load->model('m_pewarnaan');
 	}  
 
 ///////////////// atribut //////////////////////////////////////////
@@ -122,6 +123,7 @@ class Produksi extends CI_Controller{
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
 			$this->stok->update_setengah_jadi();
+			$this->stok->update_produk();
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -633,5 +635,126 @@ class Produksi extends CI_Controller{
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/pewarnaan');
 	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pewarnaan_get_data(){
+		$model = 'm_pewarnaan';
+		$where = array('pewarnaan_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function pewarnaan_add(){
+		$data['title'] = 'pewarnaan';
+
+		//produk jadi
+		$data['master_data'] =  $this->query_builder->view("SELECT * FROM t_master_produk");
+
+		//stok setengah jadi
+		$db =  $this->query_builder->view_row("SELECT * FROM t_setengah_jadi");
+		$data['stok'] = $db['setengah_jadi_stok'];
+		$data['hpp'] = $db['setengah_jadi_hpp'];
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_pewarnaan WHERE pewarnaan_hapus = 0");
+	    $data['nomor'] = 'PWR-'.date('dmY').'-'.($pb+1);
+
+	    //url
+	    $data['url'] = 'pewarnaan_save';
+
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/pewarnaan_form');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pewarnaan_get_produk($id){
+
+		$get = $this->query_builder->view_row("SELECT * FROM t_master_produk WHERE master_produk_id = '$id'");
+		$id_pewarnaan = $get['master_produk_pewarnaan'];
+
+		$data = $this->query_builder->view_row("SELECT * FROM t_pewarnaan_jenis WHERE pewarnaan_jenis_id = '$id_pewarnaan'");
+
+		echo json_encode($data);
+	}
+	function pewarnaan_save(){
+		$jumlah = strip_tags($_POST['jumlah']);
+		$jenis = strip_tags($_POST['jenis_id']);
+		$set = array(
+						'pewarnaan_nomor' => strip_tags($_POST['nomor']),
+						'pewarnaan_jumlah' => $jumlah,
+						'pewarnaan_produk' => strip_tags($_POST['produk']),
+						'pewarnaan_jenis' => $jenis,
+						'pewarnaan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
+						'pewarnaan_hpp_total' => strip_tags(str_replace(',', '', $_POST['hpp_total'])),
+					);
+		$db = $this->query_builder->add('t_pewarnaan',$set);
+
+		if ($db == 1) {
+			
+			//update
+			$this->stok->update_setengah_jadi();
+			$this->stok->update_produk();
+
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+
+		} else {
+
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('produksi/pewarnaan'));
+	}
+	function pewarnaan_delete($id){
+		
+		$table = 'pewarnaan';
+		$redirect = 'pewarnaan';
+		$this->delete($table, $id, $redirect);
+	}
+	function pewarnaan_edit($id){
+		$data['title'] = 'pewarnaan';
+
+		//produk jadi
+		$data['master_data'] = $this->query_builder->view("SELECT * FROM t_master_produk");
+
+		//stok setengah jadi
+		$db =  $this->query_builder->view_row("SELECT * FROM t_setengah_jadi");
+		$data['stok'] = $db['setengah_jadi_stok'];
+
+		//data
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_pewarnaan WHERE pewarnaan_id = '$id'");
+
+	    //url
+	    $data['url'] = 'pewarnaan_update';
+
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/pewarnaan_form');
+	    $this->load->view('produksi/pewarnaan_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pewarnaan_update($id){
+		$jumlah = strip_tags($_POST['jumlah']);
+		$jenis = strip_tags($_POST['jenis_id']);
+		$set = array(
+						'pewarnaan_jumlah' => $jumlah,
+						'pewarnaan_produk' => strip_tags($_POST['produk']),
+						'pewarnaan_jenis' => $jenis,
+						'pewarnaan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
+						'pewarnaan_hpp_total' => strip_tags(str_replace(',', '', $_POST['hpp_total'])),
+					);
+		
+		$where = ['pewarnaan_id' => $id];
+		$db = $this->query_builder->update('t_pewarnaan',$set,$where);
+
+		if ($db == 1) {
+			
+			//update
+			$this->stok->update_setengah_jadi();
+			$this->stok->update_produk();
+
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+
+		} else {
+
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('produksi/pewarnaan'));
 	}
 }
