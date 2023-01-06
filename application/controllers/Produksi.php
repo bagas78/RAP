@@ -261,7 +261,7 @@ class Produksi extends CI_Controller{
 		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan WHERE peleburan_hapus = 0");
+	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan");
 	    $data['nomor'] = 'PLB-'.date('dmY').'-'.($pb+1);
 
 	    //url
@@ -435,7 +435,7 @@ class Produksi extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -498,7 +498,7 @@ class Produksi extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
 	    $data['place'] = '-- Tarik Pesanan Produksi --';
@@ -576,7 +576,7 @@ class Produksi extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_hapus = 0");
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
 	    $data['place'] = '-- Tarik Transaksi Produksi --';
@@ -654,7 +654,7 @@ class Produksi extends CI_Controller{
 		$data['hpp'] = $db['setengah_jadi_hpp'];
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pewarnaan WHERE pewarnaan_hapus = 0");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pewarnaan");
 	    $data['nomor'] = 'PWR-'.date('dmY').'-'.($pb+1);
 
 	    //url

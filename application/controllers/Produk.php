@@ -37,22 +37,38 @@ class Produk extends CI_Controller{
 	}
 	function add(){ 
 
-		$data['title'] = 'Mesin';
-	    $data['pengaturan_open'] = 'menu-open';
-	    $data['pengaturan_block'] = 'style="display: block;"';
-	    $data['mesin_active'] = 'class="active"';
+		$data['title'] = 'Master Produk';
+
+		//satuan
+		$data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
+
+		//pewarnaan
+		$data['pewarnaan_data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_jenis");
+
+		//generate nomor
+	    $get = $this->query_builder->count("SELECT * FROM t_master_produk");
+	    $data['nomor'] = 'MP-'.date('dmY').'-'.($get+1);
 
 		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('mesin/add');
+	    $this->load->view('produk/form');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function save(){
 		$set = array(
-						'mesin_kode' => strip_tags($_POST['kode']),
-						'mesin_nama' => strip_tags($_POST['nama']),
+						'master_produk_nomor' => strip_tags($_POST['nomor']),
+						'master_produk_nama' => strip_tags($_POST['nama']),
+						'master_produk_pewarnaan' => strip_tags($_POST['pewarnaan']),
+						'master_produk_harga' => strip_tags(str_replace(',', '', $_POST['harga'])),
+						'master_produk_satuan' => strip_tags($_POST['satuan']),
+						'master_produk_merk' => strip_tags($_POST['merk']),
+						'master_produk_ketebalan' => strip_tags($_POST['ketebalan']),
+						'master_produk_panjang' => strip_tags($_POST['panjang']),
+						'master_produk_lebar' => strip_tags($_POST['lebar']),
+						'master_produk_berat' => strip_tags($_POST['berat']),
+						'master_produk_keterangan' => strip_tags($_POST['keterangan']),
 					);
 
-		$db = $this->query_builder->add('t_mesin',$set);
+		$db = $this->query_builder->add('t_master_produk',$set);
 
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di tambah');
@@ -60,31 +76,44 @@ class Produk extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
 		}
 		
-		redirect(base_url('mesin'));
+		redirect(base_url('produk'));
 
 
 	}
 	function edit($id){
-		$data['title'] = 'Mesin';
-	    $data['pengaturan_open'] = 'menu-open';
-	    $data['pengaturan_block'] = 'style="display: block;"';
-	    $data['mesin_active'] = 'class="active"';
+		$data['title'] = 'Master Produk';
 
-	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_mesin WHERE mesin_id = '$id'");
+		//satuan
+		$data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
+
+		//pewarnaan
+		$data['pewarnaan_data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_jenis");
+
+		//data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_master_produk WHERE master_produk_id = '$id'");
 
 		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('mesin/edit');
+		$this->load->view('produk/form');
+	    $this->load->view('produk/edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function update($id){
 
 		$set = array(
-						'mesin_kode' => strip_tags($_POST['kode']),
-						'mesin_nama' => strip_tags($_POST['nama']),
+						'master_produk_nama' => strip_tags($_POST['nama']),
+						'master_produk_pewarnaan' => strip_tags($_POST['pewarnaan']),
+						'master_produk_harga' => strip_tags(str_replace(',', '', $_POST['harga'])),
+						'master_produk_satuan' => strip_tags($_POST['satuan']),
+						'master_produk_merk' => strip_tags($_POST['merk']),
+						'master_produk_ketebalan' => strip_tags($_POST['ketebalan']),
+						'master_produk_panjang' => strip_tags($_POST['panjang']),
+						'master_produk_lebar' => strip_tags($_POST['lebar']),
+						'master_produk_berat' => strip_tags($_POST['berat']),
+						'master_produk_keterangan' => strip_tags($_POST['keterangan']),
 					);
 
-		$where = ['mesin_id' => $id];
-		$db = $this->query_builder->update('t_mesin',$set,$where);
+		$where = ['master_produk_id' => $id];
+		$db = $this->query_builder->update('t_master_produk',$set,$where);
 		
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di rubah');
@@ -92,13 +121,13 @@ class Produk extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 		
-		redirect(base_url('mesin'));
+		redirect(base_url('produk'));
 	}
 	function delete($id){
 
-		$set = ['mesin_hapus' => 1];
-		$where = ['mesin_id' => $id];
-		$db = $this->query_builder->update('t_mesin',$set,$where);
+		$set = ['master_produk_hapus' => 1];
+		$where = ['master_produk_id' => $id];
+		$db = $this->query_builder->update('t_master_produk',$set,$where);
 		
 		if ($db == 1) {
 			$this->session->set_flashdata('success','Data berhasil di hapus');
@@ -106,6 +135,6 @@ class Produk extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di hapus');
 		}
 		
-		redirect(base_url('mesin'));
+		redirect(base_url('produk'));
 	}
 }

@@ -367,7 +367,7 @@ class Pembelian extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan'");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'avalan'");
 	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -433,7 +433,7 @@ class Pembelian extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'avalan'");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'avalan'");
 	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -515,7 +515,7 @@ class Pembelian extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'utama'");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'utama'");
 	    $data['nomor'] = 'PB-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -586,7 +586,7 @@ class Pembelian extends CI_Controller{
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_kategori = 'umum'");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'umum'");
 	    $data['nomor'] = 'PU-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);

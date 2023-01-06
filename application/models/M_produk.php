@@ -6,10 +6,10 @@ class M_produk extends CI_Model {
 	var $table = 't_master_produk'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'master_produk_nama','master_produk_kode'); 
+	var $column_order = array(null, 'master_produk_nama','master_produk_nomor'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('master_produk_nama','master_produk_kode'); 
+	var $column_search = array('master_produk_nama','master_produk_nomor'); 
 
 	//urutan 
 	var $order = array('master_produk_id' => 'desc'); 

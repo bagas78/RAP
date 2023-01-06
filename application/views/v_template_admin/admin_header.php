@@ -348,7 +348,7 @@ thead{
         </li>
 
         <li>
-          <a href="<?php echo base_url('produk/index') ?>">
+          <a href="<?php echo base_url('produk') ?>">
             <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
           </a>
         </li>
