@@ -1,16 +1,16 @@
 <?php
-class Mesin extends CI_Controller{
+class Produk extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_mesin');
+		$this->load->model('m_produk');
 	}  
 	function index(){
 		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Mesin';
-
+		    $data['title'] = 'Master Produk';
+		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('mesin/index');
+		    $this->load->view('produk/index');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -20,11 +20,11 @@ class Mesin extends CI_Controller{
 	} 
 	function get_data(){
 
-		$where = array('mesin_hapus' => 0);
+		$where = array('master_produk_hapus' => 0);
 
-	    $data = $this->m_mesin->get_datatables($where);
-		$total = $this->m_mesin->count_all($where);
-		$filter = $this->m_mesin->count_filtered($where);
+	    $data = $this->m_produk->get_datatables($where);
+		$total = $this->m_produk->count_all($where);
+		$filter = $this->m_produk->count_filtered($where);
 
 		$output = array(
 			"draw" => $_GET['draw'],
@@ -38,6 +38,9 @@ class Mesin extends CI_Controller{
 	function add(){ 
 
 		$data['title'] = 'Mesin';
+	    $data['pengaturan_open'] = 'menu-open';
+	    $data['pengaturan_block'] = 'style="display: block;"';
+	    $data['mesin_active'] = 'class="active"';
 
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('mesin/add');
@@ -63,6 +66,9 @@ class Mesin extends CI_Controller{
 	}
 	function edit($id){
 		$data['title'] = 'Mesin';
+	    $data['pengaturan_open'] = 'menu-open';
+	    $data['pengaturan_block'] = 'style="display: block;"';
+	    $data['mesin_active'] = 'class="active"';
 
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_mesin WHERE mesin_id = '$id'");
 
