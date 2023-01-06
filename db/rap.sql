@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2023 at 07:45 AM
+-- Generation Time: Jan 06, 2023 at 08:05 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -46,8 +46,8 @@ INSERT INTO `t_bahan` (`bahan_id`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `
 (1, 'Kawat las', 64, '1', 'pembantu', '2500', '2022-12-05', 0),
 (2, 'Velg sepeda', 165, '1', 'avalan', '5000', '2022-12-05', 0),
 (3, 'Paku', 598, '1', 'avalan', '3000', '2022-12-05', 0),
-(4, 'Plat kapal', -27, '1', 'utama', '55000', '2022-12-05', 0),
-(5, 'Rel kereta', 2, '1', 'utama', '30000', '2022-12-05', 0),
+(4, 'Plat kapal', 0, '1', 'utama', '55000', '2022-12-05', 0),
+(5, 'Rel kereta', 0, '1', 'utama', '30000', '2022-12-05', 0),
 (6, 'Rangka Motor', 30, '1', 'avalan', '30000', '2022-12-11', 0),
 (7, 'Kawat Jemuran', 100, '1', 'pembantu', '3000', '2022-12-18', 0),
 (8, 'Paku Bekas', 120, '1', 'pembantu', '1200', '2022-12-18', 0),
@@ -411,11 +411,11 @@ CREATE TABLE `t_peleburan_barang` (
 --
 
 INSERT INTO `t_peleburan_barang` (`peleburan_barang_id`, `peleburan_barang_nomor`, `peleburan_barang_barang`, `peleburan_barang_qty`, `peleburan_barang_harga`, `peleburan_barang_subtotal`, `peleburan_barang_tanggal`) VALUES
-(39, 'PLB-19122022-1', '2', '10', '5000', '50000', '2022-12-19'),
-(40, 'PLB-19122022-1', '1', '10', '2500', '25000', '2022-12-19'),
-(41, 'PLB-19122022-2', '3', '10', '3000', '30000', '2022-12-19'),
-(42, 'PLB-19122022-2', '7', '10', '3000', '30000', '2022-12-19'),
-(43, 'PLB-19122022-2', '1', '10', '2500', '25000', '2022-12-19');
+(55, 'PLB-19122022-1', '2', '10', '5000', '50000', '2023-01-06'),
+(56, 'PLB-19122022-1', '1', '10', '2500', '25000', '2023-01-06'),
+(57, 'PLB-19122022-2', '3', '10', '3000', '30000', '2023-01-06'),
+(58, 'PLB-19122022-2', '7', '10', '3000', '30000', '2023-01-06'),
+(59, 'PLB-19122022-2', '1', '10', '2500', '25000', '2023-01-06');
 
 -- --------------------------------------------------------
 
@@ -448,7 +448,7 @@ INSERT INTO `t_pembelian` (`pembelian_id`, `pembelian_kategori`, `pembelian_po`,
 (32, 'avalan', 0, 'PA-11122022-1', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 1', '', '130', '0', '425000', 0),
 (33, 'avalan', 0, 'PA-11122022-2', '4', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 2', 'd9aed766c73c96bf5610fb642049a963.png', '70', '0', '225000', 0),
 (34, 'avalan', 0, 'PA-11122022-3', '1', '2022-12-11', '2022-12-11', 'l', 'Transaksi ke 3', '', '600', '0', '2000000', 0),
-(35, 'utama', 0, 'PB-11122022-1', '1', '2022-12-11', '2022-12-11', 'b', 'Transaksi ke 1', '', '5', '11', '249750', 0),
+(35, 'utama', 0, 'PB-11122022-1', '1', '2022-12-11', '2022-12-11', 'b', 'Transaksi ke 1', '', '5', '11', '249,750', 0),
 (37, 'umum', 0, 'PU-18122022-1', '1', '2022-12-18', '2022-12-18', 'l', 'umum 1', '', '220', '0', '444000', 0),
 (38, 'avalan', 0, 'PA-18122022-4', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '50000', 0),
 (39, 'avalan', 0, 'PA-18122022-5', '1', '2022-12-18', '2022-12-18', 'l', '', '', '10', '0', '300000', 0),
@@ -481,8 +481,6 @@ CREATE TABLE `t_pembelian_barang` (
 --
 
 INSERT INTO `t_pembelian_barang` (`pembelian_barang_id`, `pembelian_barang_nomor`, `pembelian_barang_barang`, `pembelian_barang_qty`, `pembelian_barang_potongan`, `pembelian_barang_harga`, `pembelian_barang_subtotal`) VALUES
-(182, 'PB-11122022-1', '4', '3', '0', '55000', '165000'),
-(183, 'PB-11122022-1', '5', '2', '0', '30000', '60000'),
 (191, 'PA-11122022-2', '1', '50', '0', '2500', '125000'),
 (192, 'PA-11122022-2', '2', '20', '0', '5000', '100000'),
 (193, 'PA-11122022-1', '3', '100', '0', '3000', '300000'),
@@ -502,7 +500,9 @@ INSERT INTO `t_pembelian_barang` (`pembelian_barang_id`, `pembelian_barang_nomor
 (224, 'PU-19122022-3', '2', '5', '0', '5000', '25000'),
 (225, 'PU-21122022-4', '9', '1000', '0', '10000', '10000000'),
 (227, 'PA-28122022-8', '2', '5', '0', '5,000', '25,000'),
-(229, 'PA-03012023-9', '2', '10', '0', '5,000', '50,000');
+(230, 'PA-03012023-9', '2', '10', '0', '5,000', '50,000'),
+(233, 'PB-11122022-1', '4', '3', '0', '55,000', '165,000'),
+(234, 'PB-11122022-1', '5', '2', '0', '30,000', '60,000');
 
 -- --------------------------------------------------------
 
@@ -610,7 +610,6 @@ INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, 
 (44, 'PR-24122022-2', '3', '1', '3000', '3000', '2022-12-24'),
 (45, 'PR-24122022-2', '1', '5', '2500', '12500', '2022-12-24'),
 (75, 'PR-27122022-3', '9', '1', '10000', '10000', '2022-12-28'),
-(78, 'PR-28122022-3', '4', '1', '55000', '55000', '2022-12-28'),
 (81, 'PR-24122022-1', '3', '1', '3000', '3000', '2023-01-02'),
 (82, 'PR-24122022-1', '2', '5', '5000', '25000', '2023-01-02'),
 (100, 'PR-03012023-4', '1', '1', '2500', '2500', '2023-01-06');
@@ -874,7 +873,7 @@ ALTER TABLE `t_peleburan`
 -- AUTO_INCREMENT for table `t_peleburan_barang`
 --
 ALTER TABLE `t_peleburan_barang`
-  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `peleburan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `t_pembelian`
@@ -886,7 +885,7 @@ ALTER TABLE `t_pembelian`
 -- AUTO_INCREMENT for table `t_pembelian_barang`
 --
 ALTER TABLE `t_pembelian_barang`
-  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `pembelian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
 
 --
 -- AUTO_INCREMENT for table `t_pewarnaan`
