@@ -41,8 +41,8 @@
               <input type="date" name="tanggal" class="form-control" required id="tanggal">
             </div>
             <div class="col-md-12 mb-7">
-              <label>Supplier</label>
-              <select name="supplier" class="form-control select2" required id="supplier">
+              <label>Pelanggan</label>
+              <select name="pelanggan" class="form-control select2" required id="pelanggan">
                 <option value="" hidden>-- Pilih --</option>
                 <?php foreach ($kontak_data as $s): ?>
                   <option value="<?= $s['kontak_id']?>"><?= $s['kontak_nama']?></option>
@@ -86,7 +86,7 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Bahan</th>
+              <th width="200">Produk</th>
               <th>Qty</th>
               <th>Potongan ( % )</th>
               <th>Harga</th>
@@ -98,10 +98,10 @@
 
              <tr id="copy">
               <td>
-                <select required id="barang" class="form-control" name="barang[]">
+                <select required id="produk" class="form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
-                  <?php foreach ($bahan_data as $b): ?>
-                    <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
+                  <?php foreach ($produk_data as $b): ?>
+                    <option value="<?=@$b['master_produk_id']?>"><?=@$b['master_produk_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
@@ -156,21 +156,21 @@
 <script type="text/javascript">
 
 //atribut
-$('form').attr('action', '<?=base_url('pembelian/'.@$url.'_save')?>');
+$('form').attr('action', '<?=base_url('penjualan/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 
   //get barang
-  $(document).on('change', '#barang', function() {
+  $(document).on('change', '#produk', function() {
       var id = $(this).val();
       var index = $(this).closest('tr').index();
-      $.get('<?=base_url('pembelian/get_barang/')?>'+id, function(data) {
+      $.get('<?=base_url('penjualan/get_produk/')?>'+id, function(data) {
         var val = JSON.parse(data);
         var i = (index + 1);
         
         //harga
-        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
+        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['master_produk_harga']));
 
         //satuan
         var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
@@ -181,13 +181,6 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 
   //copy paste
   function clone(){
-    //paste
-    // var clone = $('#copy').clone();
-    // clone.find("span.select2 ").remove();
-    // clone.find("select").select2({ placeholder: "-- Pilih --" });
-    // clone.find("span.select2 ").css('width', '100%');
-    // $("#paste").prepend(clone);
-
     //paste
     $('#paste').prepend($('#copy').clone());
 

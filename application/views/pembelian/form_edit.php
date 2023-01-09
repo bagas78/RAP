@@ -20,8 +20,8 @@
     //clone
     for (var num = 1; num <= json.length - 1; num++) {
       
-      //paste
-      $('#paste').prepend($('#copy').clone());
+      //paste 
+      clone();
 
       //blank new input
       $('#copy').find('select').val('');

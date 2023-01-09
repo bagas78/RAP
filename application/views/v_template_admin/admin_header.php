@@ -353,10 +353,36 @@ thead{
           </a>
         </li>
 
-        <li>
+        <li class="treeview">
           <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">local_grocery_store</i></div> <div class="col-md-5 col-xs-5"><span>Penjualan</span></div>
+            <div class="col-md-1 col-xs-1"><i class="material-icons">local_grocery_store</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Penjualan</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?php echo base_url('penjualan/po') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Purchase Order ( PO )</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('penjualan/produk') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Penjualan Produk</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('penjualan/packing') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Packing & Surat Jalan</span>
+              </a>
+            </li>
+            
+          </ul>
         </li>
 
         <li>

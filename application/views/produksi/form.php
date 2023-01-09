@@ -93,7 +93,7 @@
 
              <tr id="copy">
               <td>
-                <select required id="barang" class="barang form-control select2" name="barang[]">
+                <select required id="barang" class="barang form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
@@ -253,11 +253,14 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
   //copy paste
   function clone(){
     //paste
-    var clone = $('#copy').clone();
-    clone.find("span.select2 ").remove();
-    clone.find("select").select2({ placeholder: "-- Pilih --" });
-    clone.find("span.select2 ").css('width', '100%');
-    $("#paste").prepend(clone);
+    // var clone = $('#copy').clone();
+    // clone.find("span.select2 ").remove();
+    // clone.find("select").select2({ placeholder: "-- Pilih --" });
+    // clone.find("span.select2 ").css('width', '100%');
+    // $("#paste").prepend(clone);
+
+    //paste
+    $('#paste').prepend($('#copy').clone());
     
 
     //blank new input
