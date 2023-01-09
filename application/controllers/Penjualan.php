@@ -27,7 +27,7 @@ class Penjualan extends CI_Controller{
 		//kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 'p' AND kontak_hapus = 0");
 
-	    //barang
+	    //produk
 	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_master_produk WHERE master_produk_hapus = 0 AND master_produk_stok > 0");
 
 	    //ppn
@@ -42,8 +42,8 @@ class Penjualan extends CI_Controller{
 
 		if ($db == 1) {
 			
-			//update stok bahan
-			$this->stok->update_bahan();
+			//update produk
+			$this->stok->update_produk();
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -113,8 +113,8 @@ class Penjualan extends CI_Controller{
 
 		if ($db == 1) {
 			
-			//update stok bahan
-			//$this->stok->update_bahan();
+			//update produk
+			$this->stok->update_produk();
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -123,21 +123,16 @@ class Penjualan extends CI_Controller{
 
 		redirect(base_url('penjualan/'.$redirect));
 	}
-	function edit($id, $active, $kategori){
+	function edit($id, $active){
 
 	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
 
 	    //kontak
-	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
+	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 'p' AND kontak_hapus = 0");
 
-	    //barang
-
-	    if ($kategori == 'all') {
-	    	$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");	
-	    } else {
-	    	$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
-	    }
+	    //produk
+	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_master_produk WHERE master_produk_hapus = 0");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'penjualan'");
@@ -210,7 +205,7 @@ class Penjualan extends CI_Controller{
 		if ($db == 1) {
 			
 			//update stok
-			$this->stok->update_bahan();
+			$this->stok->update_produk();
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
@@ -220,7 +215,7 @@ class Penjualan extends CI_Controller{
 		redirect(base_url('penjualan/'.$redirect));
 	}
 	function search(){
-		$output = $this->query_builder->view("SELECT penjualan_nomor as nomor FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_kategori = 'avalan' AND penjualan_po = 1");
+		$output = $this->query_builder->view("SELECT penjualan_nomor as nomor FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 1");
 		echo json_encode($output);
 	}
 	function search_data($nomor){
@@ -286,8 +281,7 @@ class Penjualan extends CI_Controller{
 	function po_edit($id){
 		
 		$active = 'po';
-		$kategori = 'avalan';
-		$data = $this->edit($id, $active, $kategori);
+		$data = $this->edit($id, $active);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('penjualan/form');
@@ -298,284 +292,6 @@ class Penjualan extends CI_Controller{
 
 		$po = 1;
 		$redirect = 'po';
-		$this->update($po, $redirect);
-	}
-
-///////// penjualan avalan //////////////////////////////////////////////
-
-	function avalan(){
-		
-		if ( $this->session->userdata('login') == 1) {
-
-		    $active = 'avalan';
-			$data["title"] = $active;
-			$data['url'] = $active;
-		    
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-	function avalan_get_data(){
-
-		$model = 'm_penjualan';
-		$where = array('penjualan_po' => 0,'penjualan_hapus' => 0);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function avalan_add(){
-
-		$kategori = 'avalan';
-		$redirect = 'avalan';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_kategori = 'avalan'");
-	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/search');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function avalan_save(){
-		
-		//penjualan
-		$po = 0;
-		$redirect = 'avalan';
-		$nomor = strip_tags($_POST['nomor']);
-		
-		$cek = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_nomor = '$nomor'");
-		if ($cek > 0) {
-			//update
-			$this->update($po, $redirect);
-
-		}else{
-			//new
-			$kategori = 'avalan';
-			$this->save($po, $redirect, $kategori);
-		}
-	}
-	function avalan_edit($id){
-		$active = 'avalan';
-		$kategori = 'avalan';
-		$data = $this->edit($id, $active, $kategori);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function avalan_update($nomor){
-		
-		$po = 0;
-		$redirect = 'avalan';
-		$this->update($po, $redirect);
-	}
-	function avalan_delete($id){
-		
-		$table = 'penjualan';
-		$redirect = 'avalan';
-		$this->delete('penjualan', $id, $redirect);
-	}
-
-////////// penjualan bahan utama ///////////////////////////////////
-
-	function utama(){
-		if ( $this->session->userdata('login') == 1) {
-
-		    $active = 'utama';
-			$data["title"] = $active;
-			$data['url'] = $active;
-		    
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-	function utama_get_data(){
-		
-		$model = 'm_penjualan';
-		$where = array('penjualan_kategori' => 'utama','penjualan_po' => 0,'penjualan_hapus' => 0);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function utama_add(){
-		
-		$kategori = 'utama';
-		$redirect = 'utama';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_kategori = 'utama'");
-	    $data['nomor'] = 'PB-'.date('dmY').'-'.($pb+1);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function utama_save(){
-		
-		$po = 0;
-		$redirect = 'utama';
-		$kategori = 'utama';
-		$this->save($po, $redirect, $kategori);
-	}
-	function utama_edit($id){
-		
-		$active = 'utama';
-		$kategori = 'utama';
-		$data = $this->edit($id, $active, $kategori);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}	
-	function utama_update(){
-
-		$po = 0;
-		$redirect = 'utama';
-		$this->update($po, $redirect);
-	}
-	function utama_delete($id){
-		
-		$table = 'penjualan';
-		$redirect = 'utama';
-		$this->delete('penjualan', $id, $redirect);
-	}
-
-//////// umum /////////////////////////////////////////////////
-
-	function umum(){
-		if ( $this->session->userdata('login') == 1) {
-
-		    $active = 'umum';
-			$data["title"] = $active;
-			$data['url'] = $active;
-		    
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-	function umum_get_data(){
-		
-		$model = 'm_penjualan';
-		$where = array('penjualan_kategori' => 'umum','penjualan_po' => 0,'penjualan_hapus' => 0);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function umum_add(){
-		
-		$kategori = 'all';
-		$redirect = 'umum';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_kategori = 'umum'");
-	    $data['nomor'] = 'PU-'.date('dmY').'-'.($pb+1);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function umum_save(){
-		
-		$po = 0;
-		$redirect = 'umum';
-		$kategori = 'umum';
-		$this->save($po, $redirect, $kategori);
-	}
-	function umum_edit($id){
-		
-		$active = 'umum';
-		$kategori = 'all';
-		$data = $this->edit($id, $active, $kategori);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}	
-	function umum_update(){
-
-		$po = 0;
-		$redirect = 'umum';
-		$this->update($po, $redirect);
-	}
-	function umum_delete($id){
-		
-		$table = 'penjualan';
-		$redirect = 'umum';
-		$this->delete('penjualan', $id, $redirect);
-	}
-
-//////// bayar hutang /////////////////////////////////////////////////
-
-	function bayar(){
-		$data["title"] = 'bayar';
-
-		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/bayar');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function bayar_get_data(){
-		$model = 'm_penjualan';
-		$where = array('penjualan_status' => 'b','penjualan_po' => 0,'penjualan_hapus' => 0);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function bayar_rotate($id){
-		$set = ['penjualan_status' => 'l'];
-		$where = ['penjualan_id' => $id];
-		$db = $this->query_builder->update('t_penjualan',$set,$where);
-
-		if ($db == 1) {
-			
-			//update stok bahan
-			$this->stok->update_bahan();
-
-			$this->session->set_flashdata('success','Berhasil di bayar');
-		} else {
-			$this->session->set_flashdata('gagal','Gagal di bayar');
-		}
-
-		redirect(base_url('penjualan/bayar'));
-	}
-	function bayar_edit($id){
-
-		//ambil kategori
-		$db = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
-
-		$active = 'bayar';
-		$kategori = $db['penjualan_kategori'];
-		$data = $this->edit($id, $active, $kategori);
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function bayar_update(){
-
-		$po = 0;
-		$redirect = 'bayar';
 		$this->update($po, $redirect);
 	}
 }

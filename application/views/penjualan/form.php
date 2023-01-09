@@ -34,7 +34,7 @@
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
               <label>Nomor Transaksi</label>
-              <input type="text" name="nomor" class="form-control" required id="nomor">
+              <input readonly="" type="text" name="nomor" class="form-control" required id="nomor">
             </div>
             <div class="col-md-12 mb-7">
               <label>Tanggal Transaksi</label>
@@ -88,6 +88,7 @@
             <tr>
               <th width="200">Produk</th>
               <th>Qty</th>
+              <th>Stok</th>
               <th>Potongan ( % )</th>
               <th>Harga</th>
               <th>Subtotal</th>
@@ -98,7 +99,7 @@
 
              <tr id="copy">
               <td>
-                <select required id="produk" class="form-control" name="barang[]">
+                <select required id="produk" class="produk form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $b): ?>
                     <option value="<?=@$b['master_produk_id']?>"><?=@$b['master_produk_nama']?></option>
@@ -110,6 +111,13 @@
                   <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
                   <span class="satuan input-group-addon"></span>
                 </div>
+              </td>
+              <td>
+                <div class="input-group">
+                  <input type="text" name="stok[]" class="stok form-control" min="0" readonly="">
+                  <span class="satuan input-group-addon"></span>
+                </div>
+              </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
@@ -117,13 +125,13 @@
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">Qty Akhir</td>
               <td><input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control"></td>
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">PPN ( % )</td>
               <td>
                 <input readonly="" id="ppn" type="text" name="ppn" class="form-control" value="<?=$ppn['pajak_persen']?>">
@@ -132,13 +140,13 @@
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
-              <td colspan="5" align="right">
+              <td colspan="6" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -170,11 +178,32 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         var i = (index + 1);
         
         //harga
-        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['master_produk_harga']));
+        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['master_produk_harga']));
+
+        //stok
+        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['master_produk_stok']));
 
         //satuan
-        var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
+        var satuan = $('.satuan');
         $(satuan).empty().html(val['satuan_singkatan']);
+
+        /////// cek exist barang ///////////
+        var arr = new Array(); 
+        $.each($('.produk'), function(idx, val) {
+            
+            if (index != idx)
+            arr.push($(this).val());
+
+        });
+
+        if ($.inArray(id, arr) != -1) {
+          alert_sweet('Bahan avalan sudah ada');
+          $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
+          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
+          $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
+          $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(0);
+        }
+        ////// end exist barang ///////////
 
       });
   });
@@ -221,10 +250,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        var i = index+1;
 
        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val();
-       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val().replace(/,/g, '');
-       var diskon = $('#copy:nth-child('+i+') > td:nth-child(3) > input').val();
+       var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val().replace(/,/g, '');
+       var harga = $('#copy:nth-child('+i+') > td:nth-child(5) > input').val().replace(/,/g, '');
+       var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
 
-       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
+       var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
        var potongan = (parseInt(diskon) * parseInt(harga) / 100);  
        var subtotal = parseInt(qty) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());
