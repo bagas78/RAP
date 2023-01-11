@@ -42,7 +42,7 @@ $(document).on('click', '#po_get', function() {
 		  	$('#keterangan').val(json[0]['pembelian_keterangan']);
 
 		  	if (json[0]['pembelian_lampiran'] != '') {
-			  $('#previewImg').attr('src', '<?=base_url('assets/gambar/pembelian/po/')?>'+json[0]['pembelian_lampiran']);
+			  $('#previewImg').attr('src', '<?=base_url('assets/gambar/pembelian/')?>'+json[0]['pembelian_lampiran']);
 			} else {
 			  $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 			}

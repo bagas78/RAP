@@ -166,9 +166,9 @@ class Pembelian extends CI_Controller{
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'pembelian_status' => strip_tags($_POST['status']),
 						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
-						'pembelian_qty_akhir' => strip_tags($_POST['qty_akhir']),
-						'pembelian_ppn' => strip_tags($_POST['ppn']),
-						'pembelian_total' => strip_tags($_POST['total']), 
+						'pembelian_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'pembelian_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
+						'pembelian_total' => strip_tags(str_replace(',', '', $_POST['total'])), 
 					);
 
 		//upload lampiran
@@ -204,10 +204,10 @@ class Pembelian extends CI_Controller{
 			$set2 = array(
 						'pembelian_barang_nomor' => $nomor,
 						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
-						'pembelian_barang_qty' => strip_tags($_POST['qty'][$i]),
-						'pembelian_barang_potongan' => strip_tags($_POST['potongan'][$i]),
-						'pembelian_barang_harga' => strip_tags($_POST['harga'][$i]),
-						'pembelian_barang_subtotal' => strip_tags($_POST['subtotal'][$i]),
+						'pembelian_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
+						'pembelian_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'pembelian_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
 					);	
 
 			$this->query_builder->add('t_pembelian_barang',$set2);

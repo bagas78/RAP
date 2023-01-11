@@ -28,7 +28,7 @@
                   <th>Pelanggan</th>
                   <th>Jatuh Tempo</th>
                   <th>Status</th>
-                  <th width="50">Action</th>
+                  <th width="60">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,7 +77,9 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('penjualan/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a <?=($url == 'packing')?'hidden':'' ?> href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-file-text'></i></button></a> "+
+                             "<a <?=($url != 'packing')?'hidden':'' ?> href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-truck'></i></button></a>";
                           }
                         },
                         
@@ -90,6 +92,5 @@ function filter($val){
   var table = $('#example').DataTable();
   table.search($val).draw();
 }
-
  
 </script>

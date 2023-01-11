@@ -249,18 +249,25 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     $.each($('.qty'), function(index, val) {
        var i = index+1;
 
-       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val();
+       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
        var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val().replace(/,/g, '');
        var harga = $('#copy:nth-child('+i+') > td:nth-child(5) > input').val().replace(/,/g, '');
        var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
 
        var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
        var potongan = (parseInt(diskon) * parseInt(harga) / 100);  
-       var subtotal = parseInt(qty) * parseInt(harga) - potongan;
+       var subtotal = parseInt(qty.val()) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());
 
        //subtotal
        $(sub).val(number_format(subtotal));
+
+       //cek stok
+       if (parseInt(qty.val()) > parseInt(stok)) {
+          
+          alert_sweet('Stok produk kurang dari Qty');
+          qty.val(1);
+       }
 
     });
 

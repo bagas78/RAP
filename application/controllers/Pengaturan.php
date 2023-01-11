@@ -133,6 +133,8 @@ class Pengaturan extends CI_Controller{
 				$set = array(
 								'logo_foto' => $new_name,
 								'logo_nama' => strip_tags($_POST['name']),
+								'logo_telp' => strip_tags($_POST['telp']),
+								'logo_alamat' => strip_tags($_POST['alamat']),
 							);
 
 				$where = ['logo_id' => $id];
@@ -142,6 +144,8 @@ class Pengaturan extends CI_Controller{
 			
 			$set = array(
 							'logo_nama' => strip_tags($_POST['name']),
+							'logo_telp' => strip_tags($_POST['telp']),
+							'logo_alamat' => strip_tags($_POST['alamat']),
 						);
 			$where = ['logo_id' => $id];
 			$db = $this->query_builder->update('t_logo',$set,$where);	

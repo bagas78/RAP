@@ -25,6 +25,14 @@
               <label>Nama Aplikasi</label>
               <input type="text" name="name" class="form-control" value="<?=@$data['logo_nama'] ?>" required>
             </div>
+            <div class="form-group">
+              <label>No. Telp</label>
+              <input type="text" name="telp" class="form-control" value="<?=@$data['logo_telp'] ?>" required>
+            </div>
+            <div class="form-group">
+              <label>Alamat</label>
+              <textarea class="form-control" required name="alamat"><?=@$data['logo_alamat'] ?></textarea>
+            </div>
             <button class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
             <button class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
           </form>
