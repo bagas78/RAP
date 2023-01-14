@@ -34,6 +34,13 @@ $(document).on('click', '#po_get', function() {
 		var nomor = $('#po').val();
 
      $.get('<?=base_url('produksi/search_data/')?>'+nomor, function(response) {
+
+     	//active proses
+     	<?php if ($url == 'proses'): ?>
+
+			  proses();
+
+			<?php endif ?>
      	
      	var json = JSON.parse(response);
 
@@ -43,6 +50,8 @@ $(document).on('click', '#po_get', function() {
 	  	$('#shift').val(json[0]['produksi_shift']).change();
 	  	$('#keterangan').val(json[0]['produksi_keterangan']);
 
+
+	  	//lampiran
 	  	if (json[0]['produksi_lampiran_1'] != '') {
 			  $('#previewImg1').attr('src', '<?=base_url('assets/gambar/produksi/')?>'+json[0]['produksi_lampiran_1']);
 			}else{
@@ -53,6 +62,7 @@ $(document).on('click', '#po_get', function() {
 			}else{
 				$('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 			}
+			/////
 
 			$('#qty_billet').val(json[0]['produksi_billet_qty']);
 

@@ -154,7 +154,7 @@ class Produksi extends CI_Controller{
 	}
 	function get_produksi($nomor){
 		//pembelian barang
-		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang WHERE produksi_barang_nomor = '$nomor'");
+		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang AS a JOIN t_bahan AS b ON a.produksi_barang_barang = b.bahan_id WHERE a.produksi_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
 	function update($nomor, $status, $redirect){
@@ -217,7 +217,11 @@ class Produksi extends CI_Controller{
 			//update
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
-			$this->stok->update_setengah_jadi();
+
+			if ($status == 3) {
+				//proses produksi
+				$this->stok->update_setengah_jadi();	
+			}
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {

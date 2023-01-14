@@ -108,7 +108,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+                  <input type="number" name="qty[]" class="qty form-control" value="0" min="1">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
@@ -177,8 +177,8 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         var val = JSON.parse(data);
         var i = (index + 1);
         
-        //harga
-        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['master_produk_harga']));
+        //qty bug
+        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
 
         //stok
         $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['master_produk_stok']));
@@ -186,6 +186,9 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         //satuan
         var satuan = $('.satuan');
         $(satuan).empty().html(val['satuan_singkatan']);
+
+        //harga
+        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['master_produk_harga']));
 
         /////// cek exist barang ///////////
         var arr = new Array(); 
@@ -197,7 +200,9 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         });
 
         if ($.inArray(id, arr) != -1) {
+
           alert_sweet('Bahan avalan sudah ada');
+          
           $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
           $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
           $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
@@ -216,7 +221,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     //blank new input
     $('#copy').find('select').val('');
     $('#copy').find('.potongan').val(0);
-    $('#copy').find('.qty').val(1);
+    $('#copy').find('.qty').val(0);
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
     $('#copy').find('.satuan').html('');
@@ -266,7 +271,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        if (parseInt(qty.val()) > parseInt(stok)) {
           
           alert_sweet('Stok produk kurang dari Qty');
-          qty.val(1);
+          qty.val(0);
        }
 
     });

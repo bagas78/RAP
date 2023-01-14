@@ -196,12 +196,18 @@
 
 <?php if ($url == 'proses'): ?>
 
-// hidden menu proses produksi
-$('#jasa').closest('tr').removeAttr('hidden', true);
-$('#produk').closest('tr').removeAttr('hidden', true);
-$('#produk').attr("required", true);
+  proses();
 
 <?php endif ?>
+
+function proses() {
+  
+  // hidden menu proses produksi
+  $('#jasa').closest('tr').removeAttr('hidden', true);
+  $('#produk').closest('tr').removeAttr('hidden', true);
+  $('#produk').attr("required", true);
+
+}
 
 //atribut
 $('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
@@ -239,26 +245,34 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
         });
 
-        if ($.inArray(id, arr) != -1) {
-          alert_sweet('Bahan avalan sudah ada');
+        //reset input
+        function reset(){
           $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
           $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
           $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
         }
+
+        if ($.inArray(id, arr) != -1) {
+          alert_sweet('Bahan avalan sudah ada');
+          reset();
+        }
         ////// end exist barang ///////////
+
+
+        //cek stok
+        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val();
+        var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(); 
+        if (parseInt(qty) > parseInt(stok)) {
+            
+          alert_sweet('Stok barang kurang dari Qty');
+          reset();
+        }
 
       });
   });
 
   //copy paste
   function clone(){
-    //paste
-    // var clone = $('#copy').clone();
-    // clone.find("span.select2 ").remove();
-    // clone.find("select").select2({ placeholder: "-- Pilih --" });
-    // clone.find("span.select2 ").css('width', '100%');
-    // $("#paste").prepend(clone);
-
     //paste
     $('#paste').prepend($('#copy').clone());
     
@@ -331,13 +345,6 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
        //subtotal
        $(sub).val(number_format(subtotal));
-
-       //cek stok
-       if (parseInt(qty.val()) > parseInt(stok)) {
-          
-          alert_sweet('Stok barang kurang dari Qty');
-          qty.val(1);
-       }
 
        //cek stok billet
        var billet = $('#qty_billet');

@@ -35,12 +35,21 @@
 
     $.each(json, function(index, val) {
       
-      var i = index+1;
+      var i = index+1; 
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang);
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty);
-      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(val.penjualan_barang_potongan);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.penjualan_barang_potongan));
+      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.penjualan_barang_harga));
+
+      //kembalikan stok
+      var re = parseInt(val.penjualan_barang_qty) + parseInt(val.master_produk_stok);
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
+
+      //satuan
+      var satuan = $('.satuan');
+      $(satuan).empty().html(val.satuan_singkatan);
 
       //ppn 0
       if (<?=@$data['penjualan_ppn']?> == 0) {

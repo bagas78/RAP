@@ -14,7 +14,7 @@ class Stok{
       $this->sql->db->query("UPDATE t_bahan SET bahan_stok = 0");
 
       foreach ($pembelian as $pb) {
-
+ 
         foreach ($peleburan as $pl) {
  
           $pem = $pb['pembelian_barang'];
@@ -93,7 +93,13 @@ class Stok{
 
     $total = $db1['total'] - $db2['total'];
     $current = date('Y-m-d');
-    $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
+
+    if ($total == 0) {
+      //0
+      $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])));
+    }else{
+      $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
+    }
 
     $get = $this->sql->db->query("SELECT * FROM t_setengah_jadi")->row_array();
     $id = $get['setengah_jadi_id']; 

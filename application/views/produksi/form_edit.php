@@ -48,8 +48,9 @@
       $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change();
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.produksi_barang_qty);
 
-      //bug
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.produksi_barang_qty);
+      //kembalikan stok
+      var re = parseInt(val.produksi_barang_qty) + parseInt(val.bahan_stok);
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
 
     });
 

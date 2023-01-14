@@ -141,9 +141,9 @@ class Penjualan extends CI_Controller{
 
 	    return $data;
 	}
-	function get_penjualan($nomor){
+	function get_penjualan($nomor){ 
 		//penjualan barang
-		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang WHERE penjualan_barang_nomor = '$nomor'");
+		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang AS a JOIN t_master_produk AS b ON a.penjualan_barang_barang = b.master_produk_id JOIN t_satuan as c ON b.master_produk_satuan = c.satuan_id WHERE a.penjualan_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
 	function update($po, $redirect){
@@ -219,7 +219,7 @@ class Penjualan extends CI_Controller{
 		echo json_encode($output);
 	}
 	function search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_nomor = '$nomor'");
+		$output = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk as c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_satuan as d ON c.master_produk_satuan = d.satuan_id WHERE a.penjualan_nomor = '$nomor'");
 		echo json_encode($output);
 	}
 	function faktur($id){
