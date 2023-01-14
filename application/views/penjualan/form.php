@@ -177,7 +177,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         var val = JSON.parse(data);
         var i = (index + 1);
         
-        //qty bug
+        //qty
         var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
 
         //stok
