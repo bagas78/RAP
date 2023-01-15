@@ -154,7 +154,7 @@ class Produksi extends CI_Controller{
 	}
 	function get_produksi($nomor){
 		//pembelian barang
-		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang AS a JOIN t_bahan AS b ON a.produksi_barang_barang = b.bahan_id WHERE a.produksi_barang_nomor = '$nomor'");
+		$db = $this->query_builder->view("SELECT * FROM t_produksi_barang AS a JOIN t_bahan AS b ON a.produksi_barang_barang = b.bahan_id JOIN t_satuan as c ON b.bahan_satuan = c.satuan_id WHERE a.produksi_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
 	function update($nomor, $status, $redirect){
@@ -235,7 +235,7 @@ class Produksi extends CI_Controller{
 		echo json_encode($output);
 	}
 	function search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE a.produksi_nomor = '$nomor'");
+		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_bahan as c ON b.produksi_barang_barang = c.bahan_id JOIN t_satuan as d ON c.bahan_satuan = d.satuan_id WHERE a.produksi_nomor = '$nomor'");
 		echo json_encode($output);
 	}
 
@@ -432,7 +432,6 @@ class Produksi extends CI_Controller{
 		echo json_encode($output);
 	}
 	function pesanan_add(){
-		
 		$kategori = 'all';
 		$redirect = 'pesanan';
 		$data = $this->add($kategori, $redirect);
@@ -442,6 +441,7 @@ class Produksi extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
+	    $data["title"] = 'pesanan';
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
 	    $this->load->view('v_template_admin/admin_footer');
@@ -458,13 +458,12 @@ class Produksi extends CI_Controller{
 		$this->delete($table, $id, $redirect);
 	}
 	function pesanan_edit($id){
-
 		$kategori = 'all';
 		$active = 'pesanan';
 		$data = $this->edit($id, $active, $kategori);
 
 		$data['url'] = 'pesanan';
-
+		$data["title"] = 'pesanan';
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
 	    $this->load->view('produksi/form_edit');

@@ -16,6 +16,8 @@
   }
 
   //qty
+  var stok_billet = parseInt($('#stok_billet').text()) + <?=@$data['produksi_billet_qty']?>;
+  $('#stok_billet').text(stok_billet);
   $('#qty_billet').val('<?=@$data['produksi_billet_qty']?>');
   $('#jasa').val('<?=@$data['produksi_jasa']?>');
   $('#produk').val('<?=@$data['produksi_setengah_jadi']?>');
@@ -45,12 +47,17 @@
       var i = index+1;
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang);
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.produksi_barang_qty);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.produksi_barang_harga));
 
       //kembalikan stok
       var re = parseInt(val.produksi_barang_qty) + parseInt(val.bahan_stok);
       $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
+
+      //satuan
+      var satuan = $('.satuan');
+      $(satuan).empty().html(val.satuan_singkatan);
 
     });
 

@@ -102,7 +102,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+                  <input type="number" name="qty[]" class="qty form-control" value="0" min="1">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
@@ -224,10 +224,11 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
         var val = JSON.parse(data);
         var i = (index + 1);
         
+        //qty
+        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
+
         //stok
-        if ($(location).attr('href').split("/").splice(5, 1).join("/") != '<?=@$url.'_edit'?>') {
-          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
-        }
+        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
 
         //harga
         $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
@@ -279,7 +280,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
     //blank new input
     $('#copy').find('select').val('');
-    $('#copy').find('.qty').val(1);
+    $('#copy').find('.qty').val(0);
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
     $('#copy').find('.satuan').html('');
