@@ -21,7 +21,7 @@
         </div>
         <div class="box-body">
           
-          <table id="example" class="table table-bordered table-hover" style="width: 100%;">
+          <table id="data-table" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
                   <th>Nomor</th>
@@ -46,7 +46,7 @@
     var table;
     $(document).ready(function() {
         //datatables
-        table = $('#example').DataTable({ 
+        table = $('#data-table').DataTable({ 
 
             "processing": true, 
             "serverSide": true,

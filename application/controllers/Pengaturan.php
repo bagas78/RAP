@@ -134,6 +134,7 @@ class Pengaturan extends CI_Controller{
 								'logo_foto' => $new_name,
 								'logo_nama' => strip_tags($_POST['name']),
 								'logo_telp' => strip_tags($_POST['telp']),
+								'logo_kota' => strip_tags($_POST['kota']),
 								'logo_alamat' => strip_tags($_POST['alamat']),
 							);
 
@@ -145,6 +146,7 @@ class Pengaturan extends CI_Controller{
 			$set = array(
 							'logo_nama' => strip_tags($_POST['name']),
 							'logo_telp' => strip_tags($_POST['telp']),
+							'logo_kota' => strip_tags($_POST['kota']),
 							'logo_alamat' => strip_tags($_POST['alamat']),
 						);
 			$where = ['logo_id' => $id];

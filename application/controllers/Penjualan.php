@@ -223,11 +223,19 @@ class Penjualan extends CI_Controller{
 		echo json_encode($output);
 	}
 	function faktur($id){
-		$data["title"] = 'penjualan';
+		$data["title"] = 'faktur';
 		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk AS c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id WHERE a.penjualan_id = '$id'");
 
 		
 		$this->load->view('penjualan/faktur',$data);
+	}
+	function surat($id){
+
+		$data["title"] = 'surat jalan';
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk AS c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_satuan as e ON c.master_produk_satuan = e.satuan_id WHERE a.penjualan_id = '$id'");
+
+		
+		$this->load->view('penjualan/surat',$data);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////

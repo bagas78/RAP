@@ -30,11 +30,15 @@
               <input type="text" name="telp" class="form-control" value="<?=@$data['logo_telp'] ?>" required>
             </div>
             <div class="form-group">
+              <label>Kota / Kabupaten</label>
+              <input type="text" name="kota" class="form-control" value="<?=@$data['logo_kota'] ?>" required>
+            </div>
+            <div class="form-group">
               <label>Alamat</label>
               <textarea class="form-control" required name="alamat"><?=@$data['logo_alamat'] ?></textarea>
             </div>
-            <button class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
-            <button class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
+            <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
+            <button type="reset" class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
           </form>
         </div>
         <div class="col-md-3">
