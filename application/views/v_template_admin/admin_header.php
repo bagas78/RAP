@@ -385,10 +385,42 @@ thead{
           </ul>
         </li>
 
-        <li>
+        <li class="treeview">
           <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">equalizer</i></div> <div class="col-md-5 col-xs-5"><span>Keuangan</span></div>
+            <div class="col-md-1 col-xs-1"><i class="material-icons">equalizer</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Keuangan</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?php echo base_url('keuangan/coa') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">COA</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Kas Keluar</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Buku Besar</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Penyesuaian Saldo</span>
+              </a>
+            </li>
+            
+          </ul>
         </li>
 
         <li>
