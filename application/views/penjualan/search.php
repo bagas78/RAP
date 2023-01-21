@@ -3,6 +3,12 @@
 //search
 $('#search').removeAttr('hidden',true);
 
+<?php if(@$url == 'produk'): ?>
+	$('#po').attr('placeholder', 'PO-xxxxx');
+<?php else: ?>
+	$('#po').attr('placeholder', 'PJ-xxxxx');
+<?php endif ?>
+
 $(function(){
 
   $.get('<?=base_url('penjualan/search/'.@$search)?>', function(response) {
@@ -12,7 +18,7 @@ $(function(){
 
   	$.each(json, function(index, val) {
   		data.push(val.nomor);
-  	});
+  	}); 
 
   	$("#po").autocomplete({
 	    source: data
@@ -24,17 +30,20 @@ $(function(){
 
 $(document).on('click', '#po_get', function() {
 
-	var reload = $("form").load(location.href+" form>*","");
+	$("table").load(location.href+" table>*","", function(){
 
-	if (reload) {
-
-		var nomor = $('#po').val();
+			var nomor = $('#po').val();
 
 	     $.get('<?=base_url('penjualan/search_data/')?>'+nomor, function(response) {
 	     	
 	     	var json = JSON.parse(response);
 
-	     	$('#nomor').val(json[0]['penjualan_nomor']);
+	     	if ('<?= @$url ?>' == 'produk') {
+	     		$('#nomor').val(json[0]['penjualan_nomor'].replace('PO', 'PJ'));
+	     	}else{
+	     		$('#nomor').val(json[0]['penjualan_nomor'].replace('PJ', 'PL'));
+	     	}
+
 		  	$('#tanggal').val(json[0]['penjualan_tanggal']);
 		  	$('#pelanggan').val(json[0]['penjualan_pelanggan']).change();
 		  	$('#jatuh_tempo').val(json[0]['penjualan_jatuh_tempo']);
@@ -79,7 +88,8 @@ $(document).on('click', '#po_get', function() {
 	      	}
 
 	     });
-	}
+
+	});
 
  });
 

@@ -146,9 +146,10 @@ class Penjualan extends CI_Controller{
 		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang AS a JOIN t_master_produk AS b ON a.penjualan_barang_barang = b.master_produk_id JOIN t_satuan as c ON b.master_produk_satuan = c.satuan_id WHERE a.penjualan_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
-	function update($po, $redirect){
+	function update($po, $redirect, $where){
 		$nomor = strip_tags($_POST['nomor']);
 		$set1 = array(
+						'penjualan_nomor' => $nomor,
 						'penjualan_po' => $po,
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
@@ -178,11 +179,11 @@ class Penjualan extends CI_Controller{
 			$result = $set1;
 		}
 
-		$where1 = ['penjualan_nomor' => $nomor];
+		$where1 = ['penjualan_nomor' => $where];
 		$db = $this->query_builder->update('t_penjualan',$result,$where1);
 
 		//delete barang
-		$where2 = ['penjualan_barang_nomor' => $nomor];
+		$where2 = ['penjualan_barang_nomor' => $where];
 		$this->query_builder->delete('t_penjualan_barang',$where2);
 
 		//save barang
@@ -213,6 +214,7 @@ class Penjualan extends CI_Controller{
 		}
 
 		redirect(base_url('penjualan/'.$redirect));
+
 	}
 	function search($po){
 		$output = $this->query_builder->view("SELECT penjualan_nomor as nomor FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = '$po'");
@@ -281,7 +283,7 @@ class Penjualan extends CI_Controller{
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan");
-	    $data['nomor'] = 'PJ-'.date('dmY').'-'.($pb+1);
+	    $data['nomor'] = 'PO-'.date('dmY').'-'.($pb+1);
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('penjualan/form');
@@ -307,7 +309,8 @@ class Penjualan extends CI_Controller{
 
 		$po = 1;
 		$redirect = 'po';
-		$this->update($po, $redirect);
+		$where = strip_tags($_POST['nomor']);
+		$this->update($po, $redirect, $where);
 	}
 
 ////////////////// Produk ///////////////////////////////
@@ -363,12 +366,12 @@ class Penjualan extends CI_Controller{
 		//penjualan
 		$po = 0;
 		$redirect = 'produk';
-		$nomor = strip_tags($_POST['nomor']);
+		$where = str_replace('PJ', 'PO', strip_tags($_POST['nomor']));
 		
-		$cek = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_nomor = '$nomor'");
+		$cek = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_nomor = '$where'");
 		if ($cek > 0) {
 			//update
-			$this->update($po, $redirect);
+			$this->update($po, $redirect, $where);
 
 		}else{
 			//new
@@ -389,7 +392,8 @@ class Penjualan extends CI_Controller{
 
 		$po = 0;
 		$redirect = 'produk';
-		$this->update($po, $redirect);
+		$where = strip_tags($_POST['nomor']);
+		$this->update($po, $redirect, $where);
 	}
 
 	////////////////// Packing ///////////////////////////////
@@ -445,12 +449,12 @@ class Penjualan extends CI_Controller{
 		//penjualan
 		$po = 2;
 		$redirect = 'packing';
-		$nomor = strip_tags($_POST['nomor']);
+		$where = str_replace('PL', 'PJ', strip_tags($_POST['nomor']));
 		
-		$cek = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_nomor = '$nomor'");
+		$cek = $this->query_builder->count("SELECT * FROM t_penjualan WHERE penjualan_nomor = '$where'");
 		if ($cek > 0) {
 			//update
-			$this->update($po, $redirect);
+			$this->update($po, $redirect, $where);
 
 		}else{
 			//new
@@ -471,6 +475,7 @@ class Penjualan extends CI_Controller{
 
 		$po = 2;
 		$redirect = 'packing';
-		$this->update($po, $redirect);
+		$where = strip_tags($_POST['nomor']);
+		$this->update($po, $redirect, $where);
 	}
 }

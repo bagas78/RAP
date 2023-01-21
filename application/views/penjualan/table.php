@@ -21,7 +21,7 @@
         </div>
         <div class="box-body">
           
-          <table id="data-table" class="table table-bordered table-hover" style="width: 100%;">
+          <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
                   <th>Nomor</th>
@@ -46,12 +46,12 @@
     var table;
     $(document).ready(function() {
         //datatables
-        table = $('#data-table').DataTable({ 
+        table = $('#example').DataTable({ 
 
             "processing": true, 
             "serverSide": true,
             "order":[], 
-            "scrollX": true, 
+            "scrollX": true,  
             
             "ajax": {
                 "url": "<?=site_url('penjualan/'.@$url.'_get_data')?>",
