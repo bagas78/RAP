@@ -249,6 +249,12 @@ thead{
                 <span class="multi-li">Pelanggan</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo base_url('kontak/rekening') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Rekening Bank</span>
+              </a>
+            </li>
             
           </ul>
         </li>

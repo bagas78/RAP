@@ -4,6 +4,7 @@ class Kontak extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('m_kontak');
+		$this->load->model('m_rekening');
 	}  
 	function supplier(){
 		$data['title'] = 'Supplier';
@@ -159,5 +160,93 @@ class Kontak extends CI_Controller{
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/view');
 	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function rekening(){
+		$data['title'] = 'Rekening Bank';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/rekening');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function get_rekening(){
+		$where = array('rekening_hapus' => 0);
+
+	    $data = $this->m_rekening->get_datatables($where);
+		$total = $this->m_rekening->count_all($where);
+		$filter = $this->m_rekening->count_filtered($where);
+
+		$output = array(
+			"draw" => $_GET['draw'],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+		//output dalam format JSON
+		echo json_encode($output);
+	}
+	function rekening_add(){
+		$data['title'] = 'Rekening Bank';
+		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/rekening_form');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function rekening_save(){
+		$set = array(
+						'rekening_nama' => strip_tags($_POST['nama']),
+						'rekening_no' => strip_tags($_POST['rek']),
+						'rekening_bank' => strip_tags($_POST['bank']),
+					);
+		$this->db->set($set);
+
+		if ($this->db->insert('t_rekening')) {
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('kontak/rekening'));
+	}
+	function rekening_delete($id){
+
+		$set = ['rekening_hapus' => 1];
+		$where = ['rekening_id' => $id];
+		$db = $this->query_builder->update('t_rekening',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+		
+		redirect(base_url('kontak/rekening'));	
+	}
+	function rekening_edit($id){
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_rekening where rekening_id = '$id'");
+		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/rekening_form');
+	    $this->load->view('kontak/rekening_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function rekening_update($id){
+		$set = array(
+						'rekening_nama' => strip_tags($_POST['nama']),
+						'rekening_no' => strip_tags($_POST['rek']),
+						'rekening_bank' => strip_tags($_POST['bank']),
+					);
+		$this->db->set($set);
+
+		$where = ['rekening_id' => $id];
+		$db = $this->query_builder->update('t_rekening',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+
+		redirect(base_url('kontak/rekening'));
 	}
 }
