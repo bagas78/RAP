@@ -4,6 +4,7 @@
   $('form').attr('action', '<?=base_url('pembelian/'.@$url.'_update/'.@$data['pembelian_nomor'])?>');
   $('#nomor').val('<?=@$data['pembelian_nomor']?>');
   $('#tanggal').val('<?=@$data['pembelian_tanggal']?>');
+  $('#pembayaran').val('<?=@$data['pembelian_pembayaran']?>').change();
   $('#supplier').val('<?=@$data['pembelian_supplier']?>').change();
   $('#jatuh_tempo').val('<?=@$data['pembelian_jatuh_tempo']?>');
   $('#status').val('<?=@$data['pembelian_status']?>').change();

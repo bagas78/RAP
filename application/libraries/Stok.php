@@ -142,4 +142,19 @@ class Stok{
 
     return;
   }
+  function jurnal($nomor, $akun, $keterangan ,$type, $nominal){
+
+    $set = array(
+                  'jurnal_nomor' => $nomor,
+                  'jurnal_akun' => $akun,
+                  'jurnal_keterangan' => $keterangan,
+                  'jurnal_type' => $type,
+                  'jurnal_nominal' => $nominal,
+                );
+
+    $this->sql->db->set($set);
+    $this->sql->db->insert('t_jurnal');
+
+    return;
+  }
 }

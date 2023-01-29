@@ -5,7 +5,7 @@ class Pembelian extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_pembelian');
 		$this->load->model('m_bahan');
-	} 
+	}  
 
 ///////////////////////// pembelian //////////////////////////////////////////////////
 
@@ -27,6 +27,9 @@ class Pembelian extends CI_Controller{
 
 		//kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
+
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
 
 	    //barang
 	    if ($kategori == 'all') {
@@ -66,18 +69,20 @@ class Pembelian extends CI_Controller{
 
 		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'pembelian_kategori' => $kategori,
 						'pembelian_po' => $po,
 						'pembelian_nomor' => $nomor,
 						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
 						'pembelian_supplier' => strip_tags($_POST['supplier']),
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'pembelian_status' => strip_tags($_POST['status']),
 						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
 						'pembelian_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'pembelian_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
-						'pembelian_total' => strip_tags(str_replace(',', '', $_POST['total'])), 
+						'pembelian_total' => $total, 
 					);
 
 		//upload lampiran
@@ -122,6 +127,12 @@ class Pembelian extends CI_Controller{
 			//update stok bahan
 			$this->stok->update_bahan();
 
+			if ($po == 0) {
+				//jurnal
+				$this->stok->jurnal($nomor, 4, 'debit', 'Stok bahan baku bertambah', $total);
+				$this->stok->jurnal($nomor, 1, 'kredit', 'Kas berkurang', $total);	
+			}
+
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
@@ -133,6 +144,9 @@ class Pembelian extends CI_Controller{
 
 	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
 
 	    //kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 's' AND kontak_hapus = 0");
@@ -162,6 +176,7 @@ class Pembelian extends CI_Controller{
 		$set1 = array(
 						'pembelian_po' => $po,
 						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
 						'pembelian_supplier' => strip_tags($_POST['supplier']),
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'pembelian_status' => strip_tags($_POST['status']),
@@ -370,6 +385,8 @@ class Pembelian extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'avalan'");
 	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
 
+	    $data["title"] = $redirect;
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
 	    $this->load->view('v_template_admin/admin_footer');
@@ -386,6 +403,8 @@ class Pembelian extends CI_Controller{
 		$active = 'po';
 		$kategori = 'avalan';
 		$data = $this->edit($id, $active, $kategori);
+
+		$data["title"] = $active;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
@@ -436,6 +455,8 @@ class Pembelian extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'avalan'");
 	    $data['nomor'] = 'PA-'.date('dmY').'-'.($pb+1);
 
+	    $data["title"] = $redirect;
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
 	    $this->load->view('pembelian/search');
@@ -463,6 +484,8 @@ class Pembelian extends CI_Controller{
 		$active = 'avalan';
 		$kategori = 'avalan';
 		$data = $this->edit($id, $active, $kategori);
+
+		$data["title"] = $active;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
@@ -518,6 +541,8 @@ class Pembelian extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'utama'");
 	    $data['nomor'] = 'PB-'.date('dmY').'-'.($pb+1);
 
+	    $data["title"] = $redirect;
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
 	    $this->load->view('v_template_admin/admin_footer');
@@ -534,6 +559,8 @@ class Pembelian extends CI_Controller{
 		$active = 'utama';
 		$kategori = 'utama';
 		$data = $this->edit($id, $active, $kategori);
+
+		$data["title"] = $active;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
@@ -589,6 +616,8 @@ class Pembelian extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'umum'");
 	    $data['nomor'] = 'PU-'.date('dmY').'-'.($pb+1);
 
+	    $data["title"] = $redirect;
+
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
 	    $this->load->view('v_template_admin/admin_footer');
@@ -605,6 +634,8 @@ class Pembelian extends CI_Controller{
 		$active = 'umum';
 		$kategori = 'all';
 		$data = $this->edit($id, $active, $kategori);
+
+		$data["title"] = $active;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
@@ -664,6 +695,8 @@ class Pembelian extends CI_Controller{
 		$active = 'bayar';
 		$kategori = $db['pembelian_kategori'];
 		$data = $this->edit($id, $active, $kategori);
+
+		$data["title"] = $active;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');

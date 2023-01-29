@@ -414,7 +414,13 @@ thead{
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?php echo base_url('keuangan/jurnal') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Jurnal</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('keuangan/buku_besar') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Buku Besar</span>
               </a>

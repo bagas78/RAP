@@ -56,6 +56,16 @@
               <input type="date" name="jatuh_tempo" class="form-control" required id="jatuh_tempo">
             </div>
             <div class="col-md-12 mb-7">
+              <label>Pembayaran</label>
+              <select name="pembayaran" class="form-control select2" required id="pembayaran">
+                <option value="" hidden>-- Pilih --</option>
+                <option value="tunai" hidden>Tunai</option>
+                <?php foreach ($rekening_data as $r): ?>
+                  <option value="<?= $r['rekening_id']?>"><?= $r['rekening_nama']?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <div class="col-md-12 mb-7">
               <label>Status Pembayaran</label>
               <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>

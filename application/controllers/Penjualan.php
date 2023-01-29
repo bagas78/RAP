@@ -27,6 +27,9 @@ class Penjualan extends CI_Controller{
 		//kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 'p' AND kontak_hapus = 0");
 
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
+
 	    //produk
 	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_master_produk WHERE master_produk_hapus = 0");
 
@@ -67,6 +70,7 @@ class Penjualan extends CI_Controller{
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
 						'penjualan_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'penjualan_pembayaran' => strip_tags($_POST['pembayaran']),
 						'penjualan_status' => strip_tags($_POST['status']),
 						'penjualan_keterangan' => strip_tags($_POST['keterangan']),
 						'penjualan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
@@ -128,6 +132,9 @@ class Penjualan extends CI_Controller{
 	    //data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
 
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
+
 	    //kontak
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 'p' AND kontak_hapus = 0");
 
@@ -154,6 +161,7 @@ class Penjualan extends CI_Controller{
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
 						'penjualan_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'penjualan_pembayaran' => strip_tags($_POST['pembayaran']),
 						'penjualan_status' => strip_tags($_POST['status']),
 						'penjualan_keterangan' => strip_tags($_POST['keterangan']),
 						'penjualan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),

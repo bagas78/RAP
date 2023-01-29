@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fa fa-times"></i></button>
+          <i class="fa fa-times"></i></button> 
       </div>
  
       <div hidden id="search" align="left">
@@ -54,6 +54,16 @@
             <div class="col-md-12 mb-7">
               <label>Jatuh Tempo</label>
               <input type="date" name="jatuh_tempo" class="form-control" required id="jatuh_tempo">
+            </div>
+            <div class="col-md-12 mb-7">
+              <label>Pembayaran</label>
+              <select name="pembayaran" class="form-control select2" required id="pembayaran">
+                <option value="" hidden>-- Pilih --</option>
+                <option value="tunai" hidden>Tunai</option>
+                <?php foreach ($rekening_data as $r): ?>
+                  <option value="<?= $r['rekening_id']?>"><?= $r['rekening_nama']?></option>
+                <?php endforeach ?>
+              </select>
             </div>
             <div class="col-md-12 mb-7">
               <label>Status Pembayaran</label>

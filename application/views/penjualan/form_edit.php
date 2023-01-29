@@ -6,6 +6,7 @@
   $('#tanggal').val('<?=@$data['penjualan_tanggal']?>');
   $('#pelanggan').val('<?=@$data['penjualan_pelanggan']?>').change();
   $('#jatuh_tempo').val('<?=@$data['penjualan_jatuh_tempo']?>');
+  $('#pembayaran').val('<?=@$data['penjualan_pembayaran']?>').change();
   $('#status').val('<?=@$data['penjualan_status']?>').change();
   $('#keterangan').val('<?=@$data['penjualan_keterangan']?>');
 
