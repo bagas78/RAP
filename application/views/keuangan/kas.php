@@ -38,31 +38,21 @@
                 <tr>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
-                  <th>Ref</th>
-                  <th>Debit</th>
-                  <th>Kredit</th>
+                  <th>Nominal</th>
                 </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($data as $val): ?>
                     <tr>
-                      <td class="<?=@$val['jurnal_nomor']?>"><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
+                      <td><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
                       <td><?=@$val['jurnal_keterangan']?></td>
-                      <td><?=@$val['coa_nomor']?></td>
-                      <td class="debit"><?=(@$val['jurnal_type'] == 'debit')? @$val['jurnal_nominal']:'-'?></td>
-                      <td class="kredit"><?=(@$val['jurnal_type'] == 'kredit')? @$val['jurnal_nominal']:'-'?></td>
+                      <td class="nominal"><?=@$val['jurnal_nominal']?></td>
                     </tr>
-
-                    <tr>
-                      <td class="<?=@$val['jurnal_nomor']?>" colspan="5" style="background: silver;"></td>
-                    </tr>
-
                   <?php endforeach ?>
 
                   <tr>
-                    <td colspan="3" style="background: moccasin;">TOTAL</td>
-                    <td class="total_debit" style="background: antiquewhite;"></td>
-                    <td class="total_kredit" style="background: antiquewhite;"></td>
+                    <td colspan="2" style="background: moccasin;">Total</td>
+                    <td class="total" style="background: antiquewhite;"></td>
                   </tr>
 
                 </tbody>
@@ -75,58 +65,33 @@
       <!-- /.box -->
 
   <script type="text/javascript">
-
     $(document).on('click', '.filter', function() {
 
       var date = $('#date').val();
       <?php $segmen = $this->uri->segment(3); ?>
       
       if (date == '') {
-        var url = '<?=@base_url('keuangan/jurnal/');?><?=($segmen)? '' : $segmen?>';
+        var url = '<?=@base_url('keuangan/kas/');?><?=($segmen)? '' : $segmen?>';
       }else{
-        var url = '<?=@base_url('keuangan/jurnal/');?><?=($segmen)? '': $segmen?>'+date;
+        var url = '<?=@base_url('keuangan/kas/');?><?=($segmen)? '': $segmen?>'+date;
       }
       
       window.location.replace(url);
 
     });
 
-    //format number
-    var format = ['.kredit','.debit'];
-    var total = ['.total_kredit','.total_debit'];
+    //total
+    var tot = 0;
+    $.each($('.nominal'), function(index, val) {
+      //format
+      var t = parseInt($(this).text());
+      $(this).text(number_format(t));
 
-    $.each(format, function(index, val) {
-       
-       var tot = 0;
-       $.each($(val), function(index, val) {
-         var t = $(this).text();
-         if (t != '-') {
-          //sum
-          tot += parseInt(t);
-
-          $(this).text(number_format(t));
-         }
-      });
-
-      $(total[index]).text(number_format(tot));
-    
+      //sum
+      tot += t;
     });
 
-    //hapus tanggal
-    <?php foreach ($data as $val): ?>
+    $('.total').text(number_format(tot));
 
-      $.each($('.<?=$val['jurnal_nomor']?>'), function(index, val) {
-         
-         if (index == 2) {
-            $(this).text('');
-         }
-
-         if (index == 1) {
-            $(this).attr('hidden', true);;
-         }
-
-      });
-    
-    <?php endforeach ?>
 
   </script>

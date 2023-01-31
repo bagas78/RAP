@@ -69,6 +69,7 @@ class Pembelian extends CI_Controller{
 
 		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
+		$status = strip_tags($_POST['status']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'pembelian_kategori' => $kategori,
@@ -78,7 +79,7 @@ class Pembelian extends CI_Controller{
 						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
 						'pembelian_supplier' => strip_tags($_POST['supplier']),
 						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
-						'pembelian_status' => strip_tags($_POST['status']),
+						'pembelian_status' => $status,
 						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
 						'pembelian_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'pembelian_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
@@ -127,10 +128,18 @@ class Pembelian extends CI_Controller{
 			//update stok bahan
 			$this->stok->update_bahan();
 
+			//jurnal
 			if ($po == 0) {
-				//jurnal
-				$this->stok->jurnal($nomor, 4, 'debit', 'Stok bahan baku bertambah', $total);
-				$this->stok->jurnal($nomor, 1, 'kredit', 'Kas berkurang', $total);	
+				
+				if ($status == 'l') {
+					//lunas
+					$this->stok->jurnal($nomor, 4, 'debit', 'stok '.$kategori, $total);
+					$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
+				} else {
+					//belum
+					$this->stok->jurnal($nomor, 4, 'debit', 'stok '.$kategori, $total);
+					$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total);
+				}	
 			}
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');

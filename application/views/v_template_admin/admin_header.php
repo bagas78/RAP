@@ -408,7 +408,7 @@ thead{
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?php echo base_url('keuangan/kas') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Kas Keluar</span>
               </a>
@@ -416,7 +416,7 @@ thead{
             <li>
               <a href="<?php echo base_url('keuangan/jurnal') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Jurnal</span>
+                <span class="multi-li">Jurnal Umum</span>
               </a>
             </li>
             <li>
@@ -426,7 +426,7 @@ thead{
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?php echo base_url('keuangan/saldo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Penyesuaian Saldo</span>
               </a>

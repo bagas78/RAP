@@ -3,7 +3,6 @@ class Keuangan extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_jurnal');
 	}  
 	function coa(){
 		if ( $this->session->userdata('login') == 1) {
@@ -19,20 +18,74 @@ class Keuangan extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	} 
-	function buku_besar($akun = ''){
+	function buku_besar($akun = '', $d = ''){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'buku besar';
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id");
+
 		    $data['coa_data'] = $this->query_builder->view("SELECT * FROM t_coa");
 
 		    //get first akun
 		    $coa = $this->query_builder->view_row("SELECT * FROM t_coa ORDER BY coa_id ASC LIMIT 1");
 
-		    if ($akun == '') {
-		    	$data['akun'] = $coa['coa_id'];
+		    //akun
+		    if (@$akun) {
+		    	$ak = $akun;
 		    } else {
-		    	$data['akun'] = $akun;	
+		    	$ak = $coa['coa_id'];	
 		    }
+
+		    //filter tahun & tanggal
+		    if (@$d) {
+		    	$date = $d;
+		    } else {
+		    	$date = date('Y-m');	
+		    }
+
+		    $data['akun'] = $ak;
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_akun = '$ak' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date'");
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('keuangan/buku_besar');
+		    $this->load->view('v_template_admin/admin_footer');
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function kas($d = ''){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'Kas Keluar';
+
+		    //filter tahun & tanggal
+		    if (@$d) {
+		    	$date = $d;
+		    } else {
+		    	$date = date('Y-m');	
+		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_akun = 1 AND a.jurnal_type = 'kredit' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date'");
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('keuangan/kas');
+		    $this->load->view('v_template_admin/admin_footer');
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function jurnal($d = ''){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'jurnal umum';
+
+		    //filter tahun & tanggal
+		    if (@$d) {
+		    	$date = $d;
+		    } else {
+		    	$date = date('Y-m');	
+		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/jurnal');
@@ -43,20 +96,42 @@ class Keuangan extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
-	function buku_besar_get_data($akun){
-		$where = array('jurnal_akun' => $akun);
+	function saldo($d = ''){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'Penyesuaian Saldo';
 
-	    $data = $this->m_jurnal->get_datatables($where);
-		$total = $this->m_jurnal->count_all($where);
-		$filter = $this->m_jurnal->count_filtered($where);
+		    //filter tahun & tanggal
+		    if (@$d) {
+		    	$date = $d;
+		    } else {
+		    	$date = date('Y-m');	
+		    }
 
-		$output = array(
-			"draw" => $_GET['draw'],
-			"recordsTotal" => $total,
-			"recordsFiltered" => $filter,
-			"data" => $data,
-		);
-		//output dalam format JSON
-		echo json_encode($output);
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_akun = 7 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date'");
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('keuangan/saldo');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function saldo_add(){
+
+		$nominal = strip_tags($_POST['nominal']);
+		$keterangan = strip_tags($_POST['keterangan']);
+		$nomor = 'SAL-'.date(time());
+
+		//kredit
+		$this->stok->jurnal($nomor, 7, $keterangan ,'kredit', $nominal);
+
+		//debit
+		$this->stok->jurnal($nomor, 1, 'kas ( penyesuaian saldo )' ,'debit', $nominal);
+
+		$this->session->set_flashdata('success','Data berhasil di tambah');
+		
+		redirect(base_url('keuangan/saldo'));
 	}
 }
