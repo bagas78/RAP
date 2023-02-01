@@ -6,7 +6,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_peleburan');
 		$this->load->model('m_produksi');
 		$this->load->model('m_pewarnaan');
-	}  
+	}   
 
 ///////////////// atribut //////////////////////////////////////////
 
@@ -49,6 +49,7 @@ class Produksi extends CI_Controller{
 	function save($status, $redirect){
 
 		$nomor = strip_tags($_POST['nomor']);
+		$total = strip_tags(str_replace(',', '', $_POST['total_akhir']));
 		$set1 = array(
 						'produksi_status' => $status,
 						'produksi_nomor' => $nomor,
@@ -58,7 +59,7 @@ class Produksi extends CI_Controller{
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
-						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
+						'produksi_total_akhir' => $total, 
 						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
 						'produksi_jasa' => strip_tags($_POST['jasa']),
 						'produksi_setengah_jadi' => strip_tags($_POST['produk']),
@@ -105,6 +106,12 @@ class Produksi extends CI_Controller{
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
 
+			//jurnal
+			if ($status == 3) {
+				$this->stok->jurnal($nomor, 9, 'debit', 'biaya produksi', $total);
+				$this->stok->jurnal($nomor, 4, 'kredit', 'stok bahan baku', $total);	
+			}
+
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
@@ -123,7 +130,13 @@ class Produksi extends CI_Controller{
 			$this->stok->update_bahan();
 			$this->stok->update_billet();
 			$this->stok->update_setengah_jadi();
-			$this->stok->update_produk();
+			$this->stok->update_produk();	
+
+			if ($table == 'produksi') {
+				$pro = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
+				$nomor = $pro['produksi_nomor'];
+				$this->stok->jurnal_delete($nomor, 1);	
+			}
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -159,6 +172,7 @@ class Produksi extends CI_Controller{
 	}
 	function update($nomor, $status, $redirect){
 
+		$total = strip_tags(str_replace(',', '', $_POST['total_akhir']));
 		$set1 = array(						
 						'produksi_status' => $status,
 						'produksi_tanggal' => strip_tags($_POST['tanggal']),
@@ -167,7 +181,7 @@ class Produksi extends CI_Controller{
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
-						'produksi_total_akhir' => strip_tags(str_replace(',', '', $_POST['total_akhir'])), 
+						'produksi_total_akhir' => $total, 
 						'produksi_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])), 
 						'produksi_jasa' => strip_tags($_POST['jasa']),
 						'produksi_setengah_jadi' => strip_tags($_POST['produk']),
@@ -221,7 +235,13 @@ class Produksi extends CI_Controller{
 			if ($status == 3) {
 				//proses produksi
 				$this->stok->update_setengah_jadi();	
+
+				//status
+				$this->stok->jurnal_delete($nomor);
+				$this->stok->jurnal($nomor, 9, 'debit', 'biaya produksi', $total);
+				$this->stok->jurnal($nomor, 4, 'kredit', 'stok bahan baku', $total);
 			}
+
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
@@ -278,6 +298,7 @@ class Produksi extends CI_Controller{
 	function peleburan_save(){
 
 		$nomor = strip_tags($_POST['nomor']);
+		$biaya = strip_tags(str_replace(',', '', $_POST['total']));
 
 		//table peleburan
 		$set = array(
@@ -286,7 +307,7 @@ class Produksi extends CI_Controller{
 						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'peleburan_jasa' => strip_tags(str_replace(',', '', $_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', $_POST['billet'])),
-						'peleburan_biaya' => strip_tags(str_replace(',', '', $_POST['total'])),
+						'peleburan_biaya' => $biaya,
 						'peleburan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
 					);
 
@@ -308,13 +329,18 @@ class Produksi extends CI_Controller{
 			$this->query_builder->add('t_peleburan_barang',$set2);
 		}
 
-		//update billet
-		$this->stok->update_billet();
-
-		//update stok bahan
-		$this->stok->update_bahan();
-
 		if ($db == 1) {
+
+			//update billet
+			$this->stok->update_billet();
+
+			//update stok bahan
+			$this->stok->update_bahan();
+
+			//jurnal
+			$this->stok->jurnal($nomor, 9, 'debit', 'biaya peleburan', $biaya);
+			$this->stok->jurnal($nomor, 5, 'kredit', 'stok billet', $biaya);	
+
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
@@ -335,6 +361,11 @@ class Produksi extends CI_Controller{
 
 			//update stok bahan
 			$this->stok->update_bahan();
+
+			//jurnal
+			$pel = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
+			$nomor = $pel['peleburan_nomor'];
+			$this->stok->jurnal_delete($nomor, 1);
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -368,6 +399,7 @@ class Produksi extends CI_Controller{
 	function peleburan_update($id){
 
 		$nomor = strip_tags($_POST['nomor']);
+		$biaya = strip_tags(str_replace(',', '', $_POST['total']));
 
 		//table peleburan
 		$set = array(
@@ -375,7 +407,7 @@ class Produksi extends CI_Controller{
 						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'peleburan_jasa' => strip_tags(str_replace(',', '', $_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', $_POST['billet'])),
-						'peleburan_biaya' => strip_tags(str_replace(',', '', $_POST['total'])),
+						'peleburan_biaya' => $biaya,
 						'peleburan_hpp' => strip_tags(str_replace(',', '', $_POST['hpp'])),
 					);
 
@@ -408,6 +440,21 @@ class Produksi extends CI_Controller{
 		$this->stok->update_bahan();
 
 		if ($db == 1) {
+
+			//update billet
+			$this->stok->update_billet();
+
+			//update stok bahan
+			$this->stok->update_bahan();
+
+			//jurnal
+			$pel = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
+			$tanggal = $pel['peleburan_tanggal'];
+
+			$this->stok->jurnal_delete($nomor);
+			$this->stok->jurnal($nomor, 9, 'debit', 'biaya peleburan', $biaya, $tanggal);
+			$this->stok->jurnal($nomor, 5, 'kredit', 'stok billet', $biaya, $tanggal);	
+
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di rubah');

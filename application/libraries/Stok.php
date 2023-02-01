@@ -75,7 +75,12 @@ class Stok{
     $db2 = $this->sql->db->query("SELECT SUM(produksi_billet_qty) AS qty FROM t_produksi WHERE produksi_hapus = 0")->row_array();
 
     $jumlah = $db1['jumlah'] - $db2['qty'];
-    $hpp = $db1['hpp'] / $jumlah;
+
+    if ($jumlah == 0) {
+      $hpp = 0;
+    }else{
+      $hpp = $db1['hpp'] / $jumlah;
+    }
 
     $get = $this->sql->db->query("SELECT * FROM t_billet")->row_array();
     $id = $get['billet_id']; 
@@ -142,7 +147,27 @@ class Stok{
 
     return;
   }
-  function jurnal($nomor, $akun, $keterangan ,$type, $nominal){
+  function jurnal_delete($nomor, $status = ''){
+
+    if (@$status) {
+      //status
+      $this->sql->db->where('jurnal_nomor', $nomor);
+      $this->sql->db->set('jurnal_hapus', $status);  
+      $this->sql->db->update('t_jurnal');  
+    } else {
+      //permanen
+      $this->sql->db->where('jurnal_nomor', $nomor);
+      $this->sql->db->delete('t_jurnal');  
+    }
+
+  }
+  function jurnal($nomor, $akun, $type, $keterangan, $nominal, $tanggal = ''){
+
+    if (@$tanggal) {
+      $tgl = $tanggal;
+    } else {
+      $tgl = date('Y-m-d');
+    }
 
     $set = array(
                   'jurnal_nomor' => $nomor,
@@ -150,6 +175,7 @@ class Stok{
                   'jurnal_keterangan' => $keterangan,
                   'jurnal_type' => $type,
                   'jurnal_nominal' => $nominal,
+                  'jurnal_tanggal' => $tgl,
                 );
 
     $this->sql->db->set($set);

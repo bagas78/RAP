@@ -14,7 +14,7 @@ class Penjualan extends CI_Controller{
 		$filter = $this->$model->count_filtered($where);
 
 		$output = array(
-			"draw" => $_GET["draw"],
+			"draw" => $_GET["draw"], 
 			"recordsTotal" => $total,
 			"recordsFiltered" => $filter,
 			"data" => $data,
@@ -48,6 +48,14 @@ class Penjualan extends CI_Controller{
 			//update produk
 			$this->stok->update_produk();
 
+			//jurnal
+			if ($table == 'penjualan') {
+
+				$pen = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+				$nomor = $pen['penjualan_nomor'];
+				$this->stok->jurnal_delete($nomor, 1);	
+			}
+
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di hapus');
@@ -64,6 +72,8 @@ class Penjualan extends CI_Controller{
 
 		//penjualan
 		$nomor = strip_tags($_POST['nomor']);
+		$status = strip_tags($_POST['status']);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'penjualan_po' => $po,
 						'penjualan_nomor' => $nomor,
@@ -71,11 +81,11 @@ class Penjualan extends CI_Controller{
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
 						'penjualan_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'penjualan_pembayaran' => strip_tags($_POST['pembayaran']),
-						'penjualan_status' => strip_tags($_POST['status']),
+						'penjualan_status' => $status,
 						'penjualan_keterangan' => strip_tags($_POST['keterangan']),
 						'penjualan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'penjualan_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
-						'penjualan_total' => strip_tags(str_replace(',', '', $_POST['total'])), 
+						'penjualan_total' => $total, 
 					);
 
 		//upload lampiran
@@ -120,6 +130,23 @@ class Penjualan extends CI_Controller{
 			//update produk
 			$this->stok->update_produk();
 
+			//jurnal
+			if ($po != 1) {
+
+				if ($status == 'l') {
+
+					$this->stok->jurnal($nomor, 7, 'debit', 'saldo (penjualan produk)', $total);
+					$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total);
+				
+				} else {
+					
+					$this->stok->jurnal($nomor, 2, 'debit', 'piutang (penjualan produk)', $total);
+					$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total);
+					
+				}
+				
+			}
+
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
@@ -155,6 +182,7 @@ class Penjualan extends CI_Controller{
 	}
 	function update($po, $redirect, $where){
 		$nomor = strip_tags($_POST['nomor']);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'penjualan_nomor' => $nomor,
 						'penjualan_po' => $po,
@@ -166,7 +194,7 @@ class Penjualan extends CI_Controller{
 						'penjualan_keterangan' => strip_tags($_POST['keterangan']),
 						'penjualan_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'penjualan_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
-						'penjualan_total' => strip_tags(str_replace(',', '', $_POST['total'])), 
+						'penjualan_total' => $total, 
 					);
 
 		//upload lampiran
@@ -215,6 +243,28 @@ class Penjualan extends CI_Controller{
 			
 			//update stok
 			$this->stok->update_produk();
+
+			//jurnal
+			if ($po != 1) {
+
+				$pen = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+				$tanggal = $pen['penjualan_tanggal'];
+
+				$this->stok->jurnal_delete($nomor);
+
+				if ($status == 'l') {
+
+					$this->stok->jurnal($nomor, 7, 'debit', 'saldo (penjualan produk)', $total, $tanggal);
+					$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total, $tanggal);
+				
+				} else {
+					
+					$this->stok->jurnal($nomor, 2, 'debit', 'piutang (penjualan produk)', $total, $tanggal);
+					$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total, $tanggal);
+					
+				}
+				
+			}
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
