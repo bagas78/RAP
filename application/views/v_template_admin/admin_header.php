@@ -435,10 +435,121 @@ thead{
           </ul>
         </li>
 
-        <li>
+        <li class="treeview">
           <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">assignment</i></div> <div class="col-md-5 col-xs-5"><span>Laporan</span></div>
+            <div class="col-md-1 col-xs-1"><i class="material-icons">assignment</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Laporan</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?= base_url('laporan/stok_bahan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Stok Bahan Baku</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url('laporan/stok_produk') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Stok Produk Jadi</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?= base_url('laporan/produksi') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Produksi</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">PO Pembelian</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pembelian</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pelunasan Hutang</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Hutang Jatuh Tempo</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">PO Penjualan</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <!--Harian, Mingguan, Bulanan-->
+                <span class="multi-li">Penjualan</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pelunasan Piutang</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Piutang Jatuh Tempo</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Kas Keluar</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Laba Rugi</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Neraca</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Buku Besar</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Packing</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pengiriman Barang</span>
+              </a>
+            </li>
+            
+          </ul>
         </li>
 
         <li>
