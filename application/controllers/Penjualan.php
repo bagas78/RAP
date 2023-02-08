@@ -68,7 +68,7 @@ class Penjualan extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_master_produk as a JOIN t_satuan as b ON a.master_produk_satuan = b.satuan_id WHERE a.master_produk_id = '$id'");
 		echo json_encode($db);
 	}
-	function save($po, $redirect){
+	function save($po, $redirect, $po_tanggal = ''){
 
 		//penjualan
 		$nomor = strip_tags($_POST['nomor']);
@@ -76,6 +76,7 @@ class Penjualan extends CI_Controller{
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'penjualan_po' => $po,
+						'penjualan_po_tanggal' => $po_tanggal,
 						'penjualan_nomor' => $nomor,
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
@@ -349,9 +350,10 @@ class Penjualan extends CI_Controller{
 	}
 	function po_save(){
 		
+		$po_tanggal = date('Y-m-d');
 		$po = 1;
 		$redirect = 'po';
-		$this->save($po, $redirect);
+		$this->save($po, $redirect, $po_tanggal);
 	}
 	function po_edit($id){
 		
@@ -533,6 +535,72 @@ class Penjualan extends CI_Controller{
 
 		$po = 2;
 		$redirect = 'packing';
+		$where = strip_tags($_POST['nomor']);
+		$this->update($po, $redirect, $where);
+	}
+
+	//////// bayar piutang /////////////////////////////////////////////////
+
+	function bayar(){
+		$data["title"] = 'bayar';
+
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('penjualan/bayar');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function bayar_get_data(){
+		$model = 'm_penjualan';
+		$where = array('penjualan_status' => 'b','penjualan_po' => '!= 0','penjualan_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function bayar_rotate($id){
+		$dt = date('Y-m-d');
+		$set = ['penjualan_status' => 'l', 'penjualan_pelunasan' => $dt];
+		$where = ['penjualan_id' => $id];
+		$db = $this->query_builder->update('t_penjualan',$set,$where);
+
+		if ($db == 1) {
+			
+			//update produk
+			$this->stok->update_produk();
+
+			//jurnal
+			$pen = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+			$nomor = $pen['penjualan_nomor'];
+			$total = $pen['penjualan_total']; 
+
+			$this->stok->jurnal_delete($nomor);
+			$this->stok->jurnal($nomor, 2, 'debit', 'piutang (penjualan produk)', $total);
+			$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total);
+			//
+
+			$this->session->set_flashdata('success','Berhasil di bayar');
+		} else {
+			$this->session->set_flashdata('gagal','Gagal di bayar');
+		}
+
+		redirect(base_url('penjualan/bayar'));
+	}
+	function bayar_edit($id){
+
+		//ambil kategori
+		$db = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+
+		$active = 'bayar';
+		$data = $this->edit($id, $active);
+
+		$data["title"] = $active;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('penjualan/form');
+	    $this->load->view('penjualan/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function bayar_update(){
+
+		$po = 0;
+		$redirect = 'bayar';
 		$where = strip_tags($_POST['nomor']);
 		$this->update($po, $redirect, $where);
 	}

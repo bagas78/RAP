@@ -72,7 +72,7 @@ class Pembelian extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");
 		echo json_encode($db);
 	}
-	function save($po, $redirect, $kategori){
+	function save($po, $redirect, $kategori, $po_tanggal = ''){
 
 		//pembelian
 		$nomor = strip_tags($_POST['nomor']);
@@ -81,6 +81,7 @@ class Pembelian extends CI_Controller{
 		$set1 = array(
 						'pembelian_kategori' => $kategori,
 						'pembelian_po' => $po,
+						'pembelian_po_tanggal' => $po_tanggal,
 						'pembelian_nomor' => $nomor,
 						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
 						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
@@ -437,7 +438,8 @@ class Pembelian extends CI_Controller{
 		$po = 1;
 		$redirect = 'po';
 		$kategori = 'avalan';
-		$this->save($po, $redirect, $kategori);
+		$po_tanggal = date('Y-m-d');
+		$this->save($po, $redirect, $kategori, $po_tanggal);
 	}
 	function po_edit($id){
 		
@@ -712,7 +714,8 @@ class Pembelian extends CI_Controller{
 		echo json_encode($output);
 	}
 	function bayar_rotate($id){
-		$set = ['pembelian_status' => 'l'];
+		$dt = date('Y-m-d');
+		$set = ['pembelian_status' => 'l', 'pembelian_pelunasan' => $dt];
 		$where = ['pembelian_id' => $id];
 		$db = $this->query_builder->update('t_pembelian',$set,$where);
 

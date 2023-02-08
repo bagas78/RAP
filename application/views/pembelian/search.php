@@ -24,11 +24,9 @@ $(function(){
 
 $(document).on('click', '#po_get', function() {
 
-	var reload = $("form").load(location.href+" form>*","");
+	$("form").load(location.href+" form>*","", function(){
 
-	if (reload) {
-
-		var nomor = $('#po').val();
+			var nomor = $('#po').val();
 
 	     $.get('<?=base_url('pembelian/search_data/')?>'+nomor, function(response) {
 	     	
@@ -40,6 +38,7 @@ $(document).on('click', '#po_get', function() {
 		  	$('#jatuh_tempo').val(json[0]['pembelian_jatuh_tempo']);
 		  	$('#status').val(json[0]['pembelian_status']).change();
 		  	$('#keterangan').val(json[0]['pembelian_keterangan']);
+		  	$('#pembayaran').val(json[0]['pembelian_pembayaran']);
 
 		  	if (json[0]['pembelian_lampiran'] != '') {
 			  $('#previewImg').attr('src', '<?=base_url('assets/gambar/pembelian/')?>'+json[0]['pembelian_lampiran']);
@@ -70,7 +69,8 @@ $(document).on('click', '#po_get', function() {
 	      	}
 
 	     });
-	}
+
+	});
 
  });
 

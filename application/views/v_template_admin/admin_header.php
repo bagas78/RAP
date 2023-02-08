@@ -387,6 +387,12 @@ thead{
                 <span class="multi-li">Packing & Surat Jalan</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo base_url('penjualan/bayar') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pembayaran Piutang</span>
+              </a>
+            </li>
             
           </ul>
         </li>
@@ -464,50 +470,50 @@ thead{
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/po_pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">PO Pembelian</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembelian</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/pelunasan_hutang') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pelunasan Hutang</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/hutang_jatuh_tempo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Hutang Jatuh Tempo</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/po_penjualan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">PO Penjualan</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/penjualan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <!--Harian, Mingguan, Bulanan-->
                 <span class="multi-li">Penjualan</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/pelunasan_piutang') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pelunasan Piutang</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/piutang_jatuh_tempo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Piutang Jatuh Tempo</span>
               </a>
@@ -537,13 +543,13 @@ thead{
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Packing</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('laporan/kirim') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pengiriman Barang</span>
               </a>
