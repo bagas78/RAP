@@ -384,7 +384,13 @@ thead{
             <li>
               <a href="<?php echo base_url('penjualan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Packing & Surat Jalan</span>
+                <span class="multi-li">Packing Barang</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('penjualan/Kirim') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pengiriman Barang</span>
               </a>
             </li>
             <li>

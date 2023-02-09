@@ -17,7 +17,7 @@
               <i class="fa fa-minus"></i></button>
             <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
               <i class="fa fa-times"></i></button>
-          </div>
+          </div> 
         </div>
         <div class="box-body">
           
@@ -28,7 +28,8 @@
                   <th>Pelanggan</th>
                   <th>Jatuh Tempo</th>
                   <th>Status</th>
-                  <th width="60">Action</th>
+                  <th width="1">Lihat</th>
+                  <th class="action" width="80">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,21 +77,68 @@
                         { "data": "penjualan_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('penjualan/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a <?=($url == 'packing')?'hidden':'' ?> href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-file-text'></i></button></a> "+
-                             "<a <?=($url != 'packing')?'hidden':'' ?> href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-truck'></i></button></a>";
+                            return "<a class='view' href='<?php echo base_url('penjualan/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-default'>Detail <i class='fa fa-eye'></i></button></a>";
+                          }
+                        },
+                        { "data": "penjualan_id",
+                        "render": 
+                        function( data ) {
+                            return "<a class='edit' href='<?php echo base_url('penjualan/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='del btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a class='faktur' href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> "+
+                            "<a class='kirim' href='<?php echo base_url('penjualan/kirim/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-truck'></i></button></a> "+
+                             "<a class='surat' href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-truck'></i></button></a>";
                           }
                         },
                         
                     ],
-        });
+            });
 
-    });
+        });
 
 function filter($val){
   var table = $('#example').DataTable();
   table.search($val).draw();
 }
+
+function re(){
+  //hidden button
+  if('<?= @$url ?>' == 'kirim'){
+    $('.edit').remove();
+    $('.del').remove();
+    $('.faktur').remove();
+    $('.kirim').remove();
+
+    //width
+    $('.action').css('width', '10px');
+  }
+  if('<?= @$url ?>' == 'packing'){
+    $('.surat').remove();
+    $('.faktur').remove();
+
+    //width
+    $('.action').css('width', '60px');
+  }
+  if('<?= @$url ?>' == 'produk' || '<?= @$url ?>' == 'po'){
+    $('.faktur').remove();
+    $('.kirim').remove();
+    $('.surat').remove();
+    $('.faktur').remove();
+
+    //width
+    $('.action').css('width', '10px');
+  }
+}
+
+function auto(){
+
+    re();
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+  }
+
+  auto();
  
 </script>

@@ -604,4 +604,34 @@ class Penjualan extends CI_Controller{
 		$where = strip_tags($_POST['nomor']);
 		$this->update($po, $redirect, $where);
 	}
+
+	////////////////// Kirim ///////////////////////////////
+
+	function kirim(){
+		if ( $this->session->userdata('login') == 1) {
+
+			$active = 'kirim';
+			$data["title"] = $active;
+			$data['url'] = $active;
+		    
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('penjualan/table');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+
+	function kirim_get_data(){
+		
+		$model = 'm_penjualan';
+		$where = array('penjualan_po' => 3,'penjualan_hapus' => 0);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function kirim_view($id){
+
+	}
 }
