@@ -631,7 +631,16 @@ class Penjualan extends CI_Controller{
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
-	function kirim_view($id){
+	function kirim_barang($id){
 
+		//bug
+
+		$po = 3;
+		$redirect = 'kirim';
+
+		$get = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+
+		$where = $get['penjualan_nomor'];
+		$this->update($po, $redirect, $where);
 	}
 }

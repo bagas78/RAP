@@ -7,9 +7,9 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('penjualan/'.@$url.'_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-               <button onclick="filter('l')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
-              <button onclick="filter('b')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
+              <a href="<?= base_url('penjualan/'.@$url.'_add') ?>"><button class="btn-tambah btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+               <button onclick="filter('l')" class="btn-lunas btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
+              <button onclick="filter('b')" class="btn-belum btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -86,7 +86,7 @@
                             return "<a class='edit' href='<?php echo base_url('penjualan/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='del btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
                             "<a class='faktur' href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> "+
-                            "<a class='kirim' href='<?php echo base_url('penjualan/kirim/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-truck'></i></button></a> "+
+                            "<a class='kirim' href='<?php echo base_url('penjualan/kirim_barang/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-truck'></i></button></a> "+
                              "<a class='surat' href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-truck'></i></button></a>";
                           }
                         },
@@ -102,12 +102,15 @@ function filter($val){
 }
 
 function re(){
-  //hidden button
+  //remove button
   if('<?= @$url ?>' == 'kirim'){
     $('.edit').remove();
     $('.del').remove();
     $('.faktur').remove();
     $('.kirim').remove();
+    $('.btn-tambah').remove();
+    $('.btn-lunas').remove();
+    $('.btn-belum').remove();
 
     //width
     $('.action').css('width', '10px');
