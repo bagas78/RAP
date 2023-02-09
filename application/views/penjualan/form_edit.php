@@ -10,6 +10,10 @@
   $('#status').val('<?=@$data['penjualan_status']?>').change();
   $('#keterangan').val('<?=@$data['penjualan_keterangan']?>');
 
+  $('#po_tanggal').val('<?=@$data['penjualan_po_tanggal']?>');
+  $('#packing').val('<?=@$data['penjualan_packing']?>');
+  $('#pengiriman').val('<?=@$data['penjualan_pengiriman']?>');
+
   if ('<?=@$data['penjualan_lampiran']?>' != '') {
     $('#previewImg').attr('src', '<?=base_url('assets/gambar/penjualan/'.@$data['penjualan_lampiran'])?>');
   }

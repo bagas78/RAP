@@ -68,7 +68,7 @@ class Penjualan extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_master_produk as a JOIN t_satuan as b ON a.master_produk_satuan = b.satuan_id WHERE a.master_produk_id = '$id'");
 		echo json_encode($db);
 	}
-	function save($po, $redirect, $po_tanggal = ''){
+	function save($po, $redirect){
 
 		//penjualan
 		$nomor = strip_tags($_POST['nomor']);
@@ -76,7 +76,9 @@ class Penjualan extends CI_Controller{
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'penjualan_po' => $po,
-						'penjualan_po_tanggal' => $po_tanggal,
+						'penjualan_po_tanggal' => strip_tags(@$_POST['po_tanggal']),
+						'penjualan_packing' => strip_tags(@$_POST['packing']),
+						'penjualan_pengiriman' => strip_tags(@$_POST['pengiriman']),
 						'penjualan_nomor' => $nomor,
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
@@ -187,6 +189,9 @@ class Penjualan extends CI_Controller{
 		$set1 = array(
 						'penjualan_nomor' => $nomor,
 						'penjualan_po' => $po,
+						'penjualan_po_tanggal' => strip_tags(@$_POST['po_tanggal']),
+						'penjualan_packing' => strip_tags(@$_POST['packing']),
+						'penjualan_pengiriman' => strip_tags(@$_POST['pengiriman']),
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
 						'penjualan_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
@@ -350,10 +355,9 @@ class Penjualan extends CI_Controller{
 	}
 	function po_save(){
 		
-		$po_tanggal = date('Y-m-d');
 		$po = 1;
 		$redirect = 'po';
-		$this->save($po, $redirect, $po_tanggal);
+		$this->save($po, $redirect);
 	}
 	function po_edit($id){
 		
@@ -602,45 +606,6 @@ class Penjualan extends CI_Controller{
 		$po = 0;
 		$redirect = 'bayar';
 		$where = strip_tags($_POST['nomor']);
-		$this->update($po, $redirect, $where);
-	}
-
-	////////////////// Kirim ///////////////////////////////
-
-	function kirim(){
-		if ( $this->session->userdata('login') == 1) {
-
-			$active = 'kirim';
-			$data["title"] = $active;
-			$data['url'] = $active;
-		    
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-
-	function kirim_get_data(){
-		
-		$model = 'm_penjualan';
-		$where = array('penjualan_po' => 3,'penjualan_hapus' => 0);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function kirim_barang($id){
-
-		//bug
-
-		$po = 3;
-		$redirect = 'kirim';
-
-		$get = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
-
-		$where = $get['penjualan_nomor'];
 		$this->update($po, $redirect, $where);
 	}
 }

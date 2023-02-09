@@ -30,7 +30,7 @@
         </div>
         <div class="box-body">
 
-          <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
+           <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
             <table class="table table-bordered table-hover" style="width: 100%;">
               <tr>
                 <td style="background: lightgreen;">Total Penjualan</td>
@@ -57,7 +57,7 @@
               <th>Nomor</th>
               <th>Total</th>
               <th>Status</th>
-              <th>Tanggal</th>
+              <th>Di kirim</th>
             </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@
                   <td><?=$val['penjualan_nomor'] ?></td>
                   <td class="total"><?=$val['penjualan_total'] ?></td>
                   <td><?=($val['penjualan_status'] == 'l')?'Lunas':'Belum Lunas'?></td>
-                  <td><?php $dt = date_create($val['penjualan_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?php $dt = date_create($val['penjualan_packing']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>

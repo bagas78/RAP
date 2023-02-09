@@ -49,6 +49,11 @@ $(document).on('click', '#po_get', function() {
 		  	$('#jatuh_tempo').val(json[0]['penjualan_jatuh_tempo']);
 		  	$('#status').val(json[0]['penjualan_status']).change();
 		  	$('#keterangan').val(json[0]['penjualan_keterangan']);
+		  	$('#pembayaran').val(json[0]['penjualan_pembayaran']).change();
+
+		  	$('#po_tanggal').val(json[0]['penjualan_po_tanggal']);
+			  $('#packing').val(json[0]['penjualan_packing']);
+			  $('#pengiriman').val(json[0]['penjualan_pengiriman']);
 
 		  	if (json[0]['penjualan_lampiran'] != '') {
 			  	$('#previewImg').attr('src', '<?=base_url('assets/gambar/penjualan/')?>'+json[0]['penjualan_lampiran']);

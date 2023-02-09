@@ -260,4 +260,50 @@ class Laporan extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
+	function packing(){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'laporan';
+
+		    $filter = @$_POST['filter'];
+		    $status = @$_POST['status'];
+
+		    if ($filter) {
+		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_packing = '$filter' AND penjualan_status = '$status'");
+		    }else{
+		    	$dt = date('Y-m-d');
+		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_packing = '$dt'");
+		    }
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('laporan/packing');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function kirim(){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'laporan';
+
+		    $filter = @$_POST['filter'];
+		    $status = @$_POST['status'];
+
+		    if ($filter) {
+		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_pengiriman = '$filter' AND penjualan_status = '$status'");
+		    }else{
+		    	$dt = date('Y-m-d');
+		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_pengiriman = '$dt'");
+		    }
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('laporan/kirim');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('kirim'));
+		}
+	}
 }

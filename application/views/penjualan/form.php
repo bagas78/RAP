@@ -30,7 +30,13 @@
     <div class="box-body">
 
       <form method="post" enctype="multipart/form-data" class="bg-alice">
+
         <div class="row">
+
+          <!--date-->
+          <input value="<?=date('Y-m-d')?>" type="hidden" name="po_tanggal" class="form-control" id="po_tanggal">
+          <input value="<?=date('Y-m-d')?>" type="hidden" name="packing" class="form-control" id="packing">
+
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
               <label>Nomor Transaksi</label>
@@ -77,8 +83,14 @@
           <div class="col-md-4">
             <div class="col-md-12 mb-7">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 110px;" id="keterangan"></textarea>
+              <textarea name="keterangan" class="form-control" style="height: 100px;" id="keterangan"></textarea>
             </div>
+
+            <div class="col-md-12 mb-7">
+              <label id="label-pengiriman">Tanggal Pengiriman</label>
+              <input type="date" name="pengiriman" class="form-control" required id="pengiriman">
+            </div>
+
           </div>
           <div class="col-md-2">
             <div class="col-md-12 mb-7">
@@ -178,6 +190,18 @@ $('form').attr('action', '<?=base_url('penjualan/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
+
+if ('<?=@$url?>' != 'packing') {
+  //remove
+  $('#packing').remove();
+  $('#pengiriman').remove(); 
+  $('#label-pengiriman').remove();
+}
+
+if ('<?=@$url?>' != 'po') {
+  //remove
+  $('#po_tanggal').remove();
+}
 
   //get barang
   $(document).on('change', '#produk', function() {
