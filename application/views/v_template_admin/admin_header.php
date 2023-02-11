@@ -6,48 +6,49 @@
   <meta charset="utf-8"> 
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
   <title><?= strtoupper(@$title) ?> | <?=@$set['logo_nama'] ?></title> 
-  <!-- <link rel="shortcut icon" href="<?php echo base_url() ?>assets/gambar/icon.png" /> -->
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
   <!-- Bootstrap 3.3.7 --> 
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css">   
-  <!-- Font Awesome --> 
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->  
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/bootstrap/dist/css/bootstrap.css">   
+  
+  <!-- Icon --> 
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/icon/font-awesome/css/font-awesome.min.css"> 
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/icon/Ionicons/css/ionicons.min.css">
+  
   <!-- Theme style -->   
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/dist/css/AdminLTE.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins 
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/dist/css/skins/_all-skins.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/themes/AdminLTE.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/themes/skins/_all-skins.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/themes/material/material-icon.css">
+  
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/morris.js/morris.css">
+  
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/jvectormap/jquery-jvectormap.css">
+  
   <!-- Date Picker -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-  <!-- Daterange picker -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  
   <!-- Data Table -->
-  <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/buttons.dataTables.css" />
+  
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/dist/css/skins/_all-skins.css">
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
-
   <!-- jqueryui css-->
   <link href="<?php echo base_url() ?>assets/css/jquery-ui.css" rel="stylesheet">
 
-  <!--material icon-->
-  <link href="<?php echo base_url() ?>adminLTE/dist/css/material/material-icon.css" rel="stylesheet"/>
-
   <!-- jQuery 3 -->
-  <script src="<?php echo base_url() ?>adminLTE/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="<?php echo base_url() ?>adminLTE/bower_components/jquery/dist/jquery.js"></script>
 
   <script src="<?php echo base_url() ?>adminLTE/bower_components/ckeditor/ckeditor.js"></script>
 
@@ -149,6 +150,24 @@ thead{
   background: aliceblue;
   padding: 2%;
   margin: 0;
+}
+
+.p03{
+  padding: 0.3%;
+}
+.sx-right{
+  margin-top: 2vh;
+}
+.sc{
+  width: -webkit-fill-available;
+  position: absolute;
+  margin-right: 15px;
+}
+@media screen and (max-width: 767px) {
+  .sc{
+    text-align: center;
+    position: unset;
+  }
 }
 
 </style>
@@ -558,10 +577,30 @@ thead{
           </ul>
         </li>
 
-        <li>
+        <li class="treeview">
           <a href="#">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">layers</i></div> <div class="col-md-5 col-xs-5"><span>Warehouse / Inventory</span></div>
+            <div class="col-md-1 col-xs-1"><i class="material-icons">layers</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Inventori</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?php echo base_url('inventori/opname') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Stok Opname</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('inventori/penyesuaian') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Penyesuaian Stok</span>
+              </a>
+            </li>
+
+          </ul>
         </li>
 
         <li class="treeview">
@@ -577,7 +616,7 @@ thead{
             <li>
               <a href="<?php echo base_url('pengaturan/pajak') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Setting Pajak</span>
+                <span class="multi-li">Pajak</span>
               </a>
             </li>
             <li>
@@ -623,7 +662,6 @@ thead{
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-
 
 <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

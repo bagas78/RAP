@@ -75,10 +75,6 @@ class Pengaturan extends CI_Controller{
 
 		// file name
 		$dbname = 'backup-on-'.date('d-m-y H:i').'.zip';
-		$save = 'assets/backup/'.$dbname;
-
-		// write file
-		write_file($save,$backup);
 
 		// and force download
 		force_download($dbname,$backup);

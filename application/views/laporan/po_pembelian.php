@@ -1,20 +1,4 @@
-<style type="text/css">
-  #title{
-    background: darkgray;
-    padding: 1%;
-    margin-bottom: 2%;
-    text-align: center;
-    color: white;
-  }
-  .p03{
-    padding: 0.3%;
-  }
-  .sx-right{
-    margin-top: 1vh;
-  }
-</style>
-
-    <!-- Main content --> 
+  <!-- Main content --> 
     <section class="content">
  
       <!-- Default box -->
@@ -30,8 +14,8 @@
         </div>
         <div class="box-body">
 
-          <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
-            <table class="table table-bordered table-hover" style="width: 100%;">
+          <div class="col-md-4 row">
+            <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
                 <td style="background: pink;">Total Pembelian</td>
                 <td id="tot_pembelian"></td>
@@ -39,8 +23,10 @@
             </table>
           </div>
 
-          <div class="form-group sx-right" align="right">
-            <form action="" method="POST">
+          <div class="clearfix"></div>
+
+          <div class="sx-right" align="right">
+            <form action="" method="POST" class="sc">
               <select class="p03" name="status" required>
                 <option value="" hidden>-- Status --</option>
                 <option value="l">Lunas</option>
@@ -51,7 +37,7 @@
             </form>
           </div>
           
-          <table class="table table-bordered table-hover" style="width: 100%;">
+          <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
               <th>Nomor</th>
@@ -79,16 +65,33 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+//data table
+var table;
+$(document).ready(function() {
 
- //pmebelian
- var p = 0;
- $.each($('.total'), function(index, val) {
-    var parse = parseInt($(this).text());
-    p += parse;
+    //datatables
+    table = $('#table').DataTable({ 
 
-    $(this).text(number_format(parse));
- });
+        "bPaginate": false,
+        "bFilter": false,
+        "scrollX": true, 
+        "dom": "Bfrtip",
+        "buttons": [
+            "excel", "pdf", "print",
+        ]
+    });
 
- $('#tot_pembelian').text(number_format(p));
+});
+
+//pmebelian
+var p = 0;
+$.each($('.total'), function(index, val) {
+  var parse = parseInt($(this).text());
+  p += parse;
+
+  $(this).text(number_format(parse));
+});
+
+$('#tot_pembelian').text(number_format(p));
 
 </script>

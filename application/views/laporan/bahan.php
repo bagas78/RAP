@@ -1,16 +1,3 @@
-<style type="text/css">
-  #title{
-    background: darkgray;
-    padding: 1%;
-    margin-bottom: 2%;
-    text-align: center;
-    color: white;
-  }
-  .p03{
-    padding: 0.3%;
-  }
-</style>
-
     <!-- Main content --> 
     <section class="content">
 
@@ -33,7 +20,7 @@
         </div>
         <div class="box-body">
          
-          <table id="example" class="table table-bordered table-hover" style="width: 100%;">
+          <table id="table" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
                   <th>Nama</th>
@@ -54,8 +41,8 @@
     $(document).ready(function() {
 
         //datatables
-        table = $('#example').DataTable({ 
-
+        table = $('#table').DataTable({ 
+            
             "processing"  : true, 
             "serverSide"  : true,
             "order"       :[],  
@@ -75,12 +62,16 @@
                         { "data": "bahan_kategori"},                        
                         
                     ],
+            "dom": "Bfrtip",
+            "buttons": [
+                "excel", "pdf", "print"
+            ]
         });
 
     });
 
 function filter($val){
-  var table = $('#example').DataTable();
+  var table = $('#table').DataTable();
   table.search($val).draw();
 }
 

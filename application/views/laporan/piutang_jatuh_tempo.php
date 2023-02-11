@@ -1,20 +1,4 @@
-<style type="text/css">
-  #title{
-    background: darkgray;
-    padding: 1%;
-    margin-bottom: 2%;
-    text-align: center;
-    color: white;
-  }
-  .p03{
-    padding: 0.3%;
-  }
-  .sx-right{
-    margin-top: 1vh;
-  }
-</style>
-
-    <!-- Main content --> 
+  <!-- Main content --> 
     <section class="content">
  
       <!-- Default box -->
@@ -30,8 +14,8 @@
         </div>
         <div class="box-body">
 
-          <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
-            <table class="table table-bordered table-hover" style="width: 100%;">
+          <div class="col-md-4 row">
+            <table class="table table-bordered table-hover" style="margin-bottom: 10px;">
               <tr>
                 <td style="background: lightgreen;">Total Piutang</td>
                 <td id="tot_pembelian"></td>
@@ -39,7 +23,9 @@
             </table>
           </div>
 
-          <table class="table table-bordered table-hover" style="width: 100%;">
+          <div class="clearfix"></div>
+
+          <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
               <th>Nomor</th>
@@ -66,6 +52,24 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+
+//data table
+var table;
+$(document).ready(function() {
+
+    //datatables
+    table = $('#table').DataTable({ 
+
+        "bPaginate": false,
+        "bFilter": false,
+        "scrollX": true, 
+        "dom": "Bfrtip",
+        "buttons": [
+            "excel", "pdf", "print",
+        ]
+    });
+
+});
 
  //pmebelian
  var p = 0;

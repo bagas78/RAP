@@ -47,7 +47,7 @@ class Laporan extends CI_Controller{
 		    $data['title'] = 'laporan';
 
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('laporan/produk');
+		    $this->load->view('laporan/stok_produk');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -191,7 +191,7 @@ class Laporan extends CI_Controller{
 		    }
 
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('laporan/penjualan');
+		    $this->load->view('laporan/po_penjualan');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}

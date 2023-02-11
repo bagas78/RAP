@@ -1,18 +1,3 @@
-<style type="text/css">
-  #title{
-    background: darkgray;
-    padding: 1%;
-    margin-bottom: 2%;
-    text-align: center;
-    color: white;
-  }
-  .p03{
-    padding: 0.3%;
-  }
-  .sx-right{
-    margin-top: 7vh;
-  }
-</style>
 
     <!-- Main content --> 
     <section class="content">
@@ -30,8 +15,8 @@
         </div>
         <div class="box-body">
 
-          <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
-            <table class="table table-bordered table-hover" style="width: 100%;">
+          <div class="col-md-4 row">
+            <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
                 <td style="background: lightgreen;">Total Produksi</td>
                 <td id="tot_produksi"></td>
@@ -43,14 +28,16 @@
             </table>
           </div>
 
-          <div class="form-group sx-right" align="right">
-            <form action="" method="POST">
+          <div class="clearfix"></div>
+
+          <div class="sx-right" align="right">
+            <form action="" method="POST" class="sc">
               <input name="filter" type="date" class="p03">
               <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
             </form>
           </div>
           
-          <table class="table table-bordered table-hover" style="width: 100%;">
+          <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
               <th>Nomor</th>
@@ -80,6 +67,24 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+
+//data table
+var table;
+$(document).ready(function() {
+
+    //datatables
+    table = $('#table').DataTable({ 
+
+        "bPaginate": false,
+        "bFilter": false,
+        "scrollX": true, 
+        "dom": "Bfrtip",
+        "buttons": [
+            "excel", "pdf", "print",
+        ]
+    });
+
+});
 
  //produksi
  var p = 0;

@@ -1,18 +1,3 @@
-<style type="text/css">
-  #title{
-    background: darkgray;
-    padding: 1%;
-    margin-bottom: 2%;
-    text-align: center;
-    color: white;
-  }
-  .p03{
-    padding: 0.3%;
-  }
-  .sx-right{
-    margin-top: 1vh;
-  }
-</style>
 
     <!-- Main content --> 
     <section class="content">
@@ -30,8 +15,8 @@
         </div>
         <div class="box-body">
 
-          <div class="col-md-4 col-xs-4 row" style="margin-bottom: 0;">
-            <table class="table table-bordered table-hover" style="width: 100%;">
+          <div class="col-md-4 row">
+            <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
                 <td style="background: lightgreen;">Total Penjualan</td>
                 <td id="tot_pembelian"></td>
@@ -39,8 +24,10 @@
             </table>
           </div>
 
-          <div class="form-group sx-right" align="right">
-            <form action="" method="POST">              
+          <div class="clearfix"></div>
+
+          <div class="sx-right" align="right">
+            <form action="" method="POST" class="sc">              
               <select class="p03" name="status" required>
                 <option value="" hidden>-- Status --</option>
                 <option value="l">Lunas</option>
@@ -51,7 +38,7 @@
             </form>
           </div>
           
-          <table class="table table-bordered table-hover" style="width: 100%;">
+          <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
               <th>Nomor</th>
@@ -66,7 +53,7 @@
                   <td><?=$val['penjualan_nomor'] ?></td>
                   <td class="total"><?=$val['penjualan_total'] ?></td>
                   <td><?=($val['penjualan_status'] == 'l')?'Lunas':'Belum Lunas'?></td>
-                  <td><?php $dt = date_create($val['penjualan_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?php $dt = date_create($val['penjualan_po_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -79,6 +66,24 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+
+//data table
+var table;
+$(document).ready(function() {
+
+    //datatables
+    table = $('#table').DataTable({ 
+
+        "bPaginate": false,
+        "bFilter": false,
+        "scrollX": true, 
+        "dom": "Bfrtip",
+        "buttons": [
+            "excel", "pdf", "print",
+        ]
+    });
+
+});
 
  //pmebelian
  var p = 0;
