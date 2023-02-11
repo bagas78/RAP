@@ -39,6 +39,9 @@ class Produksi extends CI_Controller{
 	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori' AND bahan_stok > 0");
 	    }
 
+	    //mesin
+	    $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");
+
 	    return $data;
 	}
 	function get_barang($id){
@@ -56,6 +59,7 @@ class Produksi extends CI_Controller{
 						'produksi_tanggal' => strip_tags($_POST['tanggal']),
 						'produksi_shift' => strip_tags($_POST['shift']),
 						'produksi_keterangan' => strip_tags($_POST['keterangan']),
+						'produksi_mesin' => strip_tags($_POST['mesin']),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),
@@ -163,6 +167,8 @@ class Produksi extends CI_Controller{
 	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori'");
 	    }
 
+	     $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");
+
 	    return $data;
 	}
 	function get_produksi($nomor){
@@ -178,6 +184,7 @@ class Produksi extends CI_Controller{
 						'produksi_tanggal' => strip_tags($_POST['tanggal']),
 						'produksi_shift' => strip_tags($_POST['shift']),
 						'produksi_keterangan' => strip_tags($_POST['keterangan']),
+						'produksi_mesin' => strip_tags($_POST['mesin']),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty_barang'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', $_POST['qty_billet'])),
 						'produksi_billet_hpp' => strip_tags(str_replace(',', '', $_POST['hpp_billet'])),

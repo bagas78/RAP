@@ -6,6 +6,7 @@
   $('#tanggal').val('<?=@$data['produksi_tanggal']?>');
   $('#shift').val('<?=@$data['produksi_shift']?>').change();
   $('#keterangan').val('<?=@$data['produksi_keterangan']?>');
+  $('#mesin').val('<?=@$data['produksi_mesin']?>').change();
 
   if ('<?=@$data['produksi_lampiran_1']?>' != '') {
     $('#previewImg1').attr('src', '<?=base_url('assets/gambar/produksi/'.@$data['produksi_lampiran_1'])?>');

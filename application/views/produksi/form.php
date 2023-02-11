@@ -6,7 +6,7 @@
 
 <!-- Main content --> 
 <section class="content">
-
+ 
   <!-- Default box -->  
   <div class="box"> 
     <div class="box-header with-border">
@@ -53,7 +53,16 @@
           <div class="col-md-5">
             <div class="col-md-12 mb-7">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 110px;" id="keterangan"></textarea>
+              <textarea name="keterangan" class="form-control" style="height: 96px;" id="keterangan"></textarea>
+            </div>
+            <div class="col-md-12 mb-7">
+              <label>Mesin</label>
+              <select name="mesin" class="form-control select2" required id="mesin">
+                <option value="" hidden>-- Pilih --</option>
+                <?php foreach ($mesin_data as $m): ?>
+                  <option value="<?= $m['mesin_id']?>"><?= $m['mesin_nama']?></option>
+                <?php endforeach ?>
+              </select>
             </div>
           </div>
           <div class="col-md-2">
