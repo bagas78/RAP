@@ -199,7 +199,6 @@ $(function () {
     });
   }
 
-
 //active menu
 $(document).ready(function() {
     var url = window.location; 

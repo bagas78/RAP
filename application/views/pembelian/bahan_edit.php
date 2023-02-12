@@ -18,6 +18,10 @@
           <form class="bg-alice" action="<?=base_url('pembelian/bahan_update/'.@$data['bahan_id'])?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
+              <label>Kode Bahan</label>
+              <input readonly="" required="" type="text" name="kode" class="form-control" value="<?= @$data['bahan_kode'] ?>">
+            </div>
+            <div class="form-group">
               <label>Nama Bahan</label>
               <input required="" type="text" name="nama" class="form-control" value="<?= @$data['bahan_nama'] ?>">
             </div>

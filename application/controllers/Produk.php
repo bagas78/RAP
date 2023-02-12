@@ -45,9 +45,9 @@ class Produk extends CI_Controller{
 		//pewarnaan
 		$data['pewarnaan_data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_jenis");
 
-		//generate nomor
+		//generate kode
 	    $get = $this->query_builder->count("SELECT * FROM t_master_produk");
-	    $data['nomor'] = 'MP-'.date('dmY').'-'.($get+1);
+	    $data['kode'] = 'MP00'.($get+1);
 
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produk/form');
@@ -55,7 +55,7 @@ class Produk extends CI_Controller{
 	}
 	function save(){
 		$set = array(
-						'master_produk_nomor' => strip_tags($_POST['nomor']),
+						'master_produk_kode' => strip_tags($_POST['kode']),
 						'master_produk_nama' => strip_tags($_POST['nama']),
 						'master_produk_pewarnaan' => strip_tags($_POST['pewarnaan']),
 						'master_produk_harga' => strip_tags(str_replace(',', '', $_POST['harga'])),

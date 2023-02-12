@@ -34,12 +34,12 @@
         </div>
         <div class="box-body">
 
-          <h4 id="title"></h4>
-
           <div class="form-group">
             <input id="date" type="month" class="p03">
             <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
           </div>
+
+          <h4 id="title"></h4>
 
           <table class="table table-bordered table-hover" style="width: 100%;">
                 <thead>

@@ -22,7 +22,7 @@
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
-                  <th>Nomor</th>
+                  <th>Kode</th>
                   <th>Nama</th>
                   <th>Jenis</th>
                   <th>Stok</th>
@@ -60,7 +60,7 @@
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "master_produk_nomor"},
+                        { "data": "master_produk_kode"},
                         { "data": "master_produk_nama"},
                         { "data": "pewarnaan_jenis_type"},
                         { "data": "master_produk_stok"},

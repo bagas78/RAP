@@ -321,6 +321,11 @@ class Pembelian extends CI_Controller{
 		$data["title"] = 'bahan';
 
 	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
+	    
+	    //generate kde
+	    $bh = $this->query_builder->count("SELECT * FROM t_bahan");
+	    $data['kode'] = 'BH00'.($bh+1);
+
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/bahan_add');
@@ -329,6 +334,7 @@ class Pembelian extends CI_Controller{
 	function bahan_save(){
 		
 		$set = array(
+						'bahan_kode' => strip_tags($_POST['kode']),
 						'bahan_nama' => strip_tags($_POST['nama']),
 						'bahan_kategori' => strip_tags($_POST['kategori']),
 						'bahan_satuan' => strip_tags($_POST['satuan']),

@@ -25,6 +25,7 @@
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
+                  <th>Kode</th>
                   <th>Nama</th>
                   <th>Stok</th>
                   <th>Harga</th>
@@ -58,6 +59,7 @@
                 "type": "GET"
             },
             "columns": [  
+                        { "data": "bahan_kode"},
                         { "data": "bahan_nama"},
                         { "data": "bahan_stok",
                         "render":

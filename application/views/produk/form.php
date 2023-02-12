@@ -34,8 +34,8 @@
         <div class="row" style="margin-left: -8px;">
           <div class="col-md-12">
             <div class="form-group col-md-6">
-              <label>Nomor Produk</label>
-              <input readonly="" type="text" name="nomor" class="form-control" required value="<?=@$nomor?>" id="nomor">
+              <label>Kode Produk</label> 
+              <input readonly="" type="text" name="kode" class="form-control" required value="<?=@$nomor?>" id="kode">
             </div>
             <div class="form-group col-md-6">
               <label>Merk</label>
