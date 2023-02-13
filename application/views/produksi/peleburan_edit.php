@@ -4,7 +4,7 @@
   $('#nomor').val('<?=@$data['peleburan_nomor']?>');
   $('#tanggal').val('<?=@$data['peleburan_tanggal']?>');
   $('#jasa').val('<?=@$data['peleburan_jasa']?>');
-  $('#hpp').val('<?=@$data['peleburan_hpp']?>');
+  $('#hps').val('<?=@$data['peleburan_hps']?>');
   $('#billet').val('<?=@$data['peleburan_billet']?>');
 
   //get peleburan

@@ -1,4 +1,12 @@
 
+<style type="text/css">
+  .notice{
+    background: seagreen;
+    color: white;
+    padding: 1%;
+  }
+</style>
+
     <!-- Main content --> 
     <section class="content">
 
@@ -19,12 +27,12 @@
         </div>
         <div class="box-body">
           
-          <table id="example" class="table table-bordered table-hover">
+          <table id="example" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
               <th>Nomor</th>
               <th>Jumlah Billet</th>
-              <th>HPP</th>
+              <th>HPS</th>
               <th>Tanggal Peleburan</th>
               <th width="10">Action</th>
             </tr>
@@ -35,17 +43,21 @@
           </table>
 
           <div class="col-md-6 row">
+
+            <span class="notice"><i class="fa fa-info-circle"></i> Stok Billet Terbaru Setelah Produksi</span>
+            <div class="clearfix"></div><br/>
+
             <table class="table table-bordered">
               <tr>
                 <td style="background: cornsilk;">Stok Billet</td>
                 <td><?=$total['billet_stok'].' pcs'?></td>
               </tr>
               <tr>
-                <td style="background: cornsilk;">HPP</td>
+                <td style="background: cornsilk;">Harga Pokok Satuan</td>
                 <td><?=number_format($total['billet_hpp'])?></td>
               </tr>
               <tr>
-                <td style="background: cornsilk;">HPP Total</td>
+                <td style="background: cornsilk;">Harga Pokok Penjualan</td>
                 <td><?=number_format($total['billet_hpp'] * $total['billet_stok'])?></td>
               </tr>
               <tr>
@@ -58,7 +70,7 @@
         </div>
 
         
-      </div>
+      </div> 
       <!-- /.box -->
 
 <script type="text/javascript">
@@ -70,7 +82,8 @@
 
             "processing": true, 
             "serverSide": true,
-            "order":[],  
+            "order":[], 
+            "scrollX": true,  
             
             "ajax": {
                 "url": "<?=site_url('produksi/peleburan_get_data')?>",
@@ -84,7 +97,7 @@
                           return data+" pcs";
                         }
                         },
-                        { "data": "peleburan_hpp",
+                        { "data": "peleburan_hps",
                         "render":
                         function(data) {
                           return number_format(data);

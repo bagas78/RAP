@@ -47,6 +47,7 @@
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty);
       $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.penjualan_barang_potongan));
       $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.penjualan_barang_harga));
+      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val.penjualan_barang_hps));
 
       //kembalikan stok
       var re = parseInt(val.penjualan_barang_qty) + parseInt(val.master_produk_stok);

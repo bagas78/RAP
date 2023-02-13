@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fa fa-times"></i></button>
+          <i class="fa fa-times"></i></button> 
       </div>
  
       <div hidden id="search" align="left">
@@ -143,6 +143,10 @@
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
+
+              <!--hps hidden-->
+              <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control" value="0" min="0"></td>
+
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
 
@@ -224,6 +228,9 @@ if ('<?=@$url?>' != 'po') {
         //harga
         $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['master_produk_harga']));
 
+        //hps
+        $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val['master_produk_hps']));
+
         /////// cek exist barang ///////////
         var arr = new Array(); 
         $.each($('.produk'), function(idx, val) {
@@ -241,6 +248,7 @@ if ('<?=@$url?>' != 'po') {
           $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
           $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
           $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(0);
+          $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(0);
         }
         ////// end exist barang ///////////
 
@@ -259,6 +267,7 @@ if ('<?=@$url?>' != 'po') {
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
     $('#copy').find('.satuan').html('');
+    $('#copy').find('.hps').val(0);
   }
 
   //foto preview

@@ -49,6 +49,7 @@ $(document).on('click', '#po_get', function() {
 	  	$('#status').val(json[0]['produksi_status']).change();
 	  	$('#shift').val(json[0]['produksi_shift']).change();
 	  	$('#keterangan').val(json[0]['produksi_keterangan']);
+	  	$('#mesin').val(json[0]['produksi_mesin']).change();
 
 
 	  	//lampiran

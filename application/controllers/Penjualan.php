@@ -116,12 +116,15 @@ class Penjualan extends CI_Controller{
 		$jum = count($barang);
 		
 		for ($i = 0; $i < $jum; ++$i) {
+
 			$set2 = array(
 						'penjualan_barang_nomor' => $nomor,
 						'penjualan_barang_barang' => strip_tags($_POST['barang'][$i]),
 						'penjualan_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'penjualan_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
 						'penjualan_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
 						'penjualan_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'penjualan_barang_hps' => strip_tags(str_replace(',', '', $_POST['hps'][$i])),
 						'penjualan_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
 					);	
 
@@ -237,8 +240,10 @@ class Penjualan extends CI_Controller{
 						'penjualan_barang_nomor' => $nomor,
 						'penjualan_barang_barang' => strip_tags($_POST['barang'][$i]),
 						'penjualan_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'penjualan_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
 						'penjualan_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
 						'penjualan_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'penjualan_barang_hps' => strip_tags(str_replace(',', '', $_POST['hps'][$i])),
 						'penjualan_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
 					);	
 

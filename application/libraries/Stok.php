@@ -7,7 +7,9 @@ class Stok{
   function update_bahan(){
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_status = 'l' GROUP BY b.pembelian_barang_barang")->result_array();
+
       $peleburan = $this->sql->db->query("SELECT b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor WHERE peleburan_hapus = 0 GROUP BY b.peleburan_barang_barang")->result_array();
+
       $produksi = $this->sql->db->query("SELECT b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE produksi_hapus = 0 GROUP BY b.produksi_barang_barang")->result_array();
 
       //0 value
@@ -71,7 +73,7 @@ class Stok{
   function update_billet(){
 
     //sum stok billet
-    $db1 = $this->sql->db->query("SELECT SUM(peleburan_billet) AS jumlah, ROUND(SUM(peleburan_hpp)) AS hpp FROM t_peleburan WHERE peleburan_hapus = 0")->row_array();
+    $db1 = $this->sql->db->query("SELECT SUM(peleburan_billet) AS jumlah, ROUND(SUM(peleburan_hps)) AS hps FROM t_peleburan WHERE peleburan_hapus = 0")->row_array();
     $db2 = $this->sql->db->query("SELECT SUM(produksi_billet_qty) AS qty FROM t_produksi WHERE produksi_hapus = 0")->row_array();
 
     $jumlah = $db1['jumlah'] - $db2['qty'];
@@ -79,7 +81,7 @@ class Stok{
     if ($jumlah == 0) {
       $hpp = 0;
     }else{
-      $hpp = $db1['hpp'] / $jumlah;
+      $hpp = round($db1['hps'] / $jumlah);
     }
 
     $get = $this->sql->db->query("SELECT * FROM t_billet")->row_array();
@@ -94,6 +96,7 @@ class Stok{
   }
   function update_setengah_jadi(){
     $db1 = $this->sql->db->query("SELECT SUM(produksi_setengah_jadi) AS total, ROUND(SUM(produksi_hpp) / SUM(produksi_setengah_jadi)) AS hpp_item, ROUND(SUM(produksi_hpp)) AS hpp_asli FROM t_produksi WHERE produksi_hapus = 0 AND produksi_setengah_jadi != ''")->row_array();
+    
     $db2 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total FROM t_pewarnaan WHERE pewarnaan_hapus = 0")->row_array();
 
     $total = $db1['total'] - $db2['total'];
@@ -101,15 +104,15 @@ class Stok{
 
     if ($total == 0) {
       //0
-      $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])));
+      $hps = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])));
     }else{
-      $hpp = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
+      $hps = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
     }
 
     $get = $this->sql->db->query("SELECT * FROM t_setengah_jadi")->row_array();
     $id = $get['setengah_jadi_id']; 
 
-    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_hpp' => $hpp, 'setengah_jadi_update' => $current];
+    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_hps' => $hps, 'setengah_jadi_update' => $current];
     $where = ['setengah_jadi_id' => $id];
 
     $this->sql->db->set($set);
@@ -119,7 +122,8 @@ class Stok{
   }
   function update_produk(){
 
-    $db1 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total, pewarnaan_produk AS produk, pewarnaan_hpp AS hpp, pewarnaan_hpp_total AS hpp_total FROM t_pewarnaan WHERE pewarnaan_hapus = 0 GROUP BY pewarnaan_produk")->result_array();
+    $db1 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total, pewarnaan_produk AS produk, pewarnaan_hps AS hps, pewarnaan_hpp AS hpp FROM t_pewarnaan WHERE pewarnaan_hapus = 0 GROUP BY pewarnaan_produk")->result_array();
+
     $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
 
     //0 value
@@ -129,10 +133,10 @@ class Stok{
 
       $produk = $val1['produk'];
       $total = $val1['total'];
-      $hpp = $val1['hpp'];
-      $hpp_total = $val1['hpp_total'];
+      $hpp = $val1['hps'];
+      $hpp_total = $val1['hpp'];
 
-      $this->sql->db->set(['master_produk_stok' => $total, 'master_produk_hpp' => $hpp, 'master_produk_hpp_total' => $hpp_total ]);
+      $this->sql->db->set(['master_produk_stok' => $total, 'master_produk_hps' => $hps, 'master_produk_hpp' => $hpp ]);
       $this->sql->db->where(['master_produk_id'=> $produk]);
       $this->sql->db->update('t_master_produk');
       

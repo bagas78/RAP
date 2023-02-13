@@ -118,9 +118,9 @@
 
             <tr>
               <td colspan="3"></td>
-              <td align="right">HPP</td>
+              <td align="right">HPS</td>
               <td>
-                <input required readonly="" type="number" name="hpp" class="form-control" id="hpp">
+                <input required readonly="" type="number" name="hps" class="form-control" id="hps">
               </td>
             </tr>
 

@@ -179,7 +179,7 @@
               <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
             </tr>
 
-            <tr>
+            <tr hidden>
               <td colspan="3"></td>
               <td align="right">HPP Produksi</td>
               <td><input id="hpp" readonly="" type="text" name="hpp" class="form-control" value="0" min="0"></td>
@@ -214,7 +214,8 @@ function proses() {
   // hidden menu proses produksi
   $('#jasa').closest('tr').removeAttr('hidden', true);
   $('#produk').closest('tr').removeAttr('hidden', true);
-  $('#produk').attr("required", true);
+  $('#produk').attr('required',true);
+  $('#hpp').closest('tr').removeAttr('hidden', true);
 
 }
 
@@ -385,9 +386,14 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     var total = parseInt(num_total) + hpp_billet + jasa;
     $('#total_akhir').val(number_format(total));
 
-    //hpp
-    var hpp = Math.round(total / (parseInt($('#qty_barang').val().replace(/,/g, '')) + parseInt($('#qty_billet').val().replace(/,/g, ''))));
-    $('#hpp').val(hpp);    
+    <?php if ($url == 'proses'): ?>
+
+      //hpp
+      var hpp = parseInt($('#total_akhir').val().replace(/,/g, '')) / parseInt($('#produk').val().replace(/,/g, ''));
+
+      $('#hpp').val(hpp); 
+
+    <?php endif ?>   
 
     setTimeout(function() {
         auto();

@@ -38,8 +38,8 @@
               <input readonly="" type="text" name="nomor" class="form-control" required id="nomor" value="">
             </div>
             <div class="form-group col-md-6">
-              <label>Hpp</label>
-              <input readonly="" type="text" name="hpp" class="form-control" required id="hpp" value="<?=@$hpp ?>">
+              <label>Hps</label>
+              <input readonly="" type="text" name="hps" class="form-control" required id="hps" value="<?=@$hps ?>">
             </div>
           </div>          
           <div class="col-md-12">
@@ -51,8 +51,8 @@
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label>Hpp Total</label>
-              <input readonly="" type="text" name="hpp_total" class="form-control" required id="hpp_total" value="0">
+              <label>Hpp</label>
+              <input readonly="" type="text" name="hpp" class="form-control" required id="hpp" value="0">
             </div>
           </div>
           <div class="col-md-12">

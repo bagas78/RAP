@@ -39,7 +39,7 @@
   <!-- Data Table -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/dataTables.bootstrap.css">
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/buttons.dataTables.css" />
-  <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/jquery.dataTables.css" />
+  <!-- <link rel="stylesheet" href="<?php echo base_url() ?>assets/datatable/css/jquery.dataTables.css" /> -->
   
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url() ?>adminLTE/bower_components/select2/dist/css/select2.min.css">

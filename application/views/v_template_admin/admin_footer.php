@@ -96,6 +96,7 @@ $(function () {
       'autoWidth'   : true,
       'paging'      : false,
       'responsive'  : true,
+      'scrollX'     : true,
     })
     $('#example2').DataTable({
       'paging'      : true,

@@ -27,8 +27,8 @@
                   <th>Jenis</th>
                   <th>Stok</th>
                   <th>Satuan</th>
-                  <th>Harga</th>
-                  <th>Tanggal</th>
+                  <th>Harga Pokok Satuan</th>
+                  <th>Harga Jual Satuan</th>
                   <th width="50">Action</th>
                 </tr>
                 </thead>
@@ -65,17 +65,18 @@
                         { "data": "pewarnaan_jenis_type"},
                         { "data": "master_produk_stok"},
                         { "data": "satuan_singkatan"},
+                        { "data": "master_produk_hpp",
+                        "render":
+                        function( data ) {
+                          if(data == ''){s = '-';}else{s = number_format(data);}
+                          return "<span>"+s+"</span>";
+                        }
+                        },
                         { "data": "master_produk_harga",
                         "render":
                         function( data ) {
                           return "<span>"+number_format(data)+"</span>";
                         }
-                        },
-                        { "data": "master_produk_tanggal",
-                        "render": 
-                        function( data ) {
-                            return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
-                          }
                         },
                         { "data": "master_produk_id",
                         "render": 

@@ -97,6 +97,7 @@
           <thead>
             <tr>
               <th width="200">Bahan</th>
+              <th>Stok</th>
               <th>Qty</th>
               <th>Potongan ( % )</th>
               <th>Harga</th>
@@ -117,9 +118,16 @@
               </td>
               <td>
                 <div class="input-group">
+                  <input readonly="" type="number" name="stok[]" class="stok form-control" value="0">
+                  <span class="satuan input-group-addon"></span>
+                </div>
+              </td>
+              <td>
+                <div class="input-group">
                   <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
                   <span class="satuan input-group-addon"></span>
                 </div>
+              </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
@@ -127,13 +135,13 @@
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">Qty Akhir</td>
               <td><input id="qty_akhir" readonly="" type="text" name="qty_akhir" class="form-control"></td>
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">PPN ( % )</td>
               <td>
                 <input readonly="" id="ppn" type="text" name="ppn" class="form-control" value="<?=$ppn['pajak_persen']?>">
@@ -142,13 +150,13 @@
             </tr>
 
             <tr>
-              <td colspan="3"></td>
+              <td colspan="4"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
-              <td colspan="5" align="right">
+              <td colspan="6" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -180,11 +188,15 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
         var i = (index + 1);
         
         //harga
-        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
+        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['bahan_harga']));
 
         //satuan
-        var satuan = $('#copy:nth-child('+i+') > td:nth-child(2) > div > span');
+        var satuan = $('.satuan');
         $(satuan).empty().html(val['satuan_singkatan']);
+
+        //stok
+        var stok = $('.stok');
+        $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(number_format(val['bahan_stok']));
 
       });
   });
@@ -192,19 +204,13 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
   //copy paste
   function clone(){
     //paste
-    // var clone = $('#copy').clone();
-    // clone.find("span.select2 ").remove();
-    // clone.find("select").select2({ placeholder: "-- Pilih --" });
-    // clone.find("span.select2 ").css('width', '100%');
-    // $("#paste").prepend(clone);
-
-    //paste
     $('#paste').prepend($('#copy').clone());
 
     //blank new input
     $('#copy').find('select').val('');
     $('#copy').find('.potongan').val(0);
     $('#copy').find('.qty').val(1);
+    $('#copy').find('.stok').val(0);
     $('#copy').find('.harga').val(0);
     $('#copy').find('.subtotal').val(0);
     $('#copy').find('.satuan').html('');
@@ -237,11 +243,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     $.each($('.qty'), function(index, val) {
        var i = index+1;
 
-       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val();
-       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val().replace(/,/g, '');
-       var diskon = $('#copy:nth-child('+i+') > td:nth-child(3) > input').val();
+       var qty = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val();
+       var harga = $('#copy:nth-child('+i+') > td:nth-child(5) > input').val().replace(/,/g, '');
+       var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
 
-       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
+       var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
        var potongan = (parseInt(diskon) * parseInt(harga) / 100);  
        var subtotal = parseInt(qty) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());

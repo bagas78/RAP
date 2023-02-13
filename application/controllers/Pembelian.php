@@ -13,7 +13,7 @@ class Pembelian extends CI_Controller{
 	    $data = $this->$model->get_datatables($where);
 		$total = $this->$model->count_all($where);
 		$filter = $this->$model->count_filtered($where);
-
+ 
 		$output = array(
 			"draw" => $_GET["draw"],
 			"recordsTotal" => $total,
@@ -123,6 +123,7 @@ class Pembelian extends CI_Controller{
 						'pembelian_barang_nomor' => $nomor,
 						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
 						'pembelian_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
 						'pembelian_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
 						'pembelian_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
 						'pembelian_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
@@ -240,6 +241,7 @@ class Pembelian extends CI_Controller{
 						'pembelian_barang_nomor' => $nomor,
 						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
 						'pembelian_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
 						'pembelian_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
 						'pembelian_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
 						'pembelian_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),

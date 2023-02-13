@@ -11,17 +11,17 @@
     <!-- Bootstrap CSS-->
 
     <!-- <link rel="shortcut icon" href="<?php echo base_url() ?>assets/gambar/icon.png" /> -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/theme') ?>/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/themes') ?>/vendor/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="<?php echo base_url('assets/theme') ?>/vendor/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/themes') ?>/vendor/font-awesome/css/all.min.css">
     <!-- Fontastic Custom icon font-->
-    <link rel="stylesheet" href="<?php echo base_url('assets/theme') ?>/css/fontastic.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/themes') ?>/css/fontastic.css">
     <!-- Google fonts - Poppins -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-    <!-- theme stylesheet-->
-    <link rel="stylesheet" href="<?php echo base_url('assets/theme') ?>/css/style.default.css" id="theme-stylesheet">
+    <!-- themes stylesheet-->
+    <link rel="stylesheet" href="<?php echo base_url('assets/themes') ?>/css/style.default.css" id="themes-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="<?php echo base_url('assets/theme') ?>/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/themes') ?>/css/custom.css">
 
     <script src="<?php echo base_url('assets/') ?>sweetalert/sweet-alert.js"></script>
 
@@ -75,14 +75,14 @@
     </div>
 
         <!-- JavaScript files-->
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/jquery/jquery.min.js"></script>
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/popper.js/umd/popper.min.js"> </script>
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/jquery.cookie/jquery.cookie.js"> </script>
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/chart.js/Chart.min.js"></script>
-    <script src="<?php echo base_url('assets/theme') ?>/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/popper.js/umd/popper.min.js"> </script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/jquery.cookie/jquery.cookie.js"> </script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/chart.js/Chart.min.js"></script>
+    <script src="<?php echo base_url('assets/themes') ?>/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
-    <script src="<?php echo base_url('assets/theme') ?>/js/front.js"></script>
+    <script src="<?php echo base_url('assets/themes') ?>/js/front.js"></script>
   </body>
 </html>
 
