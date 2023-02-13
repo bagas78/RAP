@@ -29,7 +29,6 @@
               <label>Kategori</label>
               <select name="kategori" class="form-control" required>
                 <option value="" hidden>-- Pilih --</option>
-                <option value="avalan">Bahan Avalan</option>
                 <option value="utama">Bahan Baku Utama</option>
                 <option value="pembantu">Bahan Pembantu</option>
               </select>

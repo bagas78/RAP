@@ -7,8 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('pembelian/bahan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-              <button onclick="filter('avalan')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Avalan</button>
+              <a href="<?= base_url('pembelian/bahan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>             
               <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
               <button onclick="filter('pembantu')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Pembantu</button>
             </div>

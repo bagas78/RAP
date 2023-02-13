@@ -8,8 +8,8 @@
  
             <div align="left">
               <a href="<?= base_url('pembelian/'.@$url.'_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-               <button onclick="filter('l')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
-              <button onclick="filter('b')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
+               <button onclick="filter('lunas')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
+              <button onclick="filter('belum')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -28,7 +28,7 @@
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
                   <th>Status</th>
-                  <th width="50">Action</th>
+                  <th width="60">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,7 +69,7 @@
                         { "data": "pembelian_status",
                         "render": 
                         function( data ) {
-                            if (data == 'l') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
+                            if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
                             return "<span>"+s+"</span>";
                           }
                         },
@@ -77,7 +77,8 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-success'><i class='fa fa-file-text'></i></button>";
                           }
                         },
                         

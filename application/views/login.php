@@ -65,7 +65,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6" style="background: #3a3d3f;"></div>
+            <div class="col-lg-6" style="background: #343A40;"></div>
             <div align="center" class="col-lg-6" style="background: lavender; padding: 0.5%;">
               <span>Copyright JTM Group 2023</span>
             </div>

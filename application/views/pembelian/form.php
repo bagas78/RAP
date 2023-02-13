@@ -6,7 +6,7 @@
 
 <!-- Main content --> 
 <section class="content">
-
+ 
   <!-- Default box -->  
   <div class="box"> 
     <div class="box-header with-border">
@@ -19,7 +19,7 @@
  
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control" placeholder="PA-xxxx">
+          <input id="po" type="text" class="form-control" placeholder="PB-xxxx">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -69,8 +69,8 @@
               <label>Status Pembayaran</label>
               <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>
-                <option value="l">Lunas</option>
-                <option value="b">Belum Lunas</option>
+                <option value="lunas">Lunas</option>
+                <option value="belum">Belum Lunas</option>
               </select>
             </div>
           </div>
@@ -99,7 +99,7 @@
               <th width="200">Bahan</th>
               <th>Stok</th>
               <th>Qty</th>
-              <th>Potongan ( % )</th>
+              <th>Potongan ( kg )</th>
               <th>Harga</th>
               <th>Subtotal</th>
               <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
@@ -248,7 +248,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
 
        var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
-       var potongan = (parseInt(diskon) * parseInt(harga) / 100);  
+       var potongan = parseInt(diskon) * parseInt(harga);  
        var subtotal = parseInt(qty) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());
 

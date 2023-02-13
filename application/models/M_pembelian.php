@@ -9,7 +9,7 @@ class M_pembelian extends CI_Model {
 	var $column_order = array(null,'pembelian_nomor','kontak_nama','pembelian_jatuh_tempo','pembelian_status'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('pembelian_nomor','kontak_nama','pembelian_jatuh_tempo','pembelian_status','pembelian_kategori'); 
+	var $column_search = array('pembelian_nomor','kontak_nama','pembelian_jatuh_tempo','pembelian_status'); 
 
 	//urutan 
 	var $order = array('pembelian_id' => 'desc'); 
