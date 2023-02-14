@@ -4,6 +4,7 @@ class Pembelian extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		$this->load->model('m_pembelian');
+		$this->load->model('m_pembelian_umum');
 		$this->load->model('m_bahan');
 	}  
 
@@ -71,10 +72,12 @@ class Pembelian extends CI_Controller{
 	function save($po, $redirect, $po_tanggal = ''){
 
 		//pembelian
+		$user = $this->session->userdata('id');
 		$nomor = strip_tags($_POST['nomor']);
 		$status = strip_tags($_POST['status']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
+						'pembelian_user' => $user,
 						'pembelian_po' => $po,
 						'pembelian_po_tanggal' => $po_tanggal,
 						'pembelian_nomor' => $nomor,
@@ -555,12 +558,10 @@ class Pembelian extends CI_Controller{
 	function umum(){
 		if ( $this->session->userdata('login') == 1) {
 
-		    $active = 'umum';
-			$data["title"] = $active;
-			$data['url'] = $active;
+		    $data["title"] = 'pembelian umum';
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/table');
+		    $this->load->view('pembelian/umum');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -570,26 +571,27 @@ class Pembelian extends CI_Controller{
 	}
 	function umum_get_data(){
 		
-		$model = 'm_pembelian';
-		$where = array('pembelian_kategori' => 'umum','pembelian_po' => 0,'pembelian_hapus' => 0);
+		$model = 'm_pembelian_umum';
+		$where = array('pembelian_umum_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
 	function umum_add(){
-		
-		$kategori = 'all';
-		$redirect = 'umum';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
 
+		//rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
+
+	    //ppn
+	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
+		
 		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian WHERE pembelian_kategori = 'umum'");
+	    $pb = $this->query_builder->count("SELECT * FROM t_pembelian_umum");
 	    $data['nomor'] = 'PU-'.date('dmY').'-'.($pb+1);
 
-	    $data["title"] = $redirect;
+	    $data["title"] = 'pembelian umum';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/umum_add');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function umum_save(){
