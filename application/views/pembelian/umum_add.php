@@ -161,7 +161,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 
     //blank new input
     $('#copy').find('.barang').val('');
-    $('#copy').find('.harga').val(0);
+    $('#copy').find('.harga').val('');
     $('#copy').find('.qty').val(1);
     $('#copy').find('.potongan').val(0);
     $('#copy').find('.subtotal').val(0);

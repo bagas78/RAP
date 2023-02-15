@@ -596,80 +596,244 @@ class Pembelian extends CI_Controller{
 	}
 	function umum_save(){
 		
-		$po = 0;
-		$redirect = 'umum';
-		$kategori = 'umum';
-		$this->save($po, $redirect, $kategori);
+		//pembelian umum
+		$user = $this->session->userdata('id');
+		$nomor = strip_tags($_POST['nomor']);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
+		$set1 = array(
+						'pembelian_umum_user' => $user,
+						'pembelian_umum_nomor' => $nomor,
+						'pembelian_umum_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_umum_pembayaran' => strip_tags($_POST['pembayaran']),
+						'pembelian_umum_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'pembelian_umum_status' => strip_tags($_POST['status']),
+						'pembelian_umum_keterangan' => strip_tags($_POST['keterangan']),
+						'pembelian_umum_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'pembelian_umum_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
+						'pembelian_umum_total' => $total, 
+					);
+
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+		if ($lampiran['name']) {
+
+			$file = $lampiran;
+			$path = './assets/gambar/pembelian_umum';
+			$name = 'lampiran';
+			$upload = $this->upload_builder->single($file,$path,$name);	
+
+      		if ($upload != 0) {
+      			$push = array('pembelian_umum_lampiran' => $upload);
+	          	$result = array_merge($set1,$push);
+     		}	
+
+		}else{
+			$result = $set1;
+		}
+
+		$db = $this->query_builder->add('t_pembelian_umum',$result);
+
+		//barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+
+		print_r($jum);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'pembelian_umum_barang_nomor' => $nomor,
+						'pembelian_umum_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'pembelian_umum_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_umum_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
+						'pembelian_umum_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'pembelian_umum_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
+					);	
+
+			$this->query_builder->add('t_pembelian_umum_barang',$set2);
+		}
+
+		if ($db == 1) {
+			
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('pembelian/umum'));
 	}
 	function umum_edit($id){
+
+		//data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'");
+
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
+
+	    //ppn
+	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
 		
-		$active = 'umum';
-		$kategori = 'all';
-		$data = $this->edit($id, $active, $kategori);
-
-		$data["title"] = $active;
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/form');
-	    $this->load->view('pembelian/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
+		$data["title"] = 'pembelian umum';
+		    
+		$this->load->view('v_template_admin/admin_header',$data);
+		$this->load->view('pembelian/umum_add');
+		$this->load->view('pembelian/umum_edit');
+		$this->load->view('v_template_admin/admin_footer');
+	}
+	function get_pembelian_umum($nomor){
+		//pembelian barang
+		$db = $this->query_builder->view("SELECT * FROM t_pembelian_umum_barang WHERE pembelian_umum_barang_nomor = '$nomor'");
+		echo json_encode($db);
 	}	
-	function umum_update(){
+	function umum_update($nomor){
 
-		$po = 0;
-		$redirect = 'umum';
-		$this->update($po, $redirect);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
+		$set1 = array(
+						'pembelian_umum_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_umum_pembayaran' => strip_tags($_POST['pembayaran']),
+						'pembelian_umum_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'pembelian_umum_status' => strip_tags($_POST['status']),
+						'pembelian_umum_keterangan' => strip_tags($_POST['keterangan']),
+						'pembelian_umum_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'pembelian_umum_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
+						'pembelian_umum_total' => $total, 
+					);
+
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+		if ($lampiran['name']) {
+
+			$file = $lampiran;
+			$path = './assets/gambar/pembelian_umum';
+			$name = 'lampiran';
+			$upload = $this->upload_builder->single($file,$path,$name);	
+
+      		if ($upload != 0) {
+      			$push = array('pembelian_umum_lampiran' => $upload);
+	          	$result = array_merge($set1,$push);
+     		}	
+
+		}else{
+			$result = $set1;
+		}
+
+		$where1 = ['pembelian_umum_nomor' => $nomor];
+		$db = $this->query_builder->update('t_pembelian_umum',$result,$where1);
+
+		//delete barang
+		$where2 = ['pembelian_umum_barang_nomor' => $nomor];
+		$this->query_builder->delete('t_pembelian_umum_barang',$where2);
+
+		//save barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'pembelian_umum_barang_nomor' => $nomor,
+						'pembelian_umum_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'pembelian_umum_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_umum_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
+						'pembelian_umum_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'pembelian_umum_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
+					);	
+
+			$this->query_builder->add('t_pembelian_umum_barang',$set2);
+		}
+
+		if ($db == 1) {
+
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+
+		redirect(base_url('pembelian/umum'));
 	}
 	function umum_delete($id){
 		
-		$table = 'pembelian';
-		$redirect = 'umum';
-		$this->delete('pembelian', $id, $redirect);
+		$db = $this->query_builder->update("t_pembelian_umum",['pembelian_umum_hapus' => 1],['pembelian_umum_id' => $id]);
+
+		if ($db == 1) {
+
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+
+		redirect(base_url('pembelian/umum'));
+	}
+	function laporan_umum($id){
+		$data['title'] = 'laporan';
+
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian_umum as a JOIN t_pembelian_umum_barang as b ON a.pembelian_umum_nomor = b.pembelian_umum_barang_nomor JOIN t_user as c ON a.pembelian_umum_user = c.user_id WHERE a.pembelian_umum_hapus = 0 AND a.pembelian_umum_id = '$id'");
+
+		$this->load->view('pembelian/umum_laporan', $data);
 	}
 
 //////// bayar hutang /////////////////////////////////////////////////
 
-	function bayar(){
+	function bayar($jenis = ''){
 		$data["title"] = 'bayar';
 
-		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/bayar');
-	    $this->load->view('v_template_admin/admin_footer');
+		if ($jenis == 'umum') {
+			$data['bayar_active'] = 'umum';
+			$this->load->view('v_template_admin/admin_header',$data);
+	    	$this->load->view('pembelian/bayar_umum');
+	    	$this->load->view('pembelian/bayar_modal');
+	    	$this->load->view('v_template_admin/admin_footer');
+		}else{
+			$data['bayar_active'] = 'bahan';
+			$this->load->view('v_template_admin/admin_header',$data);
+	    	$this->load->view('pembelian/bayar');
+	    	$this->load->view('pembelian/bayar_modal');
+	    	$this->load->view('v_template_admin/admin_footer');
+		}
 	}
 	function bayar_get_data(){
 		$model = 'm_pembelian';
-		$where = array('pembelian_status' => 'b','pembelian_po' => 0,'pembelian_hapus' => 0);
+		$where = array('pembelian_status' => 'belum','pembelian_po' => 0,'pembelian_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
-	function bayar_rotate($id){
-		$dt = date('Y-m-d');
-		$set = ['pembelian_status' => 'l', 'pembelian_pelunasan' => $dt];
-		$where = ['pembelian_id' => $id];
-		$db = $this->query_builder->update('t_pembelian',$set,$where);
+	function bayar_rotate($jenis, $id){
+		$tanggal = strip_tags($_POST['tanggal']);
+		$keterangan = strip_tags($_POST['keterangan']);
 
-		if ($db == 1) {
-			
-			//update stok bahan
-			$this->stok->update_bahan();
+		if ($jenis == 'bahan') {
 
-			//jurnal
-			$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
-			$nomor = $pem['pembelian_nomor'];
-			$kategori = $pem['pembelian_kategori'];
-			$total = $pem['pembelian_total']; 
+			//pembelian bahan
 
-			$this->stok->jurnal_delete($nomor);
-			$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-			$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
-			//
+			$set = ['pembelian_status' => 'lunas', 'pembelian_pelunasan' => $tanggal, 'pembelian_pelunasan_keterangan' => $keterangan];
+			$where = ['pembelian_id' => $id];
 
-			$this->session->set_flashdata('success','Berhasil di bayar');
-		} else {
-			$this->session->set_flashdata('gagal','Gagal di bayar');
+			$db = $this->query_builder->update('t_pembelian',$set,$where);
+
+			if ($db == 1) {
+				
+				//update stok bahan
+				$this->stok->update_bahan();
+
+				//jurnal
+				$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+				$nomor = $pem['pembelian_nomor'];
+				$kategori = $pem['pembelian_kategori'];
+				$total = $pem['pembelian_total']; 
+
+				$this->stok->jurnal_delete($nomor);
+				$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
+				//
+
+				$this->session->set_flashdata('success','Berhasil di bayar');
+			} else {
+				$this->session->set_flashdata('gagal','Gagal di bayar');
+			}	
+		}else{
+
+			//pembelian umum
 		}
 
-		redirect(base_url('pembelian/bayar'));
+		redirect(base_url('pembelian/bayar/'.$jenis));
 	}
 	function bayar_edit($id){
 
@@ -677,8 +841,7 @@ class Pembelian extends CI_Controller{
 		$db = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
 
 		$active = 'bayar';
-		$kategori = $db['pembelian_kategori'];
-		$data = $this->edit($id, $active, $kategori);
+		$data = $this->edit($id, $active);
 
 		$data["title"] = $active;
 

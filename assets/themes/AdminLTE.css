@@ -1845,7 +1845,7 @@ a:focus {
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   border-top: 1px solid #f4f4f4;
-  padding: 20px;
+  padding: 16px;
   background-color: #ffffff;
 }
 .chart-legend {

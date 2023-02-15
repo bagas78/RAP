@@ -74,9 +74,9 @@
                         { "data": "pembelian_umum_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('pembelian/laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
+                            return "<a href='<?php echo base_url('pembelian/umum_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('pembelian/umum_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a href='<?php echo base_url('pembelian/laporan_umum/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
                         

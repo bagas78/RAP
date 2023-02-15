@@ -7,8 +7,8 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <button onclick="filter('avalan')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Avalan</button>
-              <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
+              <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
+              <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -42,6 +42,14 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+
+  //active btn
+  if ('<?=@$bayar_active?>' == 'bahan') {
+    $('.bahan').addClass('active').css('background', 'powderblue');
+  }else{
+    $('.umum').addClass('active').css('background', 'powderblue');
+  }
+
     var table;
     $(document).ready(function() {
         //datatables
@@ -75,7 +83,7 @@
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick=bayar('<?php echo base_url('pembelian/bayar_rotate/')?>"+data+"') class='btn btn-xs btn-success'><i class='fa fa-exchange'></i></button> "+
+                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success'><i class='fa fa-exchange'></i></button> "+
                             "<a href='<?php echo base_url('pembelian/bayar_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a>";
                           }
                         },
@@ -84,27 +92,5 @@
         });
 
     });
-
-function filter($val){
-  var table = $('#example').DataTable();
-  table.search($val).draw();
-}
-
-function bayar(url){
-    swal({
-      title: "Apa kamu yakin?",
-      text: "Bayar Lunas Transaksi Ini ?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-  
-        $(location).attr('href',url);
-        
-      }
-    });
-  }
  
 </script>
