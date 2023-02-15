@@ -789,9 +789,16 @@ class Pembelian extends CI_Controller{
 	    	$this->load->view('v_template_admin/admin_footer');
 		}
 	}
-	function bayar_get_data(){
-		$model = 'm_pembelian';
-		$where = array('pembelian_status' => 'belum','pembelian_po' => 0,'pembelian_hapus' => 0);
+	function bayar_get_data($jenis = ''){
+		
+		if ($jenis == 'umum') {
+			$model = 'm_pembelian_umum';
+			$where = array('pembelian_umum_status' => 'belum','pembelian_umum_hapus' => 0);
+		}else{
+			$model = 'm_pembelian';
+			$where = array('pembelian_status' => 'belum','pembelian_po' => 0,'pembelian_hapus' => 0);
+		}
+	
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -813,17 +820,6 @@ class Pembelian extends CI_Controller{
 				//update stok bahan
 				$this->stok->update_bahan();
 
-				//jurnal
-				$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
-				$nomor = $pem['pembelian_nomor'];
-				$kategori = $pem['pembelian_kategori'];
-				$total = $pem['pembelian_total']; 
-
-				$this->stok->jurnal_delete($nomor);
-				$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-				$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
-				//
-
 				$this->session->set_flashdata('success','Berhasil di bayar');
 			} else {
 				$this->session->set_flashdata('gagal','Gagal di bayar');
@@ -831,24 +827,45 @@ class Pembelian extends CI_Controller{
 		}else{
 
 			//pembelian umum
+
+			$set = ['pembelian_umum_status' => 'lunas', 'pembelian_umum_pelunasan' => $tanggal, 'pembelian_umum_pelunasan_keterangan' => $keterangan];
+			$where = ['pembelian_umum_id' => $id];
+
+			$db = $this->query_builder->update('t_pembelian_umum',$set,$where);
+
+			if ($db == 1) {
+				
+				//update stok bahan
+				$this->stok->update_bahan();
+
+				$this->session->set_flashdata('success','Berhasil di bayar');
+			} else {
+				$this->session->set_flashdata('gagal','Gagal di bayar');
+			}	
 		}
 
 		redirect(base_url('pembelian/bayar/'.$jenis));
 	}
-	function bayar_edit($id){
+	function bayar_edit($id, $jenis = ''){
 
-		//ambil kategori
-		$db = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+		if ($jenis == 'umum') {
 
-		$active = 'bayar';
-		$data = $this->edit($id, $active);
+			$this->umum_edit($id);
 
-		$data["title"] = $active;
+		}else{
 
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('pembelian/form');
-	    $this->load->view('pembelian/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
+			//ambil kategori
+			$db = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+
+			$active = 'bayar';
+			$data = $this->edit($id, $active);
+			$data["title"] = $active;
+
+			$this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('pembelian/form');
+		    $this->load->view('pembelian/form_edit');
+		    $this->load->view('v_template_admin/admin_footer');
+		}
 	}
 	function bayar_update(){
 

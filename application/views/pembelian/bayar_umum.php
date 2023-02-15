@@ -24,7 +24,6 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Supplier</th>
                   <th>Jatuh Tempo</th>
                   <th width="1">Action</th>
                 </tr>
@@ -60,19 +59,18 @@
             "scrollX": true, 
             
             "ajax": {
-                "url": "<?=site_url('pembelian/bayar_get_data')?>",
+                "url": "<?=site_url('pembelian/bayar_get_data/umum')?>",
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "pembelian_nomor"},
-                        { "data": "kontak_nama"},
-                        { "data": "pembelian_jatuh_tempo",
+                        { "data": "pembelian_umum_nomor"},
+                        { "data": "pembelian_umum_jatuh_tempo",
                         "render": 
                         function( data ) {
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
-                        { "data": "pembelian_id",
+                        { "data": "pembelian_umum_id",
                         "render": 
                         function( data ) {
                             return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success'>Bayar <i class='fa fa-clipboard'></i></button>";
