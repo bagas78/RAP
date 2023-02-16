@@ -111,16 +111,8 @@
               <td>
                 <div class="input-group">
                   <input required type="number" name="billet" class="form-control" id="billet">
-                  <span class="input-group-addon">Pcs</span>
+                  <span class="input-group-addon">Kg</span>
                 </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="3"></td>
-              <td align="right">HPS</td>
-              <td>
-                <input required readonly="" type="number" name="hps" class="form-control" id="hps">
               </td>
             </tr>
 
@@ -239,10 +231,6 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     //total akhir
     var total = parseInt(num_total) + parseInt($('#jasa').val());
     $('#total').val(number_format(total));
-
-    //HPP
-    var hpp = total / parseInt($('#billet').val());
-    $('#hpp').val(Math.round(hpp));
 
     setTimeout(function() {
         auto();

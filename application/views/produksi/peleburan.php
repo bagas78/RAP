@@ -1,7 +1,7 @@
 
 <style type="text/css">
   .notice{
-    background: seagreen;
+    background: crimson;
     color: white;
     padding: 1%;
   }
@@ -32,7 +32,7 @@
             <tr>
               <th>Nomor</th>
               <th>Jumlah Billet</th>
-              <th>HPS</th>
+              <th>Biaya Produksi</th>
               <th>Tanggal Peleburan</th>
               <th width="10">Action</th>
             </tr>
@@ -44,21 +44,27 @@
 
           <div class="col-md-6 row">
 
+            <br/><br/>
+
             <span class="notice"><i class="fa fa-info-circle"></i> Stok Billet Terbaru Setelah Produksi</span>
             <div class="clearfix"></div><br/>
 
             <table class="table table-bordered">
               <tr>
                 <td style="background: cornsilk;">Stok Billet</td>
-                <td><?=$total['billet_stok'].' pcs'?></td>
+                <td><?=number_format($total['billet_stok']).' Kg'?></td>
               </tr>
               <tr>
-                <td style="background: cornsilk;">Harga Pokok Satuan</td>
-                <td><?=number_format($total['billet_hpp'])?></td>
+                <td style="background: cornsilk;">Di Gunakan</td>
+                <td><?=number_format($total['billet_min']).' Kg'?></td>
               </tr>
               <tr>
-                <td style="background: cornsilk;">Harga Pokok Penjualan</td>
-                <td><?=number_format($total['billet_hpp'] * $total['billet_stok'])?></td>
+                <td style="background: cornsilk;">Harga Pokok Satuan ( HPS )</td>
+                <td><?='Rp. '.number_format($total['billet_hps'])?></td>
+              </tr>
+              <tr>
+                <td style="background: cornsilk;">Harga Pokok Produksi ( HPP )</td>
+                <td><?='Rp. '.number_format($total['billet_hpp'])?></td>
               </tr>
               <tr>
                 <td style="background: ghostwhite;">Terakir Di Tambah</td>
@@ -94,13 +100,13 @@
                         { "data": "peleburan_billet",
                         "render":
                         function( data ){
-                          return data+" pcs";
+                          return data+" Kg";
                         }
                         },
-                        { "data": "peleburan_hps",
+                        { "data": "peleburan_biaya",
                         "render":
                         function(data) {
-                          return number_format(data);
+                          return 'Rp. '+number_format(data);
                         }
                         },
                         { "data": "peleburan_tanggal",

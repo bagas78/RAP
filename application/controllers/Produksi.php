@@ -315,7 +315,6 @@ class Produksi extends CI_Controller{
 						'peleburan_jasa' => strip_tags(str_replace(',', '', @$_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', @$_POST['billet'])),
 						'peleburan_biaya' => $biaya,
-						'peleburan_hps' => strip_tags(str_replace(',', '', @$_POST['hps'])),
 					);
 
 		$db = $this->query_builder->add('t_peleburan',$set);
@@ -415,7 +414,6 @@ class Produksi extends CI_Controller{
 						'peleburan_jasa' => strip_tags(str_replace(',', '', @$_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', @$_POST['billet'])),
 						'peleburan_biaya' => $biaya,
-						'peleburan_hps' => strip_tags(str_replace(',', '', @$_POST['hps'])),
 					);
 
 		$where = ['peleburan_id' => $id];

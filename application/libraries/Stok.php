@@ -73,21 +73,19 @@ class Stok{
   function update_billet(){
 
     //sum stok billet
-    $db1 = $this->sql->db->query("SELECT SUM(peleburan_billet) AS jumlah, ROUND(SUM(peleburan_hps)) AS hps FROM t_peleburan WHERE peleburan_hapus = 0")->row_array();
+    $db1 = $this->sql->db->query("SELECT SUM(peleburan_billet) AS billet, (SUM(peleburan_biaya) / SUM(peleburan_billet)) AS hps, SUM(peleburan_biaya) as hpp FROM t_peleburan WHERE peleburan_hapus = 0")->row_array();
     $db2 = $this->sql->db->query("SELECT SUM(produksi_billet_qty) AS qty FROM t_produksi WHERE produksi_hapus = 0")->row_array();
 
-    $jumlah = $db1['jumlah'] - $db2['qty'];
-
-    if ($jumlah == 0) {
-      $hpp = 0;
-    }else{
-      $hpp = round($db1['hps'] / $jumlah);
-    }
+    $full = $db1['billet'];
+    $min = $db2['qty'];
+    $stok = $full - $min;
+    $hps = $db1['hps'];
+    $hpp = $db1['hpp'];
 
     $get = $this->sql->db->query("SELECT * FROM t_billet")->row_array();
     $id = $get['billet_id']; 
 
-    $set = ['billet_stok' => $jumlah, 'billet_hpp' => $hpp, 'billet_update' => date('Y-m-d')];
+    $set = ['billet_full' => $full, 'billet_min' => $min, 'billet_stok' => $stok, 'billet_hps' => $hps, 'billet_hpp' => $hpp, 'billet_update' => date('Y-m-d')];
     $where = ['billet_id' => $id];
 
     $this->sql->db->set($set);
