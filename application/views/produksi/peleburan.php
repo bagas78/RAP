@@ -52,23 +52,27 @@
             <table class="table table-bordered">
               <tr>
                 <td style="background: cornsilk;">Stok Billet</td>
-                <td><?=number_format($total['billet_stok']).' Kg'?></td>
+                <td><?=number_format(@$total['billet_stok']).' Kg'?></td>
               </tr>
               <tr>
                 <td style="background: cornsilk;">Di Gunakan</td>
-                <td><?=number_format($total['billet_min']).' Kg'?></td>
+                <td><?=number_format(@$total['billet_min']).' Kg'?></td>
+              </tr>
+              <tr>
+                <td style="background: cornsilk;">Sisa Produksi</td>
+                <td><?=number_format(@$total['billet_sisa']).' Kg'?></td>
               </tr>
               <tr>
                 <td style="background: cornsilk;">Harga Pokok Satuan ( HPS )</td>
-                <td><?='Rp. '.number_format($total['billet_hps'])?></td>
+                <td><?='Rp. '.number_format(@$total['billet_hps'])?></td>
               </tr>
               <tr>
                 <td style="background: cornsilk;">Harga Pokok Produksi ( HPP )</td>
-                <td><?='Rp. '.number_format($total['billet_hpp'])?></td>
+                <td><?='Rp. '.number_format(@$total['billet_hpp'])?></td>
               </tr>
               <tr>
                 <td style="background: ghostwhite;">Terakir Di Tambah</td>
-                <td><?php $date = date_create($total['billet_update']); echo date_format($date,'d/m/Y');?></td>
+                <td><?php $date = date_create(@$total['billet_update']); echo date_format($date,'d/m/Y');?></td>
               </tr>
             </table>
           </div>

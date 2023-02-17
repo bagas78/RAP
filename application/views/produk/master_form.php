@@ -29,13 +29,13 @@
     </div>
     <div class="box-body">
 
-      <form method="post" enctype="multipart/form-data" class="bg-alice" action="<?=base_url('produk/save')?>">
+      <form method="post" enctype="multipart/form-data" class="bg-alice" action="<?=base_url('produk/master_save')?>">
 
         <div class="row" style="margin-left: -8px;">
           <div class="col-md-12">
             <div class="form-group col-md-6">
               <label>Kode Produk</label> 
-              <input readonly="" type="text" name="kode" class="form-control" required value="<?=@$nomor?>" id="kode">
+              <input readonly="" type="text" name="kode" class="form-control" required value="<?=@$kode?>" id="kode">
             </div>
             <div class="form-group col-md-6">
               <label>Merk</label>
@@ -56,15 +56,6 @@
             </div>
           </div>
           <div class="col-md-12">
-            <div class="form-group col-md-6">
-              <label>Pewarnaan</label>
-              <select name="pewarnaan" class="form-control" required id="pewarnaan">
-                <option value="" hidden>-- Pilih --</option>
-                <?php foreach ($pewarnaan_data as $val): ?>
-                  <option value="<?=$val['pewarnaan_jenis_id']?>"><?=$val['pewarnaan_jenis_type']?></option>
-                <?php endforeach ?>
-              </select>
-            </div>
             <div class="form-group col-md-6">
               <label>Ukuran</label>
               <div class="row">

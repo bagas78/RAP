@@ -64,8 +64,9 @@ class M_produk extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
-		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_pewarnaan = t_pewarnaan_jenis.pewarnaan_jenis_id');
+		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_jenis = t_pewarnaan_jenis.pewarnaan_jenis_id');
 		$this->db->join('t_satuan', 't_master_produk.master_produk_satuan = t_satuan.satuan_id');
+		$this->db->join('t_warna', 't_master_produk.master_produk_warna = t_warna.warna_id');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -75,8 +76,9 @@ class M_produk extends CI_Model {
 	{
 		$this->_get_datatables_query();
 		$this->db->where($where);
-		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_pewarnaan = t_pewarnaan_jenis.pewarnaan_jenis_id');
+		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_jenis = t_pewarnaan_jenis.pewarnaan_jenis_id');
 		$this->db->join('t_satuan', 't_master_produk.master_produk_satuan = t_satuan.satuan_id');
+		$this->db->join('t_warna', 't_master_produk.master_produk_warna = t_warna.warna_id');
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -85,8 +87,9 @@ class M_produk extends CI_Model {
 	{
 		$this->db->from($this->table);
 		$this->db->where($where);
-		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_pewarnaan = t_pewarnaan_jenis.pewarnaan_jenis_id');
+		$this->db->join('t_pewarnaan_jenis', 't_master_produk.master_produk_jenis = t_pewarnaan_jenis.pewarnaan_jenis_id');
 		$this->db->join('t_satuan', 't_master_produk.master_produk_satuan = t_satuan.satuan_id');
+		$this->db->join('t_warna', 't_master_produk.master_produk_warna = t_warna.warna_id');
 		return $this->db->count_all_results();
 	}
 

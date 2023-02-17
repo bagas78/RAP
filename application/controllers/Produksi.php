@@ -288,12 +288,16 @@ class Produksi extends CI_Controller{
 
 		$data["title"] = 'peleburan';
 
-		//stok > 0
-		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
+		//stok
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_peleburan");
 	    $data['nomor'] = 'PLB-'.date('dmY').'-'.($pb+1);
+
+	    //billet sisa
+	    $bil = $this->query_builder->view_row("SELECT * FROM t_billet");
+	    $data['sisa_data'] = $bil['billet_sisa'];
 
 	    //url
 	    $data['url'] = 'peleburan_save';
@@ -314,6 +318,7 @@ class Produksi extends CI_Controller{
 						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', @$_POST['qty_akhir'])),
 						'peleburan_jasa' => strip_tags(str_replace(',', '', @$_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', @$_POST['billet'])),
+						'peleburan_billet_sisa' => strip_tags(str_replace(',', '', @$_POST['sisa'])),
 						'peleburan_biaya' => $biaya,
 					);
 
@@ -386,8 +391,12 @@ class Produksi extends CI_Controller{
 		//data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
 
-		//stok > 0
-		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");
+		//stok
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
+
+		//billet sisa
+	    $bil = $this->query_builder->view_row("SELECT * FROM t_billet");
+	    $data['sisa_data'] = $bil['billet_sisa'];
 
 	    //url
 	    $data['url'] = 'peleburan_update/'.$id;
@@ -413,6 +422,7 @@ class Produksi extends CI_Controller{
 						'peleburan_qty_akhir' => strip_tags(str_replace(',', '', @$_POST['qty_akhir'])),
 						'peleburan_jasa' => strip_tags(str_replace(',', '', @$_POST['jasa'])),
 						'peleburan_billet' => strip_tags(str_replace(',', '', @$_POST['billet'])),
+						'peleburan_billet_sisa' => strip_tags(str_replace(',', '', @$_POST['sisa'])),
 						'peleburan_biaya' => $biaya,
 					);
 
@@ -524,84 +534,6 @@ class Produksi extends CI_Controller{
 	function pesanan_update($nomor){
 		$redirect = 'pesanan';
 		$status = 1;
-		$this->update($nomor, $status, $redirect);
-	}
-
-//////////////// transaksi /////////////////////////////
-
-	function transaksi(){
-		$title = 'transaksi';
-		$data["title"] = $title;		
-		$data['url'] = $title;
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/table');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function transaksi_get_data()
-	{
-		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_status' => 2);
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function transaksi_add(){
-		
-		$kategori = 'all';
-		$redirect = 'transaksi';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
-	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
-
-	    $data['place'] = '-- Tarik Pesanan Produksi --';
-	    $data['tarik'] = 1;
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/form');
-	    $this->load->view('produksi/search');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function transaksi_save(){
-		$status = 2;
-		$redirect = 'transaksi';
-		$nomor = strip_tags(@$_POST['nomor']);
-		
-		$cek = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_nomor = '$nomor'");
-		if ($cek > 0) {
-			//update
-			$this->update($nomor, $status, $redirect);
-
-		}else{
-			//new
-			$status = 2;
-			$this->save($status, $redirect);
-		}
-	}
-	function transaksi_delete($id){
-		
-		$table = 'produksi';
-		$redirect = 'transaksi';
-		$this->delete($table, $id, $redirect);
-	}
-	function transaksi_edit($id){
-
-		$kategori = 'all';
-		$active = 'transaksi';
-		$data = $this->edit($id, $active, $kategori);
-
-		$data['url'] = 'transaksi';
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/form');
-	    $this->load->view('produksi/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function transaksi_update($nomor){
-		$redirect = 'transaksi';
-		$status = 2;
 		$this->update($nomor, $status, $redirect);
 	}
 

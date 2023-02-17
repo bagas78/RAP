@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	$('form').attr('action', '<?=base_url('produk/update/'.@$data['master_produk_id'])?>');;
+	$('form').attr('action', '<?=base_url('produk/master_update/'.@$data['master_produk_id'])?>');;
 	$('#kode').val('<?=@$data['master_produk_kode']?>');
 	$('#nama').val('<?=@$data['master_produk_nama']?>');
 	$('#pewarnaan').val('<?=@$data['master_produk_pewarnaan']?>').change();

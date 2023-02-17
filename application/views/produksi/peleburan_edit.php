@@ -6,6 +6,8 @@
   $('#jasa').val('<?=@$data['peleburan_jasa']?>');
   $('#hps').val('<?=@$data['peleburan_hps']?>');
   $('#billet').val('<?=@$data['peleburan_billet']?>');
+  $('#sisa').val('<?=@$data['peleburan_billet_sisa']?>');
+  $('#stok_sisa').text('<?=@$sisa_data + @$data['peleburan_billet_sisa']?>');
 
   //get peleburan
   $.get('<?=base_url('produksi/get_peleburan/'.$data['peleburan_nomor'])?>', function(data) {

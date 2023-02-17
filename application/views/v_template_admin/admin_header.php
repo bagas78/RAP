@@ -346,12 +346,6 @@ thead{
               </a>
             </li>
             <li>
-              <a href="<?php echo base_url('produksi/transaksi') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Transkasi Produksi</span>
-              </a>
-            </li>
-            <li>
               <a href="<?php echo base_url('produksi/proses') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Proses Produksi</span>
@@ -367,10 +361,31 @@ thead{
           </ul>
         </li>
 
-        <li>
-          <a href="<?php echo base_url('produk') ?>">
-            <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
+        <li class="treeview">
+          <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?php echo base_url('produk/warna') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Warna Produk</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('produk/master') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Master Produk</span>
+              </a>
+            </li>
+            <li>
+            
+          </ul>
         </li>
 
         <li class="treeview">

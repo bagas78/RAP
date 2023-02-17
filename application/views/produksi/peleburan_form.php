@@ -107,6 +107,17 @@
 
             <tr>
               <td colspan="3"></td>
+              <td align="right">Billet Sisa</td>
+              <td>
+                <div class="input-group">
+                  <input value="0" min="0" required type="number" name="sisa" class="form-control" id="sisa">
+                  <span class="input-group-addon" id="stok_sisa">0</span>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"></td>
               <td align="right">Hasil Billet</td>
               <td>
                 <div class="input-group">
@@ -138,6 +149,10 @@
 $('form').attr('action', '<?=base_url('produksi/'.@$url)?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
+
+if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
+  $('#stok_sisa').text('<?=@$sisa_data?>');
+}
 
   //get barang
   $(document).on('change', '#barang', function() {
@@ -213,7 +228,7 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
        if (parseInt(qty.val()) > parseInt(stok)) {
           
           alert_sweet('Stok barang kurang dari Qty');
-          qty.val(1);
+          qty.val(0);
        }
 
     });
@@ -231,6 +246,13 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     //total akhir
     var total = parseInt(num_total) + parseInt($('#jasa').val());
     $('#total').val(number_format(total));
+
+    //cek sisa
+    var sisa = $('#sisa');
+    if (sisa.val() > parseInt($('#stok_sisa').text())) {
+      alert_sweet('Stok billet sisa kurang dari jumlah');
+      sisa.val(0);
+    }
 
     setTimeout(function() {
         auto();

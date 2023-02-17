@@ -5,10 +5,14 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
- 
+  
+          <?php if ($this->uri->segment(2) != 'pesanan'): ?>
+          
             <div align="left">
               <a href="<?= base_url('produksi/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
+
+          <?php endif ?>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
