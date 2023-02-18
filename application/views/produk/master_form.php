@@ -54,8 +54,6 @@
                 <span class="input-group-addon">Cm</span>
               </div>
             </div>
-          </div>
-          <div class="col-md-12">
             <div class="form-group col-md-6">
               <label>Ukuran</label>
               <div class="row">
@@ -73,12 +71,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-12">
-            <div class="form-group col-md-6">
-              <label>Harga</label>
-              <input class="form-control" type="number" name="harga" required id="harga">
-            </div>
             <div class="form-group col-md-6">
               <label>Berat</label>
               <div class="input-group">
@@ -86,8 +78,6 @@
                 <span class="input-group-addon">&#160;Kg&#160;</span>
               </div>
             </div>
-          </div>
-          <div class="col-md-12">
             <div class="form-group col-md-6">
               <label>Satuan</label>
               <select name="satuan" class="form-control" required id="satuan">

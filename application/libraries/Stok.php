@@ -127,18 +127,16 @@ class Stok{
     $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
 
     //0 value
-    $this->sql->db->query("UPDATE t_master_produk SET master_produk_stok = 0");
+    $this->sql->db->query("UPDATE t_produk SET produk_stok = 0");
     
     foreach ($db1 as $val1) {
 
       $produk = $val1['produk'];
       $total = $val1['total'];
-      $hpp = $val1['hps'];
-      $hpp_total = $val1['hpp'];
 
-      $this->sql->db->set(['master_produk_stok' => $total, 'master_produk_hps' => $hps, 'master_produk_hpp' => $hpp ]);
-      $this->sql->db->where(['master_produk_id'=> $produk]);
-      $this->sql->db->update('t_master_produk');
+      $this->sql->db->set(['produk_stok' => $total ]);
+      $this->sql->db->where(['produk_id'=> $produk]);
+      $this->sql->db->update('t_produk');
       
     }
 
@@ -146,7 +144,7 @@ class Stok{
     foreach ($db2 as $val2) {
       $id = $val2['produk'];
       $total = $val2['total'];
-      $this->sql->db->query("UPDATE t_master_produk SET master_produk_stok = master_produk_stok - {$total} WHERE master_produk_id = {$id}");
+      $this->sql->db->query("UPDATE t_produk SET produk_stok = produk_stok - {$total} WHERE produk_id = {$id}");
     }
 
     return;

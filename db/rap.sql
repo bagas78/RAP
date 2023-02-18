@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2023 at 09:53 AM
+-- Generation Time: Feb 18, 2023 at 10:53 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -382,6 +382,32 @@ INSERT INTO `t_jurnal` (`jurnal_id`, `jurnal_nomor`, `jurnal_akun`, `jurnal_kete
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_karyawan`
+--
+
+CREATE TABLE `t_karyawan` (
+  `karyawan_id` int(11) NOT NULL,
+  `karyawan_nama` text NOT NULL,
+  `karyawan_telp` text NOT NULL,
+  `karyawan_alamat` text NOT NULL,
+  `karyawan_tanggal` date NOT NULL DEFAULT curdate(),
+  `karyawan_hapus` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_karyawan`
+--
+
+INSERT INTO `t_karyawan` (`karyawan_id`, `karyawan_nama`, `karyawan_telp`, `karyawan_alamat`, `karyawan_tanggal`, `karyawan_hapus`) VALUES
+(1, 'Saldi', '085555555555', '-', '2023-02-18', 0),
+(2, 'Erwin', '081111111111', '-', '2023-02-18', 0),
+(3, 'Harisal', '082222222222', '-', '2023-02-18', 0),
+(4, 'Wahyudi', '083333333333', '-', '2023-02-18', 0),
+(5, 'Syahrul', '087777777777', '-', '2023-02-18', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_kontak`
 --
 
@@ -430,44 +456,6 @@ CREATE TABLE `t_logo` (
 
 INSERT INTO `t_logo` (`logo_id`, `logo_foto`, `logo_nama`, `logo_telp`, `logo_kota`, `logo_alamat`) VALUES
 (1, '3d00876ae06414f4347830ac266f84c4.png', 'RAJAWALI  ALUMUNIUM  PERKASA', '021-7980421', 'Jakarta', 'JL. Raya Pasar Minggu No. 17 Jakarta Selatan 12520');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `t_master_produk`
---
-
-CREATE TABLE `t_master_produk` (
-  `master_produk_id` int(11) NOT NULL,
-  `master_produk_kode` text NOT NULL,
-  `master_produk_nama` text NOT NULL,
-  `master_produk_jenis` text NOT NULL DEFAULT '3',
-  `master_produk_warna` text NOT NULL DEFAULT '0',
-  `master_produk_stok` text NOT NULL DEFAULT '0',
-  `master_produk_harga` text NOT NULL,
-  `master_produk_satuan` text NOT NULL,
-  `master_produk_merk` text NOT NULL,
-  `master_produk_ketebalan` text NOT NULL,
-  `master_produk_panjang` text NOT NULL,
-  `master_produk_lebar` text NOT NULL,
-  `master_produk_berat` text NOT NULL,
-  `master_produk_keterangan` text NOT NULL,
-  `master_produk_hps` text NOT NULL,
-  `master_produk_hpp` text NOT NULL,
-  `master_produk_update` date NOT NULL DEFAULT curdate(),
-  `master_produk_tanggal` date NOT NULL DEFAULT curdate(),
-  `master_produk_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_master_produk`
---
-
-INSERT INTO `t_master_produk` (`master_produk_id`, `master_produk_kode`, `master_produk_nama`, `master_produk_jenis`, `master_produk_warna`, `master_produk_stok`, `master_produk_harga`, `master_produk_satuan`, `master_produk_merk`, `master_produk_ketebalan`, `master_produk_panjang`, `master_produk_lebar`, `master_produk_berat`, `master_produk_keterangan`, `master_produk_hps`, `master_produk_hpp`, `master_produk_update`, `master_produk_tanggal`, `master_produk_hapus`) VALUES
-(1, 'MP001', 'Hollow 21 X 21 Kotak', '3', '0', '2', '300', '7', 'original', '18', '21', '21', '12', '-', '', '', '2023-01-04', '2023-01-04', 0),
-(2, 'MP002', 'Hollow 21 x 21 Oval', '3', '0', '3', '400', '7', 'original', '5', '21', '21', '5', '-', '', '', '2023-01-04', '2023-01-04', 0),
-(3, 'MP003', 'Hollow 22 x 34', '3', '0', '0', '500', '7', 'original', '3', '22', '34', '5', '-', '363', '1089', '2023-01-04', '2023-01-04', 0),
-(4, 'MP004', ' Openback 3', '3', '0', '0', '600', '7', 'original', '10', '5', '5', '10', '-', '', '', '2023-01-04', '2023-01-04', 0);
 
 -- --------------------------------------------------------
 
@@ -802,23 +790,35 @@ CREATE TABLE `t_pewarnaan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `t_pewarnaan_jenis`
+-- Table structure for table `t_produk`
 --
 
-CREATE TABLE `t_pewarnaan_jenis` (
-  `pewarnaan_jenis_id` int(11) NOT NULL,
-  `pewarnaan_jenis_type` text NOT NULL,
-  `pewarnaan_jenis_tanggal` date NOT NULL DEFAULT curdate()
+CREATE TABLE `t_produk` (
+  `produk_id` int(11) NOT NULL,
+  `produk_kode` text NOT NULL,
+  `produk_nama` text NOT NULL,
+  `produk_stok` text DEFAULT '0',
+  `produk_satuan` text NOT NULL,
+  `produk_merk` text NOT NULL,
+  `produk_ketebalan` text NOT NULL,
+  `produk_panjang` text NOT NULL,
+  `produk_lebar` text NOT NULL,
+  `produk_berat` text NOT NULL,
+  `produk_keterangan` text NOT NULL,
+  `produk_update` date NOT NULL DEFAULT curdate(),
+  `produk_tanggal` date NOT NULL DEFAULT curdate(),
+  `produk_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `t_pewarnaan_jenis`
+-- Dumping data for table `t_produk`
 --
 
-INSERT INTO `t_pewarnaan_jenis` (`pewarnaan_jenis_id`, `pewarnaan_jenis_type`, `pewarnaan_jenis_tanggal`) VALUES
-(1, 'Anodizing', '2023-01-04'),
-(2, 'Powder Coating', '2023-01-04'),
-(3, 'Jual Langsung', '2023-01-04');
+INSERT INTO `t_produk` (`produk_id`, `produk_kode`, `produk_nama`, `produk_stok`, `produk_satuan`, `produk_merk`, `produk_ketebalan`, `produk_panjang`, `produk_lebar`, `produk_berat`, `produk_keterangan`, `produk_update`, `produk_tanggal`, `produk_hapus`) VALUES
+(8, 'MP001', 'Openback 3', '0', '1', 'Original', '10', '15', '5', '5', '-', '2023-02-17', '2023-02-17', 0),
+(9, 'MP002', 'Hollow 22 x 34', '0', '1', 'Original', '6', '22', '34', '10', '-', '2023-02-17', '2023-02-17', 0),
+(10, 'MP003', 'Hollow 21 x 21 Oval', '0', '1', 'Original', '5', '21', '21', '7', '-', '2023-02-17', '2023-02-17', 0),
+(11, 'MP004', 'Hollow 21 X 21 Kotak', '0', '1', 'Original', '5', '21', '21', '7', '-', '2023-02-17', '2023-02-17', 0);
 
 -- --------------------------------------------------------
 
@@ -860,6 +860,23 @@ CREATE TABLE `t_produksi_barang` (
   `produksi_barang_harga` text NOT NULL,
   `produksi_barang_subtotal` text NOT NULL,
   `produksi_barang_tanggal` date NOT NULL DEFAULT curdate()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_produk_warna`
+--
+
+CREATE TABLE `t_produk_warna` (
+  `produk_warna_id` int(11) NOT NULL,
+  `produk_warna_produk` text NOT NULL,
+  `produk_warna_warna` text NOT NULL,
+  `produk_warna_jenis` text NOT NULL,
+  `produk_warna_stok` text NOT NULL,
+  `produk_warna_hpp` text NOT NULL,
+  `produk_warna_hps` text NOT NULL,
+  `produk_warna_tanggal` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -953,7 +970,9 @@ INSERT INTO `t_user` (`user_id`, `user_email`, `user_password`, `user_name`, `us
 
 CREATE TABLE `t_warna` (
   `warna_id` int(11) NOT NULL,
+  `warna_kode` text NOT NULL,
   `warna_nama` text NOT NULL,
+  `warna_keterangan` text NOT NULL,
   `warna_tanggal` date NOT NULL DEFAULT curdate(),
   `warna_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -962,8 +981,38 @@ CREATE TABLE `t_warna` (
 -- Dumping data for table `t_warna`
 --
 
-INSERT INTO `t_warna` (`warna_id`, `warna_nama`, `warna_tanggal`, `warna_hapus`) VALUES
-(0, 'Tanpa Warna', '2023-02-17', 0);
+INSERT INTO `t_warna` (`warna_id`, `warna_kode`, `warna_nama`, `warna_keterangan`, `warna_tanggal`, `warna_hapus`) VALUES
+(0, 'WR000', 'Tanpa Warna', '-', '2023-02-18', 0),
+(2, 'WR001', 'Merah', '-', '2023-02-17', 0),
+(3, 'WR002', 'Hitam', '-', '2023-02-17', 0),
+(4, 'WR004', 'Hijau', '-', '2023-02-17', 0),
+(5, 'WR006', 'Kuning', '-', '2023-02-17', 0),
+(6, 'WR007', 'Biru', '-', '2023-02-17', 0),
+(7, 'WR008', 'Putih', '-', '2023-02-17', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_warna_jenis`
+--
+
+CREATE TABLE `t_warna_jenis` (
+  `warna_jenis_id` int(11) NOT NULL,
+  `warna_jenis_kode` text NOT NULL,
+  `warna_jenis_type` text NOT NULL,
+  `warna_jenis_keterangan` text NOT NULL,
+  `warna_jenis_hapus` int(11) NOT NULL DEFAULT 0,
+  `warna_jenis_tanggal` date NOT NULL DEFAULT curdate()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_warna_jenis`
+--
+
+INSERT INTO `t_warna_jenis` (`warna_jenis_id`, `warna_jenis_kode`, `warna_jenis_type`, `warna_jenis_keterangan`, `warna_jenis_hapus`, `warna_jenis_tanggal`) VALUES
+(1, 'JN001', 'Anodizing', '-', 0, '2023-01-04'),
+(2, 'JN002', 'Powder Coating', '-', 0, '2023-01-04'),
+(3, 'JN003', 'Jual Langsung', '-', 0, '2023-01-04');
 
 --
 -- Indexes for dumped tables
@@ -1006,6 +1055,12 @@ ALTER TABLE `t_jurnal`
   ADD PRIMARY KEY (`jurnal_id`);
 
 --
+-- Indexes for table `t_karyawan`
+--
+ALTER TABLE `t_karyawan`
+  ADD PRIMARY KEY (`karyawan_id`);
+
+--
 -- Indexes for table `t_kontak`
 --
 ALTER TABLE `t_kontak`
@@ -1016,12 +1071,6 @@ ALTER TABLE `t_kontak`
 --
 ALTER TABLE `t_logo`
   ADD PRIMARY KEY (`logo_id`);
-
---
--- Indexes for table `t_master_produk`
---
-ALTER TABLE `t_master_produk`
-  ADD PRIMARY KEY (`master_produk_id`);
 
 --
 -- Indexes for table `t_mesin`
@@ -1090,10 +1139,10 @@ ALTER TABLE `t_pewarnaan`
   ADD PRIMARY KEY (`pewarnaan_id`);
 
 --
--- Indexes for table `t_pewarnaan_jenis`
+-- Indexes for table `t_produk`
 --
-ALTER TABLE `t_pewarnaan_jenis`
-  ADD PRIMARY KEY (`pewarnaan_jenis_id`);
+ALTER TABLE `t_produk`
+  ADD PRIMARY KEY (`produk_id`);
 
 --
 -- Indexes for table `t_produksi`
@@ -1106,6 +1155,12 @@ ALTER TABLE `t_produksi`
 --
 ALTER TABLE `t_produksi_barang`
   ADD PRIMARY KEY (`produksi_barang_id`);
+
+--
+-- Indexes for table `t_produk_warna`
+--
+ALTER TABLE `t_produk_warna`
+  ADD PRIMARY KEY (`produk_warna_id`);
 
 --
 -- Indexes for table `t_rekening`
@@ -1130,6 +1185,12 @@ ALTER TABLE `t_user`
 --
 ALTER TABLE `t_warna`
   ADD PRIMARY KEY (`warna_id`);
+
+--
+-- Indexes for table `t_warna_jenis`
+--
+ALTER TABLE `t_warna_jenis`
+  ADD PRIMARY KEY (`warna_jenis_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1172,6 +1233,12 @@ ALTER TABLE `t_jurnal`
   MODIFY `jurnal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
+-- AUTO_INCREMENT for table `t_karyawan`
+--
+ALTER TABLE `t_karyawan`
+  MODIFY `karyawan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `t_kontak`
 --
 ALTER TABLE `t_kontak`
@@ -1182,12 +1249,6 @@ ALTER TABLE `t_kontak`
 --
 ALTER TABLE `t_logo`
   MODIFY `logo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `t_master_produk`
---
-ALTER TABLE `t_master_produk`
-  MODIFY `master_produk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `t_mesin`
@@ -1256,10 +1317,10 @@ ALTER TABLE `t_pewarnaan`
   MODIFY `pewarnaan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT for table `t_pewarnaan_jenis`
+-- AUTO_INCREMENT for table `t_produk`
 --
-ALTER TABLE `t_pewarnaan_jenis`
-  MODIFY `pewarnaan_jenis_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `t_produk`
+  MODIFY `produk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `t_produksi`
@@ -1272,6 +1333,12 @@ ALTER TABLE `t_produksi`
 --
 ALTER TABLE `t_produksi_barang`
   MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+
+--
+-- AUTO_INCREMENT for table `t_produk_warna`
+--
+ALTER TABLE `t_produk_warna`
+  MODIFY `produk_warna_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`
@@ -1295,7 +1362,13 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT for table `t_warna`
 --
 ALTER TABLE `t_warna`
-  MODIFY `warna_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `warna_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `t_warna_jenis`
+--
+ALTER TABLE `t_warna_jenis`
+  MODIFY `warna_jenis_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

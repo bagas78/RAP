@@ -7,7 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('produk/master_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('produk/warna_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -23,10 +23,9 @@
                 <thead>
                 <tr>
                   <th>Kode</th>
-                  <th>Nama</th>
-                  <th>Stok</th>
-                  <th>Satuan</th>
-                  <th width="60">Action</th>
+                  <th>Warna</th>
+                  <th>Keterangan</th>
+                  <th width="50">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,20 +52,18 @@
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('produk/master_get_data') ?>",
+                "url": "<?=site_url('produk/warna_get_data') ?>",
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "produk_kode"},
-                        { "data": "produk_nama"},
-                        { "data": "produk_stok"},
-                        { "data": "satuan_singkatan"},
-                        { "data": "produk_id",
+                        { "data": "warna_kode"},
+                        { "data": "warna_nama"},
+                        { "data": "warna_keterangan"},
+                        { "data": "warna_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produk/master_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs bg-black'><i class='fa fa-arrow-right'></i></button></a>";
+                            return "<a href='<?php echo base_url('produk/warna_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produk/warna_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

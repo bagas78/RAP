@@ -7,7 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('produk/master_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('kontak/karyawan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -19,14 +19,13 @@
         </div>
         <div class="box-body">
           
-          <table id="example" class="table table-bordered table-hover" style="width: 100%;">
+          <table id="example" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>Kode</th>
                   <th>Nama</th>
-                  <th>Stok</th>
-                  <th>Satuan</th>
-                  <th width="60">Action</th>
+                  <th>No. Tlp</th>
+                  <th>Alamat</th>
+                  <th width="50">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,24 +48,21 @@
 
             "processing": true, 
             "serverSide": true,
-            "scrollX": true, 
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('produk/master_get_data') ?>",
+                "url": "<?=site_url('kontak/karyawan_get_data')?>",
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "produk_kode"},
-                        { "data": "produk_nama"},
-                        { "data": "produk_stok"},
-                        { "data": "satuan_singkatan"},
-                        { "data": "produk_id",
+                        { "data": "karyawan_nama"},
+                        { "data": "karyawan_telp"},
+                        { "data": "karyawan_alamat"},
+                        { "data": "karyawan_id",
                         "render": 
-                        function( data ) {
-                            return "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produk/master_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs bg-black'><i class='fa fa-arrow-right'></i></button></a>";
+                        function( data, type, row, meta ) {
+                            return "<a href='<?php echo base_url('kontak')?>/karyawan_edit/"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('kontak')?>/karyawan_delete/"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

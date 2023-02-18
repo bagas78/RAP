@@ -5,6 +5,7 @@ class Kontak extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_kontak');
 		$this->load->model('m_rekening');
+		$this->load->model('m_karyawan');
 	}  
 	function supplier(){
 		$data['title'] = 'Supplier';
@@ -248,5 +249,97 @@ class Kontak extends CI_Controller{
 		}
 
 		redirect(base_url('kontak/rekening'));
+	}
+
+
+	////////////////// karyawan ///////////////////
+
+	function karyawan(){
+
+		$data['title'] = 'karyawan';
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/karyawan');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function karyawan_get_data(){
+		$where = array('karyawan_hapus' => 0);
+
+	    $data = $this->m_karyawan->get_datatables($where);
+		$total = $this->m_karyawan->count_all($where);
+		$filter = $this->m_karyawan->count_filtered($where);
+
+		$output = array(
+			"draw" => $_GET['draw'],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+		//output dalam format JSON
+		echo json_encode($output);
+	}
+	function karyawan_add(){
+		$data['title'] = 'karyawan';
+		
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/karyawan_form');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function karyawan_save(){
+		$set = array(
+						'karyawan_nama' => strip_tags($_POST['nama']),
+						'karyawan_telp' => strip_tags($_POST['telp']),
+						'karyawan_alamat' => strip_tags($_POST['alamat']),
+					);
+		$this->db->set($set);
+
+		if ($this->db->insert('t_karyawan')) {
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('kontak/karyawan'));
+	}
+	function karyawan_delete($id){
+
+		$set = ['karyawan_hapus' => 1];
+		$where = ['karyawan_id' => $id];
+		$db = $this->query_builder->update('t_karyawan',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+		
+		redirect(base_url('kontak/karyawan'));	
+	}
+	function karyawan_edit($id){
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_karyawan where karyawan_id = '$id'");
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('kontak/karyawan_form');
+	    $this->load->view('kontak/karyawan_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function karyawan_update($id){
+		$set = array(
+						'karyawan_nama' => strip_tags($_POST['nama']),
+						'karyawan_telp' => strip_tags($_POST['telp']),
+						'karyawan_alamat' => strip_tags($_POST['alamat']),
+					);
+		$this->db->set($set);
+
+		$where = ['karyawan_id' => $id];
+		$db = $this->query_builder->update('t_karyawan',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+
+		redirect(base_url('kontak/karyawan'));
 	}
 }

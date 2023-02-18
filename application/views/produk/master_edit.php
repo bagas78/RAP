@@ -1,14 +1,12 @@
 <script type="text/javascript">
-	$('form').attr('action', '<?=base_url('produk/master_update/'.@$data['master_produk_id'])?>');;
-	$('#kode').val('<?=@$data['master_produk_kode']?>');
-	$('#nama').val('<?=@$data['master_produk_nama']?>');
-	$('#pewarnaan').val('<?=@$data['master_produk_pewarnaan']?>').change();
-	$('#harga').val('<?=@$data['master_produk_harga']?>');
-	$('#satuan').val('<?=@$data['master_produk_satuan']?>').change();
-	$('#merk').val('<?=@$data['master_produk_merk']?>');
-	$('#ketebalan').val('<?=@$data['master_produk_ketebalan']?>');
-	$('#panjang').val('<?=@$data['master_produk_panjang']?>');
-	$('#lebar').val('<?=@$data['master_produk_lebar']?>');
-	$('#berat').val('<?=@$data['master_produk_berat']?>');
-	$('#keterangan').val('<?=@$data['master_produk_keterangan']?>');
+	$('form').attr('action', '<?=base_url('produk/master_update/'.@$data['produk_id'])?>');;
+	$('#kode').val('<?=@$data['produk_kode']?>');
+	$('#nama').val('<?=@$data['produk_nama']?>');
+	$('#satuan').val('<?=@$data['produk_satuan']?>').change();
+	$('#merk').val('<?=@$data['produk_merk']?>');
+	$('#ketebalan').val('<?=@$data['produk_ketebalan']?>');
+	$('#panjang').val('<?=@$data['produk_panjang']?>');
+	$('#lebar').val('<?=@$data['produk_lebar']?>');
+	$('#berat').val('<?=@$data['produk_berat']?>');
+	$('#keterangan').val('<?=@$data['produk_keterangan']?>');
 </script>

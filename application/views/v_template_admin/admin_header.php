@@ -258,6 +258,12 @@ thead{
           <ul class="treeview-menu">
 
             <li>
+              <a href="<?php echo base_url('kontak/karyawan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Karyawan</span>
+              </a>
+            </li>
+            <li>
               <a href="<?php echo base_url('kontak/supplier') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Supplier</span>
@@ -370,7 +376,12 @@ thead{
             </span>
           </a>
           <ul class="treeview-menu">
-
+            <li>
+              <a href="<?php echo base_url('produk/jenis') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Jenis Pewarnaan</span>
+              </a>
+            </li>
             <li>
               <a href="<?php echo base_url('produk/warna') ?>">
                 <i class="material-icons">more_horiz</i>
@@ -650,7 +661,7 @@ thead{
             <li>
               <a href="<?php echo base_url('pengaturan/pegawai') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Master Pegawai</span>
+                <span class="multi-li">Master Admin</span>
               </a>
             </li>
             <li>

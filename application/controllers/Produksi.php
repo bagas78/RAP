@@ -6,6 +6,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_peleburan');
 		$this->load->model('m_produksi');
 		$this->load->model('m_pewarnaan');
+		$this->load->model('m_produk');
 	}   
 
 ///////////////// atribut //////////////////////////////////////////
@@ -30,14 +31,19 @@ class Produksi extends CI_Controller{
 	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
 
 	    //billet
-	    $data['billet'] = $this->query_builder->view_row("SELECT * FROM t_billet");
+	    $data['billet_data'] = $this->query_builder->view_row("SELECT * FROM t_billet");
 
-	    //barang
-	    if ($kategori == 'all') {
-	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_stok > 0");	
-	    }else{
-	    	 $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0 AND bahan_kategori = '$kategori' AND bahan_stok > 0");
-	    }
+	    //karyawan
+	    $data['pekerja_data'] = $this->query_builder->view("SELECT * FROM t_karyawan WHERE karyawan_hapus = 0");
+
+	    //produk
+	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
+
+	    //jenis
+	    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0");
+
+	    //jenis
+	    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
 
 	    //mesin
 	    $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");

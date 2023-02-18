@@ -1,5 +1,5 @@
 <style type="text/css">
-  .mb-7{
+  .{
     margin-bottom: 7%;
   }
 </style>
@@ -32,15 +32,15 @@
       <form method="post" enctype="multipart/form-data" class="bg-alice">
         <div class="row">
           <div class="col-md-3">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Nomor Produksi</label>
               <input type="text" name="nomor" class="form-control" required id="nomor">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Tanggal Produksi</label>
               <input type="date" name="tanggal" class="form-control" required id="tanggal">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Shift</label>
               <select name="shift" class="form-control select2" required id="shift">
                 <option value="" hidden>-- Pilih --</option>
@@ -51,11 +51,7 @@
             </div>
           </div>
           <div class="col-md-5">
-            <div class="col-md-12 mb-7">
-              <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 96px;" id="keterangan"></textarea>
-            </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Mesin</label>
               <select name="mesin" class="form-control select2" required id="mesin">
                 <option value="" hidden>-- Pilih --</option>
@@ -64,9 +60,21 @@
                 <?php endforeach ?>
               </select>
             </div>
+            <div class="form-group">
+              <label>Pekerja</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
+                  <?php foreach ($pekerja_data as $p): ?>
+                    <option value="<?= @$p['karyawan_id']?>"><?= @$p['karyawan_nama']?></option>
+                  <?php endforeach ?>
+                </select>
+            </div>
+            <div class="form-group">
+              <label>Keterangan</label>
+              <textarea name="keterangan" class="form-control" id="keterangan"></textarea>
+            </div>
           </div>
           <div class="col-md-2">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
 
               <label>Sebelum Produksi</label>
               <img id="previewImg1" onclick="clickFile(1)" style="width: 100%;">
@@ -75,7 +83,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
 
               <label>Sesudah Produksi</label>
               <img id="previewImg2" onclick="clickFile(2)" style="width: 100%;">
@@ -90,11 +98,10 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Bahan</th>
-              <th>Qty</th>
-              <th>Stok</th>
-              <th>Harga</th>
-              <th>Subtotal</th>
+              <th width="300">Produk</th>
+              <th width="300">Jenis</th>
+              <th width="300">Warna</th>
+              <th width="200">Qty</th>
               <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
@@ -102,57 +109,61 @@
 
              <tr id="copy">
               <td>
-                <select required id="barang" class="barang form-control" name="barang[]">
+                <select required id="produk" class="barang form-control" name="produk[]">
                   <option value="" hidden>-- Pilih --</option>
-                  <?php foreach ($bahan_data as $b): ?>
-                    <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>
+                  <?php foreach ($produk_data as $p): ?>
+                    <option value="<?=@$p['produk_id']?>"><?=@$p['produk_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
               <td>
-                <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="0" min="1">
-                  <span class="satuan input-group-addon"></span>
-                </div>
+                <select required id="jenis" class="barang form-control" name="jenis[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach ($jenis_data as $j): ?>
+                    <option value="<?=@$j['warna_jenis_id']?>"><?=@$j['warna_jenis_type']?></option>
+                  <?php endforeach ?>
+                </select>
               </td>
               <td>
-                <div class="input-group">
-                  <input readonly="" type="text" name="stok[]" class="stok form-control" required>
-                  <span class="satuan input-group-addon"></span>
-                </div>
+                <select required id="warna" class="barang form-control" name="warna[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach ($warna_data as $w): ?>
+                    <option value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                  <?php endforeach ?>
+                </select>
               </td>
-              <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
-              <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
+              <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="0"></td>
+              
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
-              <td colspan="3"></td>
-              <td align="right">Qty Barang</td>
+              <td colspan="2"></td>
+              <td align="right">Qty Produk</td>
               <td><input id="qty_barang" readonly="" type="text" name="qty_barang" class="form-control"></td>
             </tr>
 
             <tr>
-              <td colspan="3"></td>
-              <td align="right">Qty Billet</td>
-              <td>
-                <div class="input-group">
-                  <input required id="qty_billet" type="number" name="qty_billet" class="form-control" value="0" min="0">
-                  <span id="stok_billet" class="input-group-addon"><?=number_format($billet['billet_stok'])?></span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="3"></td>
+              <td colspan="2"></td>
               <td align="right">HPP Billet</td>
               <td>
                 <input value="0" id="hpp_billet" readonly="" type="text" name="hpp_billet" class="form-control">
               </td>
             </tr>
 
+            <tr>
+              <td colspan="2"></td>
+              <td align="right">Qty Billet</td>
+              <td>
+                <div class="input-group">
+                  <input required id="qty_billet" type="number" name="qty_billet" class="form-control" value="0" min="0">
+                  <span class="input-group-addon"><span id="stok_billet"><?=number_format($billet_data['billet_stok'])?></span> Kg</span>
+                </div>
+              </td>
+            </tr>
+
             <tr hidden>
-              <td colspan="3"></td>
+              <td colspan="2"></td>
               <td align="right">Biaya Jasa</td>
               <td>
                 <div class="input-group">
@@ -162,31 +173,14 @@
               </td>
             </tr>
 
-            <tr hidden>
-              <td colspan="3"></td>
-              <td align="right">Produk ( 1/2 ) Jadi</td>
-              <td>
-                <div class="input-group">
-                  <input id="produk" type="number" name="produk" class="form-control" value="" min="0">
-                  <span class="input-group-addon">Pcs</span>
-                </div>
-              </td>
-            </tr>
-
             <tr>
-              <td colspan="3"></td>
+              <td colspan="2"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
             </tr>
 
-            <tr hidden>
-              <td colspan="3"></td>
-              <td align="right">HPP Produksi</td>
-              <td><input id="hpp" readonly="" type="text" name="hpp" class="form-control" value="0" min="0"></td>
-            </tr>
-
             <tr>
-              <td colspan="5" align="right">
+              <td colspan="4" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -371,8 +365,8 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#qty_barang').val(number_format(num_qty));
 
     //hpp billet
-    var hpp_billet = Math.round(<?=@$billet['billet_hpp']?> * parseInt($('#qty_billet').val()));
-    $('#hpp_billet').val(number_format(hpp_billet));
+    // var hpp_billet = Math.round(<?=@$billet['billet_hpp']?> * parseInt($('#qty_billet').val()));
+    // $('#hpp_billet').val(number_format(hpp_billet));
 
     //total akhir
     var num_total = 0;
