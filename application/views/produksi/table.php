@@ -29,7 +29,7 @@
                   <th>Nomor</th>
                   <th>Shift</th>
                   <th>Tanggal</th>
-                  <th width="50">Action</th>
+                  <th width="60">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,7 +71,8 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
                         

@@ -7,6 +7,7 @@
   $('#shift').val('<?=@$data['produksi_shift']?>').change();
   $('#keterangan').val('<?=@$data['produksi_keterangan']?>');
   $('#mesin').val('<?=@$data['produksi_mesin']?>').change();
+  $('#pekerja').val(<?=@$data['produksi_pekerja']?>).change();
 
   if ('<?=@$data['produksi_lampiran_1']?>' != '') {
     $('#previewImg1').attr('src', '<?=base_url('assets/gambar/produksi/'.@$data['produksi_lampiran_1'])?>');
@@ -21,7 +22,7 @@
   $('#stok_billet').text(stok_billet);
   $('#qty_billet').val('<?=@$data['produksi_billet_qty']?>');
   $('#jasa').val('<?=@$data['produksi_jasa']?>');
-  $('#produk').val('<?=@$data['produksi_setengah_jadi']?>');
+  $('#sisa_billet').val('<?=@$data['produksi_billet_sisa']?>');
 
   //get produksi
   $.get('<?=base_url('produksi/get_produksi/'.$data['produksi_nomor'])?>', function(data) {
@@ -35,11 +36,7 @@
       
       //blank new input
       $('#copy').find('select').val('');
-      $('#copy').find('.qty').val(1);
-      $('#copy').find('.harga').val(0);
-      $('#copy').find('.subtotal').val(0);
-      $('#copy').find('.satuan').html('');
-      $('#copy').find('.stok').val('');
+      $('#copy').find('.qty').val(0);
 
     }
 
@@ -48,17 +45,10 @@
       var i = index+1;
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang);
-      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.produksi_barang_qty);
-      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.produksi_barang_harga));
-
-      //kembalikan stok
-      var re = parseInt(val.produksi_barang_qty) + parseInt(val.bahan_stok);
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
-
-      //satuan
-      var satuan = $('.satuan');
-      $(satuan).empty().html(val.satuan_singkatan);
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.produksi_barang_jenis).change();
+      $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.produksi_barang_warna).change();
+      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.produksi_barang_qty));
 
     });
 

@@ -62,7 +62,7 @@
             </div>
             <div class="form-group">
               <label>Pekerja</label>
-                <select class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
+                <select name="pekerja[]" id="pekerja" class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
                   <?php foreach ($pekerja_data as $p): ?>
                     <option value="<?= @$p['karyawan_id']?>"><?= @$p['karyawan_nama']?></option>
                   <?php endforeach ?>
@@ -128,7 +128,7 @@
                 <select required id="warna" class="barang form-control" name="warna[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($warna_data as $w): ?>
-                    <option value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                    <option <?=(@$w['warna_id'] == 0)?'hidden':''?> value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
@@ -140,14 +140,14 @@
             <tr>
               <td colspan="2"></td>
               <td align="right">Qty Produk</td>
-              <td><input id="qty_barang" readonly="" type="text" name="qty_barang" class="form-control"></td>
+              <td><input id="qty_produk" readonly="" type="text" name="qty_produk" class="form-control"></td>
             </tr>
 
             <tr>
               <td colspan="2"></td>
-              <td align="right">HPP Billet</td>
+              <td align="right">HPS Billet</td>
               <td>
-                <input value="0" id="hpp_billet" readonly="" type="text" name="hpp_billet" class="form-control">
+                <input value="<?=number_format($billet_data['billet_hps'])?>" id="hps_billet" readonly="" type="text" name="hps_billet" class="form-control">
               </td>
             </tr>
 
@@ -157,12 +157,12 @@
               <td>
                 <div class="input-group">
                   <input required id="qty_billet" type="number" name="qty_billet" class="form-control" value="0" min="0">
-                  <span class="input-group-addon"><span id="stok_billet"><?=number_format($billet_data['billet_stok'])?></span> Kg</span>
+                  <span class="input-group-addon"><span id="stok_billet" hidden><?=number_format($billet_data['billet_stok'])?></span> Kg &#160;</span>
                 </div>
               </td>
             </tr>
 
-            <tr hidden>
+            <tr>
               <td colspan="2"></td>
               <td align="right">Biaya Jasa</td>
               <td>
@@ -177,6 +177,17 @@
               <td colspan="2"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2"></td>
+              <td align="right">Sisa Billet</td>
+              <td>
+                <div class="input-group">
+                  <input id="sisa_billet" type="number" name="sisa_billet" class="form-control" value="0" min="0">
+                  <span class="input-group-addon">Kg &#160;</span>
+                </div>
+              </td>
             </tr>
 
             <tr>
@@ -197,22 +208,6 @@
 
 <script type="text/javascript">
 
-<?php if ($url == 'proses'): ?>
-
-  proses();
-
-<?php endif ?>
-
-function proses() {
-  
-  // hidden menu proses produksi
-  $('#jasa').closest('tr').removeAttr('hidden', true);
-  $('#produk').closest('tr').removeAttr('hidden', true);
-  $('#produk').attr('required',true);
-  $('#hpp').closest('tr').removeAttr('hidden', true);
-
-}
-
 //atribut
 $('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
@@ -221,59 +216,16 @@ $('#previewImg1').attr('src', '<?=base_url('assets/gambar/1.png')?>');
 $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
   //get barang
-  $(document).on('change', '#barang', function() {
+  $(document).on('change', '#jenis', function() {
       var id = $(this).val();
-      var index = $(this).closest('tr').index();
-      $.get('<?=base_url('produksi/get_barang/')?>'+id, function(data) {
-        var val = JSON.parse(data);
-        var i = (index + 1);
-        
-        //qty
-        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
+      
+      //jenis jual langsung
+      if (id == 3) {
+        $(this).parent().next().find('select').val(0).change().attr('readonly',true).css('pointer-events','none');
+      }else{
+        $(this).parent().next().find('select').val('').change().removeAttr('readonly').css('pointer-events', '');
+      }
 
-        //stok
-        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
-
-        //harga
-        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
-
-        //satuan
-        var satuan = $('#copy:nth-child('+i+')').find('.satuan');
-        $(satuan).empty().html(val['satuan_singkatan']);
-
-        /////// cek exist barang ///////////
-        var arr = new Array(); 
-        $.each($('.barang'), function(idx, val) {
-            
-            if (index != idx)
-            arr.push($(this).val());
-
-        });
-
-        //reset input
-        function reset(){
-          $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
-          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
-          $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
-        }
-
-        if ($.inArray(id, arr) != -1) {
-          alert_sweet('Bahan avalan sudah ada');
-          reset();
-        }
-        ////// end exist barang ///////////
-
-
-        //cek stok
-        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val();
-        var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(); 
-        if (parseInt(qty) > parseInt(stok)) {
-            
-          alert_sweet('Stok barang kurang dari Qty');
-          reset();
-        }
-
-      });
   });
 
   //copy paste
@@ -285,10 +237,6 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     //blank new input
     $('#copy').find('select').val('');
     $('#copy').find('.qty').val(0);
-    $('#copy').find('.harga').val(0);
-    $('#copy').find('.subtotal').val(0);
-    $('#copy').find('.satuan').html('');
-    $('#copy').find('.stok').val('');
   }
 
   //foto preview
@@ -340,54 +288,28 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $.each($('.qty'), function(index, val) {
        var i = index+1;
 
-       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
-       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val().replace(/,/g, '');
-       var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val().replace(/,/g, '');
-
-       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';  
-       var subtotal = parseInt(qty.val()) * parseInt(harga);
        num_qty += parseInt($(this).val());
 
-       //subtotal
-       $(sub).val(number_format(subtotal));
-
-       //cek stok billet
-       var billet = $('#qty_billet');
-       if (parseInt(billet.val().replace(/,/g, '')) > parseInt($('#stok_billet').text())) {
-          
-          alert_sweet('Stok billet kurang dari Qty');
-          billet.val(0);
-       }
-
     });
 
-    //qty barang
-    $('#qty_barang').val(number_format(num_qty));
+    var qty_produk = $('#qty_produk');
+    qty_produk.val(num_qty);
 
-    //hpp billet
-    // var hpp_billet = Math.round(<?=@$billet['billet_hpp']?> * parseInt($('#qty_billet').val()));
-    // $('#hpp_billet').val(number_format(hpp_billet));
-
-    //total akhir
-    var num_total = 0;
-    $.each($('.subtotal'), function(index, val) {
+    //cek stok billet
+    var billet = $('#qty_billet');
+    var stok_billet = parseInt($('#stok_billet').text());
+    if (parseInt(billet.val().replace(/,/g, '')) > stok_billet) {
         
-      num_total += parseInt($(this).val().replace(/,/g, ''));
-    });
+      alert_sweet('Stok billet kurang dari Qty');
+      billet.val(0);
+    }
 
     //total akhir
+    var hps_billet = parseInt($('#hps_billet').val().replace(/,/g, ''));
+    var qty_billet = parseInt(billet.val()) * hps_billet;
     var jasa = parseInt($('#jasa').val());
-    var total = parseInt(num_total) + hpp_billet + jasa;
+    var total = qty_billet + jasa;
     $('#total_akhir').val(number_format(total));
-
-    <?php if ($url == 'proses'): ?>
-
-      //hpp
-      var hpp = parseInt($('#total_akhir').val().replace(/,/g, '')) / parseInt($('#produk').val().replace(/,/g, ''));
-
-      $('#hpp').val(hpp); 
-
-    <?php endif ?>   
 
     setTimeout(function() {
         auto();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2023 at 10:53 AM
+-- Generation Time: Feb 18, 2023 at 08:36 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -237,7 +237,7 @@ CREATE TABLE `t_billet` (
 --
 
 INSERT INTO `t_billet` (`billet_id`, `billet_full`, `billet_min`, `billet_stok`, `billet_sisa`, `billet_hpp`, `billet_hps`, `billet_update`) VALUES
-(1, '40', NULL, '40', '0', '287000', '7175', '2023-02-17');
+(1, '40', '10', '30', '5', '287000', '7175', '2023-02-19');
 
 -- --------------------------------------------------------
 
@@ -828,23 +828,32 @@ INSERT INTO `t_produk` (`produk_id`, `produk_kode`, `produk_nama`, `produk_stok`
 
 CREATE TABLE `t_produksi` (
   `produksi_id` int(11) NOT NULL,
-  `produksi_status` text NOT NULL,
+  `produksi_status` int(11) NOT NULL DEFAULT 0,
   `produksi_nomor` text NOT NULL,
   `produksi_tanggal` date NOT NULL,
   `produksi_shift` text NOT NULL,
+  `produksi_pekerja` text NOT NULL,
   `produksi_keterangan` text NOT NULL,
   `produksi_mesin` text NOT NULL,
   `produksi_lampiran_1` text NOT NULL,
   `produksi_lampiran_2` text NOT NULL,
   `produksi_barang_qty` text NOT NULL,
+  `produksi_billet_hps` text NOT NULL,
   `produksi_billet_qty` text NOT NULL,
-  `produksi_billet_hpp` text NOT NULL,
-  `produksi_total_akhir` text NOT NULL,
-  `produksi_hpp` text NOT NULL,
   `produksi_jasa` text NOT NULL,
+  `produksi_total_akhir` text NOT NULL,
   `produksi_billet_sisa` text NOT NULL DEFAULT '0',
+  `produksi_pewarnaan` int(11) NOT NULL DEFAULT 0,
+  `produksi_pewarnaan_keterangan` text NOT NULL,
   `produksi_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_produksi`
+--
+
+INSERT INTO `t_produksi` (`produksi_id`, `produksi_status`, `produksi_nomor`, `produksi_tanggal`, `produksi_shift`, `produksi_pekerja`, `produksi_keterangan`, `produksi_mesin`, `produksi_lampiran_1`, `produksi_lampiran_2`, `produksi_barang_qty`, `produksi_billet_hps`, `produksi_billet_qty`, `produksi_jasa`, `produksi_total_akhir`, `produksi_billet_sisa`, `produksi_pewarnaan`, `produksi_pewarnaan_keterangan`, `produksi_hapus`) VALUES
+(59, 1, 'PR-19022023-1', '2023-02-19', '78', '[\"1\",\"2\",\"3\"]', '-', '3', '', '', '', '7175', '10', '10000', '81750', '5', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -856,11 +865,19 @@ CREATE TABLE `t_produksi_barang` (
   `produksi_barang_id` int(11) NOT NULL,
   `produksi_barang_nomor` text NOT NULL,
   `produksi_barang_barang` text NOT NULL,
+  `produksi_barang_jenis` text NOT NULL,
+  `produksi_barang_warna` text NOT NULL,
   `produksi_barang_qty` text NOT NULL,
-  `produksi_barang_harga` text NOT NULL,
-  `produksi_barang_subtotal` text NOT NULL,
   `produksi_barang_tanggal` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_produksi_barang`
+--
+
+INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, `produksi_barang_barang`, `produksi_barang_jenis`, `produksi_barang_warna`, `produksi_barang_qty`, `produksi_barang_tanggal`) VALUES
+(165, 'PR-19022023-1', '8', '3', '0', '10', '2023-02-19'),
+(166, 'PR-19022023-1', '9', '1', '2', '10', '2023-02-19');
 
 -- --------------------------------------------------------
 
@@ -1326,13 +1343,13 @@ ALTER TABLE `t_produk`
 -- AUTO_INCREMENT for table `t_produksi`
 --
 ALTER TABLE `t_produksi`
-  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `t_produksi_barang`
 --
 ALTER TABLE `t_produksi_barang`
-  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `t_produk_warna`
