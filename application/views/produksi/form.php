@@ -102,6 +102,8 @@
               <th width="300">Jenis</th>
               <th width="300">Warna</th>
               <th width="200">Qty</th>
+              <th hidden width="150">ID</th>
+              <th hidden width="150">Delete</th>
               <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
@@ -133,8 +135,16 @@
                 </select>
               </td>
               <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="0"></td>
+
+              <!--hidden-->
+              <td hidden>
+                <input type="text" name="id[]" class="id form-control" value="0">
+              </td>
+              <td hidden>
+                <input type="text" name="delete[]" class="delete form-control" value="0">
+              </td>
               
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
@@ -237,7 +247,15 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     //blank new input
     $('#copy').find('select').val('');
     $('#copy').find('.qty').val(0);
+    $('#copy').find('.id').val(0);
   }
+
+  //remove
+  $(document).on('click', '.remove', 'tr a.remove', function(e) {
+    e.preventDefault();
+    $(this).parent().prev().find('.delete').val(1);
+    $(this).closest('tr').attr('hidden', true);
+  });
 
   //foto preview
   function clickFile(target){

@@ -28,6 +28,7 @@
                 <tr>
                   <th>Nomor</th>
                   <th>Shift</th>
+                  <th>Pewarnaan</th>
                   <th>Tanggal</th>
                   <th width="60">Action</th>
                 </tr>
@@ -61,6 +62,23 @@
             "columns": [                               
                         { "data": "produksi_nomor"},
                         { "data": "user_name"},
+                        { "data": "produksi_pewarnaan",
+                        "render": 
+                        function( data ) {
+                            switch (data) {
+                              case '0':
+                                var s = "Tanpa pewarnaan";
+                                break;
+                              case '1':
+                                var s = "Belum";
+                                break;
+                              case '2':
+                                var s = "Selesai";
+                                break;
+                            }
+                            return "<span>"+s+"</span>";
+                          }
+                        },
                         { "data": "produksi_tanggal",
                         "render": 
                         function( data ) {

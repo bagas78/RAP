@@ -5,10 +5,10 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
- 
-            <div align="left">
-              <a href="<?= base_url('produk/master_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-            </div>
+
+          <div align="left">
+            <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn bg-black"><i class="fa fa-arrow-left"></i> Kembali</button></a>
+          </div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -22,11 +22,10 @@
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
-                  <th>Kode</th>
                   <th>Nama</th>
                   <th>Stok</th>
-                  <th>Satuan</th>
-                  <th width="60">Action</th>
+                  <th>jenis</th>
+                  <th>Warna</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,27 +52,19 @@
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('produk/master_get_data') ?>",
+                "url": "<?=site_url('produk/master_view_get/'.@$id) ?>",
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "produk_kode"},
                         { "data": "produk_nama"},
-                        { "data": "stok",
+                        { "data": "produk_barang_stok",
                         "render": 
                         function( data ) {
                             return number_format(data);
                           }
                         },
-                        { "data": "satuan_singkatan"},
-                        { "data": "produk_id",
-                        "render": 
-                        function( data ) {
-                            return "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produk/master_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produk/master_view/')?>"+data+"'><button class='btn btn-xs bg-black'><i class='fa fa-arrow-right'></i></button></a>";
-                          }
-                        },
+                        { "data": "warna_jenis_type"},
+                        { "data": "warna_nama"},
                         
                     ],
         });

@@ -37,13 +37,13 @@
 		<div class="row">
 
 			<div class="col-md-12" align="center">
-				<span class="tit">LAPORAN HASIL PRODUKSI</span>
+				<span class="tit">LAPORAN HASIL PEWARNAAN</span>
 			</div>
 
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span style="font-size: x-large;">Tanggal : <?php $d = date_create($data[0]['produk_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
+				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_pewarnaan_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
 			</div>
 
 			<div class="clearfix"></div><br/>
@@ -55,25 +55,25 @@
 						<tr>
 							<th width="70">No</th>
 							<th>Nama Profil</th>
-							<th>Gambar</th>
+							<th>Jenis</th>
+							<th>Warna</th>
 							<th>Panjang</th>
-							<th>Berat / Btg</th>
 							<th>Jumlah</th>
-							<th>Subtotal</th>
+							<th>Cacat</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php $i = 1; ?>
-						<?php foreach ($data as $val): ?>
+						<?php foreach (@$data as $val): ?>
 
 							<tr>
 								<td><?=$i?></td>
 								<td><?=@$val['produk_nama']?></td>
-								<td></td>
+								<td><?=@$val['warna_jenis_type']?></td>
+								<td><?=@$val['warna_nama']?></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
-								<td><?=number_format(@$val['produk_berat']).' Kg'?></td>
 								<td><?=number_format(@$val['produksi_barang_qty'])?></td>
-								<td class="subtotal"><?=number_format(@$val['produk_berat'] * @$val['produksi_barang_qty']).' Kg'?></td>
+								<td><?=number_format(@$val['produksi_barang_warna_cacat'])?></td>
 							</tr>
 						
 						<?php $i++ ?>
@@ -83,37 +83,10 @@
 				</table>
 			</div>
 
-			<div class="col-md-6 col-xs-6">
-				<table class="table table-bordered">
-					<tr>
-						<th>Jumlah Billet</th>
-						<td><?=number_format(@$data[0]['produksi_billet_qty']).' Kg'?></td>
-					</tr>
-					<tr>
-						<th>Total</th>
-						<td id="total"></td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-md-6 col-xs-6">
-				<table class="table table-bordered">
-					<tr>
-						<th>Sisa Billet</th>
-						<td><?=number_format(@$data[0]['produksi_billet_sisa']).' Kg'?></td>
-					</tr>
-				</table>
-			</div>
-
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-6 col-xs-6">
-				<h4>Pekerja</h4>
-				<?php $s = 1; ?>
-				<?php foreach (json_decode($data[0]['produksi_pekerja']) as $key => $value): ?>
-					<?php $kar = $this->query_builder->view_row("SELECT * FROM t_karyawan WHERE karyawan_id = '$value'"); ?>
-					<p><?=$s.'. '.$kar['karyawan_nama']?></p>
-				<?php $s++; ?>
-				<?php endforeach ?>
+				
 			</div>
 
 			<div class="col-md-6 col-xs-6">
@@ -132,16 +105,6 @@
 </html>
 
 <script type="text/javascript">
-	
-	var subtotal = $('.subtotal');
-	var num = 0;
-	$.each(subtotal, function(index, val) {
-		 
-		 num += parseInt($(this).text().replace(/,/g, ''));
-		 
-	});
-
-	$('#total').text(number_format(num)+' Kg');
 
 	
 	//print

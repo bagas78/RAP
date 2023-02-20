@@ -1,18 +1,18 @@
 <?php
 
-class M_pewarnaan extends CI_Model { 
+class M_produk_barang extends CI_Model { 
 
 	//nama tabel
-	var $table = 't_pewarnaan'; 
+	var $table = 't_produk_barang'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null,'pewarnaan_nomor','pewarnaan_nama'); 
+	var $column_order = array(null, 'produk_barang_nama','produk_nomor'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('pewarnaan_nomor','pewarnaan_nama'); 
+	var $column_search = array('produk_barang_nama','produk_nomor'); 
 
 	//urutan 
-	var $order = array('pewarnaan_id' => 'desc'); 
+	var $order = array('produk_barang_id' => 'desc'); 
 
 	public function __construct()
 	{
@@ -64,7 +64,10 @@ class M_pewarnaan extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
-		$this->db->join('t_master_produk', 't_pewarnaan.pewarnaan_produk = t_master_produk.master_produk_id');
+		$this->db->join('t_produk', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_warna_jenis', 't_produk_barang.produk_barang_jenis = t_warna_jenis.warna_jenis_id');
+		$this->db->join('t_warna', 't_produk_barang.produk_barang_warna = t_warna.warna_id');
+		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -73,8 +76,11 @@ class M_pewarnaan extends CI_Model {
 	function count_filtered($where)
 	{
 		$this->_get_datatables_query();
-		$this->db->join('t_master_produk', 't_pewarnaan.pewarnaan_produk = t_master_produk.master_produk_id');
 		$this->db->where($where);
+		$this->db->join('t_produk', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_warna_jenis', 't_produk_barang.produk_barang_jenis = t_warna_jenis.warna_jenis_id');
+		$this->db->join('t_warna', 't_produk_barang.produk_barang_warna = t_warna.warna_id');
+		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -82,8 +88,11 @@ class M_pewarnaan extends CI_Model {
 	public function count_all($where)
 	{
 		$this->db->from($this->table);
-		$this->db->join('t_master_produk', 't_pewarnaan.pewarnaan_produk = t_master_produk.master_produk_id');
 		$this->db->where($where);
+		$this->db->join('t_produk', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_warna_jenis', 't_produk_barang.produk_barang_jenis = t_warna_jenis.warna_jenis_id');
+		$this->db->join('t_warna', 't_produk_barang.produk_barang_warna = t_warna.warna_id');
+		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
 		return $this->db->count_all_results();
 	}
 

@@ -91,11 +91,6 @@ $(document).on('click', '#po_get', function() {
 
 		    });
 
-		    //ppn 0
-	      	if (json[0]['produksi_ppn'] == 0) {
-	        	$('.check').removeAttr('checked').change();
-	      	}
-
 	     });
 	}
 

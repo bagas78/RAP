@@ -5,10 +5,6 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
- 
-            <div align="left">
-              <a href="<?= base_url('produksi/pewarnaan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-            </div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -23,10 +19,10 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Nama Produk</th>
-                  <th>Penambahan Stok</th>
+                  <th>Shift</th>
+                  <th>Status</th>
                   <th>Tanggal</th>
-                  <th width="50">Action</th>
+                  <th width="30">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,6 +35,60 @@
         
       </div>
       <!-- /.box -->
+
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Proses Pewarnaan</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" enctype="multipart/form-data">
+          <div class="box-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Produk</th>
+                  <th>Jenis</th>
+                  <th>Warna</th>
+                  <th>Jumlah</th>
+                  <th>Cacat</th>
+                  <th hidden>Id</th>
+                </tr>
+              </thead>
+              <tbody id="data-modal">
+                
+              </tbody>
+            </table>
+
+            <div class="clearfix"></div><br/>
+
+            <div class="form-group">
+              <label>Tanggal Pewarnaan</label>
+              <input type="date" name="tanggal" class="tanggal form-control" required value="">
+            </div>
+            <div class="form-group">
+              <label>Keterangan</label>
+              <textarea required="" type="text" name="keterangan" class="keterangan form-control"></textarea>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-success">Proses <i class="fa fa-check"></i></button>
+             <button type="reset" class="btn btn-danger">Reset <i class="fa fa-times"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script type="text/javascript">
     var table;
@@ -56,20 +106,33 @@
                 "type": "GET"
             },
             "columns": [                               
-                        { "data": "pewarnaan_nomor"},
-                        { "data": "master_produk_nama"},
-                        { "data": "pewarnaan_jumlah"},
-                        { "data": "pewarnaan_tanggal",
+                        { "data": "produksi_nomor"},
+                        { "data": "user_name"},
+                        { "data": "produksi_pewarnaan",
+                        "render": 
+                        function( data ) {
+                            switch (data) {
+                              case '1':
+                                var s = "Belum";
+                                break;
+                              case '2':
+                                var s = "Selesai";
+                                break;
+                            }
+                            return "<span>"+s+"</span>";
+                          }
+                        },
+                        { "data": "produksi_tanggal",
                         "render": 
                         function( data ) {
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
-                        { "data": "pewarnaan_id",
+                        { "data": "produksi_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produksi/pewarnaan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/pewarnaan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<button onclick='modal("+data+")' class='btn btn-xs btn-info'><i class='fa fa-paint-brush'></i></button> "+
+                            "<a href='<?php echo base_url('produksi/pewarnaan_laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a>";
                           }
                         },
                         
@@ -78,10 +141,36 @@
 
     });
 
-function filter($val){
-  var table = $('#example').DataTable();
-  table.search($val).draw();
-}
+ function modal(id){
 
+    //empty table
+    $('#data-modal').empty();
+
+    $.get('<?=base_url('produksi/pewarnaan_get/')?>'+id, function(data) {
+      var val = $.parseJSON(data);
+      var html = '';
+      $.each(val, function(index, val) {
+          html += '<tr>';
+          html += '<td>'+(index+1)+'</td>';
+          html += '<td>'+val.produk_nama+'</td>';
+          html += '<td>'+val.warna_jenis_type+'</td>';
+          html += '<td>'+val.warna_nama+'</td>';
+          html += '<td>'+val.produksi_barang_qty+'</td>';
+          html += '<td><input name="cacat[]" value="'+val.produksi_barang_warna_cacat+'" style="width: 100px;" type="number" class="form-control"></td>';
+          html += '<td hidden><input name="id[]" value="'+val.produksi_barang_id+'" style="width: 100px;" type="number" class="form-control"></td>';
+          html += '</tr>';
+      });
+      $('#data-modal').append(html);
+
+      //tanggal & keterangan
+      $('.tanggal').val(val[0].produksi_pewarnaan_tanggal);
+      $('.keterangan').val(val[0].produksi_pewarnaan_keterangan);
+
+      //modal pop up
+      $('.modal').modal('toggle');
+      $('form').attr('action', '<?=base_url('produksi/pewarnaan_proses/')?>'+id);
+
+    });
+  }
  
 </script>

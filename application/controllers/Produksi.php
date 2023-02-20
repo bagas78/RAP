@@ -5,7 +5,6 @@ class Produksi extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_peleburan');
 		$this->load->model('m_produksi');
-		$this->load->model('m_pewarnaan');
 		$this->load->model('m_produk');
 	}   
 
@@ -94,21 +93,29 @@ class Produksi extends CI_Controller{
 		$jum = count($barang);
 		
 		for ($i = 0; $i < $jum; ++$i) {
+			$warna = @$_POST['warna'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
 						'produksi_barang_barang' => strip_tags(@$barang[$i]),
 						'produksi_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
-						'produksi_barang_warna' => strip_tags(@$_POST['warna'][$i]),
+						'produksi_barang_warna' => strip_tags($warna),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),					
 					);	
 
 			$this->query_builder->add('t_produksi_barang',$set2);
+
+			//pewarnaan
+			if ($warna != 0) {
+				
+				$this->query_builder->update('t_produksi',['produksi_pewarnaan' => 1],['produksi_nomor' => $nomor]);
+			}
 		}
 
 		if ($db == 1) {
 			
 			//update
 			$this->stok->update_billet();
+			$this->stok->update_produk();
 
 			//jurnal
 			// if ($status == 3) {
@@ -131,13 +138,14 @@ class Produksi extends CI_Controller{
 		if ($db == 1) {
 			
 			//update
-			$this->stok->update_billet();	
+			$this->stok->update_billet();
+			$this->stok->update_produk();	
 
-			if ($table == 'produksi') {
-				$pro = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
-				$nomor = $pro['produksi_nomor'];
-				$this->stok->jurnal_delete($nomor, 1);	
-			}
+			// if ($table == 'produksi') {
+			// 	$pro = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
+			// 	$nomor = $pro['produksi_nomor'];
+			// 	$this->stok->jurnal_delete($nomor, 1);	
+			// }
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -216,30 +224,47 @@ class Produksi extends CI_Controller{
 		$merge = array_merge($set1,$arr);
 		$db = $this->query_builder->update('t_produksi',$merge, ['produksi_nomor' => $nomor]);
 
-
-		//delete barang
-		$this->query_builder->delete('t_produksi_barang',['produksi_barang_nomor' => $nomor]);
-
 		//barang
 		$barang = @$_POST['produk'];
 		$jum = count($barang);
 		
 		for ($i = 0; $i < $jum; ++$i) {
+			$warna = @$_POST['warna'][$i];
+			$id = @$_POST['id'][$i];
+			$delete = @$_POST['delete'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
 						'produksi_barang_barang' => strip_tags(@$_POST['produk'][$i]),
 						'produksi_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
-						'produksi_barang_warna' => strip_tags(@$_POST['warna'][$i]),
+						'produksi_barang_warna' => strip_tags($warna),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
 					);	
 
-			$this->query_builder->add('t_produksi_barang',$set2);
+			if ($id == 0) {
+				//insert
+				$this->query_builder->add('t_produksi_barang',$set2);
+			}else{
+				if ($delete == 1) {
+					//delete
+					$this->query_builder->delete('t_produksi_barang',['produksi_barang_id' => $id]);
+				}else{
+					//update
+					$this->query_builder->update('t_produksi_barang', $set2, ['produksi_barang_id' => $id]);
+				}
+			}
+
+			//pewarnaan
+			if ($warna != 0) {
+				
+				$this->query_builder->update('t_produksi',['produksi_pewarnaan' => 1],['produksi_nomor' => $nomor]);
+			}
 		}
 
 		if ($db == 1) {
 			
 			//update
 			$this->stok->update_billet();
+			$this->stok->update_produk();
 
 			// if ($status == 3) {
 
@@ -485,6 +510,9 @@ class Produksi extends CI_Controller{
 		
 		redirect(base_url('produksi/peleburan'));
 	}
+
+	///////// pesanan produksi ////////////
+
 	function pesanan(){
 		$title = 'pesanan';
 		$data["title"] = $title;
@@ -497,52 +525,9 @@ class Produksi extends CI_Controller{
 	function pesanan_get_data()
 	{
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_status' => 1);
+		$where = array('produksi_hapus' => 0, 'produksi_status' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
-	}
-	function pesanan_add(){
-		$kategori = 'all';
-		$redirect = 'pesanan';
-		$data = $this->add($kategori, $redirect);
-		$data['url'] = $redirect;
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
-	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
-
-	    $data["title"] = 'pesanan';
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/form');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function pesanan_save(){
-		$status = 1;
-		$redirect = 'pesanan';
-		$this->save($status, $redirect);
-	}
-	function pesanan_delete($id){
-		
-		$table = 'produksi';
-		$redirect = 'pesanan';
-		$this->delete($table, $id, $redirect);
-	}
-	function pesanan_edit($id){
-		$kategori = 'all';
-		$active = 'pesanan';
-		$data = $this->edit($id, $active, $kategori);
-
-		$data['url'] = 'pesanan';
-		$data["title"] = 'pesanan';
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/form');
-	    $this->load->view('produksi/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function pesanan_update($nomor){
-		$redirect = 'pesanan';
-		$status = 1;
-		$this->update($nomor, $status, $redirect);
 	}
 
 //////////////// proses /////////////////////////////
@@ -630,60 +615,36 @@ class Produksi extends CI_Controller{
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function pewarnaan_get_data(){
-		$model = 'm_pewarnaan';
-		$where = array('pewarnaan_hapus' => 0);
+		$model = 'm_produksi';
+		$where = array('produksi_hapus' => 0, 'produksi_pewarnaan >' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
-	function pewarnaan_add(){
-		$data['title'] = 'pewarnaan';
-
-		//produk jadi
-		$data['master_data'] =  $this->query_builder->view("SELECT * FROM t_master_produk");
-
-		//stok setengah jadi
-		$db =  $this->query_builder->view_row("SELECT * FROM t_setengah_jadi");
-		$data['stok'] = $db['setengah_jadi_stok'];
-		$data['hps'] = $db['setengah_jadi_hps'];
-
-		//generate nomor transaksi
-	    $pb = $this->query_builder->count("SELECT * FROM t_pewarnaan");
-	    $data['nomor'] = 'PWR-'.date('dmY').'-'.($pb+1);
-
-	    //url
-	    $data['url'] = 'pewarnaan_save';
-
-		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/pewarnaan_form');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function pewarnaan_get_produk($id){
-
-		$get = $this->query_builder->view_row("SELECT * FROM t_master_produk WHERE master_produk_id = '$id'");
-		$id_pewarnaan = $get['master_produk_pewarnaan'];
-
-		$data = $this->query_builder->view_row("SELECT * FROM t_pewarnaan_jenis WHERE pewarnaan_jenis_id = '$id_pewarnaan'");
-
+	function pewarnaan_get($id){
+		$data = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id' AND b.produksi_barang_warna != 0");
 		echo json_encode($data);
 	}
-	function pewarnaan_save(){
-		$jumlah = strip_tags(@$_POST['jumlah']);
-		$jenis = strip_tags(@$_POST['jenis_id']);
+	function pewarnaan_proses($id){
 		$set = array(
-						'pewarnaan_nomor' => strip_tags(@$_POST['nomor']),
-						'pewarnaan_jumlah' => $jumlah,
-						'pewarnaan_produk' => strip_tags(@$_POST['produk']),
-						'pewarnaan_jenis' => $jenis,
-						'pewarnaan_hps' => strip_tags(str_replace(',', '', @$_POST['hps'])),
-						'pewarnaan_hpp' => strip_tags(str_replace(',', '', @$_POST['hpp'])),
+						'produksi_pewarnaan' => 2,
+						'produksi_pewarnaan_tanggal' => strip_tags(@$_POST['tanggal']),
+						'produksi_pewarnaan_keterangan' => strip_tags(@$_POST['keterangan']),
 					);
-		$db = $this->query_builder->add('t_pewarnaan',$set);
+		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
 
 		if ($db == 1) {
 			
+			//cacat
+			$get = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
+			$nomor = $get['produksi_nomor'];
+			$num = count(@$_POST['cacat']);
+			for ($i = 0; $i < $num; ++$i) {
+
+				$this->query_builder->update('t_produksi_barang',['produksi_barang_warna_cacat' => strip_tags(@$_POST['cacat'][$i])], ['produksi_barang_id' => @$_POST['id'][$i]]);
+			}
+
 			//update
-			$this->stok->update_setengah_jadi();
-			$this->stok->update_produk();
+			$this->stok->update_produk(1);
 
 			$this->session->set_flashdata('success','Data berhasil di simpan');
 
@@ -694,60 +655,9 @@ class Produksi extends CI_Controller{
 
 		redirect(base_url('produksi/pewarnaan'));
 	}
-	function pewarnaan_delete($id){
-		
-		$table = 'pewarnaan';
-		$redirect = 'pewarnaan';
-		$this->delete($table, $id, $redirect);
-	}
-	function pewarnaan_edit($id){
-		$data['title'] = 'pewarnaan';
+	function pewarnaan_laporan($id){
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id' AND b.produksi_barang_warna != 0");
 
-		//produk jadi
-		$data['master_data'] = $this->query_builder->view("SELECT * FROM t_master_produk");
-
-		//stok setengah jadi
-		$db =  $this->query_builder->view_row("SELECT * FROM t_setengah_jadi");
-		$data['stok'] = $db['setengah_jadi_stok'];
-
-		//data
-		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_pewarnaan WHERE pewarnaan_id = '$id'");
-
-	    //url
-	    $data['url'] = 'pewarnaan_update';
-
-		$this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/pewarnaan_form');
-	    $this->load->view('produksi/pewarnaan_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function pewarnaan_update($id){
-		$jumlah = strip_tags(@$_POST['jumlah']);
-		$jenis = strip_tags(@$_POST['jenis_id']);
-		$set = array(
-						'pewarnaan_jumlah' => $jumlah,
-						'pewarnaan_produk' => strip_tags(@$_POST['produk']),
-						'pewarnaan_jenis' => $jenis,
-						'pewarnaan_hps' => strip_tags(str_replace(',', '', @$_POST['hps'])),
-						'pewarnaan_hpp' => strip_tags(str_replace(',', '', @$_POST['hpp'])),
-					);
-		
-		$where = ['pewarnaan_id' => $id];
-		$db = $this->query_builder->update('t_pewarnaan',$set,$where);
-
-		if ($db == 1) {
-			
-			//update
-			$this->stok->update_setengah_jadi();
-			$this->stok->update_produk();
-
-			$this->session->set_flashdata('success','Data berhasil di simpan');
-
-		} else {
-
-			$this->session->set_flashdata('gagal','Data gagal di simpan');
-		}
-
-		redirect(base_url('produksi/pewarnaan'));
+	    $this->load->view('produksi/pewarnaan_laporan',$data);
 	}
 }

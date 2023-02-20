@@ -6,6 +6,7 @@ class Produk extends CI_Controller{
 		$this->load->model('m_produk');
 		$this->load->model('m_warna');
 		$this->load->model('m_jenis');
+		$this->load->model('m_produk_barang');
 	}  
 	function master(){
 		if ( $this->session->userdata('login') == 1) {
@@ -128,6 +129,38 @@ class Produk extends CI_Controller{
 		}
 		
 		redirect(base_url('produk/master'));
+	}
+	function master_view($id){
+		if ( $this->session->userdata('login') == 1) {
+
+		    $data['title'] = 'Master Produk';
+		    $data['id'] = $id;
+		    
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('produk/master_view');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function master_view_get($id){
+
+		$where = array('produk_barang_barang' => $id);
+
+	    $data = $this->m_produk_barang->get_datatables($where);
+		$total = $this->m_produk_barang->count_all($where);
+		$filter = $this->m_produk_barang->count_filtered($where);
+
+		$output = array(
+			"draw" => $_GET['draw'],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+		//output dalam format JSON
+		echo json_encode($output);
 	}
 
 	///////////////// warna /////////////////

@@ -121,32 +121,39 @@ class Stok{
     return $this->sql->db->update('t_setengah_jadi');
 
   }
-  function update_produk(){
+  function update_produk($w = 0){
 
-    $db1 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total, pewarnaan_produk AS produk, pewarnaan_hps AS hps, pewarnaan_hpp AS hpp FROM t_pewarnaan WHERE pewarnaan_hapus = 0 GROUP BY pewarnaan_produk")->result_array();
+    if ($w == 0) {
+      $where = 'a.produksi_barang_warna = 0';
+    }else{
+      $where = 'b.produksi_pewarnaan != 1';
+    }
+
+    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE $where GROUP BY produksi_barang_barang, produksi_barang_jenis, produksi_barang_warna")->result_array();
 
     $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
 
-    //0 value
-    $this->sql->db->query("UPDATE t_produk SET produk_stok = 0");
+    //0 delete
+    $this->sql->db->query('DELETE FROM t_produk_barang');  
     
     foreach ($db1 as $val1) {
 
       $produk = $val1['produk'];
-      $total = $val1['total'];
+      $stok = $val1['stok'];
+      $jenis = $val1['jenis'];
+      $warna = $val1['warna'];
 
-      $this->sql->db->set(['produk_stok' => $total ]);
-      $this->sql->db->where(['produk_id'=> $produk]);
-      $this->sql->db->update('t_produk');
+      $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
+      $this->sql->db->insert('t_produk_barang');
       
     }
 
     //subtract penjualan
-    foreach ($db2 as $val2) {
-      $id = $val2['produk'];
-      $total = $val2['total'];
-      $this->sql->db->query("UPDATE t_produk SET produk_stok = produk_stok - {$total} WHERE produk_id = {$id}");
-    }
+    // foreach ($db2 as $val2) {
+    //   $id = $val2['produk'];
+    //   $total = $val2['total'];
+    //   $this->sql->db->query("UPDATE t_produk SET produk_stok = produk_stok - {$total} WHERE produk_id = {$id}");
+    // }
 
     return;
   }

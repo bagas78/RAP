@@ -45,10 +45,20 @@
       var i = index+1;
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change(); 
       $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.produksi_barang_jenis).change();
-      $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.produksi_barang_warna).change();
       $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.produksi_barang_qty));
+      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(val.produksi_barang_id);
+
+      //jenis
+      var warna = val.produksi_barang_warna;
+      if (warna == 0) {
+
+        $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.produksi_barang_warna).change().attr('readonly',true).css('pointer-events','none');
+      }else{
+
+        $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.produksi_barang_warna).change();
+      }
 
     });
 
