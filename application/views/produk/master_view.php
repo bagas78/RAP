@@ -7,7 +7,7 @@
         <div class="box-header with-border">
 
           <div align="left">
-            <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn bg-black"><i class="fa fa-arrow-left"></i> Kembali</button></a>
+            <a href="<?= base_url('produk/master') ?>"><button class="btn bg-black"><i class="fa fa-arrow-left"></i> Kembali</button></a>
           </div>
 
           <div class="box-tools pull-right">
