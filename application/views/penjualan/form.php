@@ -124,7 +124,7 @@
                 <select required id="produk" class="produk form-control" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $b): ?>
-                    <option value="<?=@$b['master_produk_id']?>"><?=@$b['master_produk_nama']?></option>
+                    <option value="<?=@$b['produk_id']?>"><?=@$b['produk_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
@@ -219,17 +219,17 @@ if ('<?=@$url?>' != 'po') {
         var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
 
         //stok
-        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['master_produk_stok']));
+        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['produk_stok']));
 
         //satuan
         var satuan = $('.satuan');
         $(satuan).empty().html(val['satuan_singkatan']);
 
         //harga
-        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['master_produk_harga']));
+        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['produk_harga']));
 
         //hps
-        $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val['master_produk_hps']));
+        $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val['produk_hps']));
 
         /////// cek exist barang ///////////
         var arr = new Array(); 

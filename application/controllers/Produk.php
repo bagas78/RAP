@@ -162,6 +162,21 @@ class Produk extends CI_Controller{
 		//output dalam format JSON
 		echo json_encode($output);
 	}
+	function master_set($id){
+
+		$url = strip_tags($_POST['url']);
+		$harga = strip_tags(str_replace(',', '', @$_POST['harga']));
+
+		$db = $this->query_builder->update('t_produk_barang',['produk_barang_harga' => $harga],['produk_barang_id' => $id]);
+
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+		
+		redirect(base_url('produk/master_view/'.$url));
+	}
 
 	///////////////// warna /////////////////
 

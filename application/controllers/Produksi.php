@@ -60,7 +60,7 @@ class Produksi extends CI_Controller{
 						'produksi_shift' => strip_tags(@$_POST['shift']),
 						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_keterangan' => strip_tags(@$_POST['keterangan']),
-						'produksi_mesin' => strip_tags(@$_POST['mesin']),
+						'produksi_mesin' => strip_tags(@$_POST['mesin']), 
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty_produk'])),
 						'produksi_billet_hps' => strip_tags(str_replace(',', '', @$_POST['hps_billet'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', @$_POST['qty_billet'])),
@@ -197,7 +197,7 @@ class Produksi extends CI_Controller{
 						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_keterangan' => strip_tags(@$_POST['keterangan']),
 						'produksi_mesin' => strip_tags(@$_POST['mesin']),
-						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty_barang'])),
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty_produk'])),
 						'produksi_billet_hps' => strip_tags(str_replace(',', '', @$_POST['hps_billet'])),
 						'produksi_billet_qty' => strip_tags(str_replace(',', '', @$_POST['qty_billet'])),
 						'produksi_total_akhir' => $total, 
@@ -251,12 +251,6 @@ class Produksi extends CI_Controller{
 					//update
 					$this->query_builder->update('t_produksi_barang', $set2, ['produksi_barang_id' => $id]);
 				}
-			}
-
-			//pewarnaan
-			if ($warna != 0) {
-				
-				$this->query_builder->update('t_produksi',['produksi_pewarnaan' => 1],['produksi_nomor' => $nomor]);
 			}
 		}
 
@@ -644,7 +638,7 @@ class Produksi extends CI_Controller{
 			}
 
 			//update
-			$this->stok->update_produk(1);
+			$this->stok->update_produk();
 
 			$this->session->set_flashdata('success','Data berhasil di simpan');
 

@@ -14,7 +14,7 @@ class Penjualan extends CI_Controller{
 		$filter = $this->$model->count_filtered($where);
 
 		$output = array(
-			"draw" => $_GET["draw"], 
+			"draw" => $_GET["draw"],  
 			"recordsTotal" => $total,
 			"recordsFiltered" => $filter,
 			"data" => $data,
@@ -31,7 +31,7 @@ class Penjualan extends CI_Controller{
 	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
 
 	    //produk
-	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_master_produk WHERE master_produk_hapus = 0");
+	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'penjualan'");
@@ -65,7 +65,7 @@ class Penjualan extends CI_Controller{
 	}
 	function get_produk($id){
 		//barang
-		$db = $this->query_builder->view_row("SELECT * FROM t_master_produk as a JOIN t_satuan as b ON a.master_produk_satuan = b.satuan_id WHERE a.master_produk_id = '$id'");
+		$db = $this->query_builder->view_row("SELECT * FROM t_produk as a JOIN t_satuan as b ON a.produk_satuan = b.satuan_id WHERE a.produk_id = '$id'");
 		echo json_encode($db);
 	}
 	function save($po, $redirect){
@@ -172,7 +172,7 @@ class Penjualan extends CI_Controller{
 	    $data['kontak_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_jenis = 'p' AND kontak_hapus = 0");
 
 	    //produk
-	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_master_produk WHERE master_produk_hapus = 0");
+	    $data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'penjualan'");
@@ -183,7 +183,7 @@ class Penjualan extends CI_Controller{
 	}
 	function get_penjualan($nomor){ 
 		//penjualan barang
-		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang AS a JOIN t_master_produk AS b ON a.penjualan_barang_barang = b.master_produk_id JOIN t_satuan as c ON b.master_produk_satuan = c.satuan_id WHERE a.penjualan_barang_nomor = '$nomor'");
+		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang AS a JOIN t_produk AS b ON a.penjualan_barang_barang = b.produk_id JOIN t_satuan as c ON b.produk_satuan = c.satuan_id WHERE a.penjualan_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
 	function update($po, $redirect, $where){
@@ -290,12 +290,12 @@ class Penjualan extends CI_Controller{
 		echo json_encode($output);
 	}
 	function search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk as c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_satuan as d ON c.master_produk_satuan = d.satuan_id WHERE a.penjualan_nomor = '$nomor'");
+		$output = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk as c ON b.penjualan_barang_barang = c.produk_id JOIN t_satuan as d ON c.produk_satuan = d.satuan_id WHERE a.penjualan_nomor = '$nomor'");
 		echo json_encode($output);
 	}
 	function faktur($id){
 		$data["title"] = 'faktur';
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk AS c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id WHERE a.penjualan_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id WHERE a.penjualan_id = '$id'");
 
 		
 		$this->load->view('penjualan/faktur',$data);
@@ -303,7 +303,7 @@ class Penjualan extends CI_Controller{
 	function surat($id){
 
 		$data["title"] = 'surat jalan';
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_master_produk AS c ON b.penjualan_barang_barang = c.master_produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_satuan as e ON c.master_produk_satuan = e.satuan_id WHERE a.penjualan_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_satuan as e ON c.produk_satuan = e.satuan_id WHERE a.penjualan_id = '$id'");
 
 		
 		$this->load->view('penjualan/surat',$data);

@@ -95,55 +95,24 @@ class Stok{
     $this->sql->db->where($where);
     return $this->sql->db->update('t_billet');
   }
-  function update_setengah_jadi(){
-    $db1 = $this->sql->db->query("SELECT SUM(produksi_setengah_jadi) AS total, ROUND(SUM(produksi_hpp) / SUM(produksi_setengah_jadi)) AS hpp_item, ROUND(SUM(produksi_hpp)) AS hpp_asli FROM t_produksi WHERE produksi_hapus = 0 AND produksi_setengah_jadi != ''")->row_array();
-    
-    $db2 = $this->sql->db->query("SELECT SUM(pewarnaan_jumlah) AS total FROM t_pewarnaan WHERE pewarnaan_hapus = 0")->row_array();
+  function update_produk(){
 
-    $total = $db1['total'] - $db2['total'];
-    $current = date('Y-m-d');
+    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE b.produksi_pewarnaan != 1 GROUP BY produksi_barang_barang, produksi_barang_jenis, produksi_barang_warna")->result_array();
 
-    if ($total == 0) {
-      //0
-      $hps = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])));
-    }else{
-      $hps = ROUND(($db1['hpp_asli'] - ($db1['hpp_item'] * $db2['total'])) / $total);
-    }
-
-    $get = $this->sql->db->query("SELECT * FROM t_setengah_jadi")->row_array();
-    $id = $get['setengah_jadi_id']; 
-
-    $set = ['setengah_jadi_stok' => $total, 'setengah_jadi_hps' => $hps, 'setengah_jadi_update' => $current];
-    $where = ['setengah_jadi_id' => $id];
-
-    $this->sql->db->set($set);
-    $this->sql->db->where($where);
-    return $this->sql->db->update('t_setengah_jadi');
-
-  }
-  function update_produk($w = 0){
-
-    if ($w == 0) {
-      $where = 'a.produksi_barang_warna = 0';
-    }else{
-      $where = 'b.produksi_pewarnaan != 1';
-    }
-
-    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE $where GROUP BY produksi_barang_barang, produksi_barang_jenis, produksi_barang_warna")->result_array();
-
-    $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
+    // $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
 
     //0 delete
     $this->sql->db->query('DELETE FROM t_produk_barang');  
     
     foreach ($db1 as $val1) {
 
-      $produk = $val1['produk'];
-      $stok = $val1['stok'];
-      $jenis = $val1['jenis'];
-      $warna = $val1['warna'];
+      $produk = @$val1['produk'];
+      $stok = @$val1['stok'];
+      $jenis = @$val1['jenis'];
+      $warna = @$val1['warna'];
+      $total = @$val1['total'] / @$stok;
 
-      $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
+      $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna, 'produk_barang_hps' => $total]);
       $this->sql->db->insert('t_produk_barang');
       
     }
