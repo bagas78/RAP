@@ -58,6 +58,8 @@
 				<tr>
 					<th width="70">No</th>
 					<th>Produk</th>
+					<th>Jenis</th>
+					<th>Warna</th>
 					<th>Qty</th>
 					<th>Harga</th>
 					<th>Subtotal</th>
@@ -69,7 +71,9 @@
 
 					<tr>
 						<td><?=$i?></td>
-						<td><?=$val['master_produk_nama']?></td>
+						<td><?=$val['produk_nama']?></td>
+						<td><?=$val['warna_jenis_type']?></td>
+						<td><?=$val['warna_nama']?></td>
 						<td><?=number_format($val['penjualan_barang_qty'])?></td>
 						<td><?=number_format($val['penjualan_barang_harga'])?></td>
 						<td class="subtotal"><?=number_format($val['penjualan_total'])?></td>
@@ -79,19 +83,19 @@
 				<?php endforeach ?>
 
 				<tr>
-					<td colspan="3"></td>
+					<td colspan="5"></td>
 					<td>PPN</td>
 					<td id="ppn"><?=@$data[0]['penjualan_ppn']?>%</td>
 				</tr>
 				<tr>
 					<td>Jatuh Tempo</td>
-					<td colspan="2"><?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
+					<td colspan="4"><?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
 					<td>Total Akhir</td>
 					<td id="total_akhir"></td>
 				</tr>
 				<tr>
 					<td>Keterangan</td>
-					<td colspan="4"><?=@$data[0]['penjualan_keterangan']?></td>
+					<td colspan="6"><?=@$data[0]['penjualan_keterangan']?></td>
 				</tr>
 
 			</tbody>

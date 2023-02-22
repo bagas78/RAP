@@ -99,30 +99,36 @@ class Stok{
 
     $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE b.produksi_pewarnaan != 1 GROUP BY produksi_barang_barang, produksi_barang_jenis, produksi_barang_warna")->result_array();
 
-    // $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_hapus = 0 AND a.penjualan_status = 'l' AND a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
-
-    //0 delete
-    $this->sql->db->query('DELETE FROM t_produk_barang');  
+    $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_PO != '1' GROUP BY b.penjualan_barang_barang")->result_array();
     
     foreach ($db1 as $val1) {
 
       $produk = @$val1['produk'];
-      $stok = @$val1['stok'];
       $jenis = @$val1['jenis'];
       $warna = @$val1['warna'];
+      $stok = @$val1['stok'];
       $total = @$val1['total'] / @$stok;
 
       $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna, 'produk_barang_hps' => $total]);
-      $this->sql->db->insert('t_produk_barang');
+
+      $where = $this->sql->db->where(['produk_barang_barang' => $produk, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
+
+      if (@$where) {
+        //edit
+        $this->sql->db->update('t_produk_barang');
+      }else{
+        //insert
+        $this->sql->db->insert('t_produk_barang');
+      }
       
     }
 
-    //subtract penjualan
-    // foreach ($db2 as $val2) {
-    //   $id = $val2['produk'];
-    //   $total = $val2['total'];
-    //   $this->sql->db->query("UPDATE t_produk SET produk_stok = produk_stok - {$total} WHERE produk_id = {$id}");
-    // }
+    //subtract penjualan - produk_barang
+    foreach ($db2 as $val2) {
+      $id = $val2['produk'];
+      $total = $val2['total'];
+      $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - {$total} WHERE produk_barang_barang = {$id}");
+    }
 
     return;
   }

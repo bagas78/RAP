@@ -10,11 +10,7 @@
   $('#status').val('<?=@$data['penjualan_status']?>').change();
   $('#keterangan').val('<?=@$data['penjualan_keterangan']?>');
 
-  $('#po_tanggal').val('<?=@$data['penjualan_po_tanggal']?>');
-  $('#packing').val('<?=@$data['penjualan_packing']?>');
-  $('#pengiriman').val('<?=@$data['penjualan_pengiriman']?>');
-
-  if ('<?=@$data['penjualan_lampiran']?>' != '') {
+  if ('<?=@$data['penjualan_lampiran']?>' != '') { 
     $('#previewImg').attr('src', '<?=base_url('assets/gambar/penjualan/'.@$data['penjualan_lampiran'])?>');
   }
 
@@ -47,10 +43,15 @@
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty);
       $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.penjualan_barang_potongan));
       $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.penjualan_barang_harga));
-      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val.penjualan_barang_hps));
+
+      //hidden
+      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.penjualan_barang_hps);
+      $('#copy:nth-child('+i+') > td:nth-child(8) > input').val(val.penjualan_barang_jenis);
+      $('#copy:nth-child('+i+') > td:nth-child(9) > input').val(val.penjualan_barang_warna);
+      /////////////
 
       //kembalikan stok
-      var re = parseInt(val.penjualan_barang_qty) + parseInt(val.master_produk_stok);
+      var re = parseInt(val.penjualan_barang_qty) + parseInt(val.produk_barang_stok);
       $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
 
       //satuan

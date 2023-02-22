@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fa fa-times"></i></button> 
+          <i class="fa fa-times"></i></button>  
       </div>
  
       <div hidden id="search" align="left">
@@ -32,10 +32,6 @@
       <form method="post" enctype="multipart/form-data" class="bg-alice">
 
         <div class="row">
-
-          <!--date-->
-          <input value="<?=date('Y-m-d')?>" type="hidden" name="po_tanggal" class="form-control" id="po_tanggal">
-          <input value="<?=date('Y-m-d')?>" type="hidden" name="packing" class="form-control" id="packing">
 
           <div class="col-md-3">
             <div class="col-md-12 mb-7">
@@ -84,11 +80,6 @@
             <div class="col-md-12 mb-7">
               <label>Keterangan</label>
               <textarea name="keterangan" class="form-control" style="height: 100px;" id="keterangan"></textarea>
-            </div>
-
-            <div class="col-md-12 mb-7">
-              <label id="label-pengiriman">Tanggal Pengiriman</label>
-              <input type="date" name="pengiriman" class="form-control" required id="pengiriman">
             </div>
 
           </div>
@@ -144,8 +135,10 @@
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
 
-              <!--hps hidden-->
-              <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control" value="0" min="0"></td>
+              <!--hidden-->
+              <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control"></td>
+              <td hidden><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
+              <td hidden><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
 
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
@@ -187,6 +180,82 @@
   </div>
   <!-- /.box -->
 
+<div class="modal fade" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="box-body">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Nama Produk</label>
+                  <select class="form-control id-produk" required>
+                    <option value="" hidden>-- Pilih --</option>
+                    <?php foreach ($produk_data as $p): ?>
+                      <option value="<?=@$p['produk_id']?>"><?=@$p['produk_nama']?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Jenis</label>
+                  <select class="form-control jenis-produk" required>
+                    <option value="" hidden>-- Pilih --</option>
+                    <?php foreach ($jenis_data as $j): ?>
+                      <option value="<?=@$j['warna_jenis_id']?>"><?=@$j['warna_jenis_type']?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Warna</label>
+                  <select class="form-control warna-produk" required>
+                    <option value="" hidden>-- Pilih --</option>
+                    <?php foreach ($warna_data as $w): ?>
+                      <option <?=(@$w['warna_id'] == 0)?'hidden':''?> value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Stok</label>
+                  <input min="1" value="0" type="number" class="stok-produk form-control" min="0" readonly="">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Harga</label>
+                  <input min="1" value="0" type="number" class="harga-produk form-control" min="0" readonly="">
+
+                  <!--hidden-->
+                  <div hidden>
+                    <input value="" type="text" class="index-produk form-control" readonly="">
+                    <input value="" type="text" class="satuan-produk form-control" readonly="">
+                    <input value="" type="text" class="hps-produk form-control" readonly="">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer" style="background: aliceblue;">
+            <button type="button" class="btn-produk btn btn-primary">Submit <i class="fa fa-check"></i></button>
+             <button data-dismiss="modal" type="button" class="btn btn-danger">Close <i class="fa fa-times"></i></button>
+          </div>
+       </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+    <!-- /.modal-dialog -->
+  </div>
+<!-- /.modal -->
+
 <script type="text/javascript">
 
 //atribut
@@ -195,65 +264,142 @@ $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 
-if ('<?=@$url?>' != 'packing') {
-  //remove
-  $('#packing').remove();
-  $('#pengiriman').remove(); 
-  $('#label-pengiriman').remove();
-}
-
-if ('<?=@$url?>' != 'po') {
-  //remove
-  $('#po_tanggal').remove();
-}
-
   //get barang
   $(document).on('change', '#produk', function() {
       var id = $(this).val();
+      var text = $(this).text();
       var index = $(this).closest('tr').index();
-      $.get('<?=base_url('penjualan/get_produk/')?>'+id, function(data) {
-        var val = JSON.parse(data);
-        var i = (index + 1);
-        
-        //qty
-        var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
 
-        //stok
-        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['produk_stok']));
+      /////// cek exist barang ///////////
+      var arr = new Array(); 
+      $.each($('.produk'), function(idx, val) {
+          
+          if (index != idx)
+          arr.push($(this).val());
 
-        //satuan
-        var satuan = $('.satuan');
-        $(satuan).empty().html(val['satuan_singkatan']);
+      });
 
-        //harga
-        $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val['produk_harga']));
-
-        //hps
-        $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(number_format(val['produk_hps']));
-
-        /////// cek exist barang ///////////
-        var arr = new Array(); 
-        $.each($('.produk'), function(idx, val) {
-            
-            if (index != idx)
-            arr.push($(this).val());
-
-        });
+      if (id != '') {
 
         if ($.inArray(id, arr) != -1) {
+          var i = index + 1;
 
-          alert_sweet('Bahan avalan sudah ada');
+          alert_sweet('Produk sudah ada');
           
           $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
+          $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
           $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
           $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
           $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(0);
           $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(0);
+          
+        }else{
+
+          //empty
+          $('.stok-produk').val(0);
+          $('.jenis-produk').val('').change();
+          $('.satuan-produk').val('');
+
+          //index
+          $('.index-produk').val(index);
+
+          //produk
+          $('.id-produk').val(id).change().attr('readonly',true).css('pointer-events','none');
+
+          //modal
+          $('.modal').modal('toggle');
+        
         }
         ////// end exist barang ///////////
+      }
 
-      });
   });
+
+  $(document).on('change', '.jenis-produk', function() {
+   
+    var jenis = $('.jenis-produk').val();
+    var warna = $('.warna-produk');
+
+    //empty
+    $('.stok-produk').val(0);
+    $('.harga-produk').val(0);
+    $('.satuan-produk').val('');
+    $('.hps-produk').val('');
+
+    //jenis jual langsung
+    if (jenis == 3) {
+      $('.warna-produk').val(0).change().attr('readonly',true).css('pointer-events','none');
+    }else{
+      $('.warna-produk').val('').change().removeAttr('readonly').css('pointer-events', '');
+    }
+
+  });
+
+  $(document).on('change', '.warna-produk', function() {
+    //produk get
+    var id = $('.id-produk').val();
+    var jenis = $('.jenis-produk').val();
+    var warna = $('.warna-produk').val();
+
+    //empty
+    $('.stok-produk').val(0);
+    $('.harga-produk').val(0);
+    $('.satuan-produk').val('');
+
+    $.get('<?=base_url('penjualan/get_produk/')?>'+id+'/'+jenis+'/'+warna, function(data) {
+      
+      var pro = JSON.parse(data);
+      $('.stok-produk').val(pro['produk_barang_stok']);
+      $('.harga-produk').val(pro['produk_barang_harga']);
+      $('.satuan-produk').val(pro['satuan_singkatan']);
+      $('.hps-produk').val(pro['produk_barang_hps']);
+
+    });
+
+  });
+
+  $(document).on('click', '.btn-produk', function() {
+    
+    //modal produk
+    var stok = $('.stok-produk');
+    var jenis = $('.jenis-produk');
+    var warna = $('.warna-produk');
+    var harga = $('.harga-produk');
+    var satuan = $('.satuan-produk');
+    var hps = $('.hps-produk');
+    var i = $('.index-produk').val() + 1;
+
+    switch(true) {
+      case stok.val() == 0:
+        alert_sweet('stok produk kosong');
+        break;
+      case  harga.val() == 0:
+        alert_sweet('harga masih 0');
+        break;
+      default:
+ 
+        //form bawah
+        var qty_ = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
+        var stok_ = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input');
+        var harga_ = $('#copy:nth-child('+i+') > td:nth-child(5) > input');
+        var hps_ = $('#copy:nth-child('+i+') > td:nth-child(7) > input');
+        var jenis_ = $('#copy:nth-child('+i+') > td:nth-child(8) > input');
+        var warna_ = $('#copy:nth-child('+i+') > td:nth-child(9) > input');
+        var satuan_ = $('.satuan');
+
+        //modal
+        qty_.val(0);
+        stok_.val(stok.val());
+        harga_.val(harga.val().replace(/,/g, ''));
+        hps_.val(hps.val());
+        jenis_.val(jenis.val());
+        warna_.val(warna.val());
+        satuan_.text(satuan.val());
+
+        //modal close
+        $('.modal').modal('toggle');
+    }
+ });
 
   //copy paste
   function clone(){
@@ -303,7 +449,7 @@ if ('<?=@$url?>' != 'po') {
        var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
 
        var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
-       var potongan = (parseInt(diskon) * parseInt(harga) / 100);  
+       var potongan = (parseInt(diskon) / 100) * (parseInt(harga) * parseInt(qty.val()));
        var subtotal = parseInt(qty.val()) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());
 

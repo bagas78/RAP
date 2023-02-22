@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 08:37 AM
+-- Generation Time: Feb 22, 2023 at 08:50 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -237,7 +237,7 @@ CREATE TABLE `t_billet` (
 --
 
 INSERT INTO `t_billet` (`billet_id`, `billet_full`, `billet_min`, `billet_stok`, `billet_sisa`, `billet_hpp`, `billet_hps`, `billet_update`) VALUES
-(1, '40', '40', '0', '7', '287000', '7175', '2023-02-20');
+(1, '40', '40', '0', '7', '287000', '7175', '2023-02-22');
 
 -- --------------------------------------------------------
 
@@ -350,8 +350,6 @@ INSERT INTO `t_jurnal` (`jurnal_id`, `jurnal_nomor`, `jurnal_akun`, `jurnal_kete
 (144, 'PA-18122022-6', '1', 'kas ( pembelian bahan avalan )', 'kredit', '300000', 0, '2023-02-08'),
 (153, 'PJ-21012023-2', '2', 'piutang (penjualan produk)', 'debit', '20000', 0, '2023-02-08'),
 (154, 'PJ-21012023-2', '3', 'stok produk', 'kredit', '20000', 0, '2023-02-08'),
-(155, '', '2', 'piutang (penjualan produk)', 'debit', '', 0, '2023-02-09'),
-(156, '', '3', 'stok produk', 'kredit', '', 0, '2023-02-09'),
 (165, 'PL-21012023-2', '2', 'piutang (penjualan produk)', 'debit', '20000', 0, '2023-02-09'),
 (166, 'PL-21012023-2', '3', 'stok produk', 'kredit', '20000', 0, '2023-02-09'),
 (189, 'PR-14012023-2', '9', 'biaya produksi', 'debit', '36470', 0, '2023-02-12'),
@@ -377,7 +375,11 @@ INSERT INTO `t_jurnal` (`jurnal_id`, `jurnal_nomor`, `jurnal_akun`, `jurnal_kete
 (285, 'PLB-19122022-1', '9', 'biaya peleburan', 'debit', '90000', 0, '2022-12-19'),
 (286, 'PLB-19122022-1', '5', 'stok billet', 'kredit', '90000', 0, '2022-12-19'),
 (287, 'PLB-16022023-3', '9', 'biaya peleburan', 'debit', '75000', 0, '2023-02-16'),
-(288, 'PLB-16022023-3', '5', 'stok billet', 'kredit', '75000', 0, '2023-02-16');
+(288, 'PLB-16022023-3', '5', 'stok billet', 'kredit', '75000', 0, '2023-02-16'),
+(291, '', '2', 'piutang (penjualan produk)', 'debit', '', 0, '2023-02-21'),
+(292, '', '3', 'stok produk', 'kredit', '', 0, '2023-02-21'),
+(297, 'PJ-22022023-1', '2', 'piutang (penjualan produk)', 'debit', '66500', 0, '2023-02-22'),
+(298, 'PJ-22022023-1', '3', 'stok produk', 'kredit', '66500', 0, '2023-02-22');
 
 -- --------------------------------------------------------
 
@@ -733,7 +735,6 @@ INSERT INTO `t_pembelian_umum_barang` (`pembelian_umum_barang_id`, `pembelian_um
 CREATE TABLE `t_penjualan` (
   `penjualan_id` int(11) NOT NULL,
   `penjualan_po` int(11) NOT NULL DEFAULT 0,
-  `penjualan_po_tanggal` text NOT NULL,
   `penjualan_packing` text NOT NULL DEFAULT '',
   `penjualan_pengiriman` text NOT NULL DEFAULT '',
   `penjualan_nomor` text NOT NULL,
@@ -743,6 +744,7 @@ CREATE TABLE `t_penjualan` (
   `penjualan_pembayaran` text DEFAULT NULL,
   `penjualan_status` set('l','b') NOT NULL,
   `penjualan_pelunasan` text DEFAULT NULL,
+  `penjualan_pelunasan_keterangan` text DEFAULT NULL,
   `penjualan_keterangan` text NOT NULL,
   `penjualan_lampiran` text NOT NULL,
   `penjualan_qty_akhir` text DEFAULT NULL,
@@ -750,6 +752,13 @@ CREATE TABLE `t_penjualan` (
   `penjualan_total` text DEFAULT NULL,
   `penjualan_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penjualan`
+--
+
+INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_packing`, `penjualan_pengiriman`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_status`, `penjualan_pelunasan`, `penjualan_pelunasan_keterangan`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_hapus`) VALUES
+(76, 0, '', '', 'PJ-22022023-1', '15', '2023-02-22', '2023-02-22', 'tunai', 'l', NULL, NULL, '-', '', '5', '0', '78500', 0);
 
 -- --------------------------------------------------------
 
@@ -761,6 +770,8 @@ CREATE TABLE `t_penjualan_barang` (
   `penjualan_barang_id` int(11) NOT NULL,
   `penjualan_barang_nomor` text NOT NULL,
   `penjualan_barang_barang` text NOT NULL,
+  `penjualan_barang_jenis` text NOT NULL,
+  `penjualan_barang_warna` text NOT NULL,
   `penjualan_barang_stok` text NOT NULL,
   `penjualan_barang_qty` text NOT NULL,
   `penjualan_barang_potongan` text NOT NULL,
@@ -768,6 +779,14 @@ CREATE TABLE `t_penjualan_barang` (
   `penjualan_barang_hps` text NOT NULL,
   `penjualan_barang_subtotal` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penjualan_barang`
+--
+
+INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor`, `penjualan_barang_barang`, `penjualan_barang_jenis`, `penjualan_barang_warna`, `penjualan_barang_stok`, `penjualan_barang_qty`, `penjualan_barang_potongan`, `penjualan_barang_harga`, `penjualan_barang_hps`, `penjualan_barang_subtotal`) VALUES
+(339, 'PJ-22022023-1', '10', '1', '2', '5', '2', '0', '25000', '20350', '50000'),
+(340, 'PJ-22022023-1', '8', '3', '0', '10', '3', '0', '9500', '8175', '28500');
 
 -- --------------------------------------------------------
 
@@ -848,7 +867,7 @@ CREATE TABLE `t_produksi` (
 INSERT INTO `t_produksi` (`produksi_id`, `produksi_status`, `produksi_nomor`, `produksi_tanggal`, `produksi_shift`, `produksi_pekerja`, `produksi_keterangan`, `produksi_mesin`, `produksi_lampiran_1`, `produksi_lampiran_2`, `produksi_barang_qty`, `produksi_billet_hps`, `produksi_billet_qty`, `produksi_jasa`, `produksi_total_akhir`, `produksi_billet_sisa`, `produksi_pewarnaan`, `produksi_pewarnaan_tanggal`, `produksi_pewarnaan_keterangan`, `produksi_hapus`) VALUES
 (59, 1, 'PR-19022023-1', '2023-02-19', '78', '[\"1\",\"2\",\"3\"]', '-', '3', '', '', '20', '7175', '10', '10000', '81750', '5', '0', NULL, NULL, 0),
 (60, 1, 'PR-19022023-2', '2023-02-19', '78', '[\"1\",\"2\",\"3\",\"4\",\"5\"]', '', '1', '', '', '8', '7175', '20', '20000', '163500', '0', '1', NULL, NULL, 0),
-(61, 1, 'PR-19022023-3', '2023-02-19', '78', '[\"1\",\"2\",\"5\"]', '-', '2', '', '', '20', '7175', '10', '30000', '101750', '2', '2', '2023-02-19', 'Siap di jual mase', 0);
+(61, 1, 'PR-19022023-3', '2023-02-19', '78', '[\"1\",\"2\",\"5\"]', '-', '2', '', '', '25', '7175', '10', '30000', '101750', '2', '2', '2023-02-19', 'Siap di jual mase', 0);
 
 -- --------------------------------------------------------
 
@@ -879,7 +898,7 @@ INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, 
 (258, 'PR-19022023-1', '8', '3', '0', '0', '10', '2023-02-19'),
 (259, 'PR-19022023-1', '9', '3', '0', '0', '10', '2023-02-19'),
 (262, 'PR-19022023-3', '8', '1', '2', '2', '10', '2023-02-19'),
-(263, 'PR-19022023-3', '11', '2', '7', '1', '5', '2023-02-20'),
+(263, 'PR-19022023-3', '11', '2', '7', '1', '10', '2023-02-20'),
 (264, 'PR-19022023-3', '10', '1', '2', '1', '5', '2023-02-20');
 
 -- --------------------------------------------------------
@@ -904,11 +923,11 @@ CREATE TABLE `t_produk_barang` (
 --
 
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_barang`, `produk_barang_stok`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
-(216, '10', '5', '1', '2', '20350', '0', '2023-02-20'),
-(217, '11', '5', '2', '7', '20350', '0', '2023-02-20'),
-(218, '8', '10', '1', '2', '10175', '12000', '2023-02-20'),
-(219, '8', '10', '3', '0', '8175', '9000', '2023-02-20'),
-(220, '9', '10', '3', '0', '8175', '0', '2023-02-20');
+(231, '10', '3', '1', '2', '20350', '25000', '2023-02-22'),
+(232, '11', '10', '2', '7', '10175', '22000', '2023-02-22'),
+(233, '8', '7', '1', '2', '10175', '12000', '2023-02-22'),
+(234, '8', '7', '3', '0', '8175', '9500', '2023-02-22'),
+(235, '9', '10', '3', '0', '8175', '9000', '2023-02-22');
 
 -- --------------------------------------------------------
 
@@ -1284,7 +1303,7 @@ ALTER TABLE `t_coa_sub`
 -- AUTO_INCREMENT for table `t_jurnal`
 --
 ALTER TABLE `t_jurnal`
-  MODIFY `jurnal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `jurnal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
 
 --
 -- AUTO_INCREMENT for table `t_karyawan`
@@ -1356,13 +1375,13 @@ ALTER TABLE `t_pembelian_umum_barang`
 -- AUTO_INCREMENT for table `t_penjualan`
 --
 ALTER TABLE `t_penjualan`
-  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `t_penjualan_barang`
 --
 ALTER TABLE `t_penjualan_barang`
-  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=318;
+  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=341;
 
 --
 -- AUTO_INCREMENT for table `t_pewarnaan`
@@ -1392,7 +1411,7 @@ ALTER TABLE `t_produksi_barang`
 -- AUTO_INCREMENT for table `t_produk_barang`
 --
 ALTER TABLE `t_produk_barang`
-  MODIFY `produk_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `produk_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
 -- AUTO_INCREMENT for table `t_produk_warna`
