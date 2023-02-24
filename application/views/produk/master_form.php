@@ -88,6 +88,10 @@
               </select>
             </div>
             <div class="form-group col-md-6">
+              <label>Jumlah isi / colly</label>
+              <input required type="number" name="colly" class="form-control" id="colly">
+            </div>
+            <div class="form-group col-md-6">
               <label>Keterangan</label>
               <textarea class="form-control" required name="keterangan" id="keterangan"></textarea>
             </div>

@@ -8,6 +8,8 @@
  
             <div align="left">
               <a href="<?= base_url('produk/warna_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <button onclick="filter('JN001')" class="btn btn-default"><i class="fa fa-filter"></i> Anodizing</button>
+              <button onclick="filter('JN002')" class="btn btn-default"><i class="fa fa-filter"></i> Powder Coating</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -23,6 +25,7 @@
                 <thead>
                 <tr>
                   <th>Kode</th>
+                  <th>Jenis</th>
                   <th>Warna</th>
                   <th>Keterangan</th>
                   <th width="50">Action</th>
@@ -57,6 +60,7 @@
             },
             "columns": [                               
                         { "data": "warna_kode"},
+                        { "data": "warna_jenis_type"},
                         { "data": "warna_nama"},
                         { "data": "warna_keterangan"},
                         { "data": "warna_id",
@@ -71,4 +75,9 @@
         });
 
     });
+
+function filter($val){
+  var table = $('#example').DataTable();
+  table.search($val).draw();
+}
 </script>

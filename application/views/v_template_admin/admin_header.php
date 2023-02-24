@@ -363,6 +363,12 @@ thead{
                 <span class="multi-li">Pewarnaan</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo base_url('produksi/packing') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Packing</span>
+              </a>
+            </li>
             
           </ul>
         </li>

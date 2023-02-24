@@ -40,6 +40,17 @@
           </div>
           <div class="col-md-12">
             <div class="form-group col-md-6">
+              <label>Jenis</label>
+              <select class="form-control" name="jenis" id="jenis" required>
+                <option value="" hidden>-- Pilih --</option>
+                <?php foreach ($jenis_data as $val): ?>
+                  <option value="<?=@$val['warna_jenis_id']?>"><?=@$val['warna_jenis_type']?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group col-md-6">
               <label>Warna</label>
               <input type="text" name="nama" class="form-control" required value="" required id="nama">
             </div>

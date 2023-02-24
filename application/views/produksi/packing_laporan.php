@@ -37,13 +37,13 @@
 		<div class="row">
 
 			<div class="col-md-12" align="center">
-				<span class="tit">LAPORAN PEWARNAAN</span>
+				<span class="tit">LAPORAN PACKING</span>
 			</div>
 
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_packing_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
+				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_pewarnaan_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
 			</div>
 
 			<div class="clearfix"></div><br/>
@@ -57,9 +57,8 @@
 							<th>Nama Profil</th>
 							<th>Warna</th>
 							<th>Panjang</th>
-							<th>Berat</th>
-							<th>Jumlah</th>
-							<th>Cacat</th>
+							<th>Jumlah isi / Colly</th>
+							<th>Masuk</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -71,13 +70,21 @@
 								<td><?=@$val['produk_nama']?></td>
 								<td><?=@$val['warna_nama']?></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
-								<td><?=@$val['produk_berat'].' Kg'?></td>
-								<td><?=number_format(@$val['produksi_barang_qty'])?></td>
-								<td><?=number_format(@$val['produksi_barang_warna_cacat'])?></td>
+								<td><?=@$val['produk_colly']?></td>
+								<td class="masuk"><?=number_format(@$val['produksi_barang_qty'])?></td>
 							</tr>
 						
 						<?php $i++ ?>
 						<?php endforeach ?>
+
+						<tr>
+							<td colspan="6" style="background: #eee;"></td>
+						</tr>
+						<tr>
+							<td colspan="4"></td>
+							<th>Keluar</th>
+							<td class="keluar"></td>
+						</tr>
 
 					</tbody>
 				</table>
@@ -106,7 +113,16 @@
 
 <script type="text/javascript">
 
-	
+	var subtotal = $('.masuk');
+	var num = 0;
+	$.each(subtotal, function(index, val) {
+		 
+		 num += parseInt($(this).text().replace(/,/g, ''));
+		 
+	});
+
+	$('.keluar').text(number_format(num));
+		
 	//print
 	window.print();
     window.onafterprint = back;

@@ -1,7 +1,4 @@
 <script>;
-//place holder
-$('#po').attr('placeholder', '<?=@$place?>');
-
 
 //search
 $('#search').removeAttr('hidden',true);

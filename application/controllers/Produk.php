@@ -64,6 +64,7 @@ class Produk extends CI_Controller{
 						'produk_lebar' => strip_tags($_POST['lebar']),
 						'produk_berat' => strip_tags($_POST['berat']),
 						'produk_keterangan' => strip_tags($_POST['keterangan']),
+						'produk_colly' => strip_tags($_POST['colly']),
 					);
 
 		$db = $this->query_builder->add('t_produk',$set);
@@ -103,6 +104,7 @@ class Produk extends CI_Controller{
 						'produk_lebar' => strip_tags($_POST['lebar']),
 						'produk_berat' => strip_tags($_POST['berat']),
 						'produk_keterangan' => strip_tags($_POST['keterangan']),
+						'produk_colly' => strip_tags($_POST['colly']),
 					);
 
 		$where = ['produk_id' => $id];
@@ -212,6 +214,9 @@ class Produk extends CI_Controller{
 	function warna_add(){
 		$data['title'] = 'Warna Produk';
 
+		//jenis
+		$data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0 AND warna_jenis_id != 3");
+
 		//generate kode
 	    $get = $this->query_builder->count("SELECT * FROM t_warna");
 	    $data['kode'] = 'WR00'.($get+1);
@@ -223,6 +228,7 @@ class Produk extends CI_Controller{
 	function warna_save(){
 		$set = array(
 						'warna_kode' => strip_tags($_POST['kode']),
+						'warna_jenis' => strip_tags($_POST['jenis']),
 						'warna_nama' => strip_tags($_POST['nama']),
 						'warna_keterangan' => strip_tags($_POST['keterangan']),
 					);
@@ -230,6 +236,9 @@ class Produk extends CI_Controller{
 		$db = $this->query_builder->add('t_warna',$set);
 
 		if ($db == 1) {
+
+			//insert
+
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di tambah');
@@ -239,6 +248,9 @@ class Produk extends CI_Controller{
 	}
 	function warna_edit($id){
 		$data['title'] = 'Warna Produk';
+
+		//jenis
+		$data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0 AND warna_jenis_id != 3");
 
 		//data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_warna WHERE warna_id = '$id'");
@@ -251,6 +263,7 @@ class Produk extends CI_Controller{
 	function warna_update($id){
 		$set = array(
 						'warna_nama' => strip_tags($_POST['nama']),
+						'warna_jenis' => strip_tags($_POST['jenis']),
 						'warna_keterangan' => strip_tags($_POST['keterangan']),
 					);
 

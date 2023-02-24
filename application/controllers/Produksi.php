@@ -553,7 +553,6 @@ class Produksi extends CI_Controller{
 	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
 
-	    $data['place'] = '-- Tarik Transaksi Produksi --';
 	    $data['tarik'] = 2;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
@@ -582,11 +581,12 @@ class Produksi extends CI_Controller{
 		$redirect = 'proses';
 		$this->delete($table, $id, $redirect);
 	}
-	function proses_edit($id){
+	function proses_edit($id,$view = 0){
 
 		$data = $this->edit($id);
 
 		$data['url'] = 'proses';
+		$data['view'] = $view;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
@@ -622,7 +622,6 @@ class Produksi extends CI_Controller{
 		$set = array(
 						'produksi_pewarnaan' => 2,
 						'produksi_pewarnaan_tanggal' => strip_tags(@$_POST['tanggal']),
-						'produksi_pewarnaan_keterangan' => strip_tags(@$_POST['keterangan']),
 					);
 		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
 
@@ -654,4 +653,49 @@ class Produksi extends CI_Controller{
 
 	    $this->load->view('produksi/pewarnaan_laporan',$data);
 	}
+
+	//////////////////////// packing //////////////////////////
+
+	function packing(){
+		$data['title'] = 'packing';
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/packing');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function packing_get_data(){
+		$model = 'm_produksi';
+		$where = array('produksi_hapus' => 0, 'produksi_pewarnaan' => 2);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function packing_get($id){
+		$data = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id'");
+		echo json_encode($data);
+	}
+	function packing_proses($id){
+		$set = array(
+						'produksi_packing_tanggal' => strip_tags(@$_POST['tanggal']),
+					);
+		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
+
+		if ($db == 1) {
+
+			//update
+			$this->stok->update_produk();
+
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+
+		} else {
+
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('produksi/packing'));
+	}
+	function packing_laporan($id){
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id'");
+
+	    $this->load->view('produksi/packing_laporan',$data);
+	}
+
 }

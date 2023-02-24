@@ -19,7 +19,7 @@
 
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control">
+          <input id="po" type="text" class="form-control" placeholder="-- Tarik Pesanan Produksi --">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -104,7 +104,7 @@
               <th width="200">Qty</th>
               <th hidden width="150">ID</th>
               <th hidden width="150">Delete</th>
-              <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -130,7 +130,7 @@
                 <select required id="warna" class="barang form-control" name="warna[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($warna_data as $w): ?>
-                    <option <?=(@$w['warna_id'] == 0)?'hidden':''?> value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                    <option hidden class="<?='warna_'.@$w['warna_jenis']?>" value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
@@ -200,10 +200,10 @@
               </td>
             </tr>
 
-            <tr>
+            <tr class="save">
               <td colspan="4" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
-                <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
+                <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
             </tr>
 
@@ -218,6 +218,14 @@
 
 <script type="text/javascript">
 
+//view UI
+<?php if(@$view == 1):?>
+  $('.add').remove();
+  $('.remove').remove();
+  $('.save').remove();
+  $('.form-group, td').css('pointer-events', 'none');
+<?php endif?>
+
 //atribut
 $('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
 $('#nomor').val('<?=@$nomor?>');
@@ -229,11 +237,27 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
   $(document).on('change', '#jenis', function() {
       var id = $(this).val();
       
-      //jenis jual langsung
-      if (id == 3) {
-        $(this).parent().next().find('select').val(0).change().attr('readonly',true).css('pointer-events','none');
-      }else{
-        $(this).parent().next().find('select').val('').change().removeAttr('readonly').css('pointer-events', '');
+      //hapus readonly
+      $(this).parent().next().find('select').val('').change().removeAttr('readonly').css('pointer-events', '');
+      $(this).parent().next().find('select > option').attr('hidden',true);
+
+      //class
+      var cl = '.warna_'+id;
+
+      switch (id) {
+        case '1':
+          //Anodizing
+          $(this).parent().next().find('select > '+cl).removeAttr('hidden');
+          break;
+        case '2':
+          //Powder Coating
+          $(this).parent().next().find('select > '+cl).removeAttr('hidden');
+          break;
+        case '3':
+          //MF
+          $(this).parent().next().find('select').val(0).change().attr('readonly',true).css('pointer-events','none');
+          break;
+         
       }
 
   });
@@ -245,6 +269,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     
 
     //blank new input
+    $('#copy').find('#warna > option').attr('hidden',true);
     $('#copy').find('select').val('');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);

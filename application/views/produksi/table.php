@@ -5,14 +5,10 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
-  
-          <?php if ($this->uri->segment(2) != 'pesanan'): ?>
           
-            <div align="left">
-              <a href="<?= base_url('produksi/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-            </div>
-
-          <?php endif ?>
+          <div align="left">
+            <a href="<?= base_url('produksi/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+          </div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -29,6 +25,7 @@
                   <th>Nomor</th>
                   <th>Shift</th>
                   <th>Pewarnaan</th>
+                  <th>Packing</th>
                   <th>Tanggal</th>
                   <th width="60">Action</th>
                 </tr>
@@ -76,7 +73,14 @@
                                 var s = "Selesai";
                                 break;
                             }
-                            return "<span>"+s+"</span>";
+                            return "<span class='pewarnaan'>"+s+"</span>";
+                          }
+                        },
+                        { "data": "produksi_packing_tanggal",
+                        "render": 
+                        function( data ) {
+                            if(data == null){var p = '-'}else{var p = moment(data).format("DD/MM/YYYY")}
+                            return "<span class='packing'>"+p+"</span>";
                           }
                         },
                         { "data": "produksi_tanggal",
@@ -88,9 +92,10 @@
                         { "data": "produksi_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
+                            return "<a hidden class='view' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"/1'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='delete btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='laporan btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
                         
@@ -104,5 +109,26 @@ function filter($val){
   table.search($val).draw();
 }
 
- 
+function auto(){
+
+  //pewarnaan : selesai || packing : selesai
+  $.each($('.pewarnaan'), function(index, val) {
+    var pe = $(this).text();
+    var pa = $(this).parent().next('td').find('.packing').text();
+
+    if (pe == 'Selesai' || pa != '-') {
+      $(this).parent().nextAll('td').find('.view').removeAttr('hidden');  
+      $(this).parent().nextAll('td').find('.edit').remove();
+      $(this).parent().nextAll('td').find('.delete').remove();
+    }
+    
+  });
+
+  setTimeout(function() {
+      auto();
+  }, 100);
+}
+
+auto();
+
 </script>

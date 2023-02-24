@@ -9,4 +9,5 @@
 	$('#lebar').val('<?=@$data['produk_lebar']?>');
 	$('#berat').val('<?=@$data['produk_berat']?>');
 	$('#keterangan').val('<?=@$data['produk_keterangan']?>');
+	$('#colly').val('<?=@$data['produk_colly']?>');
 </script>

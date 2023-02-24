@@ -25,6 +25,7 @@
                   <th>Kode</th>
                   <th>Nama</th>
                   <th>Stok</th>
+                  <th>Jumlah isi / colly</th>
                   <th>Satuan</th>
                   <th width="60">Action</th>
                 </tr>
@@ -60,6 +61,12 @@
                         { "data": "produk_kode"},
                         { "data": "produk_nama"},
                         { "data": "stok",
+                        "render": 
+                        function( data ) {
+                            return number_format(data);
+                          }
+                        },
+                        { "data": "produk_colly",
                         "render": 
                         function( data ) {
                             return number_format(data);

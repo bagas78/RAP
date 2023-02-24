@@ -37,7 +37,7 @@
 		<div class="row">
 
 			<div class="col-md-12" align="center">
-				<span class="tit">LAPORAN HASIL PRODUKSI</span>
+				<span class="tit">LAPORAN PRODUKSI</span>
 			</div>
 
 			<div class="clearfix"></div><br/>

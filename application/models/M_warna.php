@@ -6,10 +6,10 @@ class M_warna extends CI_Model {
 	var $table = 't_warna'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'warna_nama','warna_kode'); 
+	var $column_order = array(null, 'warna_nama','warna_kode','warna_jenis_kode'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('warna_nama','warna_kode'); 
+	var $column_search = array('warna_nama','warna_kode','warna_jenis_kode'); 
 
 	//urutan 
 	var $order = array('warna_id' => 'desc'); 
@@ -64,6 +64,7 @@ class M_warna extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
+		$this->db->join('t_warna_jenis', 't_warna_jenis.warna_jenis_id = t_warna.warna_jenis');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -73,6 +74,7 @@ class M_warna extends CI_Model {
 	{
 		$this->_get_datatables_query();
 		$this->db->where($where);
+		$this->db->join('t_warna_jenis', 't_warna_jenis.warna_jenis_id = t_warna.warna_jenis');
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -81,6 +83,7 @@ class M_warna extends CI_Model {
 	{
 		$this->db->from($this->table);
 		$this->db->where($where);
+		$this->db->join('t_warna_jenis', 't_warna_jenis.warna_jenis_id = t_warna.warna_jenis');
 		return $this->db->count_all_results();
 	}
 
