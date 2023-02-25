@@ -215,7 +215,7 @@
                   <select class="form-control warna-produk" required>
                     <option value="" hidden>-- Pilih --</option>
                     <?php foreach ($warna_data as $w): ?>
-                      <option <?=(@$w['warna_id'] == 0)?'hidden':''?> value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                      <option hidden class="warna_<?=@$w['warna_jenis']?>" value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
                     <?php endforeach ?>
                   </select>
                 </div>
@@ -326,12 +326,35 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     $('.satuan-produk').val('');
     $('.hps-produk').val('');
 
-    //jenis jual langsung
-    if (jenis == 3) {
-      $('.warna-produk').val(0).change().attr('readonly',true).css('pointer-events','none');
-    }else{
-      $('.warna-produk').val('').change().removeAttr('readonly').css('pointer-events', '');
+    //hapus readonly
+    $('.warna-produk').val('').change().removeAttr('readonly').css('pointer-events', '');
+    $('.warna-produk').attr('hidden',true);
+
+    //class
+    var cl = '.warna_'+jenis;
+
+    switch (jenis) {
+      case '1':
+        //Anodizing
+        $(cl).removeAttr('hidden');
+        break;
+      case '2':
+        //Powder Coating
+        $(cl).removeAttr('hidden');
+        break;
+      case '3':
+        //MF
+        $('.warna-produk').val(0).change().attr('readonly',true).css('pointer-events','none');
+        break;
+       
     }
+
+    //jenis jual langsung
+    // if (jenis == 3) {
+    //   $('.warna-produk').val(0).change().attr('readonly',true).css('pointer-events','none');
+    // }else{
+    //   $('.warna-produk').val('').change().removeAttr('readonly').css('pointer-events', '');
+    // }
 
   });
 
