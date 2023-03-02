@@ -82,8 +82,6 @@ class Penjualan extends CI_Controller{
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 		$set1 = array(
 						'penjualan_po' => $po,
-						'penjualan_packing' => strip_tags(@$_POST['packing']),
-						'penjualan_pengiriman' => strip_tags(@$_POST['pengiriman']),
 						'penjualan_nomor' => $nomor,
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
@@ -205,8 +203,6 @@ class Penjualan extends CI_Controller{
 		$set1 = array(
 						'penjualan_nomor' => $nomor,
 						'penjualan_po' => $po,
-						'penjualan_packing' => strip_tags(@$_POST['packing']),
-						'penjualan_pengiriman' => strip_tags(@$_POST['pengiriman']),
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
 						'penjualan_pelanggan' => strip_tags($_POST['pelanggan']),
 						'penjualan_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),

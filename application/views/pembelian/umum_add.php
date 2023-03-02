@@ -32,21 +32,21 @@
       <form method="post" enctype="multipart/form-data" class="bg-alice">
         <div class="row">
           <div class="col-md-3">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Nomor Transaksi</label>
               <input type="text" name="nomor" class="form-control" required id="nomor">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Tanggal Transaksi</label>
               <input type="date" name="tanggal" class="form-control" required id="tanggal">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Jatuh Tempo</label>
               <input type="date" name="jatuh_tempo" class="form-control" required id="jatuh_tempo">
             </div>
           </div>
           <div class="col-md-3">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Pembayaran</label>
               <select name="pembayaran" class="form-control select2" required id="pembayaran">
                 <option value="" hidden>-- Pilih --</option>
@@ -56,7 +56,7 @@
                 <?php endforeach ?>
               </select>
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Status Pembayaran</label>
               <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>
@@ -66,13 +66,13 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Keterangan</label>
               <textarea name="keterangan" class="form-control" style="height: 110px;" id="keterangan"></textarea>
             </div>
           </div>
           <div class="col-md-2">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
 
               <label>Lampiran Photo</label>
               <img id="previewImg" onclick="clickFile()" style="width: 100%;">
@@ -92,7 +92,7 @@
               <th>Qty</th>
               <th>Potongan ( % )</th>
               <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -106,7 +106,7 @@
               </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
@@ -131,7 +131,7 @@
             </tr>
 
             <tr>
-              <td colspan="5" align="right">
+              <td colspan="5" align="right" class="save">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -147,6 +147,14 @@
   <!-- /.box -->
 
 <script type="text/javascript">
+
+//view UI
+<?php if(@$view == 1):?>
+  $('.add').remove();
+  $('.remove').remove();
+  $('.save').remove();
+  $('.form-group, td').css('pointer-events', 'none');
+<?php endif?>
 
 //atribut
 $('form').attr('action', '<?=base_url('pembelian/umum_save')?>');

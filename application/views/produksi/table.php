@@ -94,7 +94,7 @@
                         function( data ) {
                             return "<a hidden class='view' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"/1'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
                             "<a class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='delete btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='laporan btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
@@ -119,7 +119,6 @@ function auto(){
     if (pe == 'Selesai' || pa != '-') {
       $(this).parent().nextAll('td').find('.view').removeAttr('hidden');  
       $(this).parent().nextAll('td').find('.edit').remove();
-      $(this).parent().nextAll('td').find('.delete').remove();
     }
     
   });

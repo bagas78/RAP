@@ -24,7 +24,7 @@ class Produksi extends CI_Controller{
 
 		return $output;
 	}
-	function add($kategori,$active){
+	function add($active){
 
 		//user
 	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
@@ -46,6 +46,9 @@ class Produksi extends CI_Controller{
 
 	    //mesin
 	    $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");
+
+	    //pelanggan
+	    $data['pesanan_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_hapus = 0 AND kontak_jenis = 'p'");
 
 	    return $data;
 	}
@@ -433,6 +436,28 @@ class Produksi extends CI_Controller{
 	    $this->load->view('produksi/peleburan_edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
+	function peleburan_view($id){
+		$data["title"] = 'peleburan';
+
+		//data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_peleburan WHERE peleburan_id = '$id'");
+
+		//stok
+		$data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
+
+		//billet sisa
+	    $bil = $this->query_builder->view_row("SELECT * FROM t_billet");
+	    $data['sisa_data'] = $bil['billet_sisa'];
+
+	    //url
+	    $data['url'] = 'peleburan_update/'.$id;
+	    $data['view'] = 1;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/peleburan_form');
+	    $this->load->view('produksi/peleburan_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
 	function get_peleburan($nomor){
 		//pembelian barang
 		$db = $this->query_builder->view("SELECT * FROM t_peleburan_barang WHERE peleburan_barang_nomor = '$nomor'");
@@ -523,6 +548,30 @@ class Produksi extends CI_Controller{
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
+	function pesanan_add(){
+		
+		$redirect = 'pesanan';
+		$data = $this->add($redirect);
+		$data['url'] = $redirect;
+
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
+	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function get_mf($id){
+		$data = $this->query_builder->view_row("SELECT produk_barang_stok AS stok FROM t_produk_barang WHERE produk_barang_barang = '$id' AND produk_barang_warna = 0");
+		if ($data != null) {
+			$v = $data;
+		}else{
+			$v = 0;
+		}	
+
+		echo json_encode($v);
+	}
 
 //////////////// proses /////////////////////////////
 
@@ -544,16 +593,13 @@ class Produksi extends CI_Controller{
 	}
 	function proses_add(){
 		
-		$kategori = 'all';
 		$redirect = 'proses';
-		$data = $this->add($kategori, $redirect);
+		$data = $this->add($redirect);
 		$data['url'] = $redirect;
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_produksi");
 	    $data['nomor'] = 'PR-'.date('dmY').'-'.($pb+1);
-
-	    $data['tarik'] = 2;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');

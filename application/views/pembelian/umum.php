@@ -74,7 +74,8 @@
                         { "data": "pembelian_umum_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('pembelian/umum_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            return "<a href='<?php echo base_url('pembelian/umum_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a hidden href='<?php echo base_url('pembelian/umum_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('pembelian/umum_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?php echo base_url('pembelian/laporan_umum/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }

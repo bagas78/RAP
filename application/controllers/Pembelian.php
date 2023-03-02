@@ -461,6 +461,19 @@ class Pembelian extends CI_Controller{
 	    $this->load->view('pembelian/form_edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}	
+	function po_view($id){
+		
+		$active = 'po';
+		$data = $this->edit($id, $active);
+
+		$data["title"] = $active;
+		$data["view"] = 1;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}	
 	function po_update(){
 
 		$po = 1;
@@ -534,6 +547,19 @@ class Pembelian extends CI_Controller{
 		$data = $this->edit($id, $active);
 
 		$data["title"] = $active;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('pembelian/form');
+	    $this->load->view('pembelian/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}	
+	function utama_view($id){
+		
+		$active = 'utama';
+		$data = $this->edit($id, $active);
+
+		$data["title"] = $active;
+		$data["view"] = 1;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('pembelian/form');
@@ -673,6 +699,25 @@ class Pembelian extends CI_Controller{
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
 		
 		$data["title"] = 'pembelian umum';
+		    
+		$this->load->view('v_template_admin/admin_header',$data);
+		$this->load->view('pembelian/umum_add');
+		$this->load->view('pembelian/umum_edit');
+		$this->load->view('v_template_admin/admin_footer');
+	}
+	function umum_view($id){
+
+		//data
+	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'");
+
+	    //rekening
+	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
+
+	    //ppn
+	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
+		
+		$data["title"] = 'pembelian umum';
+		$data["view"] = 1;
 		    
 		$this->load->view('v_template_admin/admin_header',$data);
 		$this->load->view('pembelian/umum_add');

@@ -33,12 +33,16 @@
 
         <div class="row" style="margin-left: -8px;">
           <div class="col-md-3">
-            <label>Nomor Peleburan</label>
-            <input type="text" name="nomor" class="form-control" required id="nomor">
+            <div class="form-group">
+              <label>Nomor Peleburan</label>
+              <input type="text" name="nomor" class="form-control" required id="nomor">
+            </div>
           </div>
           <div class="col-md-3">
-            <label>Tanggal Peleburan</label>
-            <input type="date" name="tanggal" class="form-control" required id="tanggal">
+            <div class="form-group">
+              <label>Tanggal Peleburan</label>
+              <input type="date" name="tanggal" class="form-control" required id="tanggal">
+            </div>
           </div>
         </div>
 
@@ -50,7 +54,7 @@
               <th>Stok</th>
               <th>Harga</th>
               <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -77,7 +81,7 @@
               </td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
@@ -127,7 +131,7 @@
               </td>
             </tr>
 
-            <tr>
+            <tr class="save">
               <td colspan="5" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
@@ -144,6 +148,14 @@
   <!-- /.box -->
 
 <script type="text/javascript">
+
+//view UI
+<?php if(@$view == 1):?>
+  $('.add').remove();
+  $('.remove').remove();
+  $('.save').remove();
+  $('.form-group, td').css('pointer-events', 'none');
+<?php endif?>
 
 //atribut
 $('form').attr('action', '<?=base_url('produksi/'.@$url)?>');
