@@ -269,8 +269,9 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       var id = $(this).val();
       
       //hapus readonly
-      $(this).parent().next().find('select').val('').change().removeAttr('readonly').css('pointer-events', '');
-      $(this).parent().next().find('select > option').attr('hidden',true);
+      $(this).closest('#copy').find('.warna').val('').change().removeAttr('readonly').css('pointer-events', '');
+      $(this).closest('#copy').find('.warna > option').attr('hidden',true);
+      $(this).closest('#copy').find('.mf_check').css('pointer-events','');
 
       //class
       var cl = '.warna_'+id;
@@ -278,15 +279,25 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       switch (id) {
         case '1':
           //Anodizing
-          $(this).parent().next().find('select > '+cl).removeAttr('hidden');
+          $(this).closest('#copy').find(cl).removeAttr('hidden');
           break;
         case '2':
           //Powder Coating
-          $(this).parent().next().find('select > '+cl).removeAttr('hidden');
+          $(this).closest('#copy').find(cl).removeAttr('hidden');
           break;
         case '3':
           //MF
-          $(this).parent().next().find('select').val(0).change().attr('readonly',true).css('pointer-events','none');
+          $(this).closest('#copy').find('.warna').val(0).change().attr('readonly',true).css('pointer-events','none');
+
+          //check stok MF
+          var check = $(this).closest('#copy').find('.mf_check');
+
+          if (check.attr('checked') == 'checked') {
+            check.click();
+          }
+
+          check.css('pointer-events','none');
+
           break;
          
       }
@@ -378,7 +389,17 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);
     $('#copy').find('.mf').val(0);
-    $('#copy').find('.mf_check').click();
+
+    //check stok MF
+    var check = $('#copy').find('.mf_check');
+
+    if (check.attr('checked') == 'checked') {
+      check.click();
+    }
+
+    //pointer MF
+    $('#copy').find('.mf_check').css('pointer-events','');
+
   }
 
   //remove

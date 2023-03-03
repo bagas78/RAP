@@ -97,6 +97,17 @@ class Produksi extends CI_Controller{
 		$jum = count($barang);
 		
 		for ($i = 0; $i < $jum; ++$i) {
+
+			//MF
+			$c_mf = strip_tags(@$_POST['mf_check'][$i]);
+			if ($c_mf == 'on') {
+				//ada
+				$mf = $c_mf;
+			}else{
+				//tidak
+				$mf = 'off';
+			}
+
 			$warna = @$_POST['warna'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
@@ -105,7 +116,7 @@ class Produksi extends CI_Controller{
 						'produksi_barang_warna' => strip_tags($warna),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
 						'produksi_barang_mf_stok' => strip_tags(str_replace(',', '', @$_POST['mf'][$i])),	
-						'produksi_barang_mf' => strip_tags(@$_POST['mf_check'][$i]),					
+						'produksi_barang_mf' => $mf,					
 					);	
 
 			$this->query_builder->add('t_produksi_barang',$set2);
@@ -120,8 +131,8 @@ class Produksi extends CI_Controller{
 		if ($db == 1) {
 			
 			//update
-			$this->stok->update_billet();
-			$this->stok->update_produk();
+			// $this->stok->update_billet();
+			// $this->stok->update_produk();
 
 			//jurnal
 			// if ($status == 3) {
@@ -574,6 +585,23 @@ class Produksi extends CI_Controller{
 		}	
 
 		echo json_encode($v);
+	}
+	function pesanan_save(){
+		$status = 0;
+		$redirect = 'pesanan';
+		$nomor = strip_tags(@$_POST['nomor']);
+		
+		$cek = $this->query_builder->count("SELECT * FROM t_produksi WHERE produksi_nomor = '$nomor'");
+		if ($cek > 0) {
+			//update
+			$this->update($nomor, $status, $redirect);
+
+		}else{
+			//new
+			$this->save($status, $redirect);
+		}
+
+		// print_r(@$_POST['mf']);
 	}
 
 //////////////// proses /////////////////////////////
