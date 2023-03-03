@@ -154,7 +154,7 @@
                 <div class="input-group">
                   <input readonly min="0" type="number" name="mf[]" class="mf form-control" value="0" required>
                   <span class="satuan input-group-addon">
-                    <input type="checkbox" name="mf_check" class="mf_check">
+                    <input type="checkbox" name="mf_check[]" class="mf_check">
                   </span>
                 </div>
               </td>
@@ -351,16 +351,17 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       $(this).removeAttr('checked', true);
     }
 
-    if ($(this).closest('table').find('td > div > span > .mf_check').attr('checked') == 'checked') { 
+    if ($(this).closest('#copy').find('.mf_check').attr('checked') == 'checked') { 
       //cek stok MF
-      var stok = $(this).closest('table').find('td > div > .mf');
-      var qty = $(this).closest('table').find('td > .qty');
+      var stok = $(this).closest('#copy').find('.mf');
+      var qty = $(this).closest('#copy').find('.qty');
 
       if ( parseInt(stok.val()) < parseInt(qty.val()) ) {
 
         alert_sweet('Stok MF kurang dari qty');
         qty.val(0);
       }
+
     }
 
   });
@@ -377,6 +378,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);
     $('#copy').find('.mf').val(0);
+    $('#copy').find('.mf_check').click();
   }
 
   //remove

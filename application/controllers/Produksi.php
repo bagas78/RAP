@@ -57,6 +57,7 @@ class Produksi extends CI_Controller{
 		$nomor = strip_tags(@$_POST['nomor']);
 		$total = strip_tags(str_replace(',', '', @$_POST['total_akhir']));
 		$set1 = array(
+						'produksi_pesanan' => strip_tags(@$_POST['pesanan']),
 						'produksi_status' => $status,
 						'produksi_nomor' => $nomor,
 						'produksi_tanggal' => strip_tags(@$_POST['tanggal']),
@@ -102,7 +103,9 @@ class Produksi extends CI_Controller{
 						'produksi_barang_barang' => strip_tags(@$barang[$i]),
 						'produksi_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
 						'produksi_barang_warna' => strip_tags($warna),
-						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),					
+						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
+						'produksi_barang_mf_stok' => strip_tags(str_replace(',', '', @$_POST['mf'][$i])),	
+						'produksi_barang_mf' => strip_tags(@$_POST['mf_check'][$i]),					
 					);	
 
 			$this->query_builder->add('t_produksi_barang',$set2);
