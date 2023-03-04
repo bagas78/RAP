@@ -2,7 +2,16 @@
   .mb-7{
     margin-bottom: 7%;
   }
-</style>
+  .readonly{
+    /*pointer-events: none;*/
+    background: #EEEEEE;
+  }
+  .readonly::-webkit-outer-spin-button,
+  .readonly::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style> 
 
 <!-- Main content --> 
 <section class="content">
@@ -17,9 +26,9 @@
           <i class="fa fa-times"></i></button>  
       </div>
  
-      <div hidden id="search" align="left">
+      <div id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control">
+          <input id="po" type="text" class="form-control" placeholder="PR-xxxxx">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -132,13 +141,13 @@
                 </div>
               </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
-              <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
-              <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
+              <td><input type="number" name="harga[]" class="harga form-control readonly" value="0" min="1"></td>
+              <td><input type="number" name="subtotal[]" class="subtotal form-control readonly" value="0" min="1"></td>
 
               <!--hidden-->
-              <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control"></td>
-              <td hidden><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
-              <td hidden><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
+              <td ><input readonly="" type="text" name="hps[]" class="hps form-control"></td>
+              <td ><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
+              <td ><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
 
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
@@ -392,36 +401,38 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     var hps = $('.hps-produk');
     var i = $('.index-produk').val() + 1;
 
-    switch(true) {
-      case stok.val() == 0:
-        alert_sweet('stok produk kosong');
-        break;
-      case  harga.val() == 0:
-        alert_sweet('harga masih 0');
-        break;
-      default:
+    //form bawah
+    var qty_ = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
+    var stok_ = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input');
+    var harga_ = $('#copy:nth-child('+i+') > td:nth-child(5) > input');
+    var hps_ = $('#copy:nth-child('+i+') > td:nth-child(7) > input');
+    var jenis_ = $('#copy:nth-child('+i+') > td:nth-child(8) > input');
+    var warna_ = $('#copy:nth-child('+i+') > td:nth-child(9) > input');
+    var satuan_ = $('.satuan');
+
+    //modal
+    qty_.val(0);
+    stok_.val(stok.val());
+    harga_.val(harga.val().replace(/,/g, ''));
+    hps_.val(hps.val());
+    jenis_.val(jenis.val());
+    warna_.val(warna.val());
+    satuan_.text(satuan.val());
+
+    //modal close
+    $('.modal').modal('toggle');
+
+    // switch(true) {
+    //   case stok.val() == 0:
+    //     alert_sweet('stok produk kosong');
+    //     break;
+    //   case  harga.val() == 0:
+    //     alert_sweet('harga masih 0');
+    //     break;
+    //   default:
  
-        //form bawah
-        var qty_ = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
-        var stok_ = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input');
-        var harga_ = $('#copy:nth-child('+i+') > td:nth-child(5) > input');
-        var hps_ = $('#copy:nth-child('+i+') > td:nth-child(7) > input');
-        var jenis_ = $('#copy:nth-child('+i+') > td:nth-child(8) > input');
-        var warna_ = $('#copy:nth-child('+i+') > td:nth-child(9) > input');
-        var satuan_ = $('.satuan');
-
-        //modal
-        qty_.val(0);
-        stok_.val(stok.val());
-        harga_.val(harga.val().replace(/,/g, ''));
-        hps_.val(hps.val());
-        jenis_.val(jenis.val());
-        warna_.val(warna.val());
-        satuan_.text(satuan.val());
-
-        //modal close
-        $('.modal').modal('toggle');
-    }
+        
+    // }
  });
 
   //copy paste

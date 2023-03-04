@@ -47,7 +47,7 @@ class Produksi extends CI_Controller{
 	    //mesin
 	    $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");
 
-	    //pelanggan
+	    //pesanan
 	    $data['pesanan_data'] = $this->query_builder->view("SELECT * FROM t_kontak WHERE kontak_hapus = 0 AND kontak_jenis = 'p'");
 
 	    return $data;
@@ -57,7 +57,6 @@ class Produksi extends CI_Controller{
 		$nomor = strip_tags(@$_POST['nomor']);
 		$total = strip_tags(str_replace(',', '', @$_POST['total_akhir']));
 		$set1 = array(
-						'produksi_pelanggan' => strip_tags(@$_POST['pelanggan']),
 						'produksi_pesanan' => strip_tags(@$_POST['pesanan']),
 						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_status' => $status,
@@ -198,9 +197,7 @@ class Produksi extends CI_Controller{
 	function update($nomor, $status, $redirect){
 
 		$total = strip_tags(str_replace(',', '', @$_POST['total_akhir']));
-		$set1 = array(	
-						'produksi_pelanggan' => strip_tags(@$_POST['pelanggan']),
-						'produksi_pesanan' => strip_tags(@$_POST['pesanan']),	
+		$set1 = array(							
 						'produksi_pekerja' => json_encode(@$_POST['pekerja']),				
 						'produksi_status' => $status,
 						'produksi_tanggal' => strip_tags(@$_POST['tanggal']),
@@ -713,7 +710,7 @@ class Produksi extends CI_Controller{
 	}
 	function pewarnaan_proses($id){
 		$set = array(
-						'produksi_pewarnaan' => 2,
+						'produksi_pewarnaan' => '2',
 						'produksi_pewarnaan_tanggal' => strip_tags(@$_POST['tanggal']),
 					);
 		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
