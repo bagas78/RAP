@@ -1,9 +1,9 @@
 <style type="text/css">
   .small{
-    background: darkorange;
+    background: grey;
     color: white;
     padding: 5px 10px;
-    border-radius: 15px;
+    text-align: center;
   }
 </style>
 
@@ -13,6 +13,11 @@
   <!-- Default box -->  
   <div class="box"> 
     <div class="box-header with-border">
+
+      <div class="back" align="left" hidden>
+        <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
+      </div>
+
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
@@ -32,7 +37,7 @@
     </div>
     <div class="box-body">
 
-      <small class="small">Check stok (MF) untuk menggunakan produk setengah jadi</small>
+      <small class="small form-control">Check stok (MF) untuk menggunakan produk setengah jadi</small>
       <div class="clearfix"></div><br/>
 
       <form method="post" enctype="multipart/form-data" class="bg-alice">
@@ -68,7 +73,7 @@
             </div>
             <div class="pekerja form-group">
               <label>Pekerja</label>
-                <select name="pekerja[]" id="pekerja" class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
+                <select required name="pekerja[]" id="pekerja" class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
                   <?php foreach ($pekerja_data as $p): ?>
                     <option value="<?= @$p['karyawan_id']?>"><?= @$p['karyawan_nama']?></option>
                   <?php endforeach ?>
@@ -154,7 +159,8 @@
                 <div class="input-group">
                   <input readonly min="0" type="number" name="mf[]" class="mf form-control" value="0" required>
                   <span class="satuan input-group-addon">
-                    <input type="checkbox" name="mf_check[]" class="mf_check">
+                    <input type="checkbox" class="mf_check">
+                    <input type="hidden" name="mf_val[]" value="0" class="mf_val">
                   </span>
                 </div>
               </td>
@@ -162,10 +168,10 @@
 
               <!--hidden-->
               <td hidden>
-                <input type="text" name="id[]" class="id form-control" value="0">
+                <input type="text" name="id[]" class="id form-control" value="0" style="width: 100px;">
               </td>
               <td hidden>
-                <input type="text" name="delete[]" class="delete form-control" value="0">
+                <input type="text" name="delete[]" class="delete form-control" value="0" style="width: 100px;">
               </td>
               
               <td><button type="button" class="remove btn btn-danger btn-sm">-</button></td>
@@ -251,6 +257,7 @@ if ('<?=@$url == 'pesanan'?>') {
 
 //view UI
 <?php if(@$view == 1):?>
+  $('.back').removeAttr('hidden');
   $('.add').remove();
   $('.remove').remove();
   $('.save').remove();
@@ -290,13 +297,14 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
           $(this).closest('#copy').find('.warna').val(0).change().attr('readonly',true).css('pointer-events','none');
 
           //check stok MF
-          var check = $(this).closest('#copy').find('.mf_check');
+          var mf_val = $(this).closest('#copy').find('.mf_val');
+          var mf_check = $(this).closest('#copy').find('.mf_check');
 
-          if (check.attr('checked') == 'checked') {
-            check.click();
+          if (mf_val.val() == 1) {
+            mf_check.click();
+            mf_check.css('pointer-events','none');
+            mf_val.val(0);
           }
-
-          check.css('pointer-events','none');
 
           break;
          
@@ -334,46 +342,26 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       ////// end exist barang ///////////
     }
    
+    //id barang
+    $(this).closest('#copy').find('.id').val(id);
 
-   //stok MF (tanpa warna)
-   var target = $(this).parent().nextAll(':lt(3)').find('.mf');
-   $.get('<?=base_url('produksi/get_mf/')?>'+id, function(data) {
+    <?php if(@$view != 1): ?>
 
-      if (data != 0) {
-        var val = $.parseJSON(data);
+     //stok MF (tanpa warna)
+     var target = $(this).closest('#copy').find('.mf');
+     $.get('<?=base_url('produksi/get_mf/')?>'+id, function(data) {
 
-        $(target).val(val.stok);
-      }else{
+        if (data != 0) {
+          var val = $.parseJSON(data);
 
-        $(target).val(0);
-      }
+          $(target).val(val.stok);
+        }else{
 
-   });
-    
-  });
+          $(target).val(0);
+        }
 
-  //cek stok MF
-  $(document).on('change', '.mf_check , .qty', function() {
-
-    if ($(this).attr('checked') == undefined) {
-      $(this).attr('checked', true);
-
-    }else{
-      $(this).removeAttr('checked', true);
-    }
-
-    if ($(this).closest('#copy').find('.mf_check').attr('checked') == 'checked') { 
-      //cek stok MF
-      var stok = $(this).closest('#copy').find('.mf');
-      var qty = $(this).closest('#copy').find('.qty');
-
-      if ( parseInt(stok.val()) < parseInt(qty.val()) ) {
-
-        alert_sweet('Stok MF kurang dari qty');
-        qty.val(0);
-      }
-
-    }
+     });
+    <?php endif ?>
 
   });
 
@@ -389,16 +377,14 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);
     $('#copy').find('.mf').val(0);
-
-    //check stok MF
-    var check = $('#copy').find('.mf_check');
-
-    if (check.attr('checked') == 'checked') {
-      check.click();
+    
+    //check MF
+    var mf_val = $('#copy').find('.mf_val');
+    var mf_check = $('#copy').find('.mf_check');
+    if (mf_val.val() == 1) {
+      mf_check.click().css('pointer-events','');
+      mf_val.val(0);
     }
-
-    //pointer MF
-    $('#copy').find('.mf_check').css('pointer-events','');
 
   }
 
@@ -449,11 +435,39 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       }
   }
 
+  //set val checked MF
+  $(document).on('change', '.mf_check', function() {
+    var mf = $(this).closest('#copy').find('.mf_val');
+    if (mf.val() == 0) {
+      mf.val(1);
+
+    }else{
+      mf.val(0);
+    }
+
+  });
+
   function auto(){
 
-    //border none
-    $('td').css('border-top', 'none');
+    //cek stok MF
+    $.each($('.mf_val'), function(index, val) {
+       
+       if ($(this).closest('#copy').find('.mf_val').val() == 1) { 
+        
+        var stok = $(this).closest('#copy').find('.mf');
+        var qty = $(this).closest('#copy').find('.qty');
+
+        if ( parseInt(stok.val()) < parseInt(qty.val()) ) {
+
+          alert_sweet('Stok MF kurang dari qty');
+          qty.val(0);
+        }
+
+       }
+
+    });
     
+    //sum qty
     var num_qty = 0;
     $.each($('.qty'), function(index, val) {
        var i = index+1;
@@ -480,6 +494,9 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     var jasa = parseInt($('#jasa').val());
     var total = qty_billet + jasa;
     $('#total_akhir').val(number_format(total));
+
+    //border none
+    $('td').css('border-top', 'none');
 
     setTimeout(function() {
         auto();

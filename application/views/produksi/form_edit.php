@@ -8,7 +8,7 @@
   $('#keterangan').val('<?=@$data['produksi_keterangan']?>');
   $('#mesin').val('<?=@$data['produksi_mesin']?>').change();
   $('#pekerja').val(<?=@$data['produksi_pekerja']?>).change();
-
+ 
   if ('<?=@$data['produksi_lampiran_1']?>' != '') {
     $('#previewImg1').attr('src', '<?=base_url('assets/gambar/produksi/'.@$data['produksi_lampiran_1'])?>');
   }
@@ -47,8 +47,15 @@
       //insert value
       $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang).change(); 
       $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.produksi_barang_jenis).change();
-      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.produksi_barang_qty));
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(val.produksi_barang_id);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > .input-group > input').val(number_format(val.produksi_barang_mf_stok));
+      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.produksi_barang_qty));
+      $('#copy:nth-child('+i+') > td:nth-child(6) > input').val(val.produksi_barang_id);
+
+      //check mf
+      var mf = $('#copy:nth-child('+i+') > td:nth-child(4) > .input-group > .satuan > .mf_check');
+      if (val.produksi_barang_mf == 1) {
+        mf.click();
+      }
 
       //jenis
       var warna = val.produksi_barang_warna;

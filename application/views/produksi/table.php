@@ -23,7 +23,7 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Shift</th>
+                  <th>Pesanan</th>
                   <th>Pewarnaan</th>
                   <th>Packing</th>
                   <th>Tanggal</th>
@@ -58,7 +58,13 @@
             },
             "columns": [                               
                         { "data": "produksi_nomor"},
-                        { "data": "user_name"},
+                        { "data": "kontak_nama",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var k = data}else{var k = '-'}
+                            return "<span>"+k+"</span>";
+                          }
+                        },
                         { "data": "produksi_pewarnaan",
                         "render": 
                         function( data ) {
@@ -92,8 +98,8 @@
                         { "data": "produksi_id",
                         "render": 
                         function( data ) {
-                            return "<a hidden class='view' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"/1'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            return "<a class='view' href='<?php echo base_url('produksi/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a hidden class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='laporan btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
@@ -109,25 +115,25 @@ function filter($val){
   table.search($val).draw();
 }
 
-function auto(){
+// function auto(){
 
-  //pewarnaan : selesai || packing : selesai
-  $.each($('.pewarnaan'), function(index, val) {
-    var pe = $(this).text();
-    var pa = $(this).parent().next('td').find('.packing').text();
+//   //pewarnaan : selesai || packing : selesai
+//   $.each($('.pewarnaan'), function(index, val) {
+//     var pe = $(this).text();
+//     var pa = $(this).parent().next('td').find('.packing').text();
 
-    if (pe == 'Selesai' || pa != '-') {
-      $(this).parent().nextAll('td').find('.view').removeAttr('hidden');  
-      $(this).parent().nextAll('td').find('.edit').remove();
-    }
+//     if (pe == 'Selesai' || pa != '-') {
+//       $(this).parent().nextAll('td').find('.view').removeAttr('hidden');  
+//       $(this).parent().nextAll('td').find('.edit').remove();
+//     }
     
-  });
+//   });
 
-  setTimeout(function() {
-      auto();
-  }, 100);
-}
+//   setTimeout(function() {
+//       auto();
+//   }, 100);
+// }
 
-auto();
+// auto();
 
 </script>

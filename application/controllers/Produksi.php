@@ -57,12 +57,13 @@ class Produksi extends CI_Controller{
 		$nomor = strip_tags(@$_POST['nomor']);
 		$total = strip_tags(str_replace(',', '', @$_POST['total_akhir']));
 		$set1 = array(
+						'produksi_pelanggan' => strip_tags(@$_POST['pelanggan']),
 						'produksi_pesanan' => strip_tags(@$_POST['pesanan']),
+						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_status' => $status,
 						'produksi_nomor' => $nomor,
 						'produksi_tanggal' => strip_tags(@$_POST['tanggal']),
 						'produksi_shift' => strip_tags(@$_POST['shift']),
-						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_keterangan' => strip_tags(@$_POST['keterangan']),
 						'produksi_mesin' => strip_tags(@$_POST['mesin']), 
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty_produk'])),
@@ -98,16 +99,6 @@ class Produksi extends CI_Controller{
 		
 		for ($i = 0; $i < $jum; ++$i) {
 
-			//MF
-			$c_mf = strip_tags(@$_POST['mf_check'][$i]);
-			if ($c_mf == 'on') {
-				//ada
-				$mf = $c_mf;
-			}else{
-				//tidak
-				$mf = 'off';
-			}
-
 			$warna = @$_POST['warna'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
@@ -116,15 +107,15 @@ class Produksi extends CI_Controller{
 						'produksi_barang_warna' => strip_tags($warna),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
 						'produksi_barang_mf_stok' => strip_tags(str_replace(',', '', @$_POST['mf'][$i])),	
-						'produksi_barang_mf' => $mf,					
+						'produksi_barang_mf' => strip_tags(@$_POST['mf_val'][$i]),					
 					);	
 
 			$this->query_builder->add('t_produksi_barang',$set2);
 
-			//pewarnaan
-			if ($warna != 0) {
+			//status jika ada pewarnaan
+			if ($warna != '0') {
 				
-				$this->query_builder->update('t_produksi',['produksi_pewarnaan' => 1],['produksi_nomor' => $nomor]);
+				$this->query_builder->update('t_produksi',['produksi_pewarnaan' => '1'],['produksi_nomor' => $nomor]);
 			}
 		}
 
@@ -207,11 +198,13 @@ class Produksi extends CI_Controller{
 	function update($nomor, $status, $redirect){
 
 		$total = strip_tags(str_replace(',', '', @$_POST['total_akhir']));
-		$set1 = array(						
+		$set1 = array(	
+						'produksi_pelanggan' => strip_tags(@$_POST['pelanggan']),
+						'produksi_pesanan' => strip_tags(@$_POST['pesanan']),	
+						'produksi_pekerja' => json_encode(@$_POST['pekerja']),				
 						'produksi_status' => $status,
 						'produksi_tanggal' => strip_tags(@$_POST['tanggal']),
 						'produksi_shift' => strip_tags(@$_POST['shift']),
-						'produksi_pekerja' => json_encode(@$_POST['pekerja']),
 						'produksi_keterangan' => strip_tags(@$_POST['keterangan']),
 						'produksi_mesin' => strip_tags(@$_POST['mesin']),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty_produk'])),
@@ -251,10 +244,12 @@ class Produksi extends CI_Controller{
 			$delete = @$_POST['delete'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
-						'produksi_barang_barang' => strip_tags(@$_POST['produk'][$i]),
+						'produksi_barang_barang' => strip_tags(@$barang[$i]),
 						'produksi_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
 						'produksi_barang_warna' => strip_tags($warna),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
+						'produksi_barang_mf_stok' => strip_tags(str_replace(',', '', @$_POST['mf'][$i])),	
+						'produksi_barang_mf' => strip_tags(@$_POST['mf_val'][$i]),
 					);	
 
 			if ($id == 0) {
@@ -558,7 +553,7 @@ class Produksi extends CI_Controller{
 	function pesanan_get_data()
 	{
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_status' => 0);
+		$where = array('produksi_hapus' => '0', 'produksi_status' => '0');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -587,7 +582,7 @@ class Produksi extends CI_Controller{
 		echo json_encode($v);
 	}
 	function pesanan_save(){
-		$status = 0;
+		$status = '0';
 		$redirect = 'pesanan';
 		$nomor = strip_tags(@$_POST['nomor']);
 		
@@ -600,8 +595,18 @@ class Produksi extends CI_Controller{
 			//new
 			$this->save($status, $redirect);
 		}
+	}
+	function pesanan_view($id){
 
-		// print_r(@$_POST['mf']);
+		$data = $this->edit($id);
+
+		$data['url'] = 'pesanan';
+		$data['view'] = 1;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
 
 //////////////// proses /////////////////////////////
@@ -618,7 +623,7 @@ class Produksi extends CI_Controller{
 	function proses_get_data()
 	{
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_status' => 1);
+		$where = array('produksi_hapus' => '0', 'produksi_status' => '1');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -638,7 +643,7 @@ class Produksi extends CI_Controller{
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function proses_save(){
-		$status = 1;
+		$status = '1';
 		$redirect = 'proses';
 		$nomor = strip_tags(@$_POST['nomor']);
 		
@@ -658,12 +663,23 @@ class Produksi extends CI_Controller{
 		$redirect = 'proses';
 		$this->delete($table, $id, $redirect);
 	}
-	function proses_edit($id,$view = 0){
+	function proses_edit($id){
 
 		$data = $this->edit($id);
 
 		$data['url'] = 'proses';
-		$data['view'] = $view;
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function proses_view($id){
+
+		$data = $this->edit($id);
+
+		$data['url'] = 'proses';
+		$data['view'] = 1;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/form');
@@ -672,7 +688,7 @@ class Produksi extends CI_Controller{
 	}
 	function proses_update($nomor){
 		$redirect = 'proses';
-		$status = 1;
+		$status = '1';
 		$this->update($nomor, $status, $redirect);
 	}
 
@@ -687,7 +703,7 @@ class Produksi extends CI_Controller{
 	}
 	function pewarnaan_get_data(){
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_pewarnaan >' => 0);
+		$where = array('produksi_hapus' => '0', 'produksi_status' => '1', 'produksi_pewarnaan >' => '0');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -741,7 +757,7 @@ class Produksi extends CI_Controller{
 	}
 	function packing_get_data(){
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => 0, 'produksi_pewarnaan' => 2);
+		$where = array('produksi_hapus' => '0', 'produksi_status' => '1', 'produksi_pewarnaan' => '2');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}

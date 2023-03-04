@@ -65,6 +65,7 @@ class M_produksi extends CI_Model {
 		if($_GET['length'] != -1)
 		$this->db->where($where);
 		$this->db->join('t_user', 't_produksi.produksi_shift = t_user.user_id');
+		$this->db->join('t_kontak', 't_produksi.produksi_pesanan = t_kontak.kontak_id', 'left');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -74,6 +75,7 @@ class M_produksi extends CI_Model {
 	{
 		$this->_get_datatables_query();
 		$this->db->join('t_user', 't_produksi.produksi_shift = t_user.user_id');
+		$this->db->join('t_kontak', 't_produksi.produksi_pesanan = t_kontak.kontak_id', 'left');
 		$this->db->where($where);
 		$query = $this->db->get();
 		return $query->num_rows();
@@ -83,6 +85,7 @@ class M_produksi extends CI_Model {
 	{
 		$this->db->from($this->table);
 		$this->db->join('t_user', 't_produksi.produksi_shift = t_user.user_id');
+		$this->db->join('t_kontak', 't_produksi.produksi_pesanan = t_kontak.kontak_id', 'left');
 		$this->db->where($where);
 		return $this->db->count_all_results();
 	}

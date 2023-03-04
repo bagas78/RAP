@@ -107,13 +107,15 @@
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-6 col-xs-6">
-				<h4>Pekerja</h4>
-				<?php $s = 1; ?>
-				<?php foreach (json_decode($data[0]['produksi_pekerja']) as $key => $value): ?>
-					<?php $kar = $this->query_builder->view_row("SELECT * FROM t_karyawan WHERE karyawan_id = '$value'"); ?>
-					<p><?=$s.'. '.$kar['karyawan_nama']?></p>
-				<?php $s++; ?>
-				<?php endforeach ?>
+				<?php if ($data[0]['produksi_pekerja'] != 'null'): ?>
+					<h4>Pekerja</h4>
+					<?php $s = 1; ?>
+					<?php foreach (json_decode($data[0]['produksi_pekerja']) as $key => $value): ?>
+						<?php $kar = $this->query_builder->view_row("SELECT * FROM t_karyawan WHERE karyawan_id = '$value'"); ?>
+						<p><?=$s.'. '.$kar['karyawan_nama']?></p>
+					<?php $s++; ?>
+					<?php endforeach ?>
+				<?php endif ?>
 			</div>
 
 			<div class="col-md-6 col-xs-6">
