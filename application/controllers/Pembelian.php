@@ -51,11 +51,11 @@ class Pembelian extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			if ($table == 'pembelian') {
-				$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
-				$nomor = $pem['pembelian_nomor'];
-				$this->stok->jurnal_delete($nomor, 1);	
-			}
+			// if ($table == 'pembelian') {
+			// 	$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+			// 	$nomor = $pem['pembelian_nomor'];
+			// 	$this->stok->jurnal_delete($nomor, 1);	
+			// }
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -76,7 +76,12 @@ class Pembelian extends CI_Controller{
 		$nomor = strip_tags($_POST['nomor']);
 		$status = strip_tags($_POST['status']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
-		$set1 = array(
+
+		//piutang status
+		if ($status == 'b') { $hutang = '1'; }else{ $hutang = '0'; }
+
+		$set1 = array( 
+						'pembelian_hutang' => $hutang,
 						'pembelian_user' => $user,
 						'pembelian_po' => $po,
 						'pembelian_po_tanggal' => $po_tanggal,
@@ -136,18 +141,18 @@ class Pembelian extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			if ($po == 0) {
+			//if ($po == 0) {
 				
-				if ($status == 'l') {
-					//lunas
-					$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-					$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
-				} else {
-					//belum
-					$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-					$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total);
-				}	
-			}
+				// if ($status == 'l') {
+				// 	//lunas
+				// 	$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
+				// 	$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
+				// } else {
+				// 	//belum
+				// 	$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
+				// 	$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total);
+				// }	
+			//}
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -249,26 +254,26 @@ class Pembelian extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			if ($po == 0) {
+			// if ($po == 0) {
 
-				//get kategori
-				$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_nomor = '$nomor'");
-				$kategori = $pem['pembelian_kategori'];
-				$tanggal = $pem['pembelian_tanggal'];
+			// 	//get kategori
+			// 	$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_nomor = '$nomor'");
+			// 	$kategori = $pem['pembelian_kategori'];
+			// 	$tanggal = $pem['pembelian_tanggal'];
 
-				//delete jurnal
-				$this->stok->jurnal_delete($nomor);
+			// 	//delete jurnal
+			// 	$this->stok->jurnal_delete($nomor);
 				
-				if ($status == 'l') {
-					//lunas
-					$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
-					$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total, $tanggal);	
-				} else {
-					//belum
-					$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
-					$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total, $tanggal);
-				}	
-			}
+			// 	if ($status == 'l') {
+			// 		//lunas
+			// 		$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
+			// 		$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total, $tanggal);	
+			// 	} else {
+			// 		//belum
+			// 		$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
+			// 		$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total, $tanggal);
+			// 	}	
+			// }
 
 			$this->session->set_flashdata('success','Data berhasil di rubah');
 		} else {
@@ -838,10 +843,10 @@ class Pembelian extends CI_Controller{
 		
 		if ($jenis == 'umum') {
 			$model = 'm_pembelian_umum';
-			$where = array('pembelian_umum_status' => 'belum','pembelian_umum_hapus' => 0);
+			$where = array('pembelian_umum_status' => 'b','pembelian_umum_hapus' => 0);
 		}else{
 			$model = 'm_pembelian';
-			$where = array('pembelian_status' => 'belum','pembelian_po' => 0,'pembelian_hapus' => 0);
+			$where = array('pembelian_status' => 'b','pembelian_po' => 0,'pembelian_hapus' => 0);
 		}
 	
 		$output = $this->serverside($where, $model);
@@ -855,7 +860,7 @@ class Pembelian extends CI_Controller{
 
 			//pembelian bahan
 
-			$set = ['pembelian_status' => 'lunas', 'pembelian_pelunasan' => $tanggal, 'pembelian_pelunasan_keterangan' => $keterangan];
+			$set = ['pembelian_status' => 'l', 'pembelian_pelunasan' => $tanggal, 'pembelian_pelunasan_keterangan' => $keterangan];
 			$where = ['pembelian_id' => $id];
 
 			$db = $this->query_builder->update('t_pembelian',$set,$where);
@@ -873,7 +878,7 @@ class Pembelian extends CI_Controller{
 
 			//pembelian umum
 
-			$set = ['pembelian_umum_status' => 'lunas', 'pembelian_umum_pelunasan' => $tanggal, 'pembelian_umum_pelunasan_keterangan' => $keterangan];
+			$set = ['pembelian_umum_status' => 'l', 'pembelian_umum_pelunasan' => $tanggal, 'pembelian_umum_pelunasan_keterangan' => $keterangan];
 			$where = ['pembelian_umum_id' => $id];
 
 			$db = $this->query_builder->update('t_pembelian_umum',$set,$where);

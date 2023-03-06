@@ -1,6 +1,6 @@
 <script>
 
-$(function(){
+$(document).on('keyup', '#po', function() {
 
   $.get('<?=base_url('penjualan/search/'.@$search)?>', function(response) {
   	
@@ -29,9 +29,8 @@ $(document).on('click', '#po_get', function() {
 	     	
 	     	var json = JSON.parse(response);
 
-	     	console.log(json);
-
 		  	$('#pelanggan').val(json[0]['produksi_pesanan']).change();
+		  	$('#pesanan').val(json[0]['produksi_nomor']);
 
 			//clone
 			for (var num = 1; num <= json.length - 1; num++) {
@@ -39,25 +38,26 @@ $(document).on('click', '#po_get', function() {
 		    }
 
 			//keranjang
-			// $.each(json, function(index, val) {
+			$.each(json, function(index, val) {
 	      
-		 //      var i = index+1;
+		      var i = index+1;
 
-		 //      //insert value
-		 //      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang);
-		 //      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty);
-		 //      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.penjualan_barang_potongan));
-		 //      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.penjualan_barang_harga));
+		      //insert value
+		      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang);
+		      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.produksi_barang_qty);
 
-		 //      //kembalikan stok
-		 //      var re = parseInt(val.penjualan_barang_qty) + parseInt(val.master_produk_stok);
-		 //      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
+		      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.produk_barang_stok);
+		      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.produk_barang_harga));
+		      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.produk_barang_hps);
 
-		 //      //satuan
-   //      	var satuan = $('.satuan');
-   //      	$(satuan).empty().html(val.satuan_singkatan);
+		      $('#copy:nth-child('+i+') > td:nth-child(8) > input').val(val.produksi_barang_jenis);
+		      $('#copy:nth-child('+i+') > td:nth-child(9) > input').val(val.produksi_barang_warna);
 
-		 //    });
+		      //satuan
+        	var satuan = $('.satuan');
+        	$(satuan).empty().html(val.satuan_singkatan);
+
+		    });
 
 	  });
 

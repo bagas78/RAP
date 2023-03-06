@@ -80,7 +80,12 @@ class Penjualan extends CI_Controller{
 		$nomor = strip_tags($_POST['nomor']);
 		$status = strip_tags($_POST['status']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
+
+		//piutang status
+		if ($status == 'b') { $piutang = '1'; }else{ $piutang = '0'; }
+
 		$set1 = array(
+						'penjualan_piutang' => $piutang,
 						'penjualan_po' => $po,
 						'penjualan_nomor' => $nomor,
 						'penjualan_tanggal' => strip_tags($_POST['tanggal']),
@@ -137,7 +142,13 @@ class Penjualan extends CI_Controller{
 		}
 
 		if ($db == 1) {
-			
+
+			//update produksi status
+			$pesanan = @$_POST['pesanan'];
+			if ($pesanan != '0') {
+				$x = $this->query_builder->update('t_produksi',['produksi_penjualan' => '1'],['produksi_nomor' => $pesanan]);
+			}
+
 			//update produk
 			$this->stok->update_produk();
 
@@ -296,11 +307,11 @@ class Penjualan extends CI_Controller{
 
 	}
 	function search(){
-		$output = $this->query_builder->view("SELECT a.produksi_nomor as nomor, b.kontak_nama as nama FROM t_produksi as a JOIN t_kontak as b ON a.produksi_pesanan = b.kontak_id WHERE a.produksi_hapus = 0 AND a.produksi_status = '1' AND a.produksi_pesanan_status = '0' AND a.produksi_pewarnaan = '2'");
+		$output = $this->query_builder->view("SELECT a.produksi_nomor as nomor, b.kontak_nama as nama FROM t_produksi as a JOIN t_kontak as b ON a.produksi_pesanan = b.kontak_id WHERE a.produksi_hapus = 0 AND a.produksi_status = '1' AND a.produksi_penjualan = '0' AND a.produksi_pewarnaan = '2'");
 		echo json_encode($output);
 	}
 	function search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE a.produksi_nomor = '$nomor'");
+		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk_barang as c ON b.produksi_barang_barang = c.produk_barang_barang AND b.produksi_barang_jenis = c.produk_barang_jenis AND b.produksi_barang_warna = c.produk_barang_warna JOIN t_produk as d ON c.produk_barang_barang = d.produk_id JOIN t_satuan as e ON d.produk_satuan = e.satuan_id WHERE a.produksi_nomor = '$nomor'");
 		echo json_encode($output);
 	}
 	function faktur($id){
@@ -482,17 +493,19 @@ class Penjualan extends CI_Controller{
 
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('penjualan/bayar');
+	    $this->load->view('penjualan/bayar_modal');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function bayar_get_data(){
 		$model = 'm_penjualan';
-		$where = array('penjualan_status' => 'b','penjualan_po' => '!= 0','penjualan_hapus' => 0);
+		$where = array('penjualan_piutang' => '1','penjualan_po' => '!= 0','penjualan_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
 	function bayar_rotate($id){
-		$dt = date('Y-m-d');
-		$set = ['penjualan_status' => 'l', 'penjualan_pelunasan' => $dt];
+		$tanggal = strip_tags($_POST['tanggal']);
+		$keterangan = strip_tags($_POST['keterangan']);
+		$set = ['penjualan_status' => 'l', 'penjualan_pelunasan' => $tanggal, 'penjualan_pelunasan_keterangan' => $keterangan];
 		$where = ['penjualan_id' => $id];
 		$db = $this->query_builder->update('t_penjualan',$set,$where);
 
@@ -502,13 +515,13 @@ class Penjualan extends CI_Controller{
 			$this->stok->update_produk();
 
 			//jurnal
-			$pen = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
-			$nomor = $pen['penjualan_nomor'];
-			$total = $pen['penjualan_total']; 
+			// $pen = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+			// $nomor = $pen['penjualan_nomor'];
+			// $total = $pen['penjualan_total']; 
 
-			$this->stok->jurnal_delete($nomor);
-			$this->stok->jurnal($nomor, 2, 'debit', 'piutang (penjualan produk)', $total);
-			$this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total);
+			// $this->stok->jurnal_delete($nomor);
+			// $this->stok->jurnal($nomor, 2, 'debit', 'piutang (penjualan produk)', $total);
+			// $this->stok->jurnal($nomor, 3, 'kredit', 'stok produk', $total);
 			//
 
 			$this->session->set_flashdata('success','Berhasil di bayar');
@@ -517,27 +530,5 @@ class Penjualan extends CI_Controller{
 		}
 
 		redirect(base_url('penjualan/bayar'));
-	}
-	function bayar_edit($id){
-
-		//ambil kategori
-		$db = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
-
-		$active = 'bayar';
-		$data = $this->edit($id, $active);
-
-		$data["title"] = $active;
-
-	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('penjualan/form');
-	    $this->load->view('penjualan/form_edit');
-	    $this->load->view('v_template_admin/admin_footer');
-	}
-	function bayar_update(){
-
-		$po = 0;
-		$redirect = 'bayar';
-		$where = strip_tags($_POST['nomor']);
-		$this->update($po, $redirect, $where);
 	}
 }

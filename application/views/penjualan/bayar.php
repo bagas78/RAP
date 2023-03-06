@@ -21,6 +21,8 @@
                   <th>Nomor</th>
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
+                  <th>Pelunasan</th>
+                  <th>Keterangan</th>
                   <th width="50">Action</th>
                 </tr>
                 </thead>
@@ -59,11 +61,24 @@
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
+                        { "data": "penjualan_pelunasan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
+                            return "<span class='pelunasan'>"+p+"</span>";
+                          }
+                        },
+                        { "data": "penjualan_pelunasan_keterangan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var k = data;}else{var k = '-';}
+                            return "<span>"+k+"</span>";
+                          }
+                        },
                         { "data": "penjualan_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick=bayar('<?php echo base_url('penjualan/bayar_rotate/')?>"+data+"') class='btn btn-xs btn-success'><i class='fa fa-exchange'></i></button> "+
-                            "<a href='<?php echo base_url('penjualan/bayar_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a>";
+                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success'>Bayar <i class='fa fa-clipboard'></i></button>";
                           }
                         },
                         
@@ -72,21 +87,21 @@
 
     });
 
-function bayar(url){
-    swal({
-      title: "Apa kamu yakin?",
-      text: "Bayar Lunas Transaksi Ini ?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-  
-        $(location).attr('href',url);
-        
-      }
+function auto(){
+
+    $.each($('.pelunasan'), function(index, val) {
+       var val = $(this).text();
+       if (val != '-') {
+        $(this).closest('tr').find('.btn').attr('disabled', 'true');
+       }
     });
+
+    setTimeout(function() {
+        auto();
+    }, 100);
   }
+
+  auto();
+
  
 </script>

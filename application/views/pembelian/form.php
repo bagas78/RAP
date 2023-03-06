@@ -69,8 +69,8 @@
               <label>Status Pembayaran</label>
               <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>
-                <option value="lunas">Lunas</option>
-                <option value="belum">Belum Lunas</option>
+                <option value="l">Lunas</option>
+                <option value="b">Belum Lunas</option>
               </select>
             </div>
           </div>

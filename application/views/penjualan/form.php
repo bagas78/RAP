@@ -89,6 +89,10 @@
             <div class="col-md-12 mb-7">
               <label>Keterangan</label>
               <textarea name="keterangan" class="form-control" style="height: 100px;" id="keterangan"></textarea>
+
+              <!-- hidden pesanan nomor-->
+              <input type="hidden" name="pesanan" id="pesanan" value="0">
+
             </div>
 
           </div>
@@ -136,18 +140,18 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" name="stok[]" class="stok form-control" min="0" readonly="">
+                  <input type="text" name="stok[]" class="stok form-control" min="0" readonly="" value="0">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
-              <td><input type="number" name="harga[]" class="harga form-control readonly" value="0" min="1"></td>
-              <td><input type="number" name="subtotal[]" class="subtotal form-control readonly" value="0" min="1"></td>
+              <td><input type="text" name="harga[]" class="harga form-control readonly" value="0" min="1"></td>
+              <td><input type="text" name="subtotal[]" class="subtotal form-control readonly" value="0" min="1"></td>
 
               <!--hidden-->
-              <td ><input readonly="" type="text" name="hps[]" class="hps form-control"></td>
-              <td ><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
-              <td ><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
+              <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control" value="0"></td>
+              <td hidden><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
+              <td hidden><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
 
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
             </tr>
@@ -242,9 +246,9 @@
 
                   <!--hidden-->
                   <div hidden>
-                    <input value="" type="text" class="index-produk form-control" readonly="">
-                    <input value="" type="text" class="satuan-produk form-control" readonly="">
-                    <input value="" type="text" class="hps-produk form-control" readonly="">
+                  <input value="" type="text" class="index-produk form-control" readonly="">
+                  <input value="" type="text" class="satuan-produk form-control" readonly="">
+                  <input value="" type="text" class="hps-produk form-control" readonly="">
                   </div>
 
                 </div>
@@ -413,7 +417,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     //modal
     qty_.val(0);
     stok_.val(stok.val());
-    harga_.val(harga.val().replace(/,/g, ''));
+    harga_.val(number_format(harga.val()));
     hps_.val(hps.val());
     jenis_.val(jenis.val());
     warna_.val(warna.val());
