@@ -25,6 +25,8 @@
                 <tr>
                   <th>Nomor</th>
                   <th>Jatuh Tempo</th>
+                  <th>Pelunasan</th>
+                  <th>Keterangan</th>
                   <th width="1">Action</th>
                 </tr>
                 </thead>
@@ -68,6 +70,20 @@
                         "render": 
                         function( data ) {
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
+                          }
+                        },
+                        { "data": "pembelian_umum_pelunasan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
+                            return "<span class='pelunasan'>"+p+"</span>";
+                          }
+                        },
+                        { "data": "pembelian_umum_pelunasan_keterangan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var k = data;}else{var k = '-';}
+                            return "<span>"+k+"</span>";
                           }
                         },
                         { "data": "pembelian_umum_id",

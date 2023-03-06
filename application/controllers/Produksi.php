@@ -121,8 +121,8 @@ class Produksi extends CI_Controller{
 		if ($db == 1) {
 			
 			//update
-			// $this->stok->update_billet();
-			// $this->stok->update_produk();
+			$this->stok->update_billet();
+			$this->stok->update_produk();
 
 			//jurnal
 			// if ($status == 3) {
@@ -754,7 +754,7 @@ class Produksi extends CI_Controller{
 	}
 	function packing_get_data(){
 		$model = 'm_produksi';
-		$where = array('produksi_hapus' => '0', 'produksi_status' => '1', 'produksi_pewarnaan' => '2');
+		$where = array('produksi_hapus' => '0', 'produksi_status' => '1', 'produksi_pewarnaan !=' => '1');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}

@@ -19,6 +19,11 @@
   <!-- Default box -->  
   <div class="box"> 
     <div class="box-header with-border">
+
+      <div class="back" align="left" hidden>
+        <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
+      </div>
+
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
@@ -43,15 +48,15 @@
         <div class="row">
 
           <div class="col-md-3">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Nomor Transaksi</label>
               <input readonly="" type="text" name="nomor" class="form-control" required id="nomor">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Tanggal Transaksi</label>
               <input type="date" name="tanggal" class="form-control" required id="tanggal">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Pelanggan</label>
               <select name="pelanggan" class="form-control select2" required id="pelanggan">
                 <option value="" hidden>-- Pilih --</option>
@@ -62,11 +67,11 @@
             </div>
           </div>
           <div class="col-md-3">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Jatuh Tempo</label>
               <input type="date" name="jatuh_tempo" class="form-control" required id="jatuh_tempo">
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Pembayaran</label>
               <select name="pembayaran" class="form-control select2" required id="pembayaran">
                 <option value="" hidden>-- Pilih --</option>
@@ -76,7 +81,7 @@
                 <?php endforeach ?>
               </select>
             </div>
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Status Pembayaran</label>
               <select name="status" class="form-control" required id="status">
                 <option value="" hidden>-- Pilih --</option>
@@ -86,7 +91,7 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
               <label>Keterangan</label>
               <textarea name="keterangan" class="form-control" style="height: 100px;" id="keterangan"></textarea>
 
@@ -97,7 +102,7 @@
 
           </div>
           <div class="col-md-2">
-            <div class="col-md-12 mb-7">
+            <div class="form-group">
 
               <label>Lampiran Photo</label>
               <img id="previewImg" onclick="clickFile()" style="width: 100%;">
@@ -118,7 +123,7 @@
               <th>Potongan ( % )</th>
               <th>Harga</th>
               <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -153,7 +158,7 @@
               <td hidden><input readonly="" type="text" name="jenis[]" class="jenis form-control"></td>
               <td hidden><input readonly="" type="text" name="warna[]" class="warna form-control"></td>
 
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>
 
             <tr>
@@ -177,7 +182,7 @@
               <td><input id="total" readonly="" type="text" name="total" class="form-control" value="0" min="0"></td>
             </tr>
 
-            <tr>
+            <tr class="save">
               <td colspan="6" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
@@ -270,6 +275,16 @@
 <!-- /.modal -->
 
 <script type="text/javascript">
+
+//view UI
+<?php if(@$view == 1):?>
+  $('.back').removeAttr('hidden');
+  $('#search').attr('hidden', true);
+  $('.add').remove();
+  $('.remove').remove();
+  $('.save').remove();
+  $('.form-group, td').css('pointer-events', 'none');
+<?php endif?>
 
 //atribut
 $('form').attr('action', '<?=base_url('penjualan/'.@$url.'_save')?>');

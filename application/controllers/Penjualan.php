@@ -114,7 +114,7 @@ class Penjualan extends CI_Controller{
      		}	
 
 		}else{
-			$result = $set1;
+			$result = $set1; 
 		}
 
 		$db = $this->query_builder->add('t_penjualan',$result);
@@ -204,8 +204,9 @@ class Penjualan extends CI_Controller{
 	    return $data;
 	}
 	function get_penjualan($nomor){ 
+
 		//penjualan barang
-		$db = $this->query_builder->view("SELECT * FROM t_penjualan_barang AS a JOIN t_produk AS b ON a.penjualan_barang_barang = b.produk_id JOIN t_produk_barang as c ON b.produk_id = c.produk_barang_barang JOIN t_satuan as d ON b.produk_satuan = d.satuan_id WHERE a.penjualan_barang_nomor = '$nomor' GROUP BY a.penjualan_barang_nomor, a.penjualan_barang_barang");
+		$db = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk_barang AS c ON b.penjualan_barang_barang = c.produk_barang_barang AND b.penjualan_barang_jenis = c.produk_barang_jenis AND b.penjualan_barang_warna = c.produk_barang_warna JOIN t_produk AS d ON c.produk_barang_barang = d.produk_id JOIN t_satuan AS e ON d.produk_satuan = e.satuan_id WHERE b.penjualan_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}
 	function update($po, $redirect, $where){
@@ -472,6 +473,18 @@ class Penjualan extends CI_Controller{
 		
 		$active = 'produk';
 		$data = $this->edit($id, $active);
+
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('penjualan/form');
+	    $this->load->view('penjualan/form_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}	
+	function produk_view($id){
+		
+		$active = 'produk';
+		$data = $this->edit($id, $active);
+
+		$data['view'] = 1;
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('penjualan/form');

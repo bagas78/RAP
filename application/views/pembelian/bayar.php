@@ -4,7 +4,7 @@
  
       <!-- Default box -->
       <div class="box"> 
-        <div class="box-header with-border">
+        <div class="box-header with-border"> 
  
             <div align="left">
               <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
@@ -26,6 +26,8 @@
                   <th>Nomor</th>
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
+                  <th>Pelunasan</th>
+                  <th>Keterangan</th>
                   <th width="1">Action</th>
                 </tr>
                 </thead>
@@ -72,6 +74,20 @@
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
+                        { "data": "pembelian_pelunasan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
+                            return "<span class='pelunasan'>"+p+"</span>";
+                          }
+                        },
+                        { "data": "pembelian_pelunasan_keterangan",
+                        "render": 
+                        function( data ) {
+                            if (data != null) {var k = data;}else{var k = '-';}
+                            return "<span>"+k+"</span>";
+                          }
+                        },
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
@@ -83,5 +99,21 @@
         });
 
     });
+
+  function auto(){
+
+    $.each($('.pelunasan'), function(index, val) {
+       var val = $(this).text();
+       if (val != '-') {
+        $(this).closest('tr').find('.btn').attr('disabled', 'true');
+       }
+    });
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+}
+
+auto();
  
 </script>

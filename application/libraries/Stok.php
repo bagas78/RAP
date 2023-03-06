@@ -30,14 +30,14 @@ class Stok{
 
       }
 
-      //subtract peleburan
+      //kurangi peleburan
       foreach ($peleburan as $pl) {
         $id = $pl['peleburan_barang'];
         $jum = $pl['peleburan_jumlah'];
         $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
       }
 
-      //subtract produksi
+      //kurangi produksi
       foreach ($produksi as $pr) {
         $id = $pr['produksi_barang'];
         $jum = $pr['produksi_jumlah'];
@@ -73,9 +73,9 @@ class Stok{
   }
   function update_produk(){
 
-    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE b.produksi_pewarnaan != 1 AND b.produksi_packing_tanggal != '' AND b.produksi_hapus = 0 GROUP BY produksi_barang_barang, produksi_barang_jenis, produksi_barang_warna")->result_array();
+    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, a.produksi_barang_jenis AS jenis, a.produksi_barang_warna AS warna, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE b.produksi_pewarnaan != '1' AND b.produksi_packing_tanggal != '' AND b.produksi_hapus = 0 GROUP BY a.produksi_barang_barang, a.produksi_barang_jenis, a.produksi_barang_warna")->result_array();
 
-    $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_PO != '1' AND a.penjualan_hapus = 0 GROUP BY b.penjualan_barang_barang")->result_array();
+    $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk, b.penjualan_barang_jenis AS jenis, b.penjualan_barang_warna AS warna ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_PO != '1' AND a.penjualan_hapus = 0 GROUP BY b.penjualan_barang_barang, b.penjualan_barang_jenis, b.penjualan_barang_warna")->result_array();
 
     $table = 't_produk_barang';
     
@@ -104,9 +104,11 @@ class Stok{
 
     //subtract penjualan - produk_barang
     foreach ($db2 as $val2) {
-      $id = $val2['produk'];
+      $produk = $val2['produk'];
+      $jenis = $val2['jenis'];
+      $warna = $val2['warna'];
       $total = $val2['total'];
-      $this->sql->db->query("UPDATE {$table} SET produk_barang_stok = produk_barang_stok - {$total} WHERE produk_barang_barang = {$id}");
+      $this->sql->db->query("UPDATE {$table} SET produk_barang_stok = produk_barang_stok - {$total} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");
     }
 
     return;

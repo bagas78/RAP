@@ -843,10 +843,10 @@ class Pembelian extends CI_Controller{
 		
 		if ($jenis == 'umum') {
 			$model = 'm_pembelian_umum';
-			$where = array('pembelian_umum_status' => 'b','pembelian_umum_hapus' => 0);
+			$where = array('pembelian_umum_hutang' => '1','pembelian_umum_hapus' => 0);
 		}else{
 			$model = 'm_pembelian';
-			$where = array('pembelian_status' => 'b','pembelian_po' => 0,'pembelian_hapus' => 0);
+			$where = array('pembelian_hutang' => '1','pembelian_po' => 0,'pembelian_hapus' => 0);
 		}
 	
 		$output = $this->serverside($where, $model);

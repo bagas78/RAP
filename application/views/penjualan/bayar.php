@@ -99,9 +99,9 @@ function auto(){
     setTimeout(function() {
         auto();
     }, 100);
-  }
+}
 
-  auto();
+auto();
 
  
 </script>

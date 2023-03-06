@@ -40,15 +40,14 @@
 
       //insert value
       $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang);
-      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty);
-      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.penjualan_barang_potongan));
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.penjualan_barang_harga));
+      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty); 
 
-      //hidden
-      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.penjualan_barang_hps);
+      //$('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.produk_barang_stok);
+      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.produk_barang_harga));
+      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.produk_barang_hps);
+
       $('#copy:nth-child('+i+') > td:nth-child(8) > input').val(val.penjualan_barang_jenis);
       $('#copy:nth-child('+i+') > td:nth-child(9) > input').val(val.penjualan_barang_warna);
-      /////////////
 
       //kembalikan stok
       var re = parseInt(val.penjualan_barang_qty) + parseInt(val.produk_barang_stok);

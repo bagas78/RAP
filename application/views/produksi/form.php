@@ -164,7 +164,7 @@
                   </span>
                 </div>
               </td>
-              <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="0"></td>
+              <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="1"></td>
 
               <!--hidden-->
               <td hidden>

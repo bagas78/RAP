@@ -67,7 +67,7 @@
                         { "data": "pembelian_umum_status",
                         "render": 
                         function( data ) {
-                            if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
+                            if (data == 'l') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
                             return "<span>"+s+"</span>";
                           }
                         },
