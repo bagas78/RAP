@@ -534,12 +534,6 @@ thead{
               </a>
             </li>
             <li>
-              <a href="<?= base_url('laporan/po_penjualan') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">PO Penjualan</span>
-              </a>
-            </li>
-            <li>
               <a href="<?= base_url('laporan/penjualan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <!--Harian, Mingguan, Bulanan-->
@@ -586,12 +580,6 @@ thead{
               <a href="<?= base_url('laporan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Packing</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?= base_url('laporan/kirim') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Pengiriman Barang</span>
               </a>
             </li>
             

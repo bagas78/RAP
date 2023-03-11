@@ -28,11 +28,6 @@
 
           <div class="form-group sx-right" align="right">
             <form action="" method="POST" class="sc">              
-              <select class="p03" name="status" required>
-                <option value="" hidden>-- Status --</option>
-                <option value="l">Lunas</option>
-                <option value="b">Belum Lunas</option>
-              </select>
               <input name="filter" type="date" class="p03">
               <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
             </form>
@@ -43,17 +38,15 @@
             <tr>
               <th>Nomor</th>
               <th>Total</th>
-              <th>Status</th>
               <th>Di Packing</th>
             </tr>
             </thead>
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?=$val['penjualan_nomor'] ?></td>
-                  <td class="total"><?=$val['penjualan_total'] ?></td>
-                  <td><?=($val['penjualan_status'] == 'l')?'Lunas':'Belum Lunas'?></td>
-                  <td><?php $dt = date_create($val['penjualan_packing']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?=$val['produksi_nomor'] ?></td>
+                  <td class="total"><?=$val['produksi_total_akhir'] ?></td>
+                  <td><?php $dt = date_create($val['produksi_packing_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>

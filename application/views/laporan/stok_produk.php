@@ -19,8 +19,8 @@
                 <thead>
                 <tr>
                   <th>Nama</th>
-                  <th>Jenis</th>
                   <th>Stok</th>
+                  <th>Satuan</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,9 +51,9 @@
                 "type": "GET"
             },
             "columns": [ 
-                        { "data": "master_produk_nama"},
-                        { "data": "pewarnaan_jenis_type"},
-                        { "data": "master_produk_stok"},
+                        { "data": "produk_nama"},
+                        { "data": "stok"},
+                        { "data": "satuan_singkatan"},
                     ],
             "dom": "Bfrtip",
             "buttons": [

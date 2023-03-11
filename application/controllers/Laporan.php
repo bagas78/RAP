@@ -58,7 +58,7 @@ class Laporan extends CI_Controller{
 	function get_produk_data(){
 
 		$model = 'm_produk';
-		$where = array('master_produk_hapus' => 0);
+		$where = array('produk_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
@@ -66,14 +66,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_status = 3 AND a.produksi_tanggal = '$filter'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_status = 3 AND a.produksi_tanggal = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_status = 1 AND a.produksi_tanggal = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/produksi');
@@ -88,15 +89,14 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po_tanggal = '$filter' AND pembelian_status = '$status'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po_tanggal = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+		     $data['data'] = $this->query_builder->view("SELECT pembelian_po_tanggal AS tanggal ,pembelian_nomor AS nomor, pembelian_total AS total, pembelian_status AS status, 'Pembelian Bahan' AS kategori FROM t_pembelian WHERE pembelian_po_tanggal = '$filter' AND pembelian_hapus = 0");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/po_pembelian');
@@ -111,16 +111,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-		    $kategori = @$_POST['kategori'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 0 AND pembelian_tanggal = '$filter' AND pembelian_status = '$status' AND pembelian_kategori = '$kategori'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 0 AND pembelian_tanggal = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT pembelian_tanggal AS tanggal ,pembelian_nomor AS nomor, pembelian_total AS total, pembelian_status AS status, 'Pembelian Bahan' AS kategori FROM t_pembelian WHERE pembelian_tanggal = '$filter' AND pembelian_hapus = 0 UNION ALL SELECT pembelian_umum_tanggal AS tanggal ,pembelian_umum_nomor AS nomor, pembelian_umum_total AS total, pembelian_umum_status AS status, 'Pembelian Umum' AS kategori FROM t_pembelian_umum WHERE pembelian_umum_tanggal = '$filter' AND pembelian_umum_hapus = 0");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/pembelian');
@@ -135,15 +134,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-		    $kategori = @$_POST['kategori'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_pelunasan = '$filter' AND pembelian_kategori = '$kategori'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_pelunasan = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT pembelian_tanggal AS tanggal ,pembelian_nomor AS nomor, pembelian_total AS total, pembelian_status AS status, 'Pembelian Bahan' AS kategori FROM t_pembelian WHERE pembelian_pelunasan = '$filter' AND pembelian_hapus = 0 UNION ALL SELECT pembelian_umum_tanggal AS tanggal ,pembelian_umum_nomor AS nomor, pembelian_umum_total AS total, pembelian_umum_status AS status, 'Pembelian Umum' AS kategori FROM t_pembelian_umum WHERE pembelian_umum_pelunasan = '$filter' AND pembelian_umum_hapus = 0");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/pelunasan_hutang');
@@ -158,40 +157,12 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $dt = date('Y-m-d');
-		    $kategori = @$_POST['kategori'];
+		    $filter = date('Y-m-d');
 
-		    if ($kategori) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 0 AND pembelian_status = 'b' AND pembelian_jatuh_tempo < '$dt' AND pembelian_kategori = '$kategori'");
-		    }else{
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 0 AND pembelian_status = 'b' AND pembelian_jatuh_tempo < '$dt'");
-		    }
+		    $data['data'] = $this->query_builder->view("SELECT pembelian_jatuh_tempo AS tanggal ,pembelian_nomor AS nomor, pembelian_total AS total, pembelian_status AS status, 'Pembelian Bahan' AS kategori FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 0 AND pembelian_status = 'belum' AND pembelian_jatuh_tempo < '$filter' UNION ALL SELECT pembelian_umum_jatuh_tempo AS tanggal ,pembelian_umum_nomor AS nomor, pembelian_umum_total AS total, pembelian_umum_status AS status, 'Pembelian Umum' AS kategori FROM t_pembelian_umum WHERE pembelian_umum_hapus = 0 AND pembelian_umum_status = 'belum' AND pembelian_umum_jatuh_tempo < '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/hutang_jatuh_tempo');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('login'));
-		}
-	}
-	function po_penjualan(){
-		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'laporan';
-
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po_tanggal = '$filter' AND penjualan_status = '$status'");
-		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po_tanggal = '$dt'");
-		    }
-
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('laporan/po_penjualan');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -203,15 +174,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_tanggal = '$filter' AND penjualan_status = '$status'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_tanggal = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_tanggal = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/penjualan');
@@ -226,14 +197,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_pelunasan = '$filter'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_pelunasan = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_pelunasan = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/pelunasan_piutang');
@@ -248,8 +220,8 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $dt = date('Y-m-d');
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_status = 'b' AND penjualan_jatuh_tempo < '$dt'");
+		    $filter = date('Y-m-d');
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_status = 'belum' AND penjualan_jatuh_tempo < '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/piutang_jatuh_tempo');
@@ -264,15 +236,15 @@ class Laporan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
 
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_packing = '$filter' AND penjualan_status = '$status'");
+		    if (@$_POST['filter']) {
+		    	
+		    	$filter = @$_POST['filter'];
 		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_packing = '$dt'");
+
+		    	$filter = date('Y-m-d');
 		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi WHERE produksi_hapus = 0 AND produksi_packing_tanggal = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/packing');
@@ -281,29 +253,6 @@ class Laporan extends CI_Controller{
 		}
 		else{
 			redirect(base_url('login'));
-		}
-	}
-	function kirim(){
-		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'laporan';
-
-		    $filter = @$_POST['filter'];
-		    $status = @$_POST['status'];
-
-		    if ($filter) {
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_pengiriman = '$filter' AND penjualan_status = '$status'");
-		    }else{
-		    	$dt = date('Y-m-d');
-		    	$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_pengiriman = '$dt'");
-		    }
-
-		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('laporan/kirim');
-		    $this->load->view('v_template_admin/admin_footer');
-
-		}
-		else{
-			redirect(base_url('kirim'));
 		}
 	}
 }

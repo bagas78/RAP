@@ -78,7 +78,7 @@ class Pembelian extends CI_Controller{
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 
 		//piutang status
-		if ($status == 'b') { $hutang = '1'; }else{ $hutang = '0'; }
+		if ($status == 'belum') { $hutang = '1'; }else{ $hutang = '0'; }
 
 		$set1 = array( 
 						'pembelian_hutang' => $hutang,
@@ -860,7 +860,7 @@ class Pembelian extends CI_Controller{
 
 			//pembelian bahan
 
-			$set = ['pembelian_status' => 'l', 'pembelian_pelunasan' => $tanggal, 'pembelian_pelunasan_keterangan' => $keterangan];
+			$set = ['pembelian_status' => 'lunas', 'pembelian_pelunasan' => $tanggal, 'pembelian_pelunasan_keterangan' => $keterangan];
 			$where = ['pembelian_id' => $id];
 
 			$db = $this->query_builder->update('t_pembelian',$set,$where);

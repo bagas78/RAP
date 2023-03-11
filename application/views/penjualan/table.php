@@ -8,8 +8,8 @@
  
             <div align="left">
               <a href="<?= base_url('penjualan/'.@$url.'_add') ?>"><button class="btn-tambah btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-               <button onclick="filter('l')" class="btn-lunas btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
-              <button onclick="filter('b')" class="btn-belum btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
+               <button onclick="filter('lunas')" class="btn-lunas btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
+              <button onclick="filter('belum')" class="btn-belum btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -69,7 +69,7 @@
                         { "data": "penjualan_status",
                         "render": 
                         function( data ) {
-                            if (data == 'l') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
+                            if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
                             return "<span>"+s+"</span>";
                           }
                         },

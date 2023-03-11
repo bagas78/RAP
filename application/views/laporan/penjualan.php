@@ -28,11 +28,6 @@
 
           <div class="sx-right" align="right">
             <form action="" method="POST" class="sc">              
-              <select class="p03" name="status" required>
-                <option value="" hidden>-- Status --</option>
-                <option value="l">Lunas</option>
-                <option value="b">Belum Lunas</option>
-              </select>
               <input name="filter" type="date" class="p03">
               <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
             </form>

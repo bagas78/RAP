@@ -82,7 +82,7 @@ class Penjualan extends CI_Controller{
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
 
 		//piutang status
-		if ($status == 'b') { $piutang = '1'; }else{ $piutang = '0'; }
+		if ($status == 'belum') { $piutang = '1'; }else{ $piutang = '0'; }
 
 		$set1 = array(
 						'penjualan_piutang' => $piutang,
@@ -518,7 +518,7 @@ class Penjualan extends CI_Controller{
 	function bayar_rotate($id){
 		$tanggal = strip_tags($_POST['tanggal']);
 		$keterangan = strip_tags($_POST['keterangan']);
-		$set = ['penjualan_status' => 'l', 'penjualan_pelunasan' => $tanggal, 'penjualan_pelunasan_keterangan' => $keterangan];
+		$set = ['penjualan_status' => 'lunas', 'penjualan_pelunasan' => $tanggal, 'penjualan_pelunasan_keterangan' => $keterangan];
 		$where = ['penjualan_id' => $id];
 		$db = $this->query_builder->update('t_penjualan',$set,$where);
 

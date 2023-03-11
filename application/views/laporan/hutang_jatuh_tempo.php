@@ -26,18 +26,8 @@
 
           <div class="clearfix"></div>
 
-          <div class="sx-right" align="right">
-            <form action="" method="POST" class="sc">
-              <select class="p03" name="kategori" required>
-                <option value="" hidden>-- Kategori --</option>
-                <option value="utama">Pembelian Utama</option>
-                <option value="avalan">Pembelian Avalan</option>
-                <option value="umum">Pembelian Umum</option>
-              </select>
-              <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
-            </form>
-          </div>
-          
+          <br/>
+
           <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
@@ -50,10 +40,10 @@
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?=$val['pembelian_nomor'] ?></td>
-                  <td class="total"><?=$val['pembelian_total'] ?></td>
-                  <td><?=$val['pembelian_kategori'] ?></td>
-                  <td><?php $dt = date_create($val['pembelian_jatuh_tempo']); echo date_format($dt, 'd/m/Y'); ?>
+                  <td><?=$val['nomor'] ?></td>
+                  <td class="total"><?=$val['total'] ?></td>
+                  <td><?=$val['kategori'] ?></td>
+                  <td><?php $dt = date_create($val['tanggal']); echo date_format($dt, 'd/m/Y'); ?>
                   </td>
                 </tr>
               <?php endforeach ?>

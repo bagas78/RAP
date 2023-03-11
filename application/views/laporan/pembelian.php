@@ -28,17 +28,6 @@
 
           <div class="sx-right" align="right">
             <form action="" method="POST" class="sc">
-              <select class="p03" name="kategori" required>
-                <option value="" hidden>-- Kategori --</option>
-                <option value="utama">Pembelian Utama</option>
-                <option value="avalan">Pembelian Avalan</option>
-                <option value="umum">Pembelian Umum</option>
-              </select>
-              <select class="p03" name="status" required>
-                <option value="" hidden>-- Status --</option>
-                <option value="l">Lunas</option>
-                <option value="b">Belum Lunas</option>
-              </select>
               <input name="filter" type="date" class="p03">
               <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
             </form>
@@ -57,11 +46,11 @@
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?=$val['pembelian_nomor'] ?></td>
-                  <td class="total"><?=$val['pembelian_total'] ?></td>
-                  <td><?=$val['pembelian_kategori'] ?></td>
-                  <td><?=($val['pembelian_status'] == 'l')?'Lunas':'Belum Lunas'?></td>
-                  <td><?php $dt = date_create($val['pembelian_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?=$val['nomor'] ?></td>
+                  <td class="total"><?=$val['total'] ?></td>
+                  <td><?=$val['kategori'] ?></td>
+                  <td><?=($val['status'] == 'lunas')?'Lunas':'Belum'?></td>
+                  <td><?php $dt = date_create($val['tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>
