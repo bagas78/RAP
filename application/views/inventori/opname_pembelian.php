@@ -167,7 +167,7 @@ $("form").submit(function(e) {
 function dataTable_w100(){
 
   //keterangan
-  $.each($('.profit_persen'), function(index, val) {
+  $.each($('.stok'), function(index, val) {
      
      // 1% - 30% barang tidak laku
      // 30% - 50% barang cukup laku
@@ -177,17 +177,17 @@ function dataTable_w100(){
      
      switch (true) {
         case (persen <= 30):
-          r = 'Barang Jarang Di Beli';
+          r = 'Stok Bertambah Sedikit';
           break;
         case (persen >= 30 && persen <= 50):
-          r = 'Barang Cukup Sering Di Beli';
+          r = 'Bertambah Cukup Banyak';
           break;
         case (persen >= 60):
-          r = 'Barang Sering Di Beli';
+          r = 'Bertambah Banyak';
           break;
       }
 
-      $(this).next('td').text(r);
+      $(this).closest('tr').find('.keterangan').text(r);
 
       //format number
       $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
