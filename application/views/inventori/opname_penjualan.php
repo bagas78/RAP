@@ -32,17 +32,12 @@
 
       <form method="POST" action="#">
         <div class="form-group">
-          <select id="jenis" required name="jenis" class="p03">
-            <option value="" hidden>-- Pilih --</option>
-            <option value="penjualan">Penjualan</option>
-            <option value="pembelian">Pembelian</option>
-          </select>
-          <input id="tgl" name="tanggal" required id="date" type="date" class="p03">
+          <input id="tanggal" name="tanggal" required id="date" type="date" class="p03">
           <button type="submit" class="p03 filter">Filter <i class="fa fa-search"></i></button>
         </div>
       </form>
 
-      <h4 id="title">Laporan Stock Opname <span id="tit"></span></h4>
+      <h4 id="title">STOK OPNAME PENJUALAN <span id="tit"></span></h4>
       
       <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
@@ -71,10 +66,12 @@
               <td>%</td>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="data">
             
             </tbody>
           </table>
+
+        <br/>
 
     </div>
   </div>
@@ -100,58 +97,71 @@ $(document).ready(function() {
 
 //search
 $("form").submit(function(e) {
+
+    //empty
+    $('.data').empty();
+
+    //push info
+    var info = moment($('#tgl').val()).format("DD/MM/YYYY");
+    $('#tit').text(info);
+
     e.preventDefault();
     var form = $(this);
 
     $.ajax({
-      url: '<?=base_url('inventori/opname_get');?>',
+      url: '<?=base_url('inventori/opname_get_penjualan');?>',
       type: 'POST',
       dataType: 'json',
       data: form.serialize(),
     })
     .done(function(data) {
-      
-      //push info
-      var info = '"'+$('#jenis').val().toUpperCase()+'" ( '+moment($('#tgl').val()).format("DD/MM/YYYY")+' )';
-      $('#tit').text(info);
 
-      //remove
-      $('.odd').remove();
+      console.log(data.length);
 
-      var html = '';
-      $.each(data, function(index, val) {
-        
-        var persedian_awal_nilai = (val.penjualan_barang_stok * val.penjualan_barang_hps);
-        var penjualan_nilai = (val.penjualan_barang_qty * val.penjualan_barang_harga);
-        var persediaan_jum = (val.penjualan_barang_stok - val.penjualan_barang_qty);
-        var persediaan_nilai = (persediaan_jum * val.penjualan_barang_hps);
-        var stok = Math.round((persediaan_jum / val.penjualan_barang_stok) * 100);
-        var harga_pokok_penjualan = val.penjualan_barang_qty * val.penjualan_barang_hps;
-        var profit_nilai = penjualan_nilai - harga_pokok_penjualan;
-        var profit_persen = Math.round((profit_nilai / harga_pokok_penjualan) * 100);
+      if (data.length > 0) {
 
-        html+= '<tr>';
-        html+= '<td>'+val.master_produk_kode+'</td>';
-        html+= '<td>'+val.master_produk_nama+'</td>';
-        html+= '<td>'+val.satuan_singkatan+'</td>';
-        html+= '<td class="satuan">'+val.penjualan_barang_hps+'</td>';
-        html+= '<td class="jual">'+val.penjualan_barang_harga+'</td>';
-        html+= '<td class="persedian_awal_jum">'+val.penjualan_barang_stok+'</td>';
-        html+= '<td class="persedian_awal_nilai">'+persedian_awal_nilai+'</td>';
-        html+= '<td class="penjualan_jum">'+val.penjualan_barang_qty+'</td>';
-        html+= '<td class="penjualan_nilai">'+penjualan_nilai+'</td>';
-        html+= '<td class="persediaan_jum">'+persediaan_jum+'</td>';
-        html+= '<td class="persediaan_nilai">'+persediaan_nilai+'</td>';
-        html+= '<td class="stok">'+stok+'</td>';
-        html+= '<td class="harga_pokok_penjualan">'+harga_pokok_penjualan+'</td>';
-        html+= '<td class="profit_nilai">'+profit_nilai+'</td>';
-        html+= '<td class="profit_persen">'+profit_persen+'</td>';
-        html+= '<td class="keterangan">KURANG LAKU</td>';
-        html+= '</tr>';
+        //remove
+        $('.odd').remove();
 
-      });
+          var html = '';
+          $.each(data, function(index, val) {
+            
+            var persedian_awal_nilai = (val.stok * val.hps);
+            var penjualan_nilai = (val.qty * val.harga);
+            var persediaan_jum = (val.stok - val.qty);
+            var persediaan_nilai = (persediaan_jum * val.hps);
+            var stok = Math.round((persediaan_jum / val.stok) * 100);
+            var harga_pokok_penjualan = val.qty * val.hps;
+            var profit_nilai = penjualan_nilai - harga_pokok_penjualan;
+            var profit_persen = Math.round((profit_nilai / harga_pokok_penjualan) * 100);
 
-      $('tbody').append(html);
+            html+= '<tr>';
+            html+= '<td>'+val.kode+'</td>';
+            html+= '<td>'+val.nama+'</td>';
+            html+= '<td>'+val.satuan+'</td>';
+            html+= '<td class="satuan">'+val.hps+'</td>';
+            html+= '<td class="jual">'+val.harga+'</td>';
+            html+= '<td class="persedian_awal_jum">'+val.stok+'</td>';
+            html+= '<td class="persedian_awal_nilai">'+persedian_awal_nilai+'</td>';
+            html+= '<td class="penjualan_jum">'+val.qty+'</td>';
+            html+= '<td class="penjualan_nilai">'+penjualan_nilai+'</td>';
+            html+= '<td class="persediaan_jum">'+persediaan_jum+'</td>';
+            html+= '<td class="persediaan_nilai">'+persediaan_nilai+'</td>';
+            html+= '<td class="stok">'+stok+'</td>';
+            html+= '<td class="harga_pokok_penjualan">'+harga_pokok_penjualan+'</td>';
+            html+= '<td class="profit_nilai">'+profit_nilai+'</td>';
+            html+= '<td class="profit_persen">'+profit_persen+'</td>';
+            html+= '<td class="keterangan">KURANG LAKU</td>';
+            html+= '</tr>';
+
+          });
+
+        }else{
+
+          html+= '<tr class="odd"><td valign="top" colspan="16" class="dataTables_empty">No data available in table</td></tr>';
+        }
+
+        $('.data').append(html);
 
     });
   
@@ -159,13 +169,13 @@ $("form").submit(function(e) {
 
 function dataTable_w100(){
 
-  // 1% - 30% = barang tidak laku
-  // 30% - 50% barang cukup laku
-  // 60% - 100% = barang laku
-
   //keterangan
   $.each($('.profit_persen'), function(index, val) {
      
+     // 1% - 30% barang tidak laku
+     // 30% - 50% barang cukup laku
+     // 60% - 100% barang laku
+
      var persen = parseInt($(this).text());
      
      switch (true) {
@@ -181,6 +191,13 @@ function dataTable_w100(){
       }
 
       $(this).next('td').text(r);
+
+      //format number
+      $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
+        
+        $(this).text(number_format($(this).text()));
+
+      });
 
   });
   
