@@ -137,7 +137,7 @@ $("form").submit(function(e) {
             html+= '<td>'+val.kode+'</td>';
             html+= '<td>'+val.nama+'</td>';
            
-            html+= '<td class="satuan">'+val.hps+'</td>';
+            html+= '<td class="satuan">'+val.satuan+'</td>';
             html+= '<td class="jual">'+val.harga+'</td>';
             html+= '<td class="persedian_awal_jum">'+val.stok+'</td>';
             html+= '<td class="persedian_awal_nilai">'+persedian_awal_nilai+'</td>';
