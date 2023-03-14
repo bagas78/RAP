@@ -88,13 +88,21 @@ $(document).ready(function() {
         "bFilter"   : false,
         "scrollX"   : true,
         "bInfo"     : false,
-        "responsive": true
+        "responsive": true,
+        "dom": "Bfrtip",
+            "buttons": [
+                "excel", "print"
+            ]
     });
 
 });
 
 //search
 $("form").submit(function(e) {
+
+    //table
+    var t = $('#table').DataTable();
+    t.clear();
 
     //empty
     $('.data').empty();
@@ -114,16 +122,15 @@ $("form").submit(function(e) {
     })
     .done(function(data) {
 
-      console.log(data.length);
-
       if (data.length > 0) {
 
         //remove
         $('.odd').remove();
-
-          var html = '';
+          
           $.each(data, function(index, val) {
             
+            var html = '';
+
             var persedian_awal_nilai = (val.stok * val.harga);
             var penjualan_nilai = (val.qty * val.harga);
             var persediaan_jum = parseInt(val.stok) + parseInt(val.qty);
@@ -133,7 +140,6 @@ $("form").submit(function(e) {
             html+= '<tr>';
             html+= '<td>'+val.kode+'</td>';
             html+= '<td>'+val.nama+'</td>';
-           
             html+= '<td class="satuan">'+val.satuan+'</td>';
             html+= '<td class="jual">'+val.harga+'</td>';
             html+= '<td class="persedian_awal_jum">'+val.stok+'</td>';
@@ -143,19 +149,36 @@ $("form").submit(function(e) {
             html+= '<td class="persediaan_jum">'+persediaan_jum+'</td>';
             html+= '<td class="persediaan_nilai">'+persediaan_nilai+'</td>';
             html+= '<td class="stok">'+stok+'</td>';
-            
-           
-            html+= '<td class="keterangan"></td>';
+
+            // 1% - 30% barang tidak laku
+            // 30% - 50% barang cukup laku
+            // 60% - 100% barang laku
+
+            switch (true) {
+              case (stok <= 30):
+                r = 'Stok Bertambah Sedikit';
+                break;
+              case (stok >= 30 && stok <= 50):
+                r = 'Bertambah Cukup Banyak';
+                break;
+              case (stok >= 60):
+                r = 'Bertambah Banyak';
+                break;
+            }
+
+            html+= '<td class="keterangan">'+r+'</td>';
             html+= '</tr>';
+
+            t.row.add($(html)).draw(false);
 
           });
 
         }else{
 
-          html+= '<tr class="odd"><td valign="top" colspan="16" class="dataTables_empty">No data available in table</td></tr>';
-        }
+          var not = '<tr class="odd"><td valign="top" colspan="16" class="dataTables_empty">No data available in table</td></tr>';
 
-        $('.data').append(html);
+          $('.data').append(not);
+        }
 
     });
   
@@ -163,35 +186,10 @@ $("form").submit(function(e) {
 
 function dataTable_w100(){
 
-  //keterangan
-  $.each($('.stok'), function(index, val) {
-     
-     // 1% - 30% barang tidak laku
-     // 30% - 50% barang cukup laku
-     // 60% - 100% barang laku
-
-     var persen = parseInt($(this).text());
-     
-     switch (true) {
-        case (persen <= 30):
-          r = 'Stok Bertambah Sedikit';
-          break;
-        case (persen >= 30 && persen <= 50):
-          r = 'Bertambah Cukup Banyak';
-          break;
-        case (persen >= 60):
-          r = 'Bertambah Banyak';
-          break;
-      }
-
-      $(this).closest('tr').find('.keterangan').text(r);
-
-      //format number
-      $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
-        
-        $(this).text(number_format($(this).text()));
-
-      });
+  //format number
+  $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
+    
+    $(this).text(number_format($(this).text()));
 
   });
   

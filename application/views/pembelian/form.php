@@ -139,7 +139,7 @@
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
-              <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
+              <td><input type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>

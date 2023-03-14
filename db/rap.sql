@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2023 at 02:15 AM
+-- Generation Time: Mar 14, 2023 at 04:50 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -266,7 +266,8 @@ INSERT INTO `t_coa` (`coa_id`, `coa_nomor`, `coa_akun`, `coa_sub`, `coa_tanggal`
 (6, '122', 'Utang', '2', '2023-01-27'),
 (7, '132', 'Saldo', '3', '2023-01-27'),
 (8, '142', 'Penjualan produk', '4', '2023-01-27'),
-(9, '152', 'Biaya produksi', '5', '2023-01-27');
+(9, '152', 'Biaya produksi', '5', '2023-01-27'),
+(10, '153', 'Penyesuaian stok', '5', '2023-03-14');
 
 -- --------------------------------------------------------
 
@@ -768,6 +769,39 @@ INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_penyesuaian`
+--
+
+CREATE TABLE `t_penyesuaian` (
+  `penyesuaian_id` int(11) NOT NULL,
+  `penyesuaian_transaksi` enum('penjualan','pembelian') NOT NULL,
+  `penyesuaian_nomor` text DEFAULT NULL,
+  `penyesuaian_jenis` enum('perhitungan','masuk','keluar') NOT NULL,
+  ` penyesuaian_kategori` enum('umum','rusak','produksi') NOT NULL,
+  `penyesuaian_akun` text DEFAULT NULL,
+  `penyesuaian_keterangan` text DEFAULT NULL,
+  `penyesuaian_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_penyesuaian_barang`
+--
+
+CREATE TABLE `t_penyesuaian_barang` (
+  `penyesuaian_barang_id` int(11) NOT NULL,
+  `penyesuaian_barang_nomor` text DEFAULT NULL,
+  `penyesuaian_barang_barang` text DEFAULT NULL,
+  `penyesuaian_barang_awal` text DEFAULT NULL,
+  `penyesuaian_barang_penyesuaian` text DEFAULT NULL,
+  `penyesuaian_barang_selisih` text DEFAULT NULL,
+  `penyesuaian_barang_harga` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_produk`
 --
 
@@ -1177,6 +1211,18 @@ ALTER TABLE `t_penjualan_barang`
   ADD PRIMARY KEY (`penjualan_barang_id`);
 
 --
+-- Indexes for table `t_penyesuaian`
+--
+ALTER TABLE `t_penyesuaian`
+  ADD PRIMARY KEY (`penyesuaian_id`);
+
+--
+-- Indexes for table `t_penyesuaian_barang`
+--
+ALTER TABLE `t_penyesuaian_barang`
+  ADD PRIMARY KEY (`penyesuaian_barang_id`);
+
+--
 -- Indexes for table `t_produk`
 --
 ALTER TABLE `t_produk`
@@ -1262,7 +1308,7 @@ ALTER TABLE `t_billet`
 -- AUTO_INCREMENT for table `t_coa`
 --
 ALTER TABLE `t_coa`
-  MODIFY `coa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `coa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `t_coa_sub`
@@ -1353,6 +1399,18 @@ ALTER TABLE `t_penjualan`
 --
 ALTER TABLE `t_penjualan_barang`
   MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
+
+--
+-- AUTO_INCREMENT for table `t_penyesuaian`
+--
+ALTER TABLE `t_penyesuaian`
+  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_penyesuaian_barang`
+--
+ALTER TABLE `t_penyesuaian_barang`
+  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_produk`

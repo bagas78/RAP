@@ -67,7 +67,7 @@
             </tr>
             </thead>
             <tbody class="data">
-            
+
             </tbody>
           </table>
 
@@ -90,13 +90,22 @@ $(document).ready(function() {
         "bFilter"   : false,
         "scrollX"   : true,
         "bInfo"     : false,
-        "responsive": true
+        "responsive": true,
+        "dom": "Bfrtip",
+            "buttons": [
+                "excel", "print"
+            ]
     });
 
 });
 
+
 //search
 $("form").submit(function(e) {
+
+    //table
+    var t = $('#table').DataTable();
+    t.clear();
 
     //empty
     $('.data').empty();
@@ -116,16 +125,15 @@ $("form").submit(function(e) {
     })
     .done(function(data) {
 
-      console.log(data.length);
-
       if (data.length > 0) {
 
         //remove
         $('.odd').remove();
 
-          var html = '';
           $.each(data, function(index, val) {
             
+            var html = '';
+
             var persedian_awal_nilai = (val.stok * val.hps);
             var penjualan_nilai = (val.qty * val.harga);
             var persediaan_jum = (val.stok - val.qty);
@@ -151,17 +159,37 @@ $("form").submit(function(e) {
             html+= '<td class="harga_pokok_penjualan">'+harga_pokok_penjualan+'</td>';
             html+= '<td class="profit_nilai">'+profit_nilai+'</td>';
             html+= '<td class="profit_persen">'+profit_persen+'</td>';
-            html+= '<td class="keterangan">KURANG LAKU</td>';
+
+            // 1% - 30% barang tidak laku
+            // 30% - 50% barang cukup laku
+            // 60% - 100% barang laku
+
+           switch (true) {
+              case (profit_persen <= 30):
+                r = 'Barang Tidak Laku';
+                break;
+              case (profit_persen >= 30 && profit_persen <= 50):
+                r = 'Barang Cukup Laku';
+                break;
+              case (profit_persen >= 60):
+                r = 'Barang Laku';
+                break;
+            }
+
+            html+= '<td class="keterangan">'+r+'</td>';
             html+= '</tr>';
+
+            t.row.add($(html)).draw(false);
 
           });
 
         }else{
 
-          html+= '<tr class="odd"><td valign="top" colspan="16" class="dataTables_empty">No data available in table</td></tr>';
-        }
+          var not = '<tr class="odd"><td valign="top" colspan="16" class="dataTables_empty">No data available in table</td></tr>';
 
-        $('.data').append(html);
+          $('.data').append(not);
+
+        }
 
     });
   
@@ -169,35 +197,10 @@ $("form").submit(function(e) {
 
 function dataTable_w100(){
 
-  //keterangan
-  $.each($('.profit_persen'), function(index, val) {
-     
-     // 1% - 30% barang tidak laku
-     // 30% - 50% barang cukup laku
-     // 60% - 100% barang laku
-
-     var persen = parseInt($(this).text());
-     
-     switch (true) {
-        case (persen <= 30):
-          r = 'Barang Tidak Laku';
-          break;
-        case (persen >= 30 && persen <= 50):
-          r = 'Barang Cukup Laku';
-          break;
-        case (persen >= 60):
-          r = 'Barang Laku';
-          break;
-      }
-
-      $(this).next('td').text(r);
-
-      //format number
-      $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
-        
-        $(this).text(number_format($(this).text()));
-
-      });
+  //format number
+  $.each($('.satuan, .jual, .persedian_awal_jum, .persedian_awal_nilai, .penjualan_jum, .penjualan_nilai, .persediaan_jum, .persediaan_nilai, .stok, .harga_pokok_penjualan, .profit_nilai, .profit_persen') , function(index, val) {
+    
+    $(this).text(number_format($(this).text()));
 
   });
   
