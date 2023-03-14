@@ -129,9 +129,6 @@ $("form").submit(function(e) {
             var persediaan_jum = parseInt(val.stok) + parseInt(val.qty);
             var persediaan_nilai = (val.harga * persediaan_jum);
             var stok = Math.round((val.qty / persediaan_jum) * 100);
-            var harga_pokok_penjualan = val.qty * val.hps;
-            var profit_nilai = penjualan_nilai + harga_pokok_penjualan;
-            var profit_persen = Math.round((profit_nilai / harga_pokok_penjualan) * 100);
 
             html+= '<tr>';
             html+= '<td>'+val.kode+'</td>';
