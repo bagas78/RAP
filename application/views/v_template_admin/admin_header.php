@@ -597,15 +597,15 @@ thead{
           <ul class="treeview-menu">
 
             <li>
-              <a href="<?php echo base_url('inventori/opname_penjualan') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Stok Opname Penjualan</span>
-              </a>
-            </li>
-            <li>
               <a href="<?php echo base_url('inventori/opname_pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Stok Opname Pembelian</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('inventori/opname_penjualan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Stok Opname Penjualan</span>
               </a>
             </li>
             <li>

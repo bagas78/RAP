@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2023 at 04:50 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 7.4.16
+-- Generation Time: Mar 18, 2023 at 08:06 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -774,13 +775,14 @@ INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor
 
 CREATE TABLE `t_penyesuaian` (
   `penyesuaian_id` int(11) NOT NULL,
-  `penyesuaian_transaksi` enum('penjualan','pembelian') NOT NULL,
   `penyesuaian_nomor` text DEFAULT NULL,
-  `penyesuaian_jenis` enum('perhitungan','masuk','keluar') NOT NULL,
-  ` penyesuaian_kategori` enum('umum','rusak','produksi') NOT NULL,
+  `penyesuaian_jenis` enum('penjualan','pembelian') NOT NULL,
+  `penyesuaian_transaksi` enum('perhitungan','masuk','keluar') NOT NULL,
+  ` penyesuaian_kategori` enum('umum','rusak') NOT NULL,
   `penyesuaian_akun` text DEFAULT NULL,
   `penyesuaian_keterangan` text DEFAULT NULL,
-  `penyesuaian_tanggal` date DEFAULT NULL
+  `penyesuaian_tanggal` date DEFAULT NULL,
+  `penyesuaian_hapus` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
