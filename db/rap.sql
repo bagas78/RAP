@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2023 at 08:06 PM
+-- Generation Time: Mar 19, 2023 at 08:02 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -778,12 +778,20 @@ CREATE TABLE `t_penyesuaian` (
   `penyesuaian_nomor` text DEFAULT NULL,
   `penyesuaian_jenis` enum('penjualan','pembelian') NOT NULL,
   `penyesuaian_transaksi` enum('perhitungan','masuk','keluar') NOT NULL,
-  ` penyesuaian_kategori` enum('umum','rusak') NOT NULL,
-  `penyesuaian_akun` text DEFAULT NULL,
+  `penyesuaian_kategori` enum('umum','rusak') NOT NULL,
   `penyesuaian_keterangan` text DEFAULT NULL,
   `penyesuaian_tanggal` date DEFAULT NULL,
   `penyesuaian_hapus` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penyesuaian`
+--
+
+INSERT INTO `t_penyesuaian` (`penyesuaian_id`, `penyesuaian_nomor`, `penyesuaian_jenis`, `penyesuaian_transaksi`, `penyesuaian_kategori`, `penyesuaian_keterangan`, `penyesuaian_tanggal`, `penyesuaian_hapus`) VALUES
+(2, 'PN001', 'pembelian', 'perhitungan', 'umum', '-', '2023-03-19', 0),
+(3, 'PN002', 'penjualan', 'perhitungan', 'umum', '-', '2023-03-19', 0),
+(4, 'PN003', 'pembelian', 'perhitungan', 'umum', '-', '2023-03-19', 0);
 
 -- --------------------------------------------------------
 
@@ -795,11 +803,24 @@ CREATE TABLE `t_penyesuaian_barang` (
   `penyesuaian_barang_id` int(11) NOT NULL,
   `penyesuaian_barang_nomor` text DEFAULT NULL,
   `penyesuaian_barang_barang` text DEFAULT NULL,
-  `penyesuaian_barang_awal` text DEFAULT NULL,
-  `penyesuaian_barang_penyesuaian` text DEFAULT NULL,
+  `penyesuaian_barang_jenis` text DEFAULT NULL,
+  `penyesuaian_barang_warna` text DEFAULT NULL,
+  `penyesuaian_barang_jumlah` text DEFAULT NULL,
+  `penyesuaian_barang_stok` text DEFAULT NULL,
   `penyesuaian_barang_selisih` text DEFAULT NULL,
-  `penyesuaian_barang_harga` text DEFAULT NULL
+  `penyesuaian_barang_status` enum('bertambah','berkurang') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penyesuaian_barang`
+--
+
+INSERT INTO `t_penyesuaian_barang` (`penyesuaian_barang_id`, `penyesuaian_barang_nomor`, `penyesuaian_barang_barang`, `penyesuaian_barang_jenis`, `penyesuaian_barang_warna`, `penyesuaian_barang_jumlah`, `penyesuaian_barang_stok`, `penyesuaian_barang_selisih`, `penyesuaian_barang_status`) VALUES
+(3, 'PN001', '2', NULL, NULL, '90', '95', '5', 'berkurang'),
+(4, 'PN001', '1', NULL, NULL, '95', '90', '5', 'bertambah'),
+(5, 'PN002', '9', '3', '0', '10', '8', '2', 'bertambah'),
+(6, 'PN002', '8', '3', '0', '10', '4', '6', 'bertambah'),
+(7, 'PN003', '11', '', '', '100', '90', '10', 'bertambah');
 
 -- --------------------------------------------------------
 
@@ -938,23 +959,6 @@ INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_stok`, `produk
 (263, '8', '10', '3', '0', '23750', '25000', '2023-03-06'),
 (264, '10', '11', '3', '0', '23750', '25000', '2023-03-06'),
 (265, '8', '9', '3', '0', '23750', '25000', '2023-03-06');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `t_produk_warna`
---
-
-CREATE TABLE `t_produk_warna` (
-  `produk_warna_id` int(11) NOT NULL,
-  `produk_warna_produk` text NOT NULL,
-  `produk_warna_warna` text NOT NULL,
-  `produk_warna_jenis` text NOT NULL,
-  `produk_warna_stok` text NOT NULL,
-  `produk_warna_hpp` text NOT NULL,
-  `produk_warna_hps` text NOT NULL,
-  `produk_warna_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1249,12 +1253,6 @@ ALTER TABLE `t_produk_barang`
   ADD PRIMARY KEY (`produk_barang_id`);
 
 --
--- Indexes for table `t_produk_warna`
---
-ALTER TABLE `t_produk_warna`
-  ADD PRIMARY KEY (`produk_warna_id`);
-
---
 -- Indexes for table `t_rekening`
 --
 ALTER TABLE `t_rekening`
@@ -1406,13 +1404,13 @@ ALTER TABLE `t_penjualan_barang`
 -- AUTO_INCREMENT for table `t_penyesuaian`
 --
 ALTER TABLE `t_penyesuaian`
-  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian_barang`
 --
 ALTER TABLE `t_penyesuaian_barang`
-  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `t_produk`
@@ -1437,12 +1435,6 @@ ALTER TABLE `t_produksi_barang`
 --
 ALTER TABLE `t_produk_barang`
   MODIFY `produk_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
-
---
--- AUTO_INCREMENT for table `t_produk_warna`
---
-ALTER TABLE `t_produk_warna`
-  MODIFY `produk_warna_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`
