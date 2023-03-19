@@ -26,7 +26,7 @@
                 <tr>
                   <th>Nomor</th>
                   <th>Jenis</th>
-                  <th>Transaksi</th>
+                  <th>Penyesuaian</th>
                   <th>Tanggal</th>
                   <th width="30">Action</th>
                 </tr>

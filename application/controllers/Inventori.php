@@ -43,6 +43,20 @@ class Inventori extends CI_Controller{
 	    $this->load->view('inventori/penyesuaian');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
+	function penyesuaian_delete($id){
+
+		$set = ['penyesuaian_hapus' => 1];
+		$where = ['penyesuaian_id' => $id];
+		$db = $this->query_builder->update('t_penyesuaian',$set,$where);
+		
+		if ($db == 1) {
+			$this->session->set_flashdata('success','Data berhasil di hapus');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di hapus');
+		}
+		
+		redirect(base_url('inventori/penyesuaian'));	
+	}
 	function penyesuaian_get_data(){
 		$where = array('penyesuaian_hapus' => 0);
 
@@ -78,29 +92,99 @@ class Inventori extends CI_Controller{
 	    	$data['barang_data'] = $this->query_builder->view("SELECT bahan_id AS id, bahan_nama AS nama FROM t_bahan WHERE bahan_hapus = 0");	
 	    }else{
 
+	    	$data['barang_data'] = $this->query_builder->view("SELECT produk_id AS id, produk_nama AS nama FROM t_produk WHERE produk_hapus = 0");
 
+	    	//jenis
+		    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0");
+
+		    //warna
+		    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
 	    }
 
 		$data['title'] = 'Penyesuaian Stok';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('inventori/penyesuaian_'.$jenis);
+	    $this->load->view('inventori/penyesuaian_add');
 	    $this->load->view('v_template_admin/admin_footer');		
 	}
 	function penyesuaian_get($jenis, $id){
 
-		//barang
-	    if ($jenis == 'pembelian') {
-	    	
+		if ($jenis == 'pembelian') {
+			
+			//barang
 	    	$data = $this->query_builder->view("SELECT bahan_id AS id, bahan_nama AS nama, bahan_stok as stok, satuan_singkatan as satuan FROM t_bahan as a JOIN t_satuan as b ON a.bahan_satuan = b.satuan_id WHERE a.bahan_id = '$id'");	
-	    }else{
+		}else{
 
-
-	    }
+			//produk
+	    	$data = $this->query_builder->view("SELECT satuan_singkatan as satuan FROM t_produk as a JOIN t_satuan as b ON a.produk_satuan = b.satuan_id WHERE a.produk_id = '$id'");	
+		}
 
 	    echo json_encode($data);
 	}
+	function penyesuaian_warna_get($barang, $jenis, $warna){
+
+		$data = $this->query_builder->view_row("SELECT produk_barang_stok AS stok FROM t_produk_barang WHERE produk_barang_barang = '$barang' AND produk_barang_jenis = '$jenis' AND produk_barang_warna = '$warna'");	
+		
+		echo json_encode($data);
+	}
 	function penyesuaian_save(){
 		
+		$nomor = strip_tags(@$_POST['nomor']);
+
+		$set1 = array(
+						'penyesuaian_nomor' => $nomor,
+						'penyesuaian_jenis' => strip_tags(@$_POST['jenis']),
+						'penyesuaian_transaksi' => strip_tags(@$_POST['transaksi']),
+						'penyesuaian_kategori' => strip_tags(@$_POST['kategori']),
+						'penyesuaian_keterangan' => strip_tags(@$_POST['keterangan']),
+						'penyesuaian_tanggal' => strip_tags(@$_POST['tanggal']),
+					);
+
+		if ($this->query_builder->add('t_penyesuaian', $set1)) {
+			
+			$jum = count(@$_POST['barang']);
+
+			for ($i = 0; $i < $jum; ++$i) {
+				
+				$set2 = array(
+								'penyesuaian_barang_nomor' => $nomor,
+								'penyesuaian_barang_barang' => strip_tags(@$_POST['barang'][$i]),
+								'penyesuaian_barang_jenis' => strip_tags(@$_POST['barang_jenis'][$i]),
+								'penyesuaian_barang_warna' => strip_tags(@$_POST['warna'][$i]),
+								'penyesuaian_barang_jumlah' => strip_tags(@$_POST['jumlah'][$i]),
+								'penyesuaian_barang_stok' => strip_tags(str_replace(',', '', @$_POST['stok'][$i])),
+								'penyesuaian_barang_selisih' => strip_tags(str_replace(',', '', @$_POST['selisih'][$i])),
+								'penyesuaian_barang_status' => strip_tags(@$_POST['status'][$i]),
+							);
+				$this->query_builder->add('t_penyesuaian_barang', $set2);
+			}
+			
+			$this->session->set_flashdata('success','Data berhasil di tambah');
+			
+		} else {
+
+			$this->session->set_flashdata('gagal','Data gagal di tambah');
+		}
+
+		redirect(base_url('inventori/penyesuaian'));
 	}
+	// function penyesuaian_view(){
+
+	// 	$data['data'] = $this->query_builder->view();
+
+	//     //barang
+	//     if ($data['data']['penyesuaian_jenis'] == 'pembelian') {
+	    	
+	//     	$data['barang_data'] = $this->query_builder->view("SELECT bahan_id AS id, bahan_nama AS nama FROM t_bahan WHERE bahan_hapus = 0");	
+	//     }else{
+
+
+	//     }
+
+	// 	$data['title'] = 'Penyesuaian Stok';
+
+	//     $this->load->view('v_template_admin/admin_header',$data);
+	//     $this->load->view('inventori/penyesuaian_'.$jenis);
+	//     $this->load->view('v_template_admin/admin_footer');		
+	// }
 }

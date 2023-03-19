@@ -60,17 +60,23 @@
               <label>Tanggal</label>
               <input id="tanggal" type="date" name="tanggal" class="form-control" required id="tanggal">
             </div>
+            <div class="form-group">
+              <label>Keterangan</label>
+              <textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+            </div>
           </div>
         </div>
 
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Bahan ( Pembantu / Utama )</th>
+              <th width="200">Bahan / Produk</th>
+              <th width="200" class="jenis_">Jenis</th>
+              <th width="200" class="warna_">Warna</th>
               <th>Jumlah</th>
               <th>Stok</th>
               <th>Selisih</th>
-              <th width="200">Status</th>
+              <th hidden>Status</th>
               <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
@@ -82,6 +88,21 @@
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($barang_data as $b): ?>
                     <option value="<?=@$b['id']?>"><?=@$b['nama']?></option>
+                  <?php endforeach ?>
+                </select>
+              </td>
+              <td class="jenis_">
+                <select required id="barang_jenis" class="barang_jenis form-control" name="barang_jenis[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach (@$jenis_data as $j): ?>
+                    <option value="<?=@$j['warna_jenis_id']?>"><?=@$j['warna_jenis_type']?></option>
+                  <?php endforeach ?>
+                </select>
+              <td class="warna_">
+                <select required id="warna" class="warna form-control" name="warna[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach (@$warna_data as $w): ?>
+                    <option hidden class="<?='warna_'.@$w['warna_jenis']?>" value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
                   <?php endforeach ?>
                 </select>
               </td>
@@ -103,7 +124,7 @@
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
-              <td>
+              <td hidden>
                 <select readonly style="pointer-events: none;" class="status form-control" name="status[]" required>
                   <option hidden value="">none</option>
                   <option value="bertambah">Bertambah</option>
@@ -115,7 +136,7 @@
             </tr>
 
             <tr class="save">
-              <td colspan="5" align="right">
+              <td colspan="6" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -140,6 +161,12 @@
   $('.form-group, td').css('pointer-events', 'none');
 <?php endif?>
 
+//jenis
+<?php if(@$jenis == 'pembelian'):?>
+  $('.jenis_').remove();
+  $('.warna_').remove();  
+<?php endif?>
+
 //atribut
 $('form').attr('action', '<?=base_url('inventori/penyesuaian_save')?>');
 $('#nomor').val('<?=@$nomor?>');
@@ -160,37 +187,118 @@ $('#tanggal').val('<?=@$tanggal?>');
       var status = $(this).closest('tr').find('.status');
       var select = $(this).closest('tr').find('select');
 
-      $.get('<?=base_url('inventori/penyesuaian_get/'.@$jenis.'/')?>'+id, function(data) {
+      $.get('<?=base_url('inventori/penyesuaian_get/'.$jenis.'/')?>'+id, function(data) {
         var json = JSON.parse(data);
         var i = (index + 1);
 
         $.each(json, function(index, val) {
-           
-            $(stok).val(val.stok);
+            
+            <?php if(@$jenis == 'pembelian'):?>
+
+              //stok pembelian
+              $(stok).val(val.stok);
+            <?php endif ?>
+            
             $(satuan).html(val.satuan);
 
+            /////// cek exist barang ///////////
+            var arr = new Array();
+            $.each($('.barang'), function(idx, val) {
+                
+                if (index != idx)
+                arr.push($(this).val());
+
+            });
+
+            if ($.inArray(id, arr) != -1) {
+              alert_sweet('Bahan / Produk sudah ada');
+              
+              select.val('');
+              jumlah.val(0);
+              stok.val(0);
+              selisih.val(0);
+              satuan.text('');
+            }
+            ////// end exist barang ///////////
+
         });
-
-        /////// cek exist barang ///////////
-        var arr = new Array();
-        $.each($('.barang'), function(idx, val) {
-            
-            if (index != idx)
-            arr.push($(this).val());
-
-        });
-
-        if ($.inArray(id, arr) != -1) {
-          alert_sweet('Bahan sudah ada');
-          
-          select.val('');
-          jumlah.val(0);
-          stok.val(0);
-          selisih.val(0);
-        }
-        ////// end exist barang ///////////
 
       });
+
+  }); 
+
+  //get jenis
+  $(document).on('change', '#barang_jenis', function() {
+
+    var id = $(this).val();
+    var barang = $(this).closest('tr').find('.barang').val();
+
+    //barang masih kosong
+    if (barang == '') {
+      $(this).val('');
+      alert_sweet('Bahan / Produk belum di pilih');
+    }
+
+    //hapus readonly
+    $(this).closest('#copy').find('.warna').val('').change().removeAttr('readonly').css('pointer-events', '');
+    $(this).closest('#copy').find('.warna > option').attr('hidden',true);
+    $(this).closest('#copy').find('.mf_check').css('pointer-events','');
+
+    //class
+    var cl = '.warna_'+id;
+
+    switch (id) {
+      case '1':
+        //Anodizing
+        $(this).closest('#copy').find(cl).removeAttr('hidden');
+        break;
+      case '2':
+        //Powder Coating
+        $(this).closest('#copy').find(cl).removeAttr('hidden');
+        break;
+      case '3':
+        //MF
+        $(this).closest('#copy').find('.warna').val(0).change().attr('readonly',true).css('pointer-events','none');
+
+        //check stok MF
+        var mf_val = $(this).closest('#copy').find('.mf_val');
+        var mf_check = $(this).closest('#copy').find('.mf_check');
+
+        if (mf_val.val() == 1) {
+          mf_check.click();
+          mf_check.css('pointer-events','none');
+          mf_val.val(0);
+        }
+
+        break;
+       
+    }
+
+  });
+
+  //get warna
+  $(document).on('change', '#warna', function() {
+
+    var warna = $(this).val();
+    var jenis = $(this).closest('tr').find('.barang_jenis').val();
+    var barang = $(this).closest('tr').find('.barang').val();
+    var stok = $(this).closest('tr').find('.stok');
+
+    if (warna != '') {
+
+      $.get('<?=base_url('inventori/penyesuaian_warna_get/')?>'+barang+'/'+jenis+'/'+warna, function(data) {
+
+        var json = JSON.parse(data);
+        
+        if (json != null) {
+          stok.val(json['stok']);
+        }else{
+          stok.val(0);
+        }
+
+      });
+    }
+
   });
 
   //copy paste
