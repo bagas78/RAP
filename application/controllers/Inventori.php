@@ -77,7 +77,7 @@ class Inventori extends CI_Controller{
 
 		//generate nomor
 	    $nomor = $this->query_builder->count("SELECT * FROM t_penyesuaian");
-	    $data['nomor'] = 'PN00'.($nomor+1);
+	    $data['nomor'] = 'PN-'.date('dmY').'-'.($nomor+1);
 
 	    //atribut
 	    $jenis = @$_POST['jenis'];
@@ -160,6 +160,10 @@ class Inventori extends CI_Controller{
 			}
 			
 			$this->session->set_flashdata('success','Data berhasil di tambah');
+
+			//update stok
+			$this->stok->update_bahan();
+			$this->stok->update_produk();
 			
 		} else {
 
@@ -168,23 +172,34 @@ class Inventori extends CI_Controller{
 
 		redirect(base_url('inventori/penyesuaian'));
 	}
-	// function penyesuaian_view(){
+	function penyesuaian_view($id){
 
-	// 	$data['data'] = $this->query_builder->view();
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penyesuaian as a JOIN t_penyesuaian_barang as b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_id = '$id'");
 
-	//     //barang
-	//     if ($data['data']['penyesuaian_jenis'] == 'pembelian') {
+		$jenis = $data['data'][0]['penyesuaian_jenis'];
+
+		//barang
+	    if ($jenis == 'pembelian') {
 	    	
-	//     	$data['barang_data'] = $this->query_builder->view("SELECT bahan_id AS id, bahan_nama AS nama FROM t_bahan WHERE bahan_hapus = 0");	
-	//     }else{
+	    	$data['barang_data'] = $this->query_builder->view("SELECT bahan_id AS id, bahan_nama AS nama FROM t_bahan");	
+	    }else{
 
+	    	$data['barang_data'] = $this->query_builder->view("SELECT produk_id AS id, produk_nama AS nama FROM t_produk");
 
-	//     }
+	    	//jenis
+		    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis");
 
-	// 	$data['title'] = 'Penyesuaian Stok';
+		    //warna
+		    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna");
+	    }
+	 	
+	 	$data['jenis'] = $jenis;
+	 	$data['view'] = 1;
+		$data['title'] = 'Penyesuaian Stok';
 
-	//     $this->load->view('v_template_admin/admin_header',$data);
-	//     $this->load->view('inventori/penyesuaian_'.$jenis);
-	//     $this->load->view('v_template_admin/admin_footer');		
-	// }
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('inventori/penyesuaian_add');
+	    $this->load->view('inventori/penyesuaian_view');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
 }

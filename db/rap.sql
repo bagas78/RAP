@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2023 at 08:02 AM
+-- Generation Time: Mar 20, 2023 at 02:27 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -45,15 +45,15 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_kode`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(1, 'BH001', 'Kawat las', 90, '1', 'pembantu', '2500', '2022-12-05', 0),
+(1, 'BH001', 'Kawat las', 100, '1', 'pembantu', '2500', '2022-12-05', 0),
 (2, 'BH002', 'Velg sepeda', 95, '1', 'utama', '5000', '2022-12-05', 0),
 (3, 'BH003', 'Paku', 85, '1', 'utama', '3000', '2022-12-05', 0),
 (4, 'BH004', 'Plat kapal', 100, '1', 'utama', '55000', '2022-12-05', 0),
 (5, 'BH005', 'Rel kereta', 90, '1', 'utama', '30000', '2022-12-05', 0),
-(6, 'BH006', 'Rangka Motor', 95, '1', 'utama', '30000', '2022-12-11', 0),
+(6, 'BH006', 'Rangka Motor', 100, '1', 'utama', '30000', '2022-12-11', 0),
 (7, 'BH007', 'Kawat Jemuran', 100, '1', 'pembantu', '3000', '2022-12-18', 0),
 (8, 'BH008', 'Paku Bekas', 60, '1', 'pembantu', '1200', '2022-12-18', 0),
-(9, 'BH009', 'Matras', 70, '1', 'pembantu', '10000', '2022-12-21', 0),
+(9, 'BH009', 'Matras', 65, '1', 'pembantu', '10000', '2022-12-21', 0),
 (11, 'BH0010', 'Tiang Listrik', 90, '1', 'utama', '12000', '2023-02-12', 0);
 
 -- --------------------------------------------------------
@@ -789,9 +789,9 @@ CREATE TABLE `t_penyesuaian` (
 --
 
 INSERT INTO `t_penyesuaian` (`penyesuaian_id`, `penyesuaian_nomor`, `penyesuaian_jenis`, `penyesuaian_transaksi`, `penyesuaian_kategori`, `penyesuaian_keterangan`, `penyesuaian_tanggal`, `penyesuaian_hapus`) VALUES
-(2, 'PN001', 'pembelian', 'perhitungan', 'umum', '-', '2023-03-19', 0),
-(3, 'PN002', 'penjualan', 'perhitungan', 'umum', '-', '2023-03-19', 0),
-(4, 'PN003', 'pembelian', 'perhitungan', 'umum', '-', '2023-03-19', 0);
+(7, 'PN-19032023-1', 'pembelian', 'masuk', 'umum', '-', '2023-03-19', 0),
+(8, 'PN-20032023-2', 'pembelian', 'masuk', 'umum', '-', '2023-03-20', 0),
+(13, 'PN-20032023-3', 'penjualan', 'perhitungan', 'umum', '-', '2023-03-20', 0);
 
 -- --------------------------------------------------------
 
@@ -816,11 +816,12 @@ CREATE TABLE `t_penyesuaian_barang` (
 --
 
 INSERT INTO `t_penyesuaian_barang` (`penyesuaian_barang_id`, `penyesuaian_barang_nomor`, `penyesuaian_barang_barang`, `penyesuaian_barang_jenis`, `penyesuaian_barang_warna`, `penyesuaian_barang_jumlah`, `penyesuaian_barang_stok`, `penyesuaian_barang_selisih`, `penyesuaian_barang_status`) VALUES
-(3, 'PN001', '2', NULL, NULL, '90', '95', '5', 'berkurang'),
-(4, 'PN001', '1', NULL, NULL, '95', '90', '5', 'bertambah'),
-(5, 'PN002', '9', '3', '0', '10', '8', '2', 'bertambah'),
-(6, 'PN002', '8', '3', '0', '10', '4', '6', 'bertambah'),
-(7, 'PN003', '11', '', '', '100', '90', '10', 'bertambah');
+(12, 'PN-19032023-1', '2', '', '', '95', '95', '0', 'berkurang'),
+(13, 'PN-19032023-1', '1', '', '', '100', '90', '10', 'bertambah'),
+(16, 'PN-20032023-2', '9', '', '', '65', '70', '5', 'berkurang'),
+(17, 'PN-20032023-2', '6', '', '', '100', '95', '5', 'bertambah'),
+(25, 'PN-20032023-3', '8', '3', '0', '3', '4', '1', 'berkurang'),
+(26, 'PN-20032023-3', '9', '3', '0', '10', '8', '2', 'bertambah');
 
 -- --------------------------------------------------------
 
@@ -953,12 +954,12 @@ CREATE TABLE `t_produk_barang` (
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_stok`, `produk_barang_barang`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
 (258, '0', '10', '1', '11', '0', '0', '2023-02-24'),
 (259, '0', '11', '2', '7', '0', '0', '2023-02-24'),
-(260, '4', '8', '3', '0', '23750', '25000', '2023-02-24'),
+(260, '3', '8', '3', '0', '23750', '25000', '2023-02-24'),
 (261, '0', '8', '1', '10', '0', '0', '2023-03-05'),
 (262, '0', '9', '1', '10', '0', '0', '2023-03-05'),
 (263, '8', '10', '3', '0', '23750', '25000', '2023-03-06'),
 (264, '10', '11', '3', '0', '23750', '25000', '2023-03-06'),
-(265, '8', '9', '3', '0', '23750', '25000', '2023-03-06');
+(265, '10', '9', '3', '0', '23750', '25000', '2023-03-06');
 
 -- --------------------------------------------------------
 
@@ -1404,13 +1405,13 @@ ALTER TABLE `t_penjualan_barang`
 -- AUTO_INCREMENT for table `t_penyesuaian`
 --
 ALTER TABLE `t_penyesuaian`
-  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian_barang`
 --
 ALTER TABLE `t_penyesuaian_barang`
-  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `t_produk`

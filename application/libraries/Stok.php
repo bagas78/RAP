@@ -16,6 +16,8 @@ class Stok{
 
       $produksi = $this->sql->db->query("SELECT b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE produksi_hapus = 0 GROUP BY b.produksi_barang_barang")->result_array();
 
+      $penyesuaian = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS id, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status")->result_array();
+
       //pembelian update stok produk
       foreach ($pembelian as $pb) {
         $id = $pb['pembelian_barang'];
@@ -42,6 +44,24 @@ class Stok{
         $id = $pr['produksi_barang'];
         $jum = $pr['produksi_jumlah'];
         $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+      }
+
+      //kurangi penyesuain stok
+      foreach ($penyesuaian as $pn) {
+        $id = $pn['id'];
+        $jum = $pn['jumlah'];
+        $status = $pn['status'];
+
+        if ($status == 'bertambah') {
+          
+          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = {$id}");   
+
+        }else{
+
+           $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+
+        }
+       
       }
 
       return;
@@ -77,6 +97,8 @@ class Stok{
 
     $db2 = $this->sql->db->query("SELECT b.penjualan_barang_barang AS produk, b.penjualan_barang_jenis AS jenis, b.penjualan_barang_warna AS warna ,SUM(b.penjualan_barang_qty) AS total FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_PO != '1' AND a.penjualan_hapus = 0 GROUP BY b.penjualan_barang_barang, b.penjualan_barang_jenis, b.penjualan_barang_warna")->result_array();
 
+    $penyesuaian = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS produk, b.penyesuaian_barang_jenis AS jenis, b.penyesuaian_barang_warna AS warna, SUM(b.penyesuaian_barang_selisih) AS total, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'penjualan' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status, b.penyesuaian_barang_jenis, b.penyesuaian_barang_warna")->result_array();
+
     $table = 't_produk_barang';
     
     foreach ($db1 as $val1) {
@@ -109,6 +131,26 @@ class Stok{
       $warna = $val2['warna'];
       $total = $val2['total'];
       $this->sql->db->query("UPDATE {$table} SET produk_barang_stok = produk_barang_stok - {$total} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");
+    }
+
+    //kurangi penyesuain stok
+    foreach ($penyesuaian as $pn) {
+      $produk = $pn['produk'];
+      $jenis = $pn['jenis'];
+      $warna = $pn['warna'];
+      $total = $pn['total'];
+      $status = $pn['status'];
+
+      if ($status == 'bertambah') {
+        
+        $this->sql->db->query("UPDATE {$table} SET produk_barang_stok = produk_barang_stok + {$total} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");  
+
+      }else{
+
+         $this->sql->db->query("UPDATE {$table} SET produk_barang_stok = produk_barang_stok - {$total} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");  
+
+      }
+     
     }
 
     return;
