@@ -410,7 +410,7 @@ class Penjualan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 			$active = 'produk';
-			$data["title"] = $active;
+			$data["title"] = 'penjualan';
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
@@ -438,6 +438,7 @@ class Penjualan extends CI_Controller{
 	}
 	function produk_add(){
 
+		$data["title"] = 'penjualan';
 		$redirect = 'produk';
 		$data = $this->add($redirect);
 		$data['url'] = $redirect;
