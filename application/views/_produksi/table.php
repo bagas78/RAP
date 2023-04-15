@@ -23,7 +23,9 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Shift</th>
+                  <th>Pesanan</th>
+                  <th>Pewarnaan</th>
+                  <th>Packing</th>
                   <th>Tanggal</th>
                   <th width="60">Action</th>
                 </tr>
@@ -56,10 +58,35 @@
             },
             "columns": [                               
                         { "data": "produksi_nomor"},
-                        { "data": "user_name",
+                        { "data": "kontak_nama",
                         "render": 
                         function( data ) {
-                            return "<span>"+data+"</span>";
+                            if (data != null) {var k = data}else{var k = '-'}
+                            return "<span>"+k+"</span>";
+                          }
+                        },
+                        { "data": "produksi_pewarnaan",
+                        "render": 
+                        function( data ) {
+                            switch (data) {
+                              case '0':
+                                var s = "Tanpa pewarnaan";
+                                break;
+                              case '1':
+                                var s = "Belum";
+                                break;
+                              case '2':
+                                var s = "Selesai";
+                                break;
+                            }
+                            return "<span class='pewarnaan'>"+s+"</span>";
+                          }
+                        },
+                        { "data": "produksi_packing_tanggal",
+                        "render": 
+                        function( data ) {
+                            if(data == null){var p = '-'}else{var p = moment(data).format("DD/MM/YYYY")}
+                            return "<span class='packing'>"+p+"</span>";
                           }
                         },
                         { "data": "produksi_tanggal",

@@ -1,14 +1,10 @@
 
     <!-- Main content --> 
-    <section class="content"> 
+    <section class="content">
  
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
-
-          <div align="left">
-            <a href="<?= base_url('produksi/pewarnaan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-          </div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">

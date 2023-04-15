@@ -25,8 +25,20 @@
           <i class="fa fa-times"></i></button>
       </div>
 
+      <div hidden id="search" align="left">
+        <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
+          <input id="po" type="text" class="form-control" placeholder="PR-xxxxx">
+        </div>
+        <div class="col-md-1 col-xs-1">
+          <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+
     </div>
     <div class="box-body">
+
+      <small class="small form-control">Check stok (MF) untuk menggunakan produk setengah jadi</small>
+      <div class="clearfix"></div><br/>
 
       <form method="post" enctype="multipart/form-data" class="bg-alice">
         <div class="row">
@@ -50,6 +62,15 @@
             </div>
           </div>
           <div class="col-md-5">
+            <div class="pesanan form-group">
+              <label>Pesanan</label>
+              <select name="pesanan" class="form-control select2" required id="pesanan">
+                <option value="" hidden>-- Pilih --</option>
+                <?php foreach ($pesanan_data as $p): ?>
+                  <option value="<?= $p['kontak_id']?>"><?= $p['kontak_nama']?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
             <div class="pekerja form-group">
               <label>Pekerja</label>
                 <select required name="pekerja[]" id="pekerja" class="form-control select2" multiple="multiple" data-placeholder="-- Pilih --"style="width: 100%;">
@@ -98,9 +119,10 @@
           <thead>
             <tr>
               <th width="300">Produk</th>
-              <th width="300">Berat</th>              
-              <th width="300">Qty</th>
-              <th width="300">Subtotal</th>
+              <th width="300">Jenis</th>
+              <th width="300">Warna</th>
+              <th width="200">Stok (MF)</th>
+              <th width="200">Qty</th>
               <th hidden width="150">ID</th>
               <th hidden width="150">Delete</th>
               <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
@@ -117,27 +139,32 @@
                   <?php endforeach ?>
                 </select>
               </td>
-
+              <td>
+                <select required id="jenis" class="jenis form-control" name="jenis[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach ($jenis_data as $j): ?>
+                    <option value="<?=@$j['warna_jenis_id']?>"><?=@$j['warna_jenis_type']?></option>
+                  <?php endforeach ?>
+                </select>
+              </td>
+              <td>
+                <select required id="warna" class="warna form-control" name="warna[]">
+                  <option value="" hidden>-- Pilih --</option>
+                  <?php foreach ($warna_data as $w): ?>
+                    <option hidden class="<?='warna_'.@$w['warna_jenis']?>" value="<?=@$w['warna_id']?>"><?=@$w['warna_nama']?></option>
+                  <?php endforeach ?>
+                </select>
+              </td>
               <td>
                 <div class="input-group">
-                  <input readonly min="0" type="number" name="berat[]" class="berat form-control" value="0" required>
-                  <span class="input-group-addon">Kg</span>
+                  <input readonly min="0" type="number" name="mf[]" class="mf form-control" value="0" required>
+                  <span class="satuan input-group-addon">
+                    <input type="checkbox" class="mf_check">
+                    <input type="hidden" name="mf_val[]" value="0" class="mf_val">
+                  </span>
                 </div>
               </td>
-
-              <td>
-                <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" required value="0" min="0">
-                  <span class="satuan input-group-addon"></span>
-                </div>
-              </td>
-
-              <td>
-                <div class="input-group">
-                  <input readonly min="0" type="number" name="subtotal[]" class="subtotal form-control" value="0" required>
-                  <span class="input-group-addon">Kg</span>
-                </div>
-              </td>
+              <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="1"></td>
 
               <!--hidden-->
               <td hidden>
@@ -151,24 +178,13 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
-              <td align="right">Total Produksi</td>
-              <td>
-                <div class="input-group">
-                  <input readonly required id="total_produksi" type="number" name="total_produksi" class="form-control" value="0" min="0">
-                  <span class="input-group-addon">Kg</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr hidden>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Qty Produk</td>
               <td><input id="qty_produk" readonly="" type="text" name="qty_produk" class="form-control"></td>
             </tr>
 
-            <tr hidden>
-              <td colspan="2"></td>
+            <tr>
+              <td colspan="3"></td>
               <td align="right">HPS Billet</td>
               <td>
                 <input value="<?=number_format($billet_data['billet_hps'])?>" id="hps_billet" readonly="" type="text" name="hps_billet" class="form-control">
@@ -176,46 +192,46 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Qty Billet</td>
               <td>
                 <div class="input-group">
                   <input required id="qty_billet" type="number" name="qty_billet" class="form-control" value="0" min="0">
-                  <span class="input-group-addon"><span id="stok_billet" hidden><?=number_format($billet_data['billet_stok'])?></span>Kg</span>
+                  <span class="input-group-addon"><span id="stok_billet" hidden><?=number_format($billet_data['billet_stok'])?></span> Kg &#160;</span>
                 </div>
               </td>
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Biaya Jasa</td>
               <td>
                 <div class="input-group">
                   <input id="jasa" type="number" name="jasa" class="form-control" value="0" min="0">
-                  <span class="input-group-addon">Rp</span>
+                  <span class="input-group-addon">Rp &#160;</span>
                 </div>
               </td>
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Sisa Billet</td>
               <td>
                 <div class="input-group">
                   <input id="sisa_billet" type="number" name="sisa_billet" class="form-control" value="0" min="0">
-                  <span class="input-group-addon">Kg;</span>
+                  <span class="input-group-addon">Kg &#160;</span>
                 </div>
               </td>
             </tr>
 
             <tr class="save">
-              <td colspan="4" align="right">
+              <td colspan="5" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>
@@ -231,6 +247,13 @@
   <!-- /.box -->
 
 <script type="text/javascript">
+
+//pesanan produksi
+if ('<?=@$url == 'pesanan'?>') {
+  $('.pekerja').remove();
+}else{
+  $('.pesanan').remove();
+}
 
 //view UI
 <?php if(@$view == 1):?>
@@ -249,14 +272,51 @@ $('#previewImg1').attr('src', '<?=base_url('assets/gambar/1.png')?>');
 $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
   //get barang
+  $(document).on('change', '#jenis', function() {
+      var id = $(this).val();
+      
+      //hapus readonly
+      $(this).closest('#copy').find('.warna').val('').change().removeAttr('readonly').css('pointer-events', '');
+      $(this).closest('#copy').find('.warna > option').attr('hidden',true);
+      $(this).closest('#copy').find('.mf_check').css('pointer-events','');
+
+      //class
+      var cl = '.warna_'+id;
+
+      switch (id) {
+        case '1':
+          //Anodizing
+          $(this).closest('#copy').find(cl).removeAttr('hidden');
+          break;
+        case '2':
+          //Powder Coating
+          $(this).closest('#copy').find(cl).removeAttr('hidden');
+          break;
+        case '3':
+          //MF
+          $(this).closest('#copy').find('.warna').val(0).change().attr('readonly',true).css('pointer-events','none');
+
+          //check stok MF
+          var mf_val = $(this).closest('#copy').find('.mf_val');
+          var mf_check = $(this).closest('#copy').find('.mf_check');
+
+          if (mf_val.val() == 1) {
+            mf_check.click();
+            mf_check.css('pointer-events','none');
+            mf_val.val(0);
+          }
+
+          break;
+         
+      }
+
+  });
 
   $(document).on('change', '.produk', function() {
 
     var id = $(this).val();
     var index = $(this).closest('tr').index();
     var arr = new Array(); 
-    var berat = $(this).closest('tr').find('.berat');
-    var satuan = $(this).closest('tr').find('.satuan');
 
    /////// cek exist barang ///////////
     $.each($('.produk'), function(idx, val) {
@@ -272,25 +332,36 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
         var i = index + 1;
 
         alert_sweet('Produk sudah ada');
-
-        //empty
-        $(this).val('').change();
-        berat.val(0);
-        satuan.text('');
         
-      }else{
-
-        $.get('<?= base_url('produksi/proses_get_produk/') ?>'+id, function(data) {
-      
-          var val = JSON.parse(data);
-          berat.val(val.produk_berat);
-          satuan.text(val.satuan_singkatan);
-
-        });
-
+        //null input
+        $(this).val('').change();
+        $(this).parent().next().find('select').val('').change();
+        $(this).parent().nextAll().find('input').val(0);
+        
       }
       ////// end exist barang ///////////
     }
+   
+    //id barang
+    $(this).closest('#copy').find('.id').val(id);
+
+    <?php if(@$view != 1): ?>
+
+     //stok MF (tanpa warna)
+     var target = $(this).closest('#copy').find('.mf');
+     $.get('<?=base_url('produksi/get_mf/')?>'+id, function(data) {
+
+        if (data != 0) {
+          var val = $.parseJSON(data);
+
+          $(target).val(val.stok);
+        }else{
+
+          $(target).val(0);
+        }
+
+     });
+    <?php endif ?>
 
   });
 
@@ -299,11 +370,21 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     //paste
     $('#paste').prepend($('#copy').clone());
     
+
     //blank new input
+    $('#copy').find('#warna > option').attr('hidden',true);
     $('#copy').find('select').val('');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);
-    $('#copy').find('.berat').val(0);
+    $('#copy').find('.mf').val(0);
+    
+    //check MF
+    var mf_val = $('#copy').find('.mf_val');
+    var mf_check = $('#copy').find('.mf_check');
+    if (mf_val.val() == 1) {
+      mf_check.click().css('pointer-events','');
+      mf_val.val(0);
+    }
 
   }
 
@@ -354,37 +435,56 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
       }
   }
 
+  //set val checked MF
+  $(document).on('change', '.mf_check', function() {
+    var mf = $(this).closest('#copy').find('.mf_val');
+    if (mf.val() == 0) {
+      mf.val(1);
+
+    }else{
+      mf.val(0);
+    }
+
+  });
+
   function auto(){
+
+    //cek stok MF
+    $.each($('.mf_val'), function(index, val) {
+       
+       if ($(this).closest('#copy').find('.mf_val').val() == 1) { 
+        
+        var stok = $(this).closest('#copy').find('.mf');
+        var qty = $(this).closest('#copy').find('.qty');
+
+        if ( parseInt(stok.val()) < parseInt(qty.val()) ) {
+
+          alert_sweet('Stok MF kurang dari qty');
+          qty.val(0);
+        }
+
+       }
+
+    });
     
     //sum qty
-    var sum_qty = 0;
-    var sum_produksi = 0;
+    var num_qty = 0;
     $.each($('.qty'), function(index, val) {
        var i = index+1;
-       var berat = parseInt($(this).closest('tr').find('.berat').val());
-       var qty = parseInt($(this).val());
-       var total = qty * berat;
 
-       sum_qty += qty;
-       sum_produksi += total;
-
-       //subtotal
-       $(this).closest('tr').find('.subtotal').val(total);
+       num_qty += parseInt($(this).val());
 
     });
 
-    //sum total produksi
-    $('#total_produksi').val(sum_produksi);
-
-    //sum qty produk
-    $('#qty_produk').val(sum_qty);
+    var qty_produk = $('#qty_produk');
+    qty_produk.val(num_qty);
 
     //cek stok billet
     var billet = $('#qty_billet');
     var stok_billet = parseInt($('#stok_billet').text());
     if (parseInt(billet.val().replace(/,/g, '')) > stok_billet) {
         
-      alert_sweet('Stok billet kurang');
+      alert_sweet('Stok billet kurang dari Qty');
       billet.val(0);
     }
 

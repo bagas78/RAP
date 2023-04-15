@@ -1,14 +1,10 @@
 
     <!-- Main content --> 
-    <section class="content"> 
+    <section class="content">
  
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
-
-          <div align="left">
-            <a href="<?= base_url('produksi/pewarnaan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
-          </div>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -23,7 +19,7 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Pewarnaan</th>
+                  <th>Packing</th>
                   <th>Tanggal</th>
                   <th width="30">Action</th>
                 </tr>
@@ -45,7 +41,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Proses Pewarnaan</h4>
+        <h4 class="modal-title">Proses Packing</h4>
       </div>
       <div class="modal-body">
         <form role="form" method="post" enctype="multipart/form-data">
@@ -58,7 +54,6 @@
                   <th>Jenis</th>
                   <th>Warna</th>
                   <th>Jumlah</th>
-                  <th>Cacat</th>
                   <th hidden>Id</th>
                 </tr>
               </thead>
@@ -70,7 +65,7 @@
             <div class="clearfix"></div><br/>
 
             <div class="form-group">
-              <label>Tanggal Pewarnaan</label>
+              <label>Tanggal Packing</label>
               <input type="date" name="tanggal" class="tanggal form-control" required value="">
             </div>
           </div>
@@ -101,23 +96,16 @@
             "scrollX": true, 
             
             "ajax": {
-                "url": "<?=site_url('produksi/pewarnaan_get_data')?>",
+                "url": "<?=site_url('produksi/packing_get_data')?>",
                 "type": "GET"
             },
             "columns": [                               
                         { "data": "produksi_nomor"},
-                        { "data": "produksi_pewarnaan",
+                        { "data": "produksi_packing_tanggal",
                         "render": 
                         function( data ) {
-                            switch (data) {
-                              case '1':
-                                var s = "Belum";
-                                break;
-                              case '2':
-                                var s = "Selesai";
-                                break;
-                            }
-                            return "<span>"+s+"</span>";
+                            if(data == null){var p = '-'}else{var p = moment(data).format("DD/MM/YYYY")}
+                            return "<span>"+p+"</span>";
                           }
                         },
                         { "data": "produksi_tanggal",
@@ -129,8 +117,8 @@
                         { "data": "produksi_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='modal("+data+")' class='btn btn-xs btn-info'><i class='fa fa-paint-brush'></i></button> "+
-                            "<a href='<?php echo base_url('produksi/pewarnaan_laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a>";
+                            return "<button onclick='modal("+data+")' class='btn btn-xs btn-success'><i class='fa fa-dropbox'></i></button> "+
+                            "<a href='<?php echo base_url('produksi/packing_laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a>";
                           }
                         },
                         
@@ -144,7 +132,7 @@
     //empty table
     $('#data-modal').empty();
 
-    $.get('<?=base_url('produksi/pewarnaan_get/')?>'+id, function(data) {
+    $.get('<?=base_url('produksi/packing_get/')?>'+id, function(data) {
       var val = $.parseJSON(data);
       var html = '';
       $.each(val, function(index, val) {
@@ -154,18 +142,17 @@
           html += '<td>'+val.warna_jenis_type+'</td>';
           html += '<td>'+val.warna_nama+'</td>';
           html += '<td>'+val.produksi_barang_qty+'</td>';
-          html += '<td><input name="cacat[]" value="'+val.produksi_barang_warna_cacat+'" style="width: 100px;" type="number" class="form-control"></td>';
           html += '<td hidden><input name="id[]" value="'+val.produksi_barang_id+'" style="width: 100px;" type="number" class="form-control"></td>';
           html += '</tr>';
       });
       $('#data-modal').append(html);
 
       //tanggal & keterangan
-      $('.tanggal').val(val[0].produksi_pewarnaan_tanggal);
+      $('.tanggal').val(val[0].produksi_packing_tanggal);
 
       //modal pop up
       $('.modal').modal('toggle');
-      $('form').attr('action', '<?=base_url('produksi/pewarnaan_proses/')?>'+id);
+      $('form').attr('action', '<?=base_url('produksi/packing_proses/')?>'+id);
 
     });
   }
