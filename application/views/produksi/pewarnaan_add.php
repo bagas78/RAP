@@ -122,7 +122,7 @@
 <?php endif?>
 
 //atribut
-$('form').attr('action', '<?=base_url('produksi/'.@$url.'_save')?>');
+$('form').attr('action', '<?=base_url('produksi/pewarnaan_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 
@@ -160,7 +160,7 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
       
           var val = JSON.parse(data);
 
-          stok.val(val.produk_barang_stok);
+          stok.val(val.stok);
 
         });
 
@@ -275,6 +275,25 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
   });
 
   function auto(){
+    //cek stok
+    $.each($('.stok'), function(index, val) {
+       var stok = parseInt($(this).val());
+       var qty = parseInt($(this).closest('tr').find('.qty').val());
+       var cacat = parseInt($(this).closest('tr').find('.cacat').val());
+       
+       //qty
+       if (stok < qty) {
+        $(this).closest('tr').find('.qty').val(0);
+        alert_sweet('Stok tidak cukup');
+       }
+
+       //cacat
+       if (qty < cacat) {
+        $(this).closest('tr').find('.cacat').val(0);
+        alert_sweet('Qty kurang dari produk cacat');
+       }
+    
+    });
 
     //border none
     $('td').css('border-top', 'none');

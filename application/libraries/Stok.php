@@ -153,6 +153,24 @@ class Stok{
 
     return;
   }
+  function update_pewarnaan(){
+
+     $db = $this->sql->db->query("SELECT a.pewarnaan_barang_barang AS produk, SUM(a.pewarnaan_barang_qty) AS jumlah FROM t_pewarnaan_barang AS a JOIN t_pewarnaan AS b ON a.pewarnaan_barang_nomor = b.pewarnaan_nomor JOIN t_produk_barang AS c ON a.pewarnaan_barang_barang = c.produk_barang_barang WHERE b.pewarnaan_hapus = 0 AND c.produk_barang_warna = 0 GROUP BY a.pewarnaan_barang_barang")->result_array();
+
+     foreach ($db as $value) {
+      
+      $produk = $value['produk'];
+      $jumlah = $value['jumlah'];
+
+      $this->sql->db->set(['produk_barang_pewarnaan' => $jumlah]);
+      $this->sql->db->where(['produk_barang_barang' => $produk]);
+      $this->sql->db->update('t_produk_barang');
+
+     }
+
+     return;
+
+  }
   function jurnal_delete($nomor, $status = ''){
 
     if (@$status) {

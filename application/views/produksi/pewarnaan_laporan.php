@@ -43,7 +43,7 @@
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_packing_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
+				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['pewarnaan_packing_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
 			</div>
 
 			<div class="clearfix"></div><br/>
@@ -72,8 +72,8 @@
 								<td><?=@$val['warna_nama']?></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
 								<td><?=@$val['produk_berat'].' Kg'?></td>
-								<td><?=number_format(@$val['produksi_barang_qty'])?></td>
-								<td><?=number_format(@$val['produksi_barang_warna_cacat'])?></td>
+								<td><?=number_format(@$val['pewarnaan_barang_qty'])?></td>
+								<td><?=number_format(@$val['pewarnaan_barang_warna_cacat'])?></td>
 							</tr>
 						
 						<?php $i++ ?>

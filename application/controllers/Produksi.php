@@ -6,6 +6,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_peleburan');
 		$this->load->model('m_produksi');
 		$this->load->model('m_produk');
+		$this->load->model('m_pewarnaan');
 	}   
 
 ///////////////// atribut //////////////////////////////////////////
@@ -172,6 +173,9 @@ class Produksi extends CI_Controller{
 
 	    //mesin
 	    $data['mesin_data'] = $this->query_builder->view("SELECT * FROM t_mesin WHERE mesin_hapus = 0");
+
+	    //data
+		$data['pewarnaan_data'] = $this->query_builder->view_row("SELECT * FROM t_pewarnaan WHERE pewarnaan_id = '$id'");
 
 	    return $data;
 	}
@@ -616,6 +620,22 @@ class Produksi extends CI_Controller{
 	    $this->load->view('produksi/pewarnaan');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
+	function pewarnaan_get_data(){
+		$where = array('pewarnaan_hapus' => '0');
+
+		$data = $this->m_pewarnaan->get_datatables($where);
+		$total = $this->m_pewarnaan->count_all($where);
+		$filter = $this->m_pewarnaan->count_filtered($where);
+
+		$output = array( 
+			"draw" => $_GET["draw"],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
 	function pewarnaan_add(){
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_pewarnaan");
@@ -624,7 +644,7 @@ class Produksi extends CI_Controller{
 	    //jenis
 	    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0 AND warna_jenis_id != 3");
 
-	    //jenis
+	    //warna
 	    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
 
 		//produk
@@ -637,19 +657,49 @@ class Produksi extends CI_Controller{
 	}
 	function pewarnaan_get_produk($id){
 
-		$data = $this->query_builder->view_row("SELECT * FROM t_produk_barang WHERE produk_barang_warna = 0 AND produk_barang_barang = '$id'");
+		$data = $this->query_builder->view_row("SELECT * ,(produk_barang_stok - produk_barang_pewarnaan) AS stok FROM t_produk_barang WHERE produk_barang_warna = 0 AND produk_barang_barang = '$id'");
 
 		echo json_encode($data);
 	}
-	function pewarnaan_get_data(){
-		$model = 'm_produksi';
-		$where = array('produksi_hapus' => '0', 'produksi_pewarnaan >' => '0');
-		$output = $this->serverside($where, $model);
-		echo json_encode($output);
-	}
-	function pewarnaan_get($id){
-		$data = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id' AND b.produksi_barang_warna != 0");
-		echo json_encode($data);
+	function pewarnaan_save(){
+		$user = $this->session->userdata('id');
+		$nomor = strip_tags(@$_POST['nomor']);
+
+		$set1 = array(
+						'pewarnaan_nomor' => $nomor,
+						'pewarnaan_user' => $user,
+						'pewarnaan_tanggal' => strip_tags(@$_POST['tanggal']),
+					);
+
+		$save = $this->query_builder->add('t_pewarnaan',$set1);
+		if ($save == 1) {
+			
+			$jum = count($_POST['produk']);
+
+			for ($i = 0; $i < $jum; ++$i) {
+				
+				$set2 = array(
+							'pewarnaan_barang_barang' => strip_tags(@$_POST['produk'][$i]),
+							'pewarnaan_barang_nomor' => $nomor,
+							'pewarnaan_barang_stok' => strip_tags(@$_POST['stok'][$i]),
+							'pewarnaan_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
+							'pewarnaan_barang_warna' => strip_tags(@$_POST['warna'][$i]),
+							'pewarnaan_barang_qty' => strip_tags(@$_POST['qty'][$i]),
+							'pewarnaan_barang_cacat' => strip_tags(@$_POST['cacat'][$i]),
+						);
+				$this->query_builder->add('t_pewarnaan_barang',$set2);
+
+			}
+			
+			//update stok
+			$this->stok->update_pewarnaan();
+			
+			$this->session->set_flashdata('success','Data berhasil di simpan');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di simpan');
+		}
+
+		redirect(base_url('produksi/pewarnaan'));
 	}
 	function pewarnaan_proses($id){
 		$set = array(
@@ -682,9 +732,42 @@ class Produksi extends CI_Controller{
 		redirect(base_url('produksi/pewarnaan'));
 	}
 	function pewarnaan_laporan($id){
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id' AND b.produksi_barang_warna != 0");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_barang AS a LEFT JOIN t_produk AS b ON a.pewarnaan_barang_barang = b.produk_id LEFT JOIN t_produk_barang AS c ON b.produk_id = c.produk_barang_barang LEFT JOIN t_warna AS d ON c.produk_barang_warna = d.warna_id JOIN t_pewarnaan AS e ON e.pewarnaan_nomor = a.pewarnaan_barang_nomor WHERE e.pewarnaan_id = '$id'");
 
 	    $this->load->view('produksi/pewarnaan_laporan',$data);
+	}
+	function pewarnaan_delete($id){
+
+		$table = 'pewarnaan';
+		$redirect = 'pewarnaan';
+		$this->delete($table, $id, $redirect);
+	}
+	function pewarnaan_view($id){
+
+		//jenis
+	    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0 AND warna_jenis_id != 3");
+
+	    //warna
+	    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
+
+		//produk
+		$data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
+
+		//data
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_pewarnaan WHERE pewarnaan_id = '$id'");
+
+		$data['url'] = 'pewarnaan';
+		$data['view'] = 1;
+
+		$data["title"] = 'pewarnaan';
+	    $this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/pewarnaan_add');
+	    $this->load->view('produksi/pewarnaan_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function pewarnaan_get($id){
+		$data = $this->query_builder->view("SELECT * FROM t_pewarnaan as a JOIN t_pewarnaan_barang as b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor WHERE a.pewarnaan_id = '$id'");
+		echo json_encode($data);
 	}
 
 	//////////////////////// packing //////////////////////////
