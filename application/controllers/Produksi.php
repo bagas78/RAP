@@ -7,6 +7,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_produksi');
 		$this->load->model('m_produk');
 		$this->load->model('m_pewarnaan');
+		$this->load->model('m_packing');
 	}   
 
 ///////////////// atribut //////////////////////////////////////////
@@ -657,7 +658,7 @@ class Produksi extends CI_Controller{
 	}
 	function pewarnaan_get_produk($id){
 
-		$data = $this->query_builder->view_row("SELECT * ,(produk_barang_stok - produk_barang_pewarnaan) AS stok FROM t_produk_barang WHERE produk_barang_warna = 0 AND produk_barang_barang = '$id'");
+		$data = $this->query_builder->view_row("SELECT produk_barang_stok AS stok FROM t_produk_barang WHERE produk_barang_warna = 0 AND produk_barang_barang = '$id'");
 
 		echo json_encode($data);
 	}
@@ -701,41 +702,6 @@ class Produksi extends CI_Controller{
 
 		redirect(base_url('produksi/pewarnaan'));
 	}
-	function pewarnaan_proses($id){
-		$set = array(
-						'produksi_pewarnaan' => '2',
-						'produksi_pewarnaan_tanggal' => strip_tags(@$_POST['tanggal']),
-					);
-		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
-
-		if ($db == 1) {
-			
-			//cacat
-			$get = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
-			$nomor = $get['produksi_nomor'];
-			$num = count(@$_POST['cacat']);
-			for ($i = 0; $i < $num; ++$i) {
-
-				$this->query_builder->update('t_produksi_barang',['produksi_barang_warna_cacat' => strip_tags(@$_POST['cacat'][$i])], ['produksi_barang_id' => @$_POST['id'][$i]]);
-			}
-
-			//update
-			$this->stok->update_produk();
-
-			$this->session->set_flashdata('success','Data berhasil di simpan');
-
-		} else {
-
-			$this->session->set_flashdata('gagal','Data gagal di simpan');
-		}
-
-		redirect(base_url('produksi/pewarnaan'));
-	}
-	function pewarnaan_laporan($id){
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_barang AS a LEFT JOIN t_produk AS b ON a.pewarnaan_barang_barang = b.produk_id LEFT JOIN t_produk_barang AS c ON b.produk_id = c.produk_barang_barang LEFT JOIN t_warna AS d ON c.produk_barang_warna = d.warna_id JOIN t_pewarnaan AS e ON e.pewarnaan_nomor = a.pewarnaan_barang_nomor WHERE e.pewarnaan_id = '$id'");
-
-	    $this->load->view('produksi/pewarnaan_laporan',$data);
-	}
 	function pewarnaan_delete($id){
 
 		$table = 'pewarnaan';
@@ -769,6 +735,11 @@ class Produksi extends CI_Controller{
 		$data = $this->query_builder->view("SELECT * FROM t_pewarnaan as a JOIN t_pewarnaan_barang as b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor WHERE a.pewarnaan_id = '$id'");
 		echo json_encode($data);
 	}
+	function pewarnaan_laporan($id){
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_barang AS a LEFT JOIN t_produk AS b ON a.pewarnaan_barang_barang = b.produk_id LEFT JOIN t_produk_barang AS c ON b.produk_id = c.produk_barang_barang LEFT JOIN t_warna AS d ON c.produk_barang_warna = d.warna_id JOIN t_pewarnaan AS e ON e.pewarnaan_nomor = a.pewarnaan_barang_nomor WHERE e.pewarnaan_id = '$id'");
+
+	    $this->load->view('produksi/pewarnaan_laporan',$data);
+	}
 
 	//////////////////////// packing //////////////////////////
 
@@ -779,37 +750,114 @@ class Produksi extends CI_Controller{
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function packing_get_data(){
-		$model = 'm_produksi';
-		$where = array('produksi_hapus' => '0', 'produksi_pewarnaan !=' => '1');
+		$model = 'm_packing';
+		$where = array('packing_hapus' => '0');
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
-	function packing_get($id){
-		$data = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id'");
-		echo json_encode($data);
+	function packing_add(){
+		//generate nomor transaksi
+	    $pb = $this->query_builder->count("SELECT * FROM t_packing");
+	    $data['nomor'] = 'PC-'.date('dmY').'-'.($pb+1);
+
+	    //jenis
+	    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0");
+
+	    //warna
+	    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
+
+		//produk
+		$data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
+
+		$data['title'] = 'packing';
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/packing_add');
+	    $this->load->view('v_template_admin/admin_footer');
 	}
-	function packing_proses($id){
-		$set = array(
-						'produksi_packing_tanggal' => strip_tags(@$_POST['tanggal']),
+	function packing_get_produk($id, $jenis, $warna){
+
+		$data = $this->query_builder->view_row("SELECT * ,(produk_barang_stok - produk_barang_packing) AS stok FROM t_produk_barang WHERE produk_barang_barang = '$id' AND produk_barang_jenis = '$jenis' AND produk_barang_warna = '$warna'");
+
+		if (@$data) {
+			$stok = $data['stok'];	
+		}else{
+			$stok = 0;
+		}
+
+		echo json_encode($stok);
+	}
+	function packing_save(){
+		$user = $this->session->userdata('id');
+		$nomor = strip_tags(@$_POST['nomor']);
+
+		$set1 = array(
+						'packing_nomor' => $nomor,
+						'packing_user' => $user,
+						'packing_tanggal' => strip_tags(@$_POST['tanggal']),
 					);
-		$db = $this->query_builder->update('t_produksi',$set,['produksi_id' => $id]);
 
-		if ($db == 1) {
+		$save = $this->query_builder->add('t_packing',$set1);
+		if ($save == 1) {
+			
+			$jum = count($_POST['produk']);
 
-			//update
-			$this->stok->update_produk();
+			for ($i = 0; $i < $jum; ++$i) {
+				
+				$set2 = array(
+							'packing_barang_barang' => strip_tags(@$_POST['produk'][$i]),
+							'packing_barang_nomor' => $nomor,
+							'packing_barang_stok' => strip_tags(@$_POST['stok'][$i]),
+							'packing_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
+							'packing_barang_warna' => strip_tags(@$_POST['warna'][$i]),
+							'packing_barang_qty' => strip_tags(@$_POST['qty'][$i]),
+						);
+				$this->query_builder->add('t_packing_barang',$set2);
 
+			}
+			
+			//update stok
+			$this->stok->update_packing();
+			
 			$this->session->set_flashdata('success','Data berhasil di simpan');
-
 		} else {
-
 			$this->session->set_flashdata('gagal','Data gagal di simpan');
 		}
 
 		redirect(base_url('produksi/packing'));
 	}
+	function packing_view($id){
+
+	    //jenis
+	    $data['jenis_data'] = $this->query_builder->view("SELECT * FROM t_warna_jenis WHERE warna_jenis_hapus = 0");
+
+	    //warna
+	    $data['warna_data'] = $this->query_builder->view("SELECT * FROM t_warna WHERE warna_hapus = 0");
+
+		//produk
+		$data['produk_data'] = $this->query_builder->view("SELECT * FROM t_produk WHERE produk_hapus = 0");
+
+		//data
+		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_packing WHERE packing_id = '$id'");
+
+		$data['view'] = 1;
+		$data['title'] = 'packing';
+		$this->load->view('v_template_admin/admin_header',$data);
+	    $this->load->view('produksi/packing_add');
+	    $this->load->view('produksi/packing_edit');
+	    $this->load->view('v_template_admin/admin_footer');
+	}
+	function packing_get($id){
+		$data = $this->query_builder->view("SELECT * FROM t_packing as a JOIN t_packing_barang as b ON a.packing_nomor = b.packing_barang_nomor WHERE a.packing_id = '$id'");
+		echo json_encode($data);
+	}	
+	function packing_delete($id){
+
+		$table = 'packing';
+		$redirect = 'packing';
+		$this->delete($table, $id, $redirect);
+	}
 	function packing_laporan($id){
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_produksi_barang as b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk as c ON b.produksi_barang_barang = c.produk_id JOIN t_warna_jenis as d ON b.produksi_barang_jenis = d.warna_jenis_id JOIN t_warna as e ON b.produksi_barang_warna = e.warna_id WHERE a.produksi_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_packing_barang AS a LEFT JOIN t_produk AS b ON a.packing_barang_barang = b.produk_id LEFT JOIN t_packing_barang AS c ON b.produk_id = c.packing_barang_barang LEFT JOIN t_warna AS d ON c.packing_barang_warna = d.warna_id JOIN t_packing AS e ON e.packing_nomor = a.packing_barang_nomor WHERE e.packing_id = '$id'");
 
 	    $this->load->view('produksi/packing_laporan',$data);
 	}

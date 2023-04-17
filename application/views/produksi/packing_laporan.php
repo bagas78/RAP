@@ -71,7 +71,7 @@
 								<td><?=@$val['warna_nama']?></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
 								<td><?=@$val['produk_colly']?></td>
-								<td class="masuk"><?=number_format(@$val['produksi_barang_qty'])?></td>
+								<td class="masuk"><?=number_format(@$val['packing_barang_qty'])?></td>
 							</tr>
 						
 						<?php $i++ ?>
