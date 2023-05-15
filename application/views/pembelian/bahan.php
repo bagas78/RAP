@@ -18,7 +18,7 @@
             <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
               <i class="fa fa-times"></i></button>
           </div>
-        </div>
+        </div> 
         <div class="box-body">
          
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
@@ -58,7 +58,11 @@
                 "type": "GET"
             },
             "columns": [  
-                        { "data": "bahan_kode"},
+                        { "data": "bahan_kode",
+                        "render":
+                        function(data) {
+                          return "<span class='kode'>"+data+"</span>";
+                        }},
                         { "data": "bahan_nama"},
                         { "data": "bahan_stok",
                         "render":
@@ -76,8 +80,8 @@
                         { "data": "bahan_id",
                         "render": 
                         function(data) {
-                            return "<a href='<?= base_url('pembelian/bahan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('pembelian/bahan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<div class='action'><a href='<?= base_url('pembelian/bahan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('pembelian/bahan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button></div>";
                           }
                         },
                         
@@ -90,5 +94,30 @@ function filter($val){
   var table = $('#example').DataTable();
   table.search($val).draw();
 }
+
+function auto(){
+
+    $.each($('.kode'), function(index, val) {
+       
+       var kode = $(this).text();
+
+       if (kode == 'BH000') {
+
+          $(this).closest('tr').css('background', '#eee');
+          $(this).closest('tr').find('.action').remove();
+
+       }else{ 
+
+          $(this).removeClass('kode');
+       }
+
+    });
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+  }
+
+  auto();
 
 </script>

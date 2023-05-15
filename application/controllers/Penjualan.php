@@ -342,7 +342,7 @@ class Penjualan extends CI_Controller{
 			$active = 'po';
 			$data["title"] = $active;
 			$data['url'] = $active;
-		    
+
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('penjualan/table');
 		    $this->load->view('v_template_admin/admin_footer');

@@ -10,7 +10,7 @@ class Stok{
   }
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
-
+ 
   function bahan(){
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang")->result_array();
@@ -19,7 +19,9 @@ class Stok{
 
       $produksi = $this->sql->db->query("SELECT b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE produksi_hapus = 0 GROUP BY b.produksi_barang_barang")->result_array();
 
-      $penyesuaian = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS id, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status")->result_array();
+      $pewarnaan = $this->sql->db->query("SELECT SUM(b.pewarnaan_barang_cacat) AS cacat FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor WHERE a.pewarnaan_hapus = 0")->result_array();
+
+      // $penyesuaian = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS id, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status")->result_array();
 
       //pembelian update stok produk
       foreach ($pembelian as $pb) {
@@ -33,6 +35,12 @@ class Stok{
         $this->sql->db->where($where);
         $this->sql->db->update('t_bahan');
 
+      }
+
+      //tambah stok bahan cacat BH000
+      foreach ($pewarnaan as $pw) {
+        $jum = $pw['cacat'];
+        $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = 0");
       }
 
       //kurangi peleburan
@@ -50,22 +58,22 @@ class Stok{
       }
 
       //kurangi penyesuain stok
-      foreach ($penyesuaian as $pn) {
-        $id = $pn['id'];
-        $jum = $pn['jumlah'];
-        $status = $pn['status'];
+      // foreach ($penyesuaian as $pn) {
+      //   $id = $pn['id'];
+      //   $jum = $pn['jumlah'];
+      //   $status = $pn['status'];
 
-        if ($status == 'bertambah') {
+      //   if ($status == 'bertambah') {
           
-          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = {$id}");   
+      //     $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = {$id}");   
 
-        }else{
+      //   }else{
 
-           $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+      //      $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
 
-        }
+      //   }
        
-      }
+      // }
 
       return;
   }
@@ -199,6 +207,7 @@ class Stok{
 
     $this->produk();
     $this->pewarnaan();
+    $this->bahan();
   }
   function update_packing(){
 

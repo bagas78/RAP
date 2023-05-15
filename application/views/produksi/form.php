@@ -17,7 +17,7 @@
       <div class="back" align="left" hidden>
         <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
       </div>
-
+ 
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
@@ -120,7 +120,7 @@
 
               <td>
                 <div class="input-group">
-                  <input readonly min="0" type="number" name="berat[]" class="berat form-control" value="0" required>
+                  <input min="0" type="number" name="berat[]" class="berat form-control" value="0" required>
                   <span class="input-group-addon">Kg</span>
                 </div>
               </td>
@@ -283,7 +283,6 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
         $.get('<?= base_url('produksi/proses_get_produk/') ?>'+id, function(data) {
       
           var val = JSON.parse(data);
-          berat.val(val.produk_berat);
           satuan.text(val.satuan_singkatan);
 
         });

@@ -23,7 +23,7 @@ class Pembelian extends CI_Controller{
 		);
 
 		return $output;
-	}
+	} 
 	function add(){
 
 		//kontak
@@ -33,7 +33,7 @@ class Pembelian extends CI_Controller{
 	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
 
 	    //barang
-	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_hapus = 0");
+	    $data['bahan_data'] = $this->query_builder->view("SELECT * FROM t_bahan WHERE bahan_kode != 'BH000' AND bahan_hapus = 0");
 
 	    //ppn
 	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
@@ -331,7 +331,7 @@ class Pembelian extends CI_Controller{
 	    $data['satuan_data'] = $this->query_builder->view("SELECT * FROM t_satuan WHERE satuan_hapus = 0");
 	    
 	    //generate kde
-	    $bh = $this->query_builder->count("SELECT * FROM t_bahan");
+	    $bh = $this->query_builder->count("SELECT * FROM t_bahan WHERE bahan_kode != 'BH000'");
 	    $data['kode'] = 'BH00'.($bh+1);
 
 

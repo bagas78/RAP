@@ -71,13 +71,13 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <!-- <div class="form-group col-md-6">
               <label>Berat</label>
               <div class="input-group">
                 <input required type="number" name="berat" class="form-control" id="berat">
                 <span class="input-group-addon">&#160;Kg&#160;</span>
               </div>
-            </div>
+            </div> -->
             <div class="form-group col-md-6">
               <label>Satuan</label>
               <select name="satuan" class="form-control" required id="satuan">

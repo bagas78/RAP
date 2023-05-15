@@ -12,7 +12,7 @@ class M_bahan extends CI_Model {
 	var $column_search = array('bahan_nama','bahan_kategori'); 
 
 	//urutan 
-	var $order = array('bahan_id' => 'desc'); 
+	var $order = array('bahan_id' => 'asc'); 
 
 	public function __construct()
 	{

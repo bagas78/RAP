@@ -346,12 +346,6 @@ thead{
               </a>
             </li> 
             <li>
-              <a href="<?php echo base_url('produksi/pesanan') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Pesanan Produksi</span>
-              </a>
-            </li>
-            <li>
               <a href="<?php echo base_url('produksi/proses') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Proses Produksi</span>
@@ -415,12 +409,12 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <!-- <li>
+            <li>
               <a href="<?php echo base_url('penjualan/po') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Purchase Order ( PO )</span>
               </a>
-            </li> -->
+            </li>
             <li>
               <a href="<?php echo base_url('penjualan/produk') ?>">
                 <i class="material-icons">more_horiz</i>

@@ -18,7 +18,7 @@ class Produk extends CI_Controller{
 
 		}
 		else{
-			redirect(base_url('login'));
+			redirect(base_url('login')); 
 		}
 	} 
 	function master_get_data(){
@@ -62,7 +62,7 @@ class Produk extends CI_Controller{
 						'produk_ketebalan' => strip_tags($_POST['ketebalan']),
 						'produk_panjang' => strip_tags($_POST['panjang']),
 						'produk_lebar' => strip_tags($_POST['lebar']),
-						'produk_berat' => strip_tags($_POST['berat']),
+						// 'produk_berat' => strip_tags($_POST['berat']),
 						'produk_keterangan' => strip_tags($_POST['keterangan']),
 						'produk_colly' => strip_tags($_POST['colly']),
 					);
@@ -102,7 +102,7 @@ class Produk extends CI_Controller{
 						'produk_ketebalan' => strip_tags($_POST['ketebalan']),
 						'produk_panjang' => strip_tags($_POST['panjang']),
 						'produk_lebar' => strip_tags($_POST['lebar']),
-						'produk_berat' => strip_tags($_POST['berat']),
+						// 'produk_berat' => strip_tags($_POST['berat']),
 						'produk_keterangan' => strip_tags($_POST['keterangan']),
 						'produk_colly' => strip_tags($_POST['colly']),
 					);

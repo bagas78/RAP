@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2023 at 11:02 PM
+-- Generation Time: May 15, 2023 at 08:45 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -45,15 +45,16 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_kode`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(1, 'BH001', 'Kawat las', 110, '1', 'pembantu', '2500', '2022-12-05', 0),
+(0, 'BH000', 'Produk cacat', 2, '1', 'utama', '0', '2023-05-16', 0),
+(1, 'BH001', 'Kawat las', 100, '1', 'pembantu', '2500', '2022-12-05', 0),
 (2, 'BH002', 'Velg sepeda', 100, '1', 'utama', '5000', '2022-12-05', 0),
 (3, 'BH003', 'Paku', 95, '1', 'utama', '3000', '2022-12-05', 0),
 (4, 'BH004', 'Plat kapal', 100, '1', 'utama', '55000', '2022-12-05', 0),
 (5, 'BH005', 'Rel kereta', 90, '1', 'utama', '30000', '2022-12-05', 0),
-(6, 'BH006', 'Rangka Motor', 100, '1', 'utama', '30000', '2022-12-11', 0),
+(6, 'BH006', 'Rangka Motor', 95, '1', 'utama', '30000', '2022-12-11', 0),
 (7, 'BH007', 'Kawat Jemuran', 100, '1', 'pembantu', '3000', '2022-12-18', 0),
-(8, 'BH008', 'Paku Bekas', 60, '1', 'pembantu', '1200', '2022-12-18', 0),
-(9, 'BH009', 'Matras', 65, '1', 'pembantu', '10000', '2022-12-21', 0),
+(8, 'BH008', 'Paku Bekas', 80, '1', 'pembantu', '1200', '2022-12-18', 0),
+(9, 'BH009', 'Matras', 82, '1', 'pembantu', '10000', '2022-12-21', 0),
 (11, 'BH0010', 'Tiang Listrik', 90, '1', 'utama', '12000', '2023-02-12', 0);
 
 -- --------------------------------------------------------
@@ -238,7 +239,7 @@ CREATE TABLE `t_billet` (
 --
 
 INSERT INTO `t_billet` (`billet_id`, `billet_full`, `billet_min`, `billet_stok`, `billet_sisa`, `billet_hpp`, `billet_hps`, `billet_update`) VALUES
-(1, '100', '30', '70', '0', '982000', '9820', '2023-04-18');
+(1, '100', '35', '65', '0', '982000', '9820', '2023-05-15');
 
 -- --------------------------------------------------------
 
@@ -905,7 +906,8 @@ CREATE TABLE `t_pewarnaan` (
 INSERT INTO `t_pewarnaan` (`pewarnaan_id`, `pewarnaan_nomor`, `pewarnaan_user`, `pewarnaan_tanggal`, `pewarnaan_hapus`) VALUES
 (36, 'PW-17042023-1', '5', '2023-04-17', 0),
 (37, 'PW-17042023-2', '5', '2023-04-17', 0),
-(38, 'PW-18042023-3', '5', '2023-04-18', 0);
+(38, 'PW-18042023-3', '5', '2023-04-18', 0),
+(40, 'PW-16052023-4', '5', '2023-05-16', 0);
 
 -- --------------------------------------------------------
 
@@ -931,7 +933,8 @@ CREATE TABLE `t_pewarnaan_barang` (
 INSERT INTO `t_pewarnaan_barang` (`pewarnaan_barang_id`, `pewarnaan_barang_nomor`, `pewarnaan_barang_barang`, `pewarnaan_barang_stok`, `pewarnaan_barang_jenis`, `pewarnaan_barang_warna`, `pewarnaan_barang_qty`, `pewarnaan_barang_cacat`) VALUES
 (59, 'PW-17042023-1', '8', '5', '2', '2', '2', '0'),
 (60, 'PW-17042023-2', '8', '3', '2', '2', '1', '0'),
-(61, 'PW-18042023-3', '8', '7', '2', '2', '2', '0');
+(61, 'PW-18042023-3', '8', '7', '2', '2', '2', '0'),
+(63, 'PW-16052023-4', '8', '10', '1', '10', '5', '2');
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1003,8 @@ INSERT INTO `t_produksi` (`produksi_id`, `produksi_nomor`, `produksi_tanggal`, `
 (101, 'PR-17042023-1', '2023-04-17', '78', '[\"1\",\"2\",\"3\"]', '-', '1', NULL, NULL, '20', '145', '9820', '10', '20000', '118200', '0', 0),
 (102, 'PR-17042023-2', '2023-04-17', '78', '[\"1\",\"5\"]', '-', '1', NULL, NULL, '6', '42', '9820', '5', '15000', '64100', '0', 0),
 (103, 'PR-18042023-3', '2023-04-18', '78', '[\"1\",\"4\"]', '-', '3', NULL, NULL, '4', '28', '9820', '5', '10000', '59100', '0', 0),
-(104, 'PR-18042023-4', '2023-04-18', '78', '[\"2\",\"3\"]', '-', '2', NULL, NULL, '10', '75', '9820', '10', '20000', '118200', '0', 0);
+(104, 'PR-18042023-4', '2023-04-18', '78', '[\"2\",\"3\"]', '-', '2', NULL, NULL, '10', '75', '9820', '10', '20000', '118200', '0', 0),
+(106, 'PR-15052023-5', '2023-05-15', '78', '[\"1\",\"2\",\"3\"]', '-', '1', NULL, NULL, '18', '164', '9820', '5', '12000', '61100', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -1033,7 +1037,9 @@ INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, 
 (355, 'PR-18042023-3', '11', '0', '7', '2', '14', '2023-04-18'),
 (356, 'PR-18042023-3', '10', '0', '7', '2', '14', '2023-04-18'),
 (357, 'PR-18042023-4', '9', '0', '10', '5', '50', '2023-04-18'),
-(358, 'PR-18042023-4', '8', '0', '5', '5', '25', '2023-04-18');
+(358, 'PR-18042023-4', '8', '0', '5', '5', '25', '2023-04-18'),
+(360, 'PR-15052023-5', '9', '0', '8', '8', '64', '2023-05-15'),
+(361, 'PR-15052023-5', '8', '0', '10', '10', '100', '2023-05-15');
 
 -- --------------------------------------------------------
 
@@ -1058,11 +1064,12 @@ CREATE TABLE `t_produk_barang` (
 --
 
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_barang`, `produk_barang_stok`, `produk_barang_packing`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
-(267, '8', '5', '0', '3', '0', '11820', '0', '2023-04-15'),
-(268, '9', '10', '2', '3', '0', '11820', '0', '2023-04-15'),
+(267, '8', '10', '0', '3', '0', '5910', '0', '2023-04-15'),
+(268, '9', '18', '2', '3', '0', '6566.6666666667', '0', '2023-04-15'),
 (269, '10', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
 (270, '11', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
-(291, '8', '5', '2', '2', '2', '23640', '0', '2023-04-17');
+(291, '8', '5', '2', '2', '2', '23640', '0', '2023-04-17'),
+(292, '8', '5', '0', '1', '10', '5910', '0', '2023-05-16');
 
 -- --------------------------------------------------------
 
@@ -1419,7 +1426,7 @@ ALTER TABLE `t_warna_jenis`
 -- AUTO_INCREMENT for table `t_bahan`
 --
 ALTER TABLE `t_bahan`
-  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `bahan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `t_bank`
@@ -1557,13 +1564,13 @@ ALTER TABLE `t_penyesuaian_barang`
 -- AUTO_INCREMENT for table `t_pewarnaan`
 --
 ALTER TABLE `t_pewarnaan`
-  MODIFY `pewarnaan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `pewarnaan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `t_pewarnaan_barang`
 --
 ALTER TABLE `t_pewarnaan_barang`
-  MODIFY `pewarnaan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `pewarnaan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `t_produk`
@@ -1575,19 +1582,19 @@ ALTER TABLE `t_produk`
 -- AUTO_INCREMENT for table `t_produksi`
 --
 ALTER TABLE `t_produksi`
-  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `t_produksi_barang`
 --
 ALTER TABLE `t_produksi_barang`
-  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=359;
+  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
 
 --
 -- AUTO_INCREMENT for table `t_produk_barang`
 --
 ALTER TABLE `t_produk_barang`
-  MODIFY `produk_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
+  MODIFY `produk_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`

@@ -16,7 +16,7 @@
 <!-- Main content --> 
 <section class="content">
 
-  <!-- Default box -->  
+  <!-- Default box -->   
   <div class="box"> 
     <div class="box-header with-border">
 
@@ -275,6 +275,11 @@
 <!-- /.modal -->
 
 <script type="text/javascript">
+
+//PO
+<?php if(@$url == 'po'):?>
+  $('#search').attr('hidden', true);
+<?php endif?>
 
 //view UI
 <?php if(@$view == 1):?>
