@@ -307,12 +307,12 @@ class Penjualan extends CI_Controller{
 		redirect(base_url('penjualan/'.$redirect));
 
 	}
-	function search(){
-		$output = $this->query_builder->view("SELECT a.produksi_nomor as nomor, b.kontak_nama as nama FROM t_produksi as a JOIN t_kontak as b ON a.produksi_pesanan = b.kontak_id WHERE a.produksi_hapus = 0 AND a.produksi_status = '1' AND a.produksi_penjualan = '0' AND a.produksi_pewarnaan = '2'");
+	function search($nomor){
+		$output = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_po = 1 AND penjualan_hapus = 0 AND penjualan_nomor LIKE '%$nomor%'");
 		echo json_encode($output);
 	}
 	function search_data($nomor){
-		$output = $this->query_builder->view("SELECT * FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor JOIN t_produk_barang as c ON b.produksi_barang_barang = c.produk_barang_barang AND b.produksi_barang_jenis = c.produk_barang_jenis AND b.produksi_barang_warna = c.produk_barang_warna JOIN t_produk as d ON c.produk_barang_barang = d.produk_id JOIN t_satuan as e ON d.produk_satuan = e.satuan_id WHERE a.produksi_nomor = '$nomor'");
+		$output = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor LEFT JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id LEFT JOIN t_satuan AS d ON c.produk_satuan = d.satuan_id WHERE a.penjualan_po = 1 AND a.penjualan_hapus = 0 AND a.penjualan_nomor = '$nomor'");
 		echo json_encode($output);
 	}
 	function faktur($id){
@@ -371,6 +371,7 @@ class Penjualan extends CI_Controller{
 		$redirect = 'po';
 		$data = $this->add($redirect);
 		$data['url'] = $redirect;
+		$data["title"] = $redirect;
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan");
@@ -438,11 +439,11 @@ class Penjualan extends CI_Controller{
 	}
 	function produk_add(){
 
-		$data["title"] = 'penjualan';
 		$redirect = 'produk';
 		$data = $this->add($redirect);
 		$data['url'] = $redirect;
 		$data['search'] = 1;
+		$data["title"] = 'penjualan';
 
 		//generate nomor transaksi
 	    $pb = $this->query_builder->count("SELECT * FROM t_penjualan");

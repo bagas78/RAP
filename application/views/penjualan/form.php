@@ -33,7 +33,7 @@
  
       <div id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control" placeholder="PR-xxxxx">
+          <input id="po" type="text" class="form-control" placeholder="PO-xxxxx">
         </div>
         <div class="col-md-1 col-xs-1">
           <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>

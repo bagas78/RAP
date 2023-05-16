@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2023 at 08:45 PM
+-- Generation Time: May 16, 2023 at 09:43 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -793,7 +793,8 @@ INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `p
 (94, 0, 'PJ-06032023-1', '15', '2023-03-06', '2023-03-06', 'tunai', 'lunas', '0', NULL, NULL, '-', '', '4', '0', '100000', 0),
 (95, 0, 'PJ-06032023-2', '15', '2023-03-06', '2023-03-06', 'tunai', 'belum', '1', NULL, NULL, '-', '', '4', '0', '100000', 0),
 (96, 0, 'PJ-11032023-3', '15', '2023-03-11', '2023-03-11', 'tunai', 'lunas', '1', '2023-03-11', 'lunas mas bro', '-', '', '2', '0', '50000', 0),
-(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'lunas', '1', '2023-03-25', 'lunas hari ini', 'dari pesanan produksi', '', '17', '0', '50000', 0);
+(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'lunas', '1', '2023-03-25', 'lunas hari ini', 'dari pesanan produksi', '', '17', '0', '50000', 0),
+(98, 1, 'PO-16052023-5', '15', '2023-05-16', '2023-05-16', 'tunai', 'belum', '1', NULL, NULL, '-', '', '4', '0', '100000', 0);
 
 -- --------------------------------------------------------
 
@@ -827,7 +828,9 @@ INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor
 (382, 'PJ-11032023-3', '8', '3', '0', '6', '2', '0', '25000', '23750', '50000'),
 (383, 'PJ-25032023-4', '10', '2', '5', '5', '5', '0', '0', '23640', '0'),
 (384, 'PJ-25032023-4', '9', '1', '10', '10', '10', '0', '0', '11820', '0'),
-(385, 'PJ-25032023-4', '8', '3', '0', '5', '2', '0', '25000', '19791.666666667', '50000');
+(385, 'PJ-25032023-4', '8', '3', '0', '5', '2', '0', '25000', '19791.666666667', '50000'),
+(388, 'PO-16052023-5', '8', '2', '2', '5', '2', '0', '25000', '23640', '50000'),
+(389, 'PO-16052023-5', '8', '2', '2', '5', '2', '0', '25000', '23640', '50000');
 
 -- --------------------------------------------------------
 
@@ -1064,12 +1067,12 @@ CREATE TABLE `t_produk_barang` (
 --
 
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_barang`, `produk_barang_stok`, `produk_barang_packing`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
-(267, '8', '10', '0', '3', '0', '5910', '0', '2023-04-15'),
+(267, '8', '10', '0', '3', '0', '5910', '7500', '2023-04-15'),
 (268, '9', '18', '2', '3', '0', '6566.6666666667', '0', '2023-04-15'),
 (269, '10', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
 (270, '11', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
-(291, '8', '5', '2', '2', '2', '23640', '0', '2023-04-17'),
-(292, '8', '5', '0', '1', '10', '5910', '0', '2023-05-16');
+(291, '8', '5', '2', '2', '2', '23640', '25000', '2023-04-17'),
+(292, '8', '5', '0', '1', '10', '5910', '6500', '2023-05-16');
 
 -- --------------------------------------------------------
 
@@ -1540,13 +1543,13 @@ ALTER TABLE `t_pembelian_umum_barang`
 -- AUTO_INCREMENT for table `t_penjualan`
 --
 ALTER TABLE `t_penjualan`
-  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `t_penjualan_barang`
 --
 ALTER TABLE `t_penjualan_barang`
-  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=386;
+  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian`
