@@ -13,18 +13,7 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-        <div class="box-body">
-
-           <div class="col-md-4 row">
-            <table class="table table-bordered table-hover" style="margin-bottom: 0;">
-              <tr>
-                <td style="background: lightgreen;">Total Penjualan</td>
-                <td id="tot_pembelian"></td>
-              </tr>
-            </table>
-          </div>
-
-          <div class="clearfix"></div>
+        <div class="box-body"> 
 
           <div class="form-group sx-right" align="right">
             <form action="" method="POST" class="sc">              
@@ -37,16 +26,16 @@
             <thead>
             <tr>
               <th>Nomor</th>
-              <th>Total</th>
-              <th>Di Packing</th>
+              <th>Barang</th>
+              <th>Tanggal</th>
             </tr>
             </thead>
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?=$val['produksi_nomor'] ?></td>
-                  <td class="total"><?=$val['produksi_total_akhir'] ?></td>
-                  <td><?php $dt = date_create($val['produksi_packing_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?=$val['packing_nomor'] ?></td>
+                  <td><?=$val['produk_nama'] ?></td>
+                  <td><?php $dt = date_create($val['packing_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -79,14 +68,14 @@ $(document).ready(function() {
 });
 
  //penjualan
- var p = 0;
- $.each($('.total'), function(index, val) {
-    var parse = parseInt($(this).text());
-    p += parse;
+ // var p = 0;
+ // $.each($('.total'), function(index, val) {
+ //    var parse = parseInt($(this).text());
+ //    p += parse;
 
-    $(this).text(number_format(parse));
- });
+ //    $(this).text(number_format(parse));
+ // });
 
- $('#tot_pembelian').text(number_format(p));
+ // $('#tot_pembelian').text(number_format(p));
 
 </script>

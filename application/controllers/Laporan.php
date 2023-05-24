@@ -18,7 +18,7 @@ class Laporan extends CI_Controller{
 			"data" => $data,
 		);
 
-		return $output;
+		return $output; 
 	}
 	/////////////////////////////////////////////////////////////
 
@@ -74,7 +74,7 @@ class Laporan extends CI_Controller{
 		    	$filter = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_status = 1 AND a.produksi_tanggal = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_tanggal = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/produksi');
@@ -244,7 +244,7 @@ class Laporan extends CI_Controller{
 		    	$filter = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi WHERE produksi_hapus = 0 AND produksi_packing_tanggal = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_packing as a JOIN t_packing_barang as b ON a.packing_nomor = b.packing_barang_nomor JOIN t_produk as c ON b.packing_barang_barang = c.produk_id WHERE a.packing_hapus = 0 AND a.packing_tanggal = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/packing');
