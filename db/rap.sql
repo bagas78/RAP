@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2023 at 09:43 AM
+-- Generation Time: May 28, 2023 at 11:45 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -45,8 +45,8 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_kode`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(0, 'BH000', 'Produk cacat', 2, '1', 'utama', '0', '2023-05-16', 0),
-(1, 'BH001', 'Kawat las', 100, '1', 'pembantu', '2500', '2022-12-05', 0),
+(0, 'BH000', 'Produk cacat', 36, '1', 'utama', '0', '2023-05-16', 0),
+(1, 'BH001', 'Kawat las', 105, '1', 'pembantu', '2500', '2022-12-05', 0),
 (2, 'BH002', 'Velg sepeda', 100, '1', 'utama', '5000', '2022-12-05', 0),
 (3, 'BH003', 'Paku', 95, '1', 'utama', '3000', '2022-12-05', 0),
 (4, 'BH004', 'Plat kapal', 100, '1', 'utama', '55000', '2022-12-05', 0),
@@ -854,9 +854,8 @@ CREATE TABLE `t_penyesuaian` (
 --
 
 INSERT INTO `t_penyesuaian` (`penyesuaian_id`, `penyesuaian_nomor`, `penyesuaian_jenis`, `penyesuaian_transaksi`, `penyesuaian_kategori`, `penyesuaian_keterangan`, `penyesuaian_tanggal`, `penyesuaian_hapus`) VALUES
-(7, 'PN-19032023-1', 'pembelian', 'masuk', 'umum', '-', '2023-03-19', 0),
-(8, 'PN-20032023-2', 'pembelian', 'masuk', 'umum', '-', '2023-03-20', 0),
-(13, 'PN-20032023-3', 'penjualan', 'perhitungan', 'umum', '-', '2023-03-20', 0);
+(24, 'PN-28052023-1', 'pembelian', 'perhitungan', 'umum', '-', '2023-05-28', 0),
+(26, 'PN-28052023-2', 'penjualan', 'perhitungan', 'umum', '-', '2023-05-28', 0);
 
 -- --------------------------------------------------------
 
@@ -881,12 +880,8 @@ CREATE TABLE `t_penyesuaian_barang` (
 --
 
 INSERT INTO `t_penyesuaian_barang` (`penyesuaian_barang_id`, `penyesuaian_barang_nomor`, `penyesuaian_barang_barang`, `penyesuaian_barang_jenis`, `penyesuaian_barang_warna`, `penyesuaian_barang_jumlah`, `penyesuaian_barang_stok`, `penyesuaian_barang_selisih`, `penyesuaian_barang_status`) VALUES
-(12, 'PN-19032023-1', '2', '', '', '95', '95', '0', 'berkurang'),
-(13, 'PN-19032023-1', '1', '', '', '100', '90', '10', 'bertambah'),
-(16, 'PN-20032023-2', '9', '', '', '65', '70', '5', 'berkurang'),
-(17, 'PN-20032023-2', '6', '', '', '100', '95', '5', 'bertambah'),
-(25, 'PN-20032023-3', '8', '3', '0', '3', '4', '1', 'berkurang'),
-(26, 'PN-20032023-3', '9', '3', '0', '10', '8', '2', 'bertambah');
+(37, 'PN-28052023-1', '1', '', '', '105', '100', '5', 'bertambah'),
+(39, 'PN-28052023-2', '8', '3', '0', '15', '10', '5', 'bertambah');
 
 -- --------------------------------------------------------
 
@@ -1067,7 +1062,7 @@ CREATE TABLE `t_produk_barang` (
 --
 
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_barang`, `produk_barang_stok`, `produk_barang_packing`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
-(267, '8', '10', '0', '3', '0', '5910', '7500', '2023-04-15'),
+(267, '8', '15', '0', '3', '0', '5910', '7500', '2023-04-15'),
 (268, '9', '18', '2', '3', '0', '6566.6666666667', '0', '2023-04-15'),
 (269, '10', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
 (270, '11', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
@@ -1555,13 +1550,13 @@ ALTER TABLE `t_penjualan_barang`
 -- AUTO_INCREMENT for table `t_penyesuaian`
 --
 ALTER TABLE `t_penyesuaian`
-  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `penyesuaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian_barang`
 --
 ALTER TABLE `t_penyesuaian_barang`
-  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `penyesuaian_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `t_pewarnaan`

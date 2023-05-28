@@ -18,13 +18,23 @@
 
 	//loop
 	<?php $i = 1; ?>
-	<?php foreach(@$data as $val): ?>
+	<?php foreach(@$data as $val): ?> 
 
-		$('#copy:nth-child(<?=$i?>) > td:nth-child(1) > select').val('<?=$val['penyesuaian_barang_barang']?>').change();
-		$('#copy:nth-child(<?=$i?>) > td:nth-child(2) > select').val('<?=$val['penyesuaian_barang_jenis']?>');
-		$('#copy:nth-child(<?=$i?>) > td:nth-child(3) > select').val('<?=$val['penyesuaian_barang_warna']?>');
-		$('#copy:nth-child(<?=$i?>) > td:nth-child(4) > div > input').val('<?=$val['penyesuaian_barang_jumlah']?>');
-		$('#copy:nth-child(<?=$i?>) > td:nth-child(5) > div > input').val('<?=$val['penyesuaian_barang_stok']?>');
+		if ('<?= $val['penyesuaian_jenis'] ?>' == 'penjualan') {
+			//penjualan
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(1) > select').val('<?=$val['penyesuaian_barang_barang']?>').change();
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(2) > select').val('<?=$val['penyesuaian_barang_jenis']?>');
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(3) > select').val('<?=$val['penyesuaian_barang_warna']?>');
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(4) > div > input').val('<?=$val['penyesuaian_barang_jumlah']?>');
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(5) > div > input').val('<?=$val['penyesuaian_barang_stok']?>');
+
+		}else{
+			//pembelian
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(1) > select').val('<?=$val['penyesuaian_barang_barang']?>').change();
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(2) > div > input').val('<?=$val['penyesuaian_barang_jumlah']?>');
+			$('#copy:nth-child(<?=$i?>) > td:nth-child(3) > div > input').val('<?=$val['penyesuaian_barang_stok']?>');
+
+		}
 
 	<?php $i++; ?>
 	<?php endforeach ?>

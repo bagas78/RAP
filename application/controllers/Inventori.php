@@ -1,7 +1,7 @@
 <?php
 class Inventori extends CI_Controller{
 
-	function __construct(){
+	function __construct(){ 
 		parent::__construct();
 		$this->load->model('m_penyesuaian');
 	}  
@@ -50,6 +50,10 @@ class Inventori extends CI_Controller{
 		$db = $this->query_builder->update('t_penyesuaian',$set,$where);
 		
 		if ($db == 1) {
+			//update stok
+			$this->stok->update_bahan();
+			$this->stok->update_produk();
+
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
 			$this->session->set_flashdata('gagal','Data gagal di hapus');
@@ -201,5 +205,8 @@ class Inventori extends CI_Controller{
 	    $this->load->view('inventori/penyesuaian_add');
 	    $this->load->view('inventori/penyesuaian_view');
 	    $this->load->view('v_template_admin/admin_footer');
+
+	    // echo '<pre>';
+	    // print_r($data['data']);
 	}
 }

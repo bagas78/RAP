@@ -22,7 +22,7 @@
           <i class="fa fa-times"></i></button>
       </div>
 
-    </div>
+    </div> 
     <div class="box-body">
 
       <form method="post" enctype="multipart/form-data" class="bg-alice">
@@ -75,9 +75,9 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Bahan / Produk</th>
-              <th width="200" class="jenis_">Jenis</th>
-              <th width="200" class="warna_">Warna</th>
+              <th width="180">Bahan / Produk</th>
+              <th width="180" class="jenis_">Jenis</th>
+              <th width="180" class="warna_">Warna</th>
               <th>Jumlah</th>
               <th>Stok</th>
               <th>Selisih</th>
@@ -182,6 +182,11 @@ $('#tanggal').val('<?=@$tanggal?>');
 
   //get barang
   $(document).on('change', '#barang', function() {
+
+      //null
+      $('#barang_jenis').val('').change();
+      $('.stok').val(0);
+      $('.selisih').val(0);
       
       var id = $(this).val();
       var index = $(this).closest('tr').index();
