@@ -25,12 +25,12 @@
   
       <span class="tit">Stok Bahan Baku</span>
       
-      <table id="example1" class="table table-responsive table-bordered">
+      <table id="example1" class="table table-responsive table-borderless">
         <thead>
           <tr>
             <th>Bahan</th>
-            <th>Stok</th>
-            <th>Satuan</th>
+            <th width="1">Stok</th>
+            <th width="1">Satuan</th>
           </tr>
         </thead>
       </table>
@@ -39,12 +39,12 @@
 
       <span class="tit">Stok Produk</span>
       
-      <table id="example2" class="table table-responsive table-bordered">
+      <table id="example2" class="table table-responsive table-borderless">
         <thead>
           <tr>
             <th>Produk</th>
-            <th>Stok</th>
-            <th>Satuan</th>
+            <th width="1">Stok</th>
+            <th width="1">Satuan</th>
           </tr>
         </thead>
       </table> 
@@ -55,9 +55,18 @@
   <div class="box">
     <div class="box-header with-border">
 
-      <button class="btn btn-default active">Harian <i class="fa fa-filter"></i></button>
-      <button class="btn btn-default">Mingguan <i class="fa fa-filter"></i></button>
-      <button class="btn btn-default">Bulanan <i class="fa fa-filter"></i></button>
+      <div class="col-md-1 col-xs-1">
+        <form method="POST" action="">
+          <input type="hidden" name="filter" value="1">
+          <button type="submit" class="btn btn-default <?=(@$filter == 1)?'active':'' ?>">Harian <i class="fa fa-filter"></i></button>
+        </form>
+      </div>
+      <div class="col-md-1 col-xs-1">
+        <form method="POST" action="">
+          <input type="hidden" name="filter" value="2">
+          <button type="submit" class="btn btn-default <?=(@$filter == 2)?'active':'' ?>">Bulanan <i class="fa fa-filter"></i></button>
+        </form>
+      </div>
 
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -81,12 +90,11 @@
 
             "searching"     : false,
             "bLengthChange" : false,
-            "info"          :     false,
+            "info"          : false,
             "pageLength"    : 5,
             "processing"    : true, 
             "serverSide"    : true,
-            "order"         :[],  
-            "scrollX"       : true,
+            "order"         :[],
             
             "ajax": {
                 "url": "<?=site_url('pembelian/bahan_get_data') ?>",
@@ -114,12 +122,11 @@
             
             "searching"     : false,
             "bLengthChange" : false,
-            "info"          :     false,
+            "info"          : false,
             "pageLength"    : 5,
             "processing"    : true, 
             "serverSide"    : true,
-            "order"         :[],  
-            "scrollX"       : true,
+            "order"         :[],
             
             "ajax": {
                 "url": "<?=site_url('produk/master_get_data') ?>",
@@ -189,21 +196,16 @@ var options = {
     type: "spline",
     name: "Pembelian",
     showInLegend: true,
-    xValueFormatString: "MMM YYYY",
+    xValueFormatString: "<?=(@$filter == 1)?'DD MMMM YYYY':'MMMM YYYY' ?>",
     yValueFormatString: "Rp #,##0.#",
     dataPoints: [
-      { x: new Date(2016, 0, 1),  y: 120 },
-      { x: new Date(2016, 1, 1), y: 135 },
-      { x: new Date(2016, 2, 1), y: 144 },
-      { x: new Date(2016, 3, 1),  y: 103 },
-      { x: new Date(2016, 4, 1),  y: 93 },
-      { x: new Date(2016, 5, 1),  y: 129 },
-      { x: new Date(2016, 6, 1), y: 143 },
-      { x: new Date(2016, 7, 1), y: 156 },
-      { x: new Date(2016, 8, 1),  y: 122 },
-      { x: new Date(2016, 9, 1),  y: 106 },
-      { x: new Date(2016, 10, 1),  y: 137 },
-      { x: new Date(2016, 11, 1), y: 142 }
+
+      <?php foreach($pembelian_data as $p): ?>
+
+        { x: new Date(<?=$p['tahun'].','.$p['bulan'].','.$p['tanggal']?>),  y: <?=$p['total']?> },
+
+      <?php endforeach ?>
+    
     ]
   },
   {
@@ -211,21 +213,16 @@ var options = {
     name: "Produksi",
     axisYType: "secondary",
     showInLegend: true,
-    xValueFormatString: "MMM YYYY",
+    xValueFormatString: "<?=(@$filter == 1)?'DD MMMM YYYY':'MMMM YYYY' ?>",
     yValueFormatString: "Rp #,##0.#",
     dataPoints: [
-      { x: new Date(2016, 0, 1),  y: 19034.5 },
-      { x: new Date(2016, 1, 1), y: 20015 },
-      { x: new Date(2016, 2, 1), y: 27342 },
-      { x: new Date(2016, 3, 1),  y: 20088 },
-      { x: new Date(2016, 4, 1),  y: 20234 },
-      { x: new Date(2016, 5, 1),  y: 29034 },
-      { x: new Date(2016, 6, 1), y: 30487 },
-      { x: new Date(2016, 7, 1), y: 32523 },
-      { x: new Date(2016, 8, 1),  y: 20234 },
-      { x: new Date(2016, 9, 1),  y: 27234 },
-      { x: new Date(2016, 10, 1),  y: 33548 },
-      { x: new Date(2016, 11, 1), y: 32534 }
+      
+      <?php foreach($produksi_data as $p): ?>
+
+        { x: new Date(<?=$p['tahun'].','.$p['bulan'].','.$p['tanggal']?>),  y: <?=$p['total']?> },
+
+      <?php endforeach ?>
+
     ]
   },
   {
@@ -233,24 +230,20 @@ var options = {
     name: "Penjualan",
     axisYType: "secondary",
     showInLegend: true,
-    xValueFormatString: "MMM YYYY",
+    xValueFormatString: "<?=(@$filter == 1)?'DD MMMM YYYY':'MMMM YYYY' ?>",
     yValueFormatString: "Rp #,##0.#",
     dataPoints: [
-      { x: new Date(2016, 0, 1),  y: 39034.5 },
-      { x: new Date(2016, 1, 1), y: 10015 },
-      { x: new Date(2016, 2, 1), y: 17342 },
-      { x: new Date(2016, 3, 1),  y: 50088 },
-      { x: new Date(2016, 4, 1),  y: 60234 },
-      { x: new Date(2016, 5, 1),  y: 59034 },
-      { x: new Date(2016, 6, 1), y: 20487 },
-      { x: new Date(2016, 7, 1), y: 12523 },
-      { x: new Date(2016, 8, 1),  y: 30234 },
-      { x: new Date(2016, 9, 1),  y: 67234 },
-      { x: new Date(2016, 10, 1),  y: 83548 },
-      { x: new Date(2016, 11, 1), y: 12534 }
+      
+      <?php foreach($penjualan_data as $p): ?>
+
+        { x: new Date(<?=$p['tahun'].','.$p['bulan'].','.$p['tanggal']?>),  y: <?=$p['total']?> },
+
+      <?php endforeach ?>
+
     ]
   }]
 };
+
 $("#chartContainer").CanvasJSChart(options);
 
 function toggleDataSeries(e) {
@@ -263,6 +256,7 @@ function toggleDataSeries(e) {
 }
 
 }
+
 </script>
 
 <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>

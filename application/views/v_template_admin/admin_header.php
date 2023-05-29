@@ -546,7 +546,7 @@ thead{
                 <span class="multi-li">Piutang Jatuh Tempo</span>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Kas Keluar</span>
@@ -569,7 +569,7 @@ thead{
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Buku Besar</span>
               </a>
-            </li>
+            </li> -->
             <li>
               <a href="<?= base_url('laporan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
