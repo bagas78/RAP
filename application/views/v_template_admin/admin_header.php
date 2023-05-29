@@ -338,7 +338,12 @@ thead{
             </span>
           </a>
           <ul class="treeview-menu">
-
+            <li>
+              <a href="<?php echo base_url('pengaturan/mesin') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Master Mesin</span>
+              </a>
+            </li>
             <li>
               <a href="<?php echo base_url('produksi/peleburan') ?>">
                 <i class="material-icons">more_horiz</i>
@@ -614,6 +619,38 @@ thead{
 
         <li class="treeview">
           <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">group</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Akun</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+
+            <li>
+              <a href="<?php echo base_url('akun/akses') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Hak Akses</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('akun/user') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">User Akun</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo base_url('pengaturan/pegawai') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Admin Akun</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">settings</i></div> 
             <div class="col-md-5 col-xs-5"><span>Pengaturan</span></div>
             <span class="pull-right-container">
@@ -640,25 +677,6 @@ thead{
                 <span class="multi-li">Logo dan Perusahaan</span>
               </a>
             </li>
-            <li>
-              <a href="#">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Hak Akses</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?php echo base_url('pengaturan/pegawai') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Master Admin</span>
-              </a>
-            </li>
-            <li>
-              <a href="<?php echo base_url('pengaturan/mesin') ?>">
-                <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Master Mesin</span>
-              </a>
-            </li>
-            
             
           </ul>
         </li>
