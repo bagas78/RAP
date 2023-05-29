@@ -156,7 +156,7 @@ var options = {
   exportEnabled: false,
   animationEnabled: true,
   title:{
-    text: "Grafik Pembelian | Produksi | Penjualan"
+    text: "Grafik Pembelian | Produksi | Penjualan Tahun <?=date('Y')?>"
   },
   subtitles: [{
     text: ""
