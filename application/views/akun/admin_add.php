@@ -15,28 +15,28 @@
         </div>
         <div class="box-body">
          
-          <form class="bg-alice" action="<?=base_url('pengaturan/pegawai_save')?>" method="POST" accept-charset="utf-8">
+          <form class="bg-alice" action="<?=base_url('akun/admin_save')?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
               <label>Nama</label>
-              <input required="" type="text" name="name" class="form-control">
+              <input required="" type="text" name="name" class="form-control" id="nama">
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input required="" type="email" name="email" class="form-control">
+              <input required="" type="email" name="email" class="form-control" id="email">
             </div>
             <div class="form-group">
-              <label>Password</label>
-              <input id="pass" required="" type="password" name="password" class="form-control">
+              <label>Password <small class="edit text-danger"></small></label>
+              <input id="pass" type="text" name="password" class="form-control" autocomplete="off">
               <button onclick="show('pass')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
             <div class="form-group">
-              <label>Ulangi Password</label>
-              <input id="re" required="" type="password" class="form-control">
+              <label>Ulangi Password <small class="edit text-danger"></small></label>
+              <input id="re" type="text" class="form-control" autocomplete="off">
               <button onclick="show('re')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
 
-            <button type="submit" class="btn btn-success">Simpan <i class="fa fa-check"></i></button>
+            <button onclick="simpan()" type="button" class="btn btn-success">Simpan <i class="fa fa-check"></i></button>
             <a href="<?= $_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
 
           </form>
@@ -57,21 +57,23 @@
   }
 
 //submit
-$('form').submit(function (e) {
-    e.preventDefault();
-    if ($('#pass').val() != $('#re').val()) {
+function simpan(){
+
+  if ($('#pass').val() != $('#re').val()) {
       
-      swal({
-        title: "Password tidak sama",
-        text: "Periksa kembali password anda.",
-        icon: "warning",
-        buttons: false,
-        dangerMode: true,
-      });
-    
-    }else{
-      $('form').submit();
-    }
-});
+    swal({
+      title: "Password tidak sama",
+      text: "Periksa kembali password anda.",
+      icon: "warning",
+      buttons: false,
+      dangerMode: true,
+    });
+  
+  }else{
+
+    $("form").submit();
+  }
+
+}
 
 </script>

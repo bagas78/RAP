@@ -1,18 +1,18 @@
 <?php
 
-class M_pegawai extends CI_Model { 
+class M_level extends CI_Model { 
 
 	//nama tabel
-	var $table = 't_user'; 
+	var $table = 't_level'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'user_name','user_email'); 
+	var $column_order = array(null, 'level_akses','level_tanggal');
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('user_name','user_email'); 
+	var $column_search = array('level_akses','level_tanggal'); 
 
 	//urutan 
-	var $order = array('user_id' => 'desc'); 
+	var $order = array('level_id' => 'desc'); 
 
 	public function __construct()
 	{

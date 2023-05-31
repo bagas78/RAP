@@ -225,14 +225,7 @@ thead{
               } ?>    
           </p>
           <a><i class="fa fa-user text-dark"></i> 
-          <?php switch ($this->session->userdata('level')) {
-            case 1:
-              echo 'Admin';
-              break;
-            case 2:
-              echo 'Owner';
-              break;
-          } ?></a>
+          <?=($this->session->userdata('level') == 0)? 'Admin':'User'?></a>
         </div>
       </div>
       
@@ -640,7 +633,7 @@ thead{
               </a>
             </li>
             <li>
-              <a href="<?php echo base_url('pengaturan/pegawai') ?>">
+              <a href="<?php echo base_url('akun/admin') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Admin Akun</span>
               </a>
