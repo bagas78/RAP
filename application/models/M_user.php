@@ -6,10 +6,10 @@ class M_user extends CI_Model {
 	var $table = 't_user'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'user_name','user_email');
+	var $column_order = array(null, 'user_name','user_email', 'level_nama');
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('user_name','user_email'); 
+	var $column_search = array('user_name','user_email', 'level_nama'); 
 
 	//urutan 
 	var $order = array('user_id' => 'desc'); 
@@ -64,6 +64,7 @@ class M_user extends CI_Model {
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
+		$this->db->join('t_level', 't_level.level_id = t_user.user_level', 'LEFT');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
 		return $query->result();
@@ -73,6 +74,7 @@ class M_user extends CI_Model {
 	{
 		$this->_get_datatables_query();
 		$this->db->where($where);
+		$this->db->join('t_level', 't_level.level_id = t_user.user_level', 'LEFT');
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -81,7 +83,8 @@ class M_user extends CI_Model {
 	{
 		$this->db->from($this->table);
 		$this->db->where($where);
-		return $this->db->count_all_results();
+		$this->db->join('t_level', 't_level.level_id = t_user.user_level', 'LEFT');
+		return $this->db->count_all_results(); 
 	}
 
 }

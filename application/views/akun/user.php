@@ -7,7 +7,7 @@
         <div class="box-header with-border">
  
             <div align="left">
-              <a href="<?= base_url('akun/akses_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+              <a href="<?= base_url('akun/user_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -22,9 +22,10 @@
           <table id="example" class="table table-bordered table-hover">
                 <thead>
                 <tr>
+                  <th>Nama</th>
                   <th>Level</th>
-                  <th>Tanggal</th>
-                  <th width="30">Action</th>
+                  <th>Email</th>
+                  <th width="70">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,17 +48,19 @@
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('akun/akses_get_data') ?>",
+                "url": "<?=site_url('akun/user_get_data') ?>",
                 "type": "GET"
             },
             "columns": [  
+                        { "data": "user_name"},
                         { "data": "level_nama"},
-                        { "data": "level_tanggal"},
-                        { "data": "level_id",
+                        { "data": "user_email"},
+                        { "data": "user_id",
                         "render": 
                         function( data, type, row, meta ) {
-                            return "<a href='<?= base_url('akun/akses_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('akun/akses_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?= base_url('akun/user_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a href='<?= base_url('akun/user_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('akun/user_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

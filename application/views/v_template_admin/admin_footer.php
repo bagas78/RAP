@@ -2,7 +2,7 @@
 <footer class="main-footer">
   <span>Copyright &nbsp; JTM &nbsp; Group &nbsp; 2023</span>
 </footer>
-
+ 
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url() ?>assets/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -209,6 +209,35 @@ $(document).ready(function() {
          element.addClass('active').parent().parent('li').addClass('active')
      }
 });
+
+
+//level
+<?php $lv = $this->session->userdata('level'); ?>
+
+<?php if ($lv != 0): ?>
+
+    <?php $lv_data = $this->query_builder->view("SELECT * FROM t_level WHERE level_id = '$lv'"); ?>
+
+    function auto(){
+
+        <?php foreach($lv_data as $key => $val): ?>
+
+            <?php if ($val  == 1): ?>  
+
+                $('.<?=$key?>').attr('hidden', true);
+
+            <?php endif ?>
+
+        <?php endforeach ?>
+
+        setTimeout(function() {
+            auto();
+        }, 100);
+    }
+
+    auto();
+
+<?php endif ?>
 
 </script>
 
