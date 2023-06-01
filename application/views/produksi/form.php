@@ -18,7 +18,7 @@
         <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
       </div>
  
-      <div class="box-tools pull-right">
+      <div class="box-tools pull-right"> 
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
@@ -134,7 +134,7 @@
 
               <td>
                 <div class="input-group">
-                  <input readonly min="0" type="number" name="subtotal[]" class="subtotal form-control" value="0" required>
+                  <input readonly min="0" type="text" name="subtotal[]" class="subtotal form-control" value="0" required>
                   <span class="input-group-addon">Kg</span>
                 </div>
               </td>
@@ -360,8 +360,8 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     var sum_produksi = 0;
     $.each($('.qty'), function(index, val) {
        var i = index+1;
-       var berat = parseInt($(this).closest('tr').find('.berat').val());
-       var qty = parseInt($(this).val());
+       var berat = Number($(this).closest('tr').find('.berat').val(), 10);
+       var qty = Number($(this).val());
        var total = qty * berat;
 
        sum_qty += qty;
@@ -380,17 +380,17 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
     //cek stok billet
     var billet = $('#qty_billet');
-    var stok_billet = parseInt($('#stok_billet').text());
-    if (parseInt(billet.val().replace(/,/g, '')) > stok_billet) {
+    var stok_billet = Number($('#stok_billet').text());
+    if (Number(billet.val().replace(/,/g, '')) > stok_billet) {
         
       alert_sweet('Stok billet kurang');
       billet.val(0);
     }
 
     //total akhir
-    var hps_billet = parseInt($('#hps_billet').val().replace(/,/g, ''));
-    var qty_billet = parseInt(billet.val()) * hps_billet;
-    var jasa = parseInt($('#jasa').val());
+    var hps_billet = Number($('#hps_billet').val().replace(/,/g, ''));
+    var qty_billet = Number(billet.val()) * hps_billet;
+    var jasa = Number($('#jasa').val());
     var total = qty_billet + jasa;
     $('#total_akhir').val(number_format(total));
 

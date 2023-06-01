@@ -665,9 +665,9 @@ thead{
               </a>
             </li>
             <li>
-              <a href="<?php echo base_url('pengaturan/logo') ?>">
+              <a href="<?php echo base_url('pengaturan/informasi') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Logo dan Perusahaan</span>
+                <span class="multi-li">Informasi</span>
               </a>
             </li>
             

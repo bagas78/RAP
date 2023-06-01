@@ -3,7 +3,6 @@ class Pengaturan extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_pegawai');
 		$this->load->model('m_mesin');
 	}  
 
@@ -81,16 +80,14 @@ class Pengaturan extends CI_Controller{
 	}
 
 	//logo & perusahaan
-	function logo(){
+	function informasi(){
 		if ( $this->session->userdata('login') == 1) {
-		    $data['title'] = 'Logo';
-		    $data['pengaturan_open'] = 'menu-open';
-		    $data['pengaturan_block'] = 'style="display: block;"';
-		    $data['logo_active'] = 'class="active"';
+		    $data['title'] = 'informasi';
+		  
 		    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_logo");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pengaturan/logo');
+		    $this->load->view('pengaturan/informasi');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -98,7 +95,7 @@ class Pengaturan extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	} 
-	function logo_update($id){
+	function informasi_update($id){
 		if (@$_FILES['foto']['name']) {
 
 			//type file
@@ -155,7 +152,7 @@ class Pengaturan extends CI_Controller{
 			$this->session->set_flashdata('gagal','Data gagal di rubah');
 		}
 		
-		redirect(base_url('pengaturan/logo'));
+		redirect(base_url('pengaturan/informasi'));
 	}
 
 	

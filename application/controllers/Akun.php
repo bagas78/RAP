@@ -5,7 +5,7 @@ class Akun extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_user');
 		$this->load->model('m_level');
-	}  
+	}   
 	function admin(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'admin';
