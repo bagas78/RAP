@@ -12,7 +12,7 @@ class Kontak extends CI_Controller{
 		$data['jenis'] = 's';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('kontak/index');
+	    $this->load->view('kontak/supplier');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function pelanggan(){
@@ -20,7 +20,7 @@ class Kontak extends CI_Controller{
 		$data['jenis'] = 'p';
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('kontak/index');
+	    $this->load->view('kontak/pelanggan');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function get_data($jenis){

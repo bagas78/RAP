@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="bahan_add">
               <a href="<?= base_url('pembelian/bahan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>             
               <button onclick="filter('utama')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Baku Utama</button>
               <button onclick="filter('pembantu')" class="btn btn-default"><i class="fa fa-filter"></i> Bahan Pembantu</button>
@@ -80,8 +80,8 @@
                         { "data": "bahan_id",
                         "render": 
                         function(data) {
-                            return "<div class='action'><a href='<?= base_url('pembelian/bahan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('pembelian/bahan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button></div>";
+                            return "<div class='action'><a href='<?= base_url('pembelian/bahan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary bahan_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('pembelian/bahan_delete/')?>"+data+"') class='btn btn-xs btn-danger bahan_del'><i class='fa fa-trash'></i></button></div>";
                           }
                         },
                         

@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="akses_add">
               <a href="<?= base_url('akun/akses_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
@@ -56,8 +56,8 @@
                         { "data": "level_id",
                         "render": 
                         function( data, type, row, meta ) {
-                            return "<a href='<?= base_url('akun/akses_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('akun/akses_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?= base_url('akun/akses_edit/')?>"+data+"'><button class='btn btn-xs btn-primary akses_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('akun/akses_delete/')?>"+data+"') class='btn btn-xs btn-danger akses_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

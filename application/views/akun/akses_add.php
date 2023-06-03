@@ -24,7 +24,7 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body"> 
          
           <form action="<?=base_url('akun/akses_save')?>" method="POST" accept-charset="utf-8">
           
@@ -206,10 +206,7 @@
                     <input type="radio" name="hutang_add" value="0" class="radio">
                     <input type="radio" name="hutang_add" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="hutang_del" value="0" class="radio">
-                    <input type="radio" name="hutang_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
                 </tr>
 
                 <tr>
@@ -316,10 +313,7 @@
                     <input type="radio" name="jenis_pewarnaan_add" value="0" class="radio">
                     <input type="radio" name="jenis_pewarnaan_add" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="jenis_pewarnaan_del" value="0" class="radio">
-                    <input type="radio" name="jenis_pewarnaan_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Warna Produk</td>
@@ -401,10 +395,7 @@
                     <input type="radio" name="piutang_add" value="0" class="radio">
                     <input type="radio" name="piutang_add" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="piutang_del" value="0" class="radio">
-                    <input type="radio" name="piutang_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
                 </tr>
 
                 <tr>
@@ -616,14 +607,8 @@
                     <input type="radio" name="opname_pembelian" value="0" class="radio">
                     <input type="radio" name="opname_pembelian" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="opname_pembelian_add" value="0" class="radio">
-                    <input type="radio" name="opname_pembelian_add" value="0" checked hidden>
-                  </td>
-                  <td>
-                    <input type="radio" name="opname_pembelian_del" value="0" class="radio">
-                    <input type="radio" name="opname_pembelian_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Stok Opname Penjualan</td>
@@ -631,14 +616,8 @@
                     <input type="radio" name="opname_penjualan" value="0" class="radio">
                     <input type="radio" name="opname_penjualan" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="opname_penjualan_add" value="0" class="radio">
-                    <input type="radio" name="opname_penjualan_add" value="0" checked hidden>
-                  </td>
-                  <td>
-                    <input type="radio" name="opname_penjualan_del" value="0" class="radio">
-                    <input type="radio" name="opname_penjualan_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Penyesuaian Stok</td>
@@ -730,10 +709,7 @@
                     <input type="radio" name="pajak_add" value="0" class="radio">
                     <input type="radio" name="pajak_add" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="pajak_del" value="0" class="radio">
-                    <input type="radio" name="pajak_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Backup Database</td>
@@ -741,14 +717,8 @@
                     <input type="radio" name="backup" value="0" class="radio">
                     <input type="radio" name="backup" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="backup_add" value="0" class="radio">
-                    <input type="radio" name="backup_add" value="0" checked hidden>
-                  </td>
-                  <td>
-                    <input type="radio" name="backup_del" value="0" class="radio">
-                    <input type="radio" name="backup_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
+                  <td>-</td>
                 </tr>
                 <tr>
                   <td>Informasi</td>
@@ -756,14 +726,8 @@
                     <input type="radio" name="informasi" value="0" class="radio">
                     <input type="radio" name="informasi" value="0" checked hidden>
                   </td>
-                  <td>
-                    <input type="radio" name="informasi_add" value="0" class="radio">
-                    <input type="radio" name="informasi_add" value="0" checked hidden>
-                  </td>
-                  <td>
-                    <input type="radio" name="informasi_del" value="0" class="radio">
-                    <input type="radio" name="informasi_del" value="0" checked hidden>
-                  </td>
+                  <td>-</td>
+                  <td>-</td>
                 </tr>
 
               </tbody>

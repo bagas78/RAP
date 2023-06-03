@@ -408,7 +408,7 @@ class Pembelian extends CI_Controller{
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/table');
+		    $this->load->view('pembelian/po');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -492,11 +492,11 @@ class Pembelian extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 
 		    $active = 'utama';
-			$data["title"] = $active;
+			$data["title"] = $active; 
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/table');
+		    $this->load->view('pembelian/utama');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}

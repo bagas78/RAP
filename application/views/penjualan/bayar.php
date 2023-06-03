@@ -78,7 +78,7 @@
                         { "data": "penjualan_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success'>Bayar <i class='fa fa-clipboard'></i></button>";
+                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success piutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
                           }
                         },
                         

@@ -344,7 +344,7 @@ class Penjualan extends CI_Controller{
 			$data['url'] = $active;
 
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
+		    $this->load->view('penjualan/po');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}
@@ -415,7 +415,7 @@ class Penjualan extends CI_Controller{
 			$data['url'] = $active;
 		    
 		    $this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('penjualan/table');
+		    $this->load->view('penjualan/produk');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}

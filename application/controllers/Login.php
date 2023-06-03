@@ -25,25 +25,6 @@ class Login extends CI_Controller{
               $this->session->set_userdata('login','1');
               $this->session->set_userdata('level',$cek['user_level']);
 
-              switch ($cek['user_level']) {
-                case '2':
-                  // guru
-                  $this->session->set_userdata('pelajaran',$cek['user_pelajaran']);
-                  break;
-                
-                case '3':
-                  // siswa
-
-                  //get kelompok
-                  $id = $cek['user_id'];
-                  $kelompok = $this->db->query("SELECT * FROM t_kelompok WHERE concat(',',kelompok_siswa,',') LIKE '%,$id,%'")->row_array();
-                  //
-
-                  $this->session->set_userdata('kelompok',@$kelompok['kelompok_id']);
-                  $this->session->set_userdata('kelas',$cek['user_kelas']);
-                  break;
-              }
-
               redirect(base_url('dashboard'));
 
       }else{

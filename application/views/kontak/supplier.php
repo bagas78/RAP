@@ -2,12 +2,12 @@
     <!-- Main content --> 
     <section class="content">
 
-      <!-- Default box --> 
+      <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left" class="user_akun_add">
-              <a href="<?= base_url('akun/user_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+            <div align="left" class="supplier_add">
+              <a href="<?= base_url('kontak/') ?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/add"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -17,22 +17,24 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-        <div class="box-body">
-         
+        <div class="box-body"> 
+          
           <table id="example" class="table table-bordered table-hover">
                 <thead>
                 <tr>
+                  <th>Kode <?= (@$jenis == 's')?'Supplier':'Pelanggan' ?></th>
                   <th>Nama</th>
-                  <th>Level</th>
-                  <th>Email</th>
                   <th width="70">Action</th>
                 </tr>
                 </thead>
                 <tbody>
+
                 </tbody>
               </table>
 
         </div>
+
+        
       </div>
       <!-- /.box -->
 
@@ -48,19 +50,18 @@
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('akun/user_get_data') ?>",
+                "url": "<?=(@$jenis == 's')? site_url('kontak/get_data/s'):site_url('kontak/get_data/p')?>",
                 "type": "GET"
             },
-            "columns": [  
-                        { "data": "user_name"},
-                        { "data": "level_nama"},
-                        { "data": "user_email"},
-                        { "data": "user_id",
+            "columns": [                               
+                        { "data": "kontak_kode"},
+                        { "data": "kontak_nama"},
+                        { "data": "kontak_id",
                         "render": 
                         function( data, type, row, meta ) {
-                            return "<a href='<?= base_url('akun/user_view/')?>"+data+"'><button class='btn btn-xs btn-success user_akun_add'><i class='fa fa-eye'></i></button></a> "+
-                            "<a href='<?= base_url('akun/user_edit/')?>"+data+"'><button class='btn btn-xs btn-primary user_akun_add'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('akun/user_delete/')?>"+data+"') class='btn btn-xs btn-danger user_akun_del'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?php echo base_url('kontak/')?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/view/"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a href='<?php echo base_url('kontak/')?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/edit/"+data+"'><button class='btn btn-xs btn-primary supplier_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('kontak/delete/')?>"+data+"/<?= @$jenis ?>') class='btn btn-xs btn-danger supplier_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

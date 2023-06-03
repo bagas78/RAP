@@ -211,20 +211,22 @@ $(document).ready(function() {
 });
 
 
-//level
+//level hak akses
 <?php $lv = $this->session->userdata('level'); ?>
 
 <?php if ($lv != 0): ?>
 
-    <?php $lv_data = $this->query_builder->view("SELECT * FROM t_level WHERE level_id = '$lv'"); ?>
+    <?php $lv_data = $this->query_builder->view_row("SELECT * FROM t_level WHERE level_id = '$lv'"); ?>
+
+    <?php $lv_json = json_decode($lv_data['level_akses'], true); ?>
 
     function auto(){
 
-        <?php foreach($lv_data as $key => $val): ?>
+        <?php foreach($lv_json as $key => $val): ?>
 
-            <?php if ($val  == 1): ?>  
+            <?php if ($val == 0): ?>  
 
-                $('.<?=$key?>').attr('hidden', true);
+                $('.<?=$key?>').css('display', 'none');
 
             <?php endif ?>
 
@@ -238,6 +240,9 @@ $(document).ready(function() {
     auto();
 
 <?php endif ?>
+
+//show menu
+setTimeout(function(){ $('.sidebar-menu').removeAttr('hidden'); }, 1000);
 
 </script>
 

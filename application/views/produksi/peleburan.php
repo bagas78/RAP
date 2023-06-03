@@ -14,7 +14,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="peleburan_add">
               <a href="<?= base_url('produksi/peleburan_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
@@ -123,8 +123,8 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('produksi/peleburan_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a hidden href='<?php echo base_url('produksi/peleburan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/peleburan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            "<a hidden href='<?php echo base_url('produksi/peleburan_edit/')?>"+data+"'><button class='btn btn-xs btn-primary peleburan_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produksi/peleburan_delete/')?>"+data+"') class='btn btn-xs btn-danger peleburan_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

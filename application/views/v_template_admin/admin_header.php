@@ -230,7 +230,7 @@ thead{
       </div>
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree" hidden>
         
         <br/>
           
@@ -250,25 +250,25 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="karyawan">
               <a href="<?php echo base_url('kontak/karyawan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Karyawan</span>
               </a>
             </li>
-            <li>
+            <li class="supplier">
               <a href="<?php echo base_url('kontak/supplier') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Supplier</span>
               </a>
             </li>
-            <li>
+            <li class="pelanggan">
               <a href="<?php echo base_url('kontak/pelanggan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pelanggan</span>
               </a>
             </li>
-            <li>
+            <li class="rekening">
               <a href="<?php echo base_url('kontak/rekening') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Rekening Bank</span>
@@ -287,32 +287,32 @@ thead{
             </span>
           </a>
           <ul class="treeview-menu">
-
-            <li>
+ 
+            <li class="bahan">
               <a href="<?php echo base_url('pembelian/bahan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Master Bahan</span>
               </a>
             </li>
-            <li>
+            <li class="bahan_po">
               <a href="<?php echo base_url('pembelian/po') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Purchase Order ( PO )</span>
               </a>
             </li>
-            <li>
+            <li class="pembelian_bahan">
               <a href="<?php echo base_url('pembelian/utama') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembelian Bahan</span>
               </a>
             </li>
-            <li>
+            <li class="pembelian_umum">
               <a href="<?php echo base_url('pembelian/umum') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembelian Umum</span>
               </a>
             </li>
-            <li>
+            <li class="hutang">
               <a href="<?php echo base_url('pembelian/bayar') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembayaran Hutang</span>
@@ -331,31 +331,31 @@ thead{
             </span>
           </a>
           <ul class="treeview-menu">
-            <li>
+            <li class="mesin">
               <a href="<?php echo base_url('pengaturan/mesin') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Master Mesin</span>
               </a>
             </li>
-            <li>
+            <li class="peleburan">
               <a href="<?php echo base_url('produksi/peleburan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Peleburan</span>
               </a>
             </li> 
-            <li>
+            <li class="produksi">
               <a href="<?php echo base_url('produksi/proses') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Proses Produksi</span>
               </a>
             </li>
-            <li>
+            <li class="pewarnaan">
               <a href="<?php echo base_url('produksi/pewarnaan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pewarnaan</span>
               </a>
             </li>
-            <li>
+            <li class="packing">
               <a href="<?php echo base_url('produksi/packing') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Packing</span>
@@ -374,19 +374,19 @@ thead{
             </span>
           </a>
           <ul class="treeview-menu">
-            <li>
+            <li class="jenis_pewarnaan">
               <a href="<?php echo base_url('produk/jenis') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Jenis Pewarnaan</span>
               </a>
             </li>
-            <li>
+            <li class="warna_produk">
               <a href="<?php echo base_url('produk/warna') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Warna Produk</span>
               </a>
             </li>
-            <li>
+            <li class="master_produk">
               <a href="<?php echo base_url('produk/master') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Master Produk</span>
@@ -407,19 +407,19 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="penjualan_po">
               <a href="<?php echo base_url('penjualan/po') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Purchase Order ( PO )</span>
               </a>
             </li>
-            <li>
+            <li class="penjualan_produk">
               <a href="<?php echo base_url('penjualan/produk') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Penjualan Produk</span>
               </a>
             </li>
-            <li>
+            <li class="piutang">
               <a href="<?php echo base_url('penjualan/bayar') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembayaran Piutang</span>
@@ -439,31 +439,31 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="coa">
               <a href="<?php echo base_url('keuangan/coa') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">COA</span>
               </a>
             </li>
-            <li>
+            <li class="kas">
               <a href="<?php echo base_url('keuangan/kas') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Kas Keluar</span>
               </a>
             </li>
-            <li>
+            <li class="jurnal">
               <a href="<?php echo base_url('keuangan/jurnal') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Jurnal Umum</span>
               </a>
             </li>
-            <li>
+            <li class="buku_besar">
               <a href="<?php echo base_url('keuangan/buku_besar') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Buku Besar</span>
               </a>
             </li>
-            <li>
+            <li class="penyesuaian">
               <a href="<?php echo base_url('keuangan/saldo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Penyesuaian Saldo</span>
@@ -483,62 +483,62 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="laporan_bahan">
               <a href="<?= base_url('laporan/stok_bahan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Stok Bahan Baku</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_produk">
               <a href="<?= base_url('laporan/stok_produk') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Stok Produk Jadi</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_produksi">
               <a href="<?= base_url('laporan/produksi') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Produksi</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_pembelian_po">
               <a href="<?= base_url('laporan/po_pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">PO Pembelian</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_pembelian">
               <a href="<?= base_url('laporan/pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pembelian</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_hutang">
               <a href="<?= base_url('laporan/pelunasan_hutang') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pelunasan Hutang</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_hutang_jatuh_tampo">
               <a href="<?= base_url('laporan/hutang_jatuh_tempo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Hutang Jatuh Tempo</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_penjualan">
               <a href="<?= base_url('laporan/penjualan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <!--Harian, Mingguan, Bulanan-->
                 <span class="multi-li">Penjualan</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_piutang">
               <a href="<?= base_url('laporan/pelunasan_piutang') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pelunasan Piutang</span>
               </a>
             </li>
-            <li>
+            <li class="laporan_piutang_jatuh_tampo">
               <a href="<?= base_url('laporan/piutang_jatuh_tempo') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Piutang Jatuh Tempo</span>
@@ -568,7 +568,7 @@ thead{
                 <span class="multi-li">Buku Besar</span>
               </a>
             </li> -->
-            <li>
+            <li class="laporan_packing">
               <a href="<?= base_url('laporan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Packing</span>
@@ -588,19 +588,19 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="opname_pembelian">
               <a href="<?php echo base_url('inventori/opname_pembelian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Stok Opname Pembelian</span>
               </a>
             </li>
-            <li>
+            <li class="opname_penjualan">
               <a href="<?php echo base_url('inventori/opname_penjualan') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Stok Opname Penjualan</span>
               </a>
             </li>
-            <li>
+            <li class="penyesuaian_stok">
               <a href="<?php echo base_url('inventori/penyesuaian') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Penyesuaian Stok</span>
@@ -620,19 +620,19 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="akses">
               <a href="<?php echo base_url('akun/akses') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Hak Akses</span>
               </a>
             </li>
-            <li>
+            <li class="user_akun">
               <a href="<?php echo base_url('akun/user') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">User Akun</span>
               </a>
             </li>
-            <li>
+            <li class="admin_akun">
               <a href="<?php echo base_url('akun/admin') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Admin Akun</span>
@@ -652,19 +652,19 @@ thead{
           </a>
           <ul class="treeview-menu">
 
-            <li>
+            <li class="pajak">
               <a href="<?php echo base_url('pengaturan/pajak') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Pajak</span>
               </a>
             </li>
-            <li>
+            <li class="backup">
               <a href="<?php echo base_url('pengaturan/backup') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Backup Database</span>
               </a>
             </li>
-            <li>
+            <li class="informasi">
               <a href="<?php echo base_url('pengaturan/informasi') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Informasi</span>

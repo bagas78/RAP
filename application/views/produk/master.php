@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="master_produk_add">
               <a href="<?= base_url('produk/master_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
@@ -76,9 +76,9 @@
                         { "data": "produk_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produk/master_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produk/master_view/')?>"+data+"'><button class='btn btn-xs bg-black'><i class='fa fa-arrow-right'></i></button></a>";
+                            return "<a href='<?php echo base_url('produk/master_edit/')?>"+data+"'><button class='btn btn-xs btn-primary master_produk_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produk/master_delete/')?>"+data+"') class='btn btn-xs btn-danger master_produk_del'><i class='fa fa-trash'></i></button> "+
+                            "<a href='<?php echo base_url('produk/master_view/')?>"+data+"'><button class='btn btn-xs bg-black master_produk_add'><i class='fa fa-arrow-right'></i></button></a>";
                           }
                         },
                         

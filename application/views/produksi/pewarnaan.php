@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
 
-          <div align="left">
+          <div align="left" class="pewarnaan_add">
             <a href="<?= base_url('produksi/pewarnaan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
           </div>
 
@@ -64,8 +64,8 @@
                         { "data": "pewarnaan_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?=base_url('produksi/pewarnaan_view/') ?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produksi/pewarnaan_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            return "<a href='<?=base_url('produksi/pewarnaan_view/') ?>"+data+"'><button class='btn btn-xs btn-success pewarnaan_add'><i class='fa fa-eye'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produksi/pewarnaan_delete/')?>"+data+"') class='btn btn-xs btn-danger pewarnaan_del'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?= base_url('produksi/pewarnaan_laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a>";
                           }
                         },

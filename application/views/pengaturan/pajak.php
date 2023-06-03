@@ -34,7 +34,7 @@
                     <td><?= $key['pajak_update'] ?></td>
                     <td style="width: 100px;">
                       <div>
-                      <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal-edit<?= $key['pajak_id'] ?>"><i class="fa fa-edit"></i></button>
+                      <button class="btn btn-xs btn-primary pajak_add" data-toggle="modal" data-target="#modal-edit<?= $key['pajak_id'] ?>"><i class="fa fa-edit"></i></button>
 
                       </div>
                     </td>

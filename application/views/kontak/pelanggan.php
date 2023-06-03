@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="pelanggan_add">
               <a href="<?= base_url('kontak/') ?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/add"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
@@ -17,7 +17,7 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body"> 
           
           <table id="example" class="table table-bordered table-hover">
                 <thead>
@@ -60,8 +60,8 @@
                         "render": 
                         function( data, type, row, meta ) {
                             return "<a href='<?php echo base_url('kontak/')?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/view/"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a href='<?php echo base_url('kontak/')?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/edit/"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('kontak/delete/')?>"+data+"/<?= @$jenis ?>') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            "<a href='<?php echo base_url('kontak/')?><?=(@$jenis == 's')?'supplier':'pelanggan' ?>/edit/"+data+"'><button class='btn btn-xs btn-primary pelanggan_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('kontak/delete/')?>"+data+"/<?= @$jenis ?>') class='btn btn-xs btn-danger pelanggan_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

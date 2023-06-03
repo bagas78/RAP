@@ -5,10 +5,10 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
- 
-            <div align="left">
-              <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
-              <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
+  
+            <div align="left" class="hutang_add">
+              <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
+              <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
             </div>
 
           <div class="box-tools pull-right">
@@ -45,9 +45,9 @@
 
   //active btn
   if ('<?=@$bayar_active?>' == 'bahan') {
-    $('.bahan').addClass('active').css('background', 'powderblue');
+    $('.b-bahan').addClass('active').css('background', 'powderblue');
   }else{
-    $('.umum').addClass('active').css('background', 'powderblue');
+    $('.b-umum').addClass('active').css('background', 'powderblue');
   }
 
     var table;
@@ -89,7 +89,7 @@
                         { "data": "pembelian_umum_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success'>Bayar <i class='fa fa-clipboard'></i></button>";
+                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
                           }
                         },
                         

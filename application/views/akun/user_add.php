@@ -15,7 +15,7 @@
         </div>
         <div class="box-body">
          
-          <form class="bg-alice" action="<?=base_url('akun/admin_save')?>" method="POST" accept-charset="utf-8">
+          <form class="bg-alice" action="<?=base_url('akun/user_save')?>" method="POST" accept-charset="utf-8">
             
             <div class="form-group">
               <label>Nama</label>
@@ -27,17 +27,17 @@
             </div>
             <div class="form-group">
               <label>Password <small class="edit text-danger"></small></label>
-              <input id="pass" type="text" name="password" class="form-control" autocomplete="off">
+              <input id="pass" type="password" name="password" class="form-control" autocomplete="off">
               <button onclick="show('pass')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
             <div class="form-group">
               <label>Ulangi Password <small class="edit text-danger"></small></label>
-              <input id="re" type="text" class="form-control" autocomplete="off">
+              <input id="re" type="password" class="form-control" autocomplete="off">
               <button onclick="show('re')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
             <div class="form-group">
               <label>Level</label>
-              <select required name="level" class="form-control">
+              <select required name="level" class="form-control" id="level">
                 <option value="" hidden>-- Pilih --</option>
                 <?php foreach ($level_data as $value): ?>
                   <option value="<?=$value['level_id']?>"><?=$value['level_nama']?></option>

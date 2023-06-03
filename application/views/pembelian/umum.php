@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="pembelian_umum_add">
               <a href="<?= base_url('pembelian/umum_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
                <button onclick="filter('lunas')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
               <button onclick="filter('belum')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
@@ -75,8 +75,8 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('pembelian/umum_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a hidden href='<?php echo base_url('pembelian/umum_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pembelian/umum_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
+                            "<a hidden href='<?php echo base_url('pembelian/umum_edit/')?>"+data+"'><button class='btn btn-xs btn-primary pembelian_umum_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('pembelian/umum_delete/')?>"+data+"') class='btn btn-xs btn-danger pembelian_umum_del'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?php echo base_url('pembelian/laporan_umum/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },

@@ -1,12 +1,12 @@
 
     <!-- Main content --> 
     <section class="content">
-
+ 
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="mesin_add">
               <a href="<?= base_url('pengaturan/mesin_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
             </div>
 
@@ -59,8 +59,8 @@
                         { "data": "mesin_id",
                         "render": 
                         function( data, type, row, meta ) {
-                            return "<a href='<?php echo base_url('pengaturan/mesin_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('pengaturan/mesin_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?php echo base_url('pengaturan/mesin_edit/')?>"+data+"'><button class='btn btn-xs btn-primary mesin_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('pengaturan/mesin_delete/')?>"+data+"') class='btn btn-xs btn-danger mesin_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

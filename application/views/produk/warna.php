@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="warna_produk_add">
               <a href="<?= base_url('produk/warna_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
               <button onclick="filter('JN001')" class="btn btn-default"><i class="fa fa-filter"></i> Anodizing</button>
               <button onclick="filter('JN002')" class="btn btn-default"><i class="fa fa-filter"></i> Powder Coating</button>
@@ -66,8 +66,8 @@
                         { "data": "warna_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produk/warna_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('produk/warna_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?php echo base_url('produk/warna_edit/')?>"+data+"'><button class='btn btn-xs btn-primary warna_produk_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('produk/warna_delete/')?>"+data+"') class='btn btn-xs btn-danger warna_produk_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

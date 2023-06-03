@@ -6,9 +6,10 @@
       <div class="box"> 
         <div class="box-header with-border"> 
  
-            <div align="left" class="hutang_add">
-              <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
-              <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
+            <div align="left" class="bahan_po_add">
+              <a href="<?= base_url('pembelian/'.@$url.'_add') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+               <button onclick="filter('lunas')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
+              <button onclick="filter('belum')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
             </div>
 
           <div class="box-tools pull-right">
@@ -23,12 +24,11 @@
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
-                  <th>Nomor</th>
+                  <th>Nomor</th> 
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
-                  <th>Pelunasan</th>
-                  <th>Keterangan</th>
-                  <th width="1">Action</th>
+                  <th>Status</th>
+                  <th width="60">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,14 +43,6 @@
       <!-- /.box -->
 
 <script type="text/javascript">
-
-  //active btn
-  if ('<?=@$bayar_active?>' == 'bahan') {
-    $('.b-bahan').addClass('active').css('background', 'powderblue');
-  }else{
-    $('.b-umum').addClass('active').css('background', 'powderblue');
-  }
-
     var table;
     $(document).ready(function() {
         //datatables
@@ -62,7 +54,7 @@
             "scrollX": true, 
             
             "ajax": {
-                "url": "<?=site_url('pembelian/bayar_get_data')?>",
+                "url": "<?=site_url('pembelian/'.@$url.'_get_data')?>",
                 "type": "GET"
             },
             "columns": [                               
@@ -74,24 +66,20 @@
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
-                        { "data": "pembelian_pelunasan",
+                        { "data": "pembelian_status",
                         "render": 
                         function( data ) {
-                            if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
-                            return "<span class='pelunasan'>"+p+"</span>";
-                          }
-                        },
-                        { "data": "pembelian_pelunasan_keterangan",
-                        "render": 
-                        function( data ) {
-                            if (data != null) {var k = data;}else{var k = '-';}
-                            return "<span>"+k+"</span>";
+                            if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
+                            return "<span>"+s+"</span>";
                           }
                         },
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
+                            return "<a href='<?php echo base_url('pembelian/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
+                            "<a hidden href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary bahan_po_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger bahan_po_del'><i class='fa fa-trash'></i></button> "+
+                            "<a href='<?php echo base_url('pembelian/laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
                         
@@ -100,20 +88,10 @@
 
     });
 
-  function auto(){
-
-    $.each($('.pelunasan'), function(index, val) {
-       var val = $(this).text();
-       if (val != '-') {
-        $(this).closest('tr').find('.btn').attr('disabled', 'true');
-       }
-    });
-
-    setTimeout(function() {
-        auto();
-    }, 100);
+function filter($val){
+  var table = $('#example').DataTable();
+  table.search($val).draw();
 }
 
-auto();
  
 </script>

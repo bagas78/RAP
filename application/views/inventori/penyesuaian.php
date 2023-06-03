@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left">
+            <div align="left" class="penyesuaian_stok_add">
               <button data-toggle="modal" data-target=".modal" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>             
               <button onclick="filter('pembelian')" class="btn btn-default"><i class="fa fa-filter"></i> Pembelian</button>
               <button onclick="filter('penjualan')" class="btn btn-default"><i class="fa fa-filter"></i> Penjualan</button>
@@ -132,8 +132,8 @@
                         { "data": "penyesuaian_id",
                         "render": 
                         function(data) {
-                            return "<a href='<?= base_url('inventori/penyesuaian_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<button onclick=del('<?= base_url('inventori/penyesuaian_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button>";
+                            return "<a href='<?= base_url('inventori/penyesuaian_view/')?>"+data+"'><button class='btn btn-xs btn-success penyesuaian_stok_add'><i class='fa fa-eye'></i></button></a> "+
+                            "<button onclick=del('<?= base_url('inventori/penyesuaian_delete/')?>"+data+"') class='btn btn-xs btn-danger penyesuaian_stok_del'><i class='fa fa-trash'></i></button>";
                           }
                         },
                         

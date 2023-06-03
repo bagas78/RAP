@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
           
-          <div align="left">
+          <div align="left" class="produksi_add">
             <a href="<?= base_url('produksi/'.@$url.'_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
           </div>
 
@@ -72,9 +72,9 @@
                         "render": 
                         function( data ) {
                             return "<a class='view' href='<?php echo base_url('produksi/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a hidden class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> "+
+                            "<a hidden class='edit' href='<?php echo base_url('produksi/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary produksi_add'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('produksi/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></button> "+
-                            "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='laporan btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
+                            "<a href='<?php echo base_url('produksi/laporan/')?>"+data+"'><button class='laporan btn btn-xs btn-warning produksi_del'><i class='fa fa-file-text'></i></button></a> ";
                           }
                         },
                         

@@ -62,7 +62,7 @@
                         { "data": "warna_jenis_id",
                         "render": 
                         function( data ) {
-                            return "<a href='<?php echo base_url('produk/jenis_edit/')?>"+data+"'><button class='btn btn-xs btn-primary'><i class='fa fa-edit'></i></button></a> ";
+                            return "<a href='<?php echo base_url('produk/jenis_edit/')?>"+data+"'><button class='btn btn-xs btn-primary jenis_pewarnaan_add'><i class='fa fa-edit'></i></button></a> ";
                           }
                         },
                         

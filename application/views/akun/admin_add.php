@@ -27,12 +27,12 @@
             </div>
             <div class="form-group">
               <label>Password <small class="edit text-danger"></small></label>
-              <input id="pass" type="text" name="password" class="form-control" autocomplete="off">
+              <input id="pass" type="password" name="password" class="form-control" autocomplete="off">
               <button onclick="show('pass')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
             <div class="form-group">
               <label>Ulangi Password <small class="edit text-danger"></small></label>
-              <input id="re" type="text" class="form-control" autocomplete="off">
+              <input id="re" type="password" class="form-control" autocomplete="off">
               <button onclick="show('re')" type="button" class="btn btn-default btn-xs"><small>Show Password</small></button>
             </div>
 

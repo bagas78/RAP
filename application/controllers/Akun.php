@@ -5,7 +5,7 @@ class Akun extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_user');
 		$this->load->model('m_level');
-	}   
+	}    
 	function admin(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'admin';
@@ -298,7 +298,7 @@ class Akun extends CI_Controller{
 							'user_name' => strip_tags($_POST['name']), 
 							'user_email' => $email, 
 							'user_password' => md5(strip_tags($_POST['password'])),
-							'user_level'	=> 0, 
+							'user_level'	=>  strip_tags($_POST['level']), 
 						);
 			$db = $this->query_builder->add('t_user',$set);
 
@@ -315,26 +315,30 @@ class Akun extends CI_Controller{
 		$data['title'] = 'admin';
 	   
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_user WHERE user_id = '$id'");
+	    $data['level_data'] = $this->query_builder->view("SELECT * FROM t_level WHERE level_hapus = 0");
 
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('akun/admin_add');
-	    $this->load->view('akun/admin_edit');
+	    $this->load->view('akun/user_add');
+	    $this->load->view('akun/user_edit');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
 	function user_update($id){
 		$email = strip_tags($_POST['email']);
 		$pass = strip_tags($_POST['password']);
+		$level = strip_tags($_POST['level']);
 
 		if ($pass == '') {
 			$set = array(
 						'user_name' => strip_tags($_POST['name']), 
 						'user_email' => $email, 
+						'user_level' => $level, 
 					);
 		} else {
 			$set = array(
 						'user_name' => strip_tags($_POST['name']), 
 						'user_email' => $email,
 						'user_password' => md5($password), 
+						'user_level' => $level, 
 					);	
 		}
 		
