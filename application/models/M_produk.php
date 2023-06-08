@@ -62,12 +62,12 @@ class M_produk extends CI_Model {
 	function get_datatables($where)
 	{	
 		$this->db->select('*');
-		$this->db->select('SUM(produk_barang_stok) as stok');
+		$this->db->select('IF(produk_barang_stok, SUM(produk_barang_stok), 0) AS stok');
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
 		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
-		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id', 'LEFT');
 		$this->db->group_by('t_produk.produk_id');
 		$this->db->limit($_GET['length'], $_GET['start']);
 		$query = $this->db->get();
@@ -79,7 +79,7 @@ class M_produk extends CI_Model {
 		$this->_get_datatables_query();
 		$this->db->where($where);
 		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
-		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id', 'LEFT');
 		$this->db->group_by('t_produk.produk_id');
 		$query = $this->db->get();
 		return $query->num_rows();
@@ -90,7 +90,7 @@ class M_produk extends CI_Model {
 		$this->db->from($this->table);
 		$this->db->where($where);
 		$this->db->join('t_satuan', 't_produk.produk_satuan = t_satuan.satuan_id');
-		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id');
+		$this->db->join('t_produk_barang', 't_produk_barang.produk_barang_barang = t_produk.produk_id', 'LEFT');
 		$this->db->group_by('t_produk.produk_id');
 		return $this->db->count_all_results();
 	}

@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fa fa-times"></i></button> 
+          <i class="fa fa-times"></i></button>  
       </div>
 
       <div hidden id="search" align="left">
@@ -35,7 +35,7 @@
           <div class="col-md-12">
             <div class="form-group col-md-6">
               <label>Kode Produk</label> 
-              <input readonly="" type="text" name="kode" class="form-control" required value="<?=@$kode?>" id="kode">
+              <input type="text" name="kode" class="form-control" required value="" id="kode">
             </div>
             <div class="form-group col-md-6">
               <label>Merk</label>
@@ -50,8 +50,8 @@
             <div class="form-group col-md-6">
               <label>Ketebalan</label>
               <div class="input-group">
-                <input required type="number" name="ketebalan" class="form-control" id="ketebalan">
-                <span class="input-group-addon">Cm</span>
+                <input required type="number" name="ketebalan" class="form-control" id="ketebalan" step='0.01'>
+                <span class="input-group-addon">mm</span>
               </div>
             </div>
             <div class="form-group col-md-6">
@@ -60,13 +60,13 @@
                 <div class="col-md-6 col-xs-6">
                   <div class="input-group">
                     <input placeholder="panjang" required type="number" name="panjang" class="form-control" id="panjang">
-                    <span class="input-group-addon">Cm</span>
+                    <span class="input-group-addon">cm</span>
                   </div>
                 </div>
                 <div class="col-md-6 col-xs-6">
                   <div class="input-group">
                     <input placeholder="lebar" required type="number" name="lebar" class="form-control" id="lebar">
-                    <span class="input-group-addon">Cm</span>
+                    <span class="input-group-addon">cm</span>
                   </div>
                 </div>
               </div>

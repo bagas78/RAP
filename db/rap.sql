@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2023 at 05:05 PM
+-- Generation Time: Jun 08, 2023 at 09:36 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `rap`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_aspek`
+--
+
+CREATE TABLE `t_aspek` (
+  `aspek_id` int(11) NOT NULL,
+  `aspek_kode` text NOT NULL,
+  `aspek_title` text NOT NULL,
+  `aspek_bobot` text NOT NULL,
+  `aspek_cf` text NOT NULL,
+  `aspek_sf` text NOT NULL,
+  `aspek_hapus` int(11) NOT NULL DEFAULT 0,
+  `aspek_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_aspek`
+--
+
+INSERT INTO `t_aspek` (`aspek_id`, `aspek_kode`, `aspek_title`, `aspek_bobot`, `aspek_cf`, `aspek_sf`, `aspek_hapus`, `aspek_tanggal`) VALUES
+(2, 'AS01', 'Kecerdasan', '20', '60', '40', 0, '2020-06-23'),
+(3, 'AS02', 'sikap kerja', '30', '60', '40', 0, '2020-06-23'),
+(4, 'AS03', 'prilaku', '50', '60', '40', 0, '2020-06-23');
 
 -- --------------------------------------------------------
 
@@ -239,7 +265,33 @@ CREATE TABLE `t_billet` (
 --
 
 INSERT INTO `t_billet` (`billet_id`, `billet_full`, `billet_min`, `billet_stok`, `billet_sisa`, `billet_hpp`, `billet_hps`, `billet_update`) VALUES
-(1, '100', '35', '65', '0', '982000', '9820', '2023-05-15');
+(1, '100', '40', '60', '0', '982000', '9820', '2023-06-08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_cfsf`
+--
+
+CREATE TABLE `t_cfsf` (
+  `cfsf_id` int(11) NOT NULL,
+  `cfsf_user` int(11) DEFAULT NULL,
+  `cfsf_aspek` text DEFAULT NULL,
+  `cfsf_cf` text DEFAULT NULL,
+  `cfsf_sf` text DEFAULT NULL,
+  `cfsf_nilai` text DEFAULT NULL,
+  `cfsf_status` int(11) DEFAULT 0,
+  `cfsf_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_cfsf`
+--
+
+INSERT INTO `t_cfsf` (`cfsf_id`, `cfsf_user`, `cfsf_aspek`, `cfsf_cf`, `cfsf_sf`, `cfsf_nilai`, `cfsf_status`, `cfsf_tanggal`) VALUES
+(12, 6, 'AS01', '0.6', '0.4', '3.94', 1, '2020-06-25'),
+(13, 6, 'AS02', '0.6', '0.4', '4.13', 1, '2020-06-25'),
+(14, 6, 'AS03', '0.6', '0.4', '4.5', 1, '2020-06-25');
 
 -- --------------------------------------------------------
 
@@ -296,6 +348,156 @@ INSERT INTO `t_coa_sub` (`coa_sub_id`, `coa_sub_nomor`, `coa_sub_akun`, `coa_sub
 (3, '131', 'Modal', 'K', 'D', '2023-01-27'),
 (4, '141', 'Pendapatan', 'K', 'D', '2023-01-27'),
 (5, '151', 'Beban', 'D', 'K', '2023-01-27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_detail`
+--
+
+CREATE TABLE `t_detail` (
+  `detail_id` int(11) NOT NULL,
+  `detail_user` int(11) NOT NULL,
+  `detail_tempat_lahir` text NOT NULL,
+  `detail_tanggal_lahir` date DEFAULT NULL,
+  `detail_umur` text DEFAULT NULL,
+  `detail_alamat` text NOT NULL,
+  `detail_nohp` text NOT NULL,
+  `detail_ktp` text NOT NULL,
+  `detail_tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_faktor`
+--
+
+CREATE TABLE `t_faktor` (
+  `faktor_id` int(11) NOT NULL,
+  `faktor_kode` text NOT NULL,
+  `faktor_aspek` text NOT NULL,
+  `faktor_title` text NOT NULL,
+  `faktor_nilai_target` text NOT NULL,
+  `faktor_target_1` text NOT NULL,
+  `faktor_target_2` text NOT NULL,
+  `faktor_target_3` text NOT NULL,
+  `faktor_target_4` text NOT NULL,
+  `faktor_target_5` text NOT NULL,
+  `faktor_type` text NOT NULL,
+  `faktor_hapus` int(11) NOT NULL DEFAULT 0,
+  `faktor_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_faktor`
+--
+
+INSERT INTO `t_faktor` (`faktor_id`, `faktor_kode`, `faktor_aspek`, `faktor_title`, `faktor_nilai_target`, `faktor_target_1`, `faktor_target_2`, `faktor_target_3`, `faktor_target_4`, `faktor_target_5`, `faktor_type`, `faktor_hapus`, `faktor_tanggal`) VALUES
+(5, 'FK01', '2', 'Common Sense', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(6, 'FK02', '2', 'Verbalisasi Ide', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(7, 'FK03', '2', 'Sistematika Berpikir', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(8, 'FK04', '2', 'Penalaran dan Solusi Real', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(9, 'FK05', '2', 'Konsentrasi', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(10, 'FK06', '2', 'Logika Praktis', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(11, 'FK07', '2', 'Fleksibilitas Berpikir', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(12, 'FK08', '2', 'Imajinasi Kreatif', '5', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(13, 'FK09', '2', 'Antisipasi', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(14, 'FK010', '2', 'Potensi Kecerdasan', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(15, 'FK011', '3', 'Energi Psikis', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(16, 'FK012', '3', 'Ketelitian dan tanggung jawab', '4', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(17, 'FK013', '3', 'Kehati-hatian	', '2', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(18, 'FK014', '3', 'Pengendalian Perasaan', '3', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(19, 'FK015', '3', 'Dorongan Berprestasi	', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(20, 'FK016', '3', 'Vitalitas dan Perencanaan', '5', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(21, 'FK017', '4', 'Dominance (Kekuasaan)', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(22, 'FK018', '4', 'Influences (Pengaruh)', '3', 'x', 'x', 'x', 'x', 'x', 'cf', 0, '2020-06-23'),
+(23, 'FK019', '4', 'Steadiness (Keteguhan Hati)', '4', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23'),
+(24, 'FK020', '4', 'Compliance (Pemenuhan)', '5', 'x', 'x', 'x', 'x', 'x', 'sf', 0, '2020-06-23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_gap`
+--
+
+CREATE TABLE `t_gap` (
+  `gap_id` int(11) NOT NULL,
+  `gap_user` int(11) NOT NULL,
+  `gap_aspek` text NOT NULL,
+  `gap_faktor` text NOT NULL,
+  `gap_hasil` text NOT NULL,
+  `gap_status` int(11) NOT NULL DEFAULT 0,
+  `gap_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_gap`
+--
+
+INSERT INTO `t_gap` (`gap_id`, `gap_user`, `gap_aspek`, `gap_faktor`, `gap_hasil`, `gap_status`, `gap_tanggal`) VALUES
+(65, 6, 'AS01', 'FK01', '-1', 1, '2020-06-25'),
+(66, 6, 'AS01', 'FK02', '1', 1, '2020-06-25'),
+(67, 6, 'AS01', 'FK03', '-1', 1, '2020-06-25'),
+(68, 6, 'AS01', 'FK04', '-1', 1, '2020-06-25'),
+(69, 6, 'AS01', 'FK05', '-1', 1, '2020-06-25'),
+(70, 6, 'AS01', 'FK06', '-2', 1, '2020-06-25'),
+(71, 6, 'AS01', 'FK07', '0', 1, '2020-06-25'),
+(72, 6, 'AS01', 'FK08', '-2', 1, '2020-06-25'),
+(73, 6, 'AS01', 'FK09', '-1', 1, '2020-06-25'),
+(74, 6, 'AS01', 'FK010', '-1', 1, '2020-06-25'),
+(75, 6, 'AS02', 'FK011', '0', 1, '2020-06-25'),
+(76, 6, 'AS02', 'FK012', '0', 1, '2020-06-25'),
+(77, 6, 'AS02', 'FK013', '1', 1, '2020-06-25'),
+(78, 6, 'AS02', 'FK014', '-2', 1, '2020-06-25'),
+(79, 6, 'AS02', 'FK015', '0', 1, '2020-06-25'),
+(80, 6, 'AS02', 'FK016', '-4', 1, '2020-06-25'),
+(81, 6, 'AS03', 'FK017', '1', 1, '2020-06-25'),
+(82, 6, 'AS03', 'FK018', '1', 1, '2020-06-25'),
+(83, 6, 'AS03', 'FK019', '0', 1, '2020-06-25'),
+(84, 6, 'AS03', 'FK020', '-1', 1, '2020-06-25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_hasil_konversi`
+--
+
+CREATE TABLE `t_hasil_konversi` (
+  `hasil_konversi_id` int(11) NOT NULL,
+  `hasil_konversi_user` int(11) NOT NULL,
+  `hasil_konversi_aspek` text NOT NULL,
+  `hasil_konversi_faktor` text NOT NULL,
+  `hasil_konversi_nilai` text NOT NULL,
+  `hasil_konversi_status` int(11) NOT NULL DEFAULT 0,
+  `hasil_konversi_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_hasil_konversi`
+--
+
+INSERT INTO `t_hasil_konversi` (`hasil_konversi_id`, `hasil_konversi_user`, `hasil_konversi_aspek`, `hasil_konversi_faktor`, `hasil_konversi_nilai`, `hasil_konversi_status`, `hasil_konversi_tanggal`) VALUES
+(65, 6, 'AS01', 'FK07', '5', 1, '2020-06-25'),
+(66, 6, 'AS02', 'FK011', '5', 1, '2020-06-25'),
+(67, 6, 'AS02', 'FK012', '5', 1, '2020-06-25'),
+(68, 6, 'AS02', 'FK015', '5', 1, '2020-06-25'),
+(69, 6, 'AS03', 'FK019', '5', 1, '2020-06-25'),
+(70, 6, 'AS01', 'FK02', '4.5', 1, '2020-06-25'),
+(71, 6, 'AS02', 'FK013', '4.5', 1, '2020-06-25'),
+(72, 6, 'AS03', 'FK017', '4.5', 1, '2020-06-25'),
+(73, 6, 'AS03', 'FK018', '4.5', 1, '2020-06-25'),
+(74, 6, 'AS01', 'FK01', '4', 1, '2020-06-25'),
+(75, 6, 'AS01', 'FK03', '4', 1, '2020-06-25'),
+(76, 6, 'AS01', 'FK04', '4', 1, '2020-06-25'),
+(77, 6, 'AS01', 'FK05', '4', 1, '2020-06-25'),
+(78, 6, 'AS01', 'FK09', '4', 1, '2020-06-25'),
+(79, 6, 'AS01', 'FK010', '4', 1, '2020-06-25'),
+(80, 6, 'AS03', 'FK020', '4', 1, '2020-06-25'),
+(81, 6, 'AS01', 'FK06', '3', 1, '2020-06-25'),
+(82, 6, 'AS01', 'FK08', '3', 1, '2020-06-25'),
+(83, 6, 'AS02', 'FK014', '3', 1, '2020-06-25'),
+(84, 6, 'AS02', 'FK016', '1', 1, '2020-06-25');
 
 -- --------------------------------------------------------
 
@@ -451,6 +653,35 @@ INSERT INTO `t_kontak` (`kontak_id`, `kontak_jenis`, `kontak_kode`, `kontak_nama
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `t_konversi`
+--
+
+CREATE TABLE `t_konversi` (
+  `konversi_id` int(11) NOT NULL,
+  `konversi_title` text NOT NULL,
+  `konversi_selisih` text NOT NULL,
+  `konversi_bobot_nilai` text NOT NULL,
+  `konversi_tanggal` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_konversi`
+--
+
+INSERT INTO `t_konversi` (`konversi_id`, `konversi_title`, `konversi_selisih`, `konversi_bobot_nilai`, `konversi_tanggal`) VALUES
+(1, 'Tidak ada selisih (kompetensi sesuai dgn yg dibutuhkan)', '0', '5', '2020-05-17'),
+(2, 'Kompetensi individu kelebihan 1 tingkat', '1', '4,5', '2020-05-17'),
+(3, 'Kompetensi individu kekurangan 1 tingkat', '-1', '4', '2020-05-17'),
+(4, 'Kompetensi individu kelebihan 2 tingkat', '2', '3,5', '2020-05-18'),
+(5, 'Kompetensi individu kekurangan 2 tingkat', '-2', '3', '2020-05-18'),
+(6, 'Kompetensi individu kelebihan 3 tingkat', '3', '2.5', '2020-05-18'),
+(7, 'Kompetensi individu kekurangan 3 tingkat', '-3', '2', '2020-05-18'),
+(8, 'Kompetensi individu kelebihan 4 tingkat', '4', '1,5', '2020-05-18'),
+(9, 'Kompetensi individu kekurangan 4 tingkat', '-4', '1', '2020-05-18');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `t_level`
 --
 
@@ -467,7 +698,7 @@ CREATE TABLE `t_level` (
 --
 
 INSERT INTO `t_level` (`level_id`, `level_nama`, `level_akses`, `level_tanggal`, `level_hapus`) VALUES
-(3, 'Kasir', '{\"nama\":\"Kasir\",\"dashboard\":\"1\",\"kontak\":\"0\",\"karyawan\":\"0\",\"karyawan_add\":\"0\",\"karyawan_del\":\"0\",\"supplier\":\"0\",\"supplier_add\":\"0\",\"supplier_del\":\"0\",\"pelanggan\":\"0\",\"pelanggan_add\":\"0\",\"pelanggan_del\":\"0\",\"rekening\":\"0\",\"rekening_add\":\"0\",\"rekening_del\":\"0\",\"pembelian\":\"1\",\"bahan\":\"1\",\"bahan_add\":\"0\",\"bahan_del\":\"0\",\"bahan_po\":\"1\",\"bahan_po_add\":\"1\",\"bahan_po_del\":\"1\",\"pembelian_bahan\":\"1\",\"pembelian_bahan_add\":\"1\",\"pembelian_bahan_del\":\"1\",\"pembelian_umum\":\"1\",\"pembelian_umum_add\":\"1\",\"pembelian_umum_del\":\"1\",\"hutang\":\"1\",\"hutang_add\":\"1\",\"mesin\":\"0\",\"mesin_add\":\"0\",\"mesin_del\":\"0\",\"peleburan\":\"0\",\"peleburan_add\":\"0\",\"peleburan_del\":\"0\",\"produksi\":\"0\",\"produksi_add\":\"0\",\"produksi_del\":\"0\",\"pewarnaan\":\"0\",\"pewarnaan_add\":\"0\",\"pewarnaan_del\":\"0\",\"packing\":\"0\",\"packing_add\":\"0\",\"packing_del\":\"0\",\"produk\":\"1\",\"jenis_pewarnaan\":\"0\",\"jenis_pewarnaan_add\":\"0\",\"warna_produk\":\"0\",\"warna_produk_add\":\"0\",\"warna_produk_del\":\"0\",\"master_produk\":\"1\",\"master_produk_add\":\"0\",\"master_produk_del\":\"0\",\"penjualan\":\"1\",\"penjualan_po\":\"1\",\"penjualan_po_add\":\"1\",\"penjualan_po_del\":\"1\",\"penjualan_produk\":\"1\",\"penjualan_produk_add\":\"1\",\"penjualan_produk_del\":\"1\",\"piutang\":\"1\",\"piutang_add\":\"1\",\"keuangan\":\"0\",\"coa\":\"0\",\"coa_add\":\"0\",\"coa_del\":\"0\",\"kas\":\"0\",\"kas_add\":\"0\",\"kas_del\":\"0\",\"jurnal\":\"0\",\"jurnal_add\":\"0\",\"jurnal_del\":\"0\",\"buku_besar\":\"0\",\"buku_besar_add\":\"0\",\"buku_besar_del\":\"0\",\"penyesuaian\":\"0\",\"penyesuaian_add\":\"0\",\"penyesuaian_del\":\"0\",\"laporan\":\"1\",\"laporan_bahan\":\"1\",\"laporan_produk\":\"1\",\"laporan_produksi\":\"0\",\"laporan_pembelian_po\":\"1\",\"laporan_pembelian\":\"1\",\"laporan_hutang\":\"1\",\"laporan_hutang_jatuh_tampo\":\"1\",\"laporan_penjualan\":\"1\",\"laporan_piutang\":\"1\",\"laporan_piutang_jatuh_tampo\":\"1\",\"laporan_packing\":\"0\",\"inventori\":\"0\",\"opname_pembelian\":\"0\",\"opname_penjualan\":\"0\",\"penyesuaian_stok\":\"0\",\"penyesuaian_stok_add\":\"0\",\"penyesuaian_stok_del\":\"0\",\"akun\":\"0\",\"akses\":\"0\",\"akses_add\":\"0\",\"akses_del\":\"0\",\"user_akun\":\"0\",\"user_akun_add\":\"0\",\"user_akun_del\":\"0\",\"admin_akun\":\"0\",\"admin_akun_add\":\"0\",\"admin_akun_del\":\"0\",\"pengaturan\":\"0\",\"pajak\":\"0\",\"pajak_add\":\"0\",\"backup\":\"0\",\"informasi\":\"0\"}', '2023-06-01', 0);
+(3, 'Kasir', '{\"nama\":\"Kasir\",\"menu_dashboard\":\"0\",\"menu_kontak\":\"0\",\"karyawan\":\"0\",\"karyawan_add\":\"0\",\"karyawan_del\":\"0\",\"supplier\":\"0\",\"supplier_add\":\"0\",\"supplier_del\":\"0\",\"pelanggan\":\"0\",\"pelanggan_add\":\"0\",\"pelanggan_del\":\"0\",\"rekening\":\"0\",\"rekening_add\":\"0\",\"rekening_del\":\"0\",\"menu_pembelian\":\"0\",\"bahan\":\"1\",\"bahan_add\":\"0\",\"bahan_del\":\"0\",\"bahan_po\":\"1\",\"bahan_po_add\":\"1\",\"bahan_po_del\":\"1\",\"pembelian_bahan\":\"1\",\"pembelian_bahan_add\":\"1\",\"pembelian_bahan_del\":\"1\",\"pembelian_umum\":\"1\",\"pembelian_umum_add\":\"1\",\"pembelian_umum_del\":\"1\",\"hutang\":\"1\",\"hutang_add\":\"1\",\"menu_produksi\":\"0\",\"mesin\":\"0\",\"mesin_add\":\"0\",\"mesin_del\":\"0\",\"peleburan\":\"0\",\"peleburan_add\":\"0\",\"peleburan_del\":\"0\",\"produksi\":\"0\",\"produksi_add\":\"0\",\"produksi_del\":\"0\",\"pewarnaan\":\"0\",\"pewarnaan_add\":\"0\",\"pewarnaan_del\":\"0\",\"packing\":\"0\",\"packing_add\":\"0\",\"packing_del\":\"0\",\"menu_produk\":\"0\",\"jenis_pewarnaan\":\"0\",\"jenis_pewarnaan_add\":\"0\",\"warna_produk\":\"0\",\"warna_produk_add\":\"0\",\"warna_produk_del\":\"0\",\"master_produk\":\"1\",\"master_produk_add\":\"0\",\"master_produk_del\":\"0\",\"menu_penjualan\":\"0\",\"penjualan_po\":\"1\",\"penjualan_po_add\":\"1\",\"penjualan_po_del\":\"1\",\"penjualan_produk\":\"1\",\"penjualan_produk_add\":\"1\",\"penjualan_produk_del\":\"1\",\"piutang\":\"1\",\"piutang_add\":\"1\",\"menu_keuangan\":\"0\",\"coa\":\"0\",\"coa_add\":\"0\",\"coa_del\":\"0\",\"kas\":\"0\",\"kas_add\":\"0\",\"kas_del\":\"0\",\"jurnal\":\"0\",\"jurnal_add\":\"0\",\"jurnal_del\":\"0\",\"buku_besar\":\"0\",\"buku_besar_add\":\"0\",\"buku_besar_del\":\"0\",\"penyesuaian\":\"0\",\"penyesuaian_add\":\"0\",\"penyesuaian_del\":\"0\",\"menu_laporan\":\"0\",\"laporan_bahan\":\"1\",\"laporan_produk\":\"1\",\"laporan_produksi\":\"0\",\"laporan_pembelian_po\":\"1\",\"laporan_pembelian\":\"1\",\"laporan_hutang\":\"1\",\"laporan_hutang_jatuh_tampo\":\"1\",\"laporan_penjualan\":\"1\",\"laporan_piutang\":\"1\",\"laporan_piutang_jatuh_tampo\":\"1\",\"laporan_packing\":\"0\",\"menu_inventori\":\"0\",\"opname_pembelian\":\"0\",\"opname_penjualan\":\"0\",\"penyesuaian_stok\":\"0\",\"penyesuaian_stok_add\":\"0\",\"penyesuaian_stok_del\":\"0\",\"menu_akun\":\"0\",\"akses\":\"0\",\"akses_add\":\"0\",\"akses_del\":\"0\",\"user_akun\":\"0\",\"user_akun_add\":\"0\",\"user_akun_del\":\"0\",\"admin_akun\":\"0\",\"admin_akun_add\":\"0\",\"admin_akun_del\":\"0\",\"menu_pengaturan\":\"0\",\"pajak\":\"0\",\"pajak_add\":\"0\",\"backup\":\"0\",\"informasi\":\"0\"}', '2023-06-01', 0);
 
 -- --------------------------------------------------------
 
@@ -794,15 +1025,16 @@ CREATE TABLE `t_penjualan` (
   `penjualan_tanggal` date NOT NULL,
   `penjualan_jatuh_tempo` date NOT NULL,
   `penjualan_pembayaran` text DEFAULT NULL,
-  `penjualan_status` set('lunas','belum') NOT NULL,
-  `penjualan_piutang` enum('1','0') DEFAULT '0' COMMENT '1 = ada piutang , 0 = tidak ada',
-  `penjualan_pelunasan` date DEFAULT NULL,
-  `penjualan_pelunasan_keterangan` text DEFAULT NULL,
   `penjualan_keterangan` text NOT NULL,
   `penjualan_lampiran` text NOT NULL,
   `penjualan_qty_akhir` text DEFAULT NULL,
   `penjualan_ppn` text DEFAULT NULL,
   `penjualan_total` text DEFAULT NULL,
+  `penjualan_status` set('lunas','belum') NOT NULL,
+  `penjualan_piutang` enum('1','0') DEFAULT '0' COMMENT '1 = ada piutang , 0 = tidak ada',
+  `penjualan_pelunasan` date DEFAULT NULL,
+  `penjualan_pelunasan_jumlah` text DEFAULT '0',
+  `penjualan_pelunasan_keterangan` text DEFAULT NULL,
   `penjualan_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -810,12 +1042,12 @@ CREATE TABLE `t_penjualan` (
 -- Dumping data for table `t_penjualan`
 --
 
-INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_status`, `penjualan_piutang`, `penjualan_pelunasan`, `penjualan_pelunasan_keterangan`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_hapus`) VALUES
-(94, 0, 'PJ-06032023-1', '15', '2023-03-06', '2023-03-06', 'tunai', 'lunas', '0', NULL, NULL, '-', '', '4', '0', '100000', 0),
-(95, 0, 'PJ-06032023-2', '15', '2023-03-06', '2023-03-06', 'tunai', 'belum', '1', NULL, NULL, '-', '', '4', '0', '100000', 0),
-(96, 0, 'PJ-11032023-3', '15', '2023-03-11', '2023-03-11', 'tunai', 'lunas', '1', '2023-03-11', 'lunas mas bro', '-', '', '2', '0', '50000', 0),
-(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'lunas', '1', '2023-03-25', 'lunas hari ini', 'dari pesanan produksi', '', '17', '0', '50000', 0),
-(98, 1, 'PO-16052023-5', '15', '2023-05-16', '2023-05-16', 'tunai', 'belum', '1', NULL, NULL, '-', '', '4', '0', '100000', 0);
+INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_status`, `penjualan_piutang`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
+(94, 0, 'PJ-06032023-1', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', 'lunas', '0', NULL, '0', NULL, 0),
+(95, 0, 'PJ-06032023-2', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', 'belum', '1', NULL, '0', NULL, 0),
+(96, 0, 'PJ-11032023-3', '15', '2023-03-11', '2023-03-11', 'tunai', '-', '', '2', '0', '50000', 'lunas', '1', '2023-03-11', '0', 'lunas mas bro', 0),
+(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'dari pesanan produksi', '', '17', '0', '50000', 'lunas', '1', '2023-03-25', '0', 'lunas hari ini', 0),
+(98, 1, 'PO-16052023-5', '15', '2023-05-16', '2023-05-16', 'tunai', '-', '', '4', '0', '100000', 'belum', '1', NULL, '0', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -986,7 +1218,7 @@ INSERT INTO `t_produk` (`produk_id`, `produk_kode`, `produk_nama`, `produk_satua
 (8, 'MP001', 'Openback 3', '8', 'Original', '10', '15', '5', '5', '-', '50', '2023-02-17', '2023-02-17', 0),
 (9, 'MP002', 'Hollow 22 x 34', '8', 'Original', '6', '22', '34', '10', '-', '20', '2023-02-17', '2023-02-17', 0),
 (10, 'MP003', 'Hollow 21 x 21 Oval', '8', 'Original', '5', '21', '21', '7', '-', '50', '2023-02-17', '2023-02-17', 0),
-(11, 'MP004', 'Hollow 21 X 21 Kotak', '8', 'Original', '5', '21', '21', '7', '-', '30', '2023-02-17', '2023-02-17', 0);
+(11, 'MP004', 'Hollow 21 X 21 Kotak', '8', 'Original', '0.55', '21', '21', '7', '-', '30', '2023-02-17', '2023-02-17', 0);
 
 -- --------------------------------------------------------
 
@@ -1023,7 +1255,8 @@ INSERT INTO `t_produksi` (`produksi_id`, `produksi_nomor`, `produksi_tanggal`, `
 (102, 'PR-17042023-2', '2023-04-17', '78', '[\"1\",\"5\"]', '-', '1', NULL, NULL, '6', '42', '9820', '5', '15000', '64100', '0', 0),
 (103, 'PR-18042023-3', '2023-04-18', '78', '[\"1\",\"4\"]', '-', '3', NULL, NULL, '4', '28', '9820', '5', '10000', '59100', '0', 0),
 (104, 'PR-18042023-4', '2023-04-18', '78', '[\"2\",\"3\"]', '-', '2', NULL, NULL, '10', '75', '9820', '10', '20000', '118200', '0', 0),
-(106, 'PR-15052023-5', '2023-05-15', '78', '[\"1\",\"2\",\"3\"]', '-', '1', NULL, NULL, '18', '164', '9820', '5', '12000', '61100', '0', 0);
+(106, 'PR-15052023-5', '2023-05-15', '78', '[\"1\",\"2\",\"3\"]', '-', '1', NULL, NULL, '18', '164', '9820', '5', '12000', '61100', '0', 0),
+(107, 'PR-08062023-6', '2023-06-08', '84', '[\"2\",\"3\"]', '-', '1', NULL, NULL, '2', '20', '9820', '5', '10000', '59100', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -1034,6 +1267,7 @@ INSERT INTO `t_produksi` (`produksi_id`, `produksi_nomor`, `produksi_tanggal`, `
 CREATE TABLE `t_produksi_barang` (
   `produksi_barang_id` int(11) NOT NULL,
   `produksi_barang_nomor` text NOT NULL,
+  `produksi_barang_matras` text NOT NULL,
   `produksi_barang_barang` text NOT NULL,
   `produksi_barang_stok` text NOT NULL DEFAULT '0',
   `produksi_barang_berat` text NOT NULL DEFAULT '0',
@@ -1046,19 +1280,20 @@ CREATE TABLE `t_produksi_barang` (
 -- Dumping data for table `t_produksi_barang`
 --
 
-INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, `produksi_barang_barang`, `produksi_barang_stok`, `produksi_barang_berat`, `produksi_barang_qty`, `produksi_barang_subtotal`, `produksi_barang_tanggal`) VALUES
-(349, 'PR-17042023-1', '11', '0', '7', '5', '35', '2023-04-17'),
-(350, 'PR-17042023-1', '10', '0', '7', '5', '35', '2023-04-17'),
-(351, 'PR-17042023-1', '9', '0', '10', '5', '50', '2023-04-17'),
-(352, 'PR-17042023-1', '8', '0', '5', '5', '25', '2023-04-17'),
-(353, 'PR-17042023-2', '11', '0', '7', '3', '21', '2023-04-17'),
-(354, 'PR-17042023-2', '10', '0', '7', '3', '21', '2023-04-17'),
-(355, 'PR-18042023-3', '11', '0', '7', '2', '14', '2023-04-18'),
-(356, 'PR-18042023-3', '10', '0', '7', '2', '14', '2023-04-18'),
-(357, 'PR-18042023-4', '9', '0', '10', '5', '50', '2023-04-18'),
-(358, 'PR-18042023-4', '8', '0', '5', '5', '25', '2023-04-18'),
-(360, 'PR-15052023-5', '9', '0', '8', '8', '64', '2023-05-15'),
-(361, 'PR-15052023-5', '8', '0', '10', '10', '100', '2023-05-15');
+INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, `produksi_barang_matras`, `produksi_barang_barang`, `produksi_barang_stok`, `produksi_barang_berat`, `produksi_barang_qty`, `produksi_barang_subtotal`, `produksi_barang_tanggal`) VALUES
+(349, 'PR-17042023-1', '', '11', '0', '7', '5', '35', '2023-04-17'),
+(350, 'PR-17042023-1', '', '10', '0', '7', '5', '35', '2023-04-17'),
+(351, 'PR-17042023-1', '', '9', '0', '10', '5', '50', '2023-04-17'),
+(352, 'PR-17042023-1', '', '8', '0', '5', '5', '25', '2023-04-17'),
+(353, 'PR-17042023-2', '', '11', '0', '7', '3', '21', '2023-04-17'),
+(354, 'PR-17042023-2', '', '10', '0', '7', '3', '21', '2023-04-17'),
+(355, 'PR-18042023-3', '', '11', '0', '7', '2', '14', '2023-04-18'),
+(356, 'PR-18042023-3', '', '10', '0', '7', '2', '14', '2023-04-18'),
+(357, 'PR-18042023-4', '', '9', '0', '10', '5', '50', '2023-04-18'),
+(358, 'PR-18042023-4', '', '8', '0', '5', '5', '25', '2023-04-18'),
+(360, 'PR-15052023-5', '', '9', '0', '8', '8', '64', '2023-05-15'),
+(361, 'PR-15052023-5', '', '8', '0', '10', '10', '100', '2023-05-15'),
+(362, 'PR-08062023-6', '0.58', '8', '0', '10', '2', '20', '2023-06-08');
 
 -- --------------------------------------------------------
 
@@ -1083,7 +1318,7 @@ CREATE TABLE `t_produk_barang` (
 --
 
 INSERT INTO `t_produk_barang` (`produk_barang_id`, `produk_barang_barang`, `produk_barang_stok`, `produk_barang_packing`, `produk_barang_jenis`, `produk_barang_warna`, `produk_barang_hps`, `produk_barang_harga`, `produk_barang_tanggal`) VALUES
-(267, '8', '15', '0', '3', '0', '5910', '7500', '2023-04-15'),
+(267, '8', '17', '0', '3', '0', '5372.7272727273', '7500', '2023-04-15'),
 (268, '9', '18', '2', '3', '0', '6566.6666666667', '0', '2023-04-15'),
 (269, '10', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
 (270, '11', '10', '0', '3', '0', '11820', '0', '2023-04-15'),
@@ -1172,7 +1407,7 @@ CREATE TABLE `t_user` (
 
 INSERT INTO `t_user` (`user_id`, `user_email`, `user_password`, `user_name`, `user_ttl`, `user_nohp`, `user_alamat`, `user_biodata`, `user_foto`, `user_level`, `user_pelajaran`, `user_kelas`, `user_email_2`, `user_tanggal`, `user_hapus`) VALUES
 (5, 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', 'JTM', '2021-11-09', '085555111555', 'Alamat', 'Biodata', '4c293a141d8c17800a44b816d35238cd.png', 0, NULL, NULL, NULL, '2023-02-09', 0),
-(78, 'siskaeee@gmail.com', 'afa0b885505255964c06188e2b4e8f59', 'Siska Elisa', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, '2022-12-04', 0),
+(78, 'siskaeee@gmail.com', 'afa0b885505255964c06188e2b4e8f59', 'Siska Elisa', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL, '2022-12-04', 0),
 (84, 'kasir@gmail.com', 'c7911af3adbd12a035b289556d96470a', 'Kasir JTM', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL, '2023-06-02', 0);
 
 -- --------------------------------------------------------
@@ -1608,19 +1843,19 @@ ALTER TABLE `t_pewarnaan_barang`
 -- AUTO_INCREMENT for table `t_produk`
 --
 ALTER TABLE `t_produk`
-  MODIFY `produk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `produk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `t_produksi`
 --
 ALTER TABLE `t_produksi`
-  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `produksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `t_produksi_barang`
 --
 ALTER TABLE `t_produksi_barang`
-  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
+  MODIFY `produksi_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=363;
 
 --
 -- AUTO_INCREMENT for table `t_produk_barang`

@@ -234,13 +234,13 @@ thead{
         
         <br/>
           
-         <li class="dashboard">
+         <li class="menu_dashboard">
           <a href="<?php echo base_url() ?>dashboard">
             <div class="col-md-1 col-xs-1"><i class='material-icons'>dashboard</i></div> <div class="col-md-5 col-xs-5"><span>Dashboard</span></div>
           </a>
         </li>
 
-        <li class="treeview kontak">
+        <li class="treeview menu_kontak">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">import_contacts</i></div> 
             <div class="col-md-5 col-xs-5"><span>Kontak</span></div>
@@ -278,7 +278,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview pembelian">
+        <li class="treeview menu_pembelian">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">add_shopping_cart</i></div> 
             <div class="col-md-5 col-xs-5"><span>Pembelian</span></div>
@@ -322,7 +322,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview produksi">
+        <li class="treeview menu_produksi">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">multiline_chart</i></div> 
             <div class="col-md-5 col-xs-5"><span>Produksi</span></div>
@@ -365,7 +365,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview produk">
+        <li class="treeview menu_produk">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">widgets</i></div> 
             <div class="col-md-5 col-xs-5"><span>Master Produk</span></div>
@@ -397,7 +397,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview penjualan">
+        <li class="treeview menu_penjualan">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">local_grocery_store</i></div> 
             <div class="col-md-5 col-xs-5"><span>Penjualan</span></div>
@@ -429,7 +429,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview keuangan">
+        <li class="treeview menu_keuangan">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">equalizer</i></div> 
             <div class="col-md-5 col-xs-5"><span>Keuangan</span></div>
@@ -473,7 +473,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview laporan">
+        <li class="treeview menu_laporan">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">assignment</i></div> 
             <div class="col-md-5 col-xs-5"><span>Laporan</span></div>
@@ -579,7 +579,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview inventori">
+        <li class="treeview menu_inventori">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">layers</i></div> 
             <div class="col-md-5 col-xs-5"><span>Inventori</span></div>
@@ -611,7 +611,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview akun">
+        <li class="treeview menu_akun">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">group</i></div> 
             <div class="col-md-5 col-xs-5"><span>Akun</span></div>
@@ -643,7 +643,7 @@ thead{
           </ul>
         </li>
 
-        <li class="treeview pengaturan">
+        <li class="treeview menu_pengaturan">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">settings</i></div> 
             <div class="col-md-5 col-xs-5"><span>Pengaturan</span></div>

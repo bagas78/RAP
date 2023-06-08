@@ -21,7 +21,9 @@
                   <th>Nomor</th>
                   <th>Supplier</th>
                   <th>Jatuh Tempo</th>
-                  <th>Pelunasan</th>
+                  <th>Kekurangan</th>
+                  <th>Di Bayar</th>
+                  <th>Tanggal</th>
                   <th>Keterangan</th>
                   <th width="50">Action</th>
                 </tr>
@@ -39,14 +41,14 @@
 
 <script type="text/javascript">
     var table;
-    $(document).ready(function() {
+    $(document).ready(function() { 
         //datatables
         table = $('#example').DataTable({ 
 
-            "processing": true, 
-            "serverSide": true,
-            "order":[], 
-            "scrollX": true, 
+            "processing"    : true, 
+            "serverSide"    : true,
+            "order"         : [], 
+            "scrollX"       : true, 
             
             "ajax": {
                 "url": "<?=site_url('penjualan/bayar_get_data')?>",
@@ -61,6 +63,20 @@
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
                           }
                         },
+                        
+                        { "data": "penjualan_total",
+                        "render": 
+                        function( data ) {
+                            return number_format(data);
+                          }
+                        },
+                        { "data": "penjualan_pelunasan_jumlah",
+                        "render": 
+                        function( data ) {
+                            return number_format(data);
+                          }
+                        },
+
                         { "data": "penjualan_pelunasan",
                         "render": 
                         function( data ) {

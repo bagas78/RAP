@@ -5,7 +5,7 @@
     padding: 5px 10px;
     text-align: center;
   }
-</style>
+</style> 
 
 <!-- Main content --> 
 <section class="content">
@@ -97,6 +97,7 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
+              <th width="300">Matras</th>
               <th width="300">Produk</th>
               <th width="300">Berat</th>              
               <th width="300">Qty</th>
@@ -110,6 +111,9 @@
 
              <tr id="copy">
               <td>
+                <input min="0" type="number" name="matras[]" class="matras form-control" value="0" required step='0.01'>
+              </td>
+              <td>
                 <select required id="produk" class="produk form-control" name="produk[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $p): ?>
@@ -120,7 +124,7 @@
 
               <td>
                 <div class="input-group">
-                  <input min="0" type="number" name="berat[]" class="berat form-control" value="0" required>
+                  <input min="0" type="number" name="berat[]" class="berat form-control" value="0" required step="0.01">
                   <span class="input-group-addon">Kg</span>
                 </div>
               </td>
@@ -151,7 +155,7 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Total Produksi</td>
               <td>
                 <div class="input-group">
@@ -162,13 +166,13 @@
             </tr>
 
             <tr hidden>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Qty Produk</td>
               <td><input id="qty_produk" readonly="" type="text" name="qty_produk" class="form-control"></td>
             </tr>
 
             <tr hidden>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">HPS Billet</td>
               <td>
                 <input value="<?=number_format($billet_data['billet_hps'])?>" id="hps_billet" readonly="" type="text" name="hps_billet" class="form-control">
@@ -176,7 +180,7 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Qty Billet</td>
               <td>
                 <div class="input-group">
@@ -187,7 +191,7 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Biaya Jasa</td>
               <td>
                 <div class="input-group">
@@ -198,13 +202,13 @@
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Total Akhir</td>
               <td><input id="total_akhir" readonly="" type="text" name="total_akhir" class="form-control" value="0" min="0"></td>
             </tr>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td align="right">Sisa Billet</td>
               <td>
                 <div class="input-group">
@@ -215,7 +219,7 @@
             </tr>
 
             <tr class="save">
-              <td colspan="4" align="right">
+              <td colspan="5" align="right">
                 <button type="submit" class="btn btn-primary">Simpan <i class="fa fa-check"></i></button>
                 <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>
               </td>

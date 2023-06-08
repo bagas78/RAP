@@ -50,8 +50,8 @@
                 <tr>
                   <td class="bg-w">DASHBOARD</td>
                   <td>
-                    <input type="radio" name="dashboard" value="0" class="radio">
-                    <input type="radio" name="dashboard" value="0" checked hidden>
+                    <input type="radio" name="menu_dashboard" value="0" class="radio">
+                    <input type="radio" name="menu_dashboard" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -60,8 +60,8 @@
                 <tr>
                   <td class="bg-w">KONTAK</td>
                   <td>
-                    <input type="radio" name="kontak" value="0" class="radio">
-                    <input type="radio" name="kontak" value="0" checked hidden>
+                    <input type="radio" name="menu_kontak" value="0" class="radio">
+                    <input type="radio" name="menu_kontak" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -130,8 +130,8 @@
                 <tr>
                   <td class="bg-w">PEMBELIAN</td>
                   <td>
-                    <input type="radio" name="pembelian" value="0" class="radio">
-                    <input type="radio" name="pembelian" value="0" checked hidden>
+                    <input type="radio" name="menu_pembelian" value="0" class="radio">
+                    <input type="radio" name="menu_pembelian" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -212,8 +212,8 @@
                 <tr>
                   <td class="bg-w">PRODUKSI</td>
                   <td>
-                    <input type="radio" name="produksi" value="0" class="radio">
-                    <input type="radio" name="produksi" value="0" checked hidden>
+                    <input type="radio" name="menu_produksi" value="0" class="radio">
+                    <input type="radio" name="menu_produksi" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -297,8 +297,8 @@
                 <tr>
                   <td class="bg-w">MASTER PRODUK</td>
                   <td>
-                    <input type="radio" name="produk" value="0" class="radio">
-                    <input type="radio" name="produk" value="0" checked hidden>
+                    <input type="radio" name="menu_produk" value="0" class="radio">
+                    <input type="radio" name="menu_produk" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -349,8 +349,8 @@
                 <tr>
                   <td class="bg-w">PENJUALAN</td>
                   <td>
-                    <input type="radio" name="penjualan" value="0" class="radio">
-                    <input type="radio" name="penjualan" value="0" checked hidden>
+                    <input type="radio" name="menu_penjualan" value="0" class="radio">
+                    <input type="radio" name="menu_penjualan" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -401,8 +401,8 @@
                 <tr>
                   <td class="bg-w">KEUANGAN</td>
                   <td>
-                    <input type="radio" name="keuangan" value="0" class="radio">
-                    <input type="radio" name="keuangan" value="0" checked hidden>
+                    <input type="radio" name="menu_keuangan" value="0" class="radio">
+                    <input type="radio" name="menu_keuangan" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -486,8 +486,8 @@
                 <tr>
                   <td class="bg-w">LAPORAN</td>
                   <td>
-                    <input type="radio" name="laporan" value="0" class="radio">
-                    <input type="radio" name="laporan" value="0" checked hidden>
+                    <input type="radio" name="menu_laporan" value="0" class="radio">
+                    <input type="radio" name="menu_laporan" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -595,8 +595,8 @@
                 <tr>
                   <td class="bg-w">INVENTORI</td>
                   <td>
-                    <input type="radio" name="inventori" value="0" class="radio">
-                    <input type="radio" name="inventori" value="0" checked hidden>
+                    <input type="radio" name="menu_inventori" value="0" class="radio">
+                    <input type="radio" name="menu_inventori" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -638,8 +638,8 @@
                 <tr>
                   <td class="bg-w">AKUN</td>
                   <td>
-                    <input type="radio" name="akun" value="0" class="radio">
-                    <input type="radio" name="akun" value="0" checked hidden>
+                    <input type="radio" name="menu_akun" value="0" class="radio">
+                    <input type="radio" name="menu_akun" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>
@@ -693,8 +693,8 @@
                 <tr>
                   <td class="bg-w">PENGATURAN</td>
                   <td>
-                    <input type="radio" name="pengaturan" value="0" class="radio">
-                    <input type="radio" name="pengaturan" value="0" checked hidden>
+                    <input type="radio" name="menu_pengaturan" value="0" class="radio">
+                    <input type="radio" name="menu_pengaturan" value="0" checked hidden>
                   </td>
                   <td>-</td>
                   <td>-</td>

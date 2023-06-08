@@ -45,13 +45,14 @@
       var i = index+1;
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.produksi_barang_barang); 
-      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(number_format(val.produksi_barang_berat)); 
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val.produksi_barang_qty));    
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(val.produksi_barang_id);
+      $('#copy:nth-child('+i+') > td:nth-child(1) > input').val(val.produksi_barang_matras);
+      $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.produksi_barang_barang); 
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val.produksi_barang_berat)); 
+      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.produksi_barang_qty));    
+      $('#copy:nth-child('+i+') > td:nth-child(6) > input').val(val.produksi_barang_id);
 
       //satuan
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > span').text(val.satuan_singkatan);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > div > span').text(val.satuan_singkatan);
 
     });
 

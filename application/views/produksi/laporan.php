@@ -54,6 +54,7 @@
 					<thead>
 						<tr>
 							<th width="70">No</th>
+							<th>Matras</th>
 							<th>Nama Profil</th>
 							<th>Gambar</th>
 							<th>Panjang</th>
@@ -68,6 +69,7 @@
 
 							<tr>
 								<td><?=$i?></td>
+								<td class="matras"><?=@$val['produksi_barang_matras']?></td>
 								<td><?=@$val['produk_nama']?></td>
 								<td></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
@@ -83,24 +85,22 @@
 				</table>
 			</div>
 
-			<div class="col-md-6 col-xs-6">
+			<div class="col-md-12 col-xs-12">
 				<table class="table table-bordered">
-					<tr>
-						<th>Jumlah Billet</th>
-						<td><?=number_format(@$data[0]['produksi_billet_qty']).' Kg'?></td>
-					</tr>
-					<tr>
-						<th>Total</th>
-						<td id="total"></td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-md-6 col-xs-6">
-				<table class="table table-bordered">
-					<tr>
-						<th>Sisa Billet</th>
-						<td><?=number_format(@$data[0]['produksi_billet_sisa']).' Kg'?></td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Jumlah Matras</th>
+							<th>Jumlah Billet</th>
+							<th>Sisa Billet</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="matras_sum"></td>
+							<td><?=number_format(@$data[0]['produksi_billet_qty']).' Kg'?></td>
+							<td><?=number_format(@$data[0]['produksi_billet_sisa']).' Kg'?></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 
@@ -134,16 +134,16 @@
 </html>
 
 <script type="text/javascript">
-	
-	var subtotal = $('.subtotal');
-	var num = 0;
-	$.each(subtotal, function(index, val) {
+
+	var matras = $('.matras');
+	var num_matras = 0;
+	$.each(matras, function(index, val) {
 		 
-		 num += parseInt($(this).text().replace(/,/g, ''));
+		 num_matras += Number($(this).text().replace(/,/g, ''));
 		 
 	});
 
-	$('#total').text(number_format(num)+' Kg');
+	$('.matras_sum').text(number_format(num_matras));
 
 	
 	//print

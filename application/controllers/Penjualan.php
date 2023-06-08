@@ -3,7 +3,7 @@ class Penjualan extends CI_Controller{
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_penjualan');
+		$this->load->model('m_penjualan'); 
 	} 
 
 ///////////////////////// penjualan //////////////////////////////////////////////////
@@ -520,7 +520,13 @@ class Penjualan extends CI_Controller{
 	function bayar_rotate($id){
 		$tanggal = strip_tags($_POST['tanggal']);
 		$keterangan = strip_tags($_POST['keterangan']);
-		$set = ['penjualan_status' => 'lunas', 'penjualan_pelunasan' => $tanggal, 'penjualan_pelunasan_keterangan' => $keterangan];
+
+		$set = array(
+						'penjualan_status' => $status,
+						'penjualan_pelunasan' => $tanggal,
+						'penjualan_pelunasan_keterangan' => $keterangan
+					); 
+		
 		$where = ['penjualan_id' => $id];
 		$db = $this->query_builder->update('t_penjualan',$set,$where);
 
@@ -545,5 +551,12 @@ class Penjualan extends CI_Controller{
 		}
 
 		redirect(base_url('penjualan/bayar'));
+	}
+	function get_nominal($id){
+
+		$db = $this->query_builder->view_row("SELECT penjualan_total - penjualan_pelunasan_jumlah AS total FROM t_penjualan WHERE penjualan_id - '$id'");
+
+		echo json_encode($db);
+
 	}
 }

@@ -23,13 +23,13 @@ class Produksi extends CI_Controller{
 			"recordsFiltered" => $filter,
 			"data" => $data,
 		);
-
+ 
 		return $output;
 	}
 	function add($active){
 
 		//user
-	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
+	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level != 0 AND user_hapus = 0");
 
 	    //billet
 	    $data['billet_data'] = $this->query_builder->view_row("SELECT * FROM t_billet");
@@ -99,8 +99,9 @@ class Produksi extends CI_Controller{
 			$warna = @$_POST['warna'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
+						'produksi_barang_matras' => strip_tags(@$_POST['matras'][$i]),
 						'produksi_barang_barang' => strip_tags(@$barang[$i]),
-						'produksi_barang_berat' => strip_tags(str_replace(',', '', @$_POST['berat'][$i])),
+						'produksi_barang_berat' => strip_tags(@$_POST['berat'][$i]),
 						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),	
 						'produksi_barang_subtotal' => strip_tags(str_replace(',', '', @$_POST['subtotal'][$i])),		
 					);	
@@ -155,7 +156,7 @@ class Produksi extends CI_Controller{
 		$data['data'] = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
 
 		//user
-	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level = 2 AND user_hapus = 0");
+	    $data['user_data'] = $this->query_builder->view("SELECT * FROM t_user WHERE user_level != 0 AND user_hapus = 0");
 
 	    //billet
 	    $data['billet_data'] = $this->query_builder->view_row("SELECT * FROM t_billet");
@@ -231,10 +232,11 @@ class Produksi extends CI_Controller{
 			$delete = @$_POST['delete'][$i];
 			$set2 = array(
 						'produksi_barang_nomor' => $nomor,
+						'produksi_barang_matras' => strip_tags(@$_POST['matras'][$i]),
 						'produksi_barang_barang' => strip_tags(@$barang[$i]),
 						'produksi_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
 						'produksi_barang_warna' => strip_tags($warna),
-						'produksi_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
+						'produksi_barang_qty' => strip_tags(@$_POST['qty'][$i]),
 						'produksi_barang_mf_stok' => strip_tags(str_replace(',', '', @$_POST['mf'][$i])),	
 						'produksi_barang_mf' => strip_tags(@$_POST['mf_val'][$i]),
 					);	
@@ -552,7 +554,7 @@ class Produksi extends CI_Controller{
 
 		$data["title"] = $redirect;
 	    $this->load->view('v_template_admin/admin_header',$data);
-	    $this->load->view('produksi/form');
+	    $this->load->view('produksi/form'); 
 	    $this->load->view('produksi/search');
 	    $this->load->view('v_template_admin/admin_footer');
 	}
