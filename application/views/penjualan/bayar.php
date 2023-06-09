@@ -64,10 +64,10 @@
                           }
                         },
                         
-                        { "data": "penjualan_total",
+                        { "data": "kekurangan",
                         "render": 
                         function( data ) {
-                            return number_format(data);
+                            return '<span class="kekurangan">'+number_format(data)+'</span>';
                           }
                         },
                         { "data": "penjualan_pelunasan_jumlah",
@@ -81,7 +81,7 @@
                         "render": 
                         function( data ) {
                             if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
-                            return "<span class='pelunasan'>"+p+"</span>";
+                            return "<span>"+p+"</span>";
                           }
                         },
                         { "data": "penjualan_pelunasan_keterangan",
@@ -105,9 +105,9 @@
 
 function auto(){
 
-    $.each($('.pelunasan'), function(index, val) {
+    $.each($('.kekurangan'), function(index, val) {
        var val = $(this).text();
-       if (val != '-') {
+       if (val == '0') {
         $(this).closest('tr').find('.btn').attr('disabled', 'true');
        }
     });

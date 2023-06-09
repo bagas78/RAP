@@ -520,10 +520,22 @@ class Penjualan extends CI_Controller{
 	function bayar_rotate($id){
 		$tanggal = strip_tags($_POST['tanggal']);
 		$keterangan = strip_tags($_POST['keterangan']);
+		$jumlah = strip_tags($_POST['jumlah']);
+		$kurang = strip_tags($_POST['kurang']);
+
+		//status
+		if ($kurang == 0) {
+			
+			$status = 'lunas';
+		}else{
+
+			$status = 'belum';
+		}
 
 		$set = array(
 						'penjualan_status' => $status,
 						'penjualan_pelunasan' => $tanggal,
+						'penjualan_pelunasan_jumlah' => $jumlah,
 						'penjualan_pelunasan_keterangan' => $keterangan
 					); 
 		
@@ -554,7 +566,7 @@ class Penjualan extends CI_Controller{
 	}
 	function get_nominal($id){
 
-		$db = $this->query_builder->view_row("SELECT penjualan_total - penjualan_pelunasan_jumlah AS total FROM t_penjualan WHERE penjualan_id - '$id'");
+		$db = $this->query_builder->view_row("SELECT penjualan_total - penjualan_pelunasan_jumlah AS total FROM t_penjualan WHERE penjualan_id = '$id'");
 
 		echo json_encode($db);
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2023 at 09:36 PM
+-- Generation Time: Jun 09, 2023 at 06:18 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -1030,8 +1030,8 @@ CREATE TABLE `t_penjualan` (
   `penjualan_qty_akhir` text DEFAULT NULL,
   `penjualan_ppn` text DEFAULT NULL,
   `penjualan_total` text DEFAULT NULL,
-  `penjualan_status` set('lunas','belum') NOT NULL,
   `penjualan_piutang` enum('1','0') DEFAULT '0' COMMENT '1 = ada piutang , 0 = tidak ada',
+  `penjualan_status` set('lunas','belum') NOT NULL,
   `penjualan_pelunasan` date DEFAULT NULL,
   `penjualan_pelunasan_jumlah` text DEFAULT '0',
   `penjualan_pelunasan_keterangan` text DEFAULT NULL,
@@ -1042,12 +1042,12 @@ CREATE TABLE `t_penjualan` (
 -- Dumping data for table `t_penjualan`
 --
 
-INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_status`, `penjualan_piutang`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
-(94, 0, 'PJ-06032023-1', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', 'lunas', '0', NULL, '0', NULL, 0),
-(95, 0, 'PJ-06032023-2', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', 'belum', '1', NULL, '0', NULL, 0),
-(96, 0, 'PJ-11032023-3', '15', '2023-03-11', '2023-03-11', 'tunai', '-', '', '2', '0', '50000', 'lunas', '1', '2023-03-11', '0', 'lunas mas bro', 0),
-(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'dari pesanan produksi', '', '17', '0', '50000', 'lunas', '1', '2023-03-25', '0', 'lunas hari ini', 0),
-(98, 1, 'PO-16052023-5', '15', '2023-05-16', '2023-05-16', 'tunai', '-', '', '4', '0', '100000', 'belum', '1', NULL, '0', NULL, 0);
+INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_piutang`, `penjualan_status`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
+(94, 0, 'PJ-06032023-1', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', '0', 'lunas', NULL, '0', NULL, 0),
+(95, 0, 'PJ-06032023-2', '15', '2023-03-06', '2023-03-06', 'tunai', '-', '', '4', '0', '100000', '1', 'belum', NULL, '0', NULL, 0),
+(96, 0, 'PJ-11032023-3', '15', '2023-03-11', '2023-03-11', 'tunai', '-', '', '2', '0', '50000', '1', 'belum', '2023-06-09', '25000', 'kurang 50%', 0),
+(97, 0, 'PJ-25032023-4', '15', '2023-03-25', '2023-04-01', 'tunai', 'dari pesanan produksi', '', '17', '0', '50000', '1', 'lunas', '2023-06-09', '50000', '-', 0),
+(98, 1, 'PO-16052023-5', '15', '2023-05-16', '2023-05-16', 'tunai', '-', '', '4', '0', '100000', '1', 'belum', NULL, '0', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1267,7 +1267,7 @@ INSERT INTO `t_produksi` (`produksi_id`, `produksi_nomor`, `produksi_tanggal`, `
 CREATE TABLE `t_produksi_barang` (
   `produksi_barang_id` int(11) NOT NULL,
   `produksi_barang_nomor` text NOT NULL,
-  `produksi_barang_matras` text NOT NULL,
+  `produksi_barang_matras` text NOT NULL DEFAULT '0',
   `produksi_barang_barang` text NOT NULL,
   `produksi_barang_stok` text NOT NULL DEFAULT '0',
   `produksi_barang_berat` text NOT NULL DEFAULT '0',
@@ -1281,18 +1281,18 @@ CREATE TABLE `t_produksi_barang` (
 --
 
 INSERT INTO `t_produksi_barang` (`produksi_barang_id`, `produksi_barang_nomor`, `produksi_barang_matras`, `produksi_barang_barang`, `produksi_barang_stok`, `produksi_barang_berat`, `produksi_barang_qty`, `produksi_barang_subtotal`, `produksi_barang_tanggal`) VALUES
-(349, 'PR-17042023-1', '', '11', '0', '7', '5', '35', '2023-04-17'),
-(350, 'PR-17042023-1', '', '10', '0', '7', '5', '35', '2023-04-17'),
-(351, 'PR-17042023-1', '', '9', '0', '10', '5', '50', '2023-04-17'),
-(352, 'PR-17042023-1', '', '8', '0', '5', '5', '25', '2023-04-17'),
-(353, 'PR-17042023-2', '', '11', '0', '7', '3', '21', '2023-04-17'),
-(354, 'PR-17042023-2', '', '10', '0', '7', '3', '21', '2023-04-17'),
-(355, 'PR-18042023-3', '', '11', '0', '7', '2', '14', '2023-04-18'),
-(356, 'PR-18042023-3', '', '10', '0', '7', '2', '14', '2023-04-18'),
-(357, 'PR-18042023-4', '', '9', '0', '10', '5', '50', '2023-04-18'),
-(358, 'PR-18042023-4', '', '8', '0', '5', '5', '25', '2023-04-18'),
-(360, 'PR-15052023-5', '', '9', '0', '8', '8', '64', '2023-05-15'),
-(361, 'PR-15052023-5', '', '8', '0', '10', '10', '100', '2023-05-15'),
+(349, 'PR-17042023-1', '0', '11', '0', '7', '5', '35', '2023-04-17'),
+(350, 'PR-17042023-1', '0', '10', '0', '7', '5', '35', '2023-04-17'),
+(351, 'PR-17042023-1', '0', '9', '0', '10', '5', '50', '2023-04-17'),
+(352, 'PR-17042023-1', '0', '8', '0', '5', '5', '25', '2023-04-17'),
+(353, 'PR-17042023-2', '0', '11', '0', '7', '3', '21', '2023-04-17'),
+(354, 'PR-17042023-2', '0', '10', '0', '7', '3', '21', '2023-04-17'),
+(355, 'PR-18042023-3', '0', '11', '0', '7', '2', '14', '2023-04-18'),
+(356, 'PR-18042023-3', '0', '10', '0', '7', '2', '14', '2023-04-18'),
+(357, 'PR-18042023-4', '0', '9', '0', '10', '5', '50', '2023-04-18'),
+(358, 'PR-18042023-4', '0', '8', '0', '5', '5', '25', '2023-04-18'),
+(360, 'PR-15052023-5', '0', '9', '0', '8', '8', '64', '2023-05-15'),
+(361, 'PR-15052023-5', '0', '8', '0', '10', '10', '100', '2023-05-15'),
 (362, 'PR-08062023-6', '0.58', '8', '0', '10', '2', '20', '2023-06-08');
 
 -- --------------------------------------------------------

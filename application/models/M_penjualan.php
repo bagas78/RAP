@@ -6,13 +6,13 @@ class M_penjualan extends CI_Model {
 	var $table = 't_penjualan'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null,'penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status'); 
+	var $column_order = array(null,'penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status','kekurangan'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status'); 
+	var $column_search = array('penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status','kekurangan'); 
 
 	//urutan 
-	var $order = array('penjualan_id' => 'desc'); 
+	var $order = array('penjualan_id' => 'desc');  
 
 	public function __construct()
 	{
@@ -61,6 +61,8 @@ class M_penjualan extends CI_Model {
 
 	function get_datatables($where)
 	{
+		$this->db->select('*');
+		$this->db->select('(penjualan_total - penjualan_pelunasan_jumlah) AS kekurangan');
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);
