@@ -11,7 +11,7 @@ class Stok{
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
  
-  function bahan(){
+  function bahan(){ 
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang")->result_array();
 
@@ -40,7 +40,9 @@ class Stok{
       //tambah stok bahan cacat BH000
       foreach ($pewarnaan as $pw) {
         $jum = $pw['cacat'];
-        $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = 0");
+        if ($jum != '') {
+          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = 0"); 
+        }
       }
 
       //kurangi peleburan

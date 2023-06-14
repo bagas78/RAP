@@ -135,7 +135,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required>
+                  <input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required step="0.01">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
