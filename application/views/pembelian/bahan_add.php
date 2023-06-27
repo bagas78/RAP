@@ -41,11 +41,7 @@
                   <option value="<?= $s['satuan_id']?>"><?= $s['satuan_singkatan']?></option>
                 <?php endforeach ?>
               </select>
-            </div>
-            <div class="form-group">
-              <label>Harga</label>
-              <input required="" type="number" name="harga" class="form-control">
-            </div>            
+            </div>       
 
             <button type="submit" class="btn btn-success">Simpan <i class="fa fa-check"></i></button>
             <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button type="button" class="btn btn-danger">Batal <i class="fa fa-times"></i></button></a>

@@ -17,7 +17,7 @@
 <section class="content">
 
   <!-- Default box -->   
-  <div class="box"> 
+  <div class="box">  
     <div class="box-header with-border">
 
       <div class="back" align="left" hidden>
@@ -150,7 +150,7 @@
                 </div>
               </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
-              <td><input type="text" name="harga[]" class="harga form-control readonly" value="0" min="1"></td>
+              <td><input readonly type="text" name="harga[]" class="harga form-control" value="0" min="1"></td>
               <td><input type="text" name="subtotal[]" class="subtotal form-control readonly" value="0" min="1"></td>
 
               <!--hidden-->
@@ -276,6 +276,13 @@
 
 <script type="text/javascript">
 
+//harga edit level admin
+<?php if($this->session->userdata('level') == 0): ?>
+
+  $('.harga').removeAttr('readonly');
+
+<?php endif ?>
+
 //PO
 <?php if(@$url == 'po'):?>
   $('#search').attr('hidden', true);
@@ -369,14 +376,17 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     switch (jenis) {
       case '1':
         //Anodizing
+        $('.warna-produk > option').attr('hidden',true);
         $(cl).removeAttr('hidden');
         break;
       case '2':
         //Powder Coating
+        $('.warna-produk > option').attr('hidden',true);
         $(cl).removeAttr('hidden');
         break;
       case '3':
         //MF
+        $('.warna-produk > option').attr('hidden',true);
         $('.warna-produk').val(0).change().attr('readonly',true).css('pointer-events','none');
         break;
        

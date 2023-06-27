@@ -6,7 +6,7 @@
     color: white;
     padding: 0.5%;
     font-weight: 800;
-  }
+  } 
 </style>
 
 <!-- Main content -->  
@@ -43,6 +43,7 @@
         <thead>
           <tr>
             <th>Produk</th>
+            <th>Warna</th>
             <th width="1">Stok</th>
             <th width="1">Satuan</th>
           </tr>
@@ -129,12 +130,13 @@
             "order"         :[],
             
             "ajax": {
-                "url": "<?=site_url('produk/master_get_data') ?>",
+                "url": "<?=site_url('dashboard/produk') ?>",
                 "type": "GET"
             },
             "columns": [  
                         { "data": "produk_nama"},
-                        { "data": "stok",
+                        { "data": "warna_nama"},
+                        { "data": "produk_barang_stok",
                         "render":
                         function(data) {
                           return "<span>"+number_format(data)+"</span>";

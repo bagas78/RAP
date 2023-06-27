@@ -13,7 +13,7 @@
               <i class="fa fa-times"></i></button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body"> 
 
           <div class="col-md-4 row">
             <table class="table table-bordered table-hover" style="margin-bottom: 0;">
@@ -52,7 +52,7 @@
                 <tr>
                   <td><?=$val['produksi_nomor'] ?></td>
                   <td><?=$val['user_name'] ?></td>
-                  <td class="produksi"><?=$val['produksi_barang_qty'] ?></td>
+                  <td class="produksi_qty"><?=$val['produksi_barang_qty'] ?></td>
                   <td class="jasa"><?=$val['produksi_jasa'] ?></td>
                   <td><?php $dt = date_create($val['produksi_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
  //produksi
  var p = 0;
- $.each($('.produksi'), function(index, val) {
+ $.each($('.produksi_qty'), function(index, val) {
     var parse = parseInt($(this).text());
     p += parse;
 

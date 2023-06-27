@@ -3,6 +3,7 @@ class Dashboard extends CI_Controller{
 
 	function __construct(){
 		parent::__construct(); 
+		$this->load->model('m_produk_dashboard');
 	} 
 	function index(){
 		if ( $this->session->userdata('login') == 1) { 
@@ -12,7 +13,7 @@ class Dashboard extends CI_Controller{
 			if (@$_POST['filter'] == 2) {
 				//filter
 				$data['filter'] = 2;
-
+ 
 				//bulanan
 				$data['pembelian_data'] = $this->query_builder->view("SELECT SUM(pembelian_total) AS total, DATE_FORMAT(pembelian_tanggal, '%Y') AS tahun, REPLACE(DATE_FORMAT(pembelian_tanggal, '%d'), '0','') AS tanggal, REPLACE(DATE_FORMAT(pembelian_tanggal, '%m'), '0','') AS bulan FROM t_pembelian WHERE pembelian_hapus = 0 AND DATE_FORMAT(pembelian_tanggal, '%Y') = '$tahun' GROUP BY DATE_FORMAT(pembelian_tanggal, '%m')");
 
@@ -44,4 +45,21 @@ class Dashboard extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	} 
+	function produk(){
+
+		$where = array('produk_hapus' => 0);
+
+	    $data = $this->m_produk_dashboard->get_datatables($where);
+		$total = $this->m_produk_dashboard->count_all($where);
+		$filter = $this->m_produk_dashboard->count_filtered($where);
+
+		$output = array(
+			"draw" => $_GET['draw'],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+		//output dalam format JSON
+		echo json_encode($output);
+	}
 }

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 27, 2023 at 12:12 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- Host: localhost:3306
+-- Generation Time: Jun 27, 2023 at 12:55 AM
+-- Server version: 10.5.21-MariaDB
+-- PHP Version: 8.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rap`
+-- Database: `bukacod_rap`
 --
 
 -- --------------------------------------------------------
@@ -38,7 +37,7 @@ CREATE TABLE `t_bahan` (
   `bahan_harga` text NOT NULL,
   `bahan_tanggal` date NOT NULL DEFAULT curdate(),
   `bahan_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_bahan`
@@ -63,7 +62,7 @@ CREATE TABLE `t_bank` (
   `bank_kode` text NOT NULL,
   `bank_nama` text NOT NULL,
   `bank_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_bank`
@@ -227,7 +226,7 @@ CREATE TABLE `t_billet` (
   `billet_hpp` text DEFAULT '9',
   `billet_hps` text DEFAULT '0',
   `billet_update` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_billet`
@@ -248,7 +247,7 @@ CREATE TABLE `t_coa` (
   `coa_akun` text NOT NULL,
   `coa_sub` text NOT NULL,
   `coa_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_coa`
@@ -279,7 +278,7 @@ CREATE TABLE `t_coa_sub` (
   `coa_sub_plus` text NOT NULL,
   `coa_sub_min` text NOT NULL,
   `coa_sub_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_coa_sub`
@@ -307,7 +306,7 @@ CREATE TABLE `t_jurnal` (
   `jurnal_nominal` text NOT NULL,
   `jurnal_hapus` int(11) NOT NULL DEFAULT 0,
   `jurnal_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_jurnal`
@@ -330,7 +329,7 @@ CREATE TABLE `t_karyawan` (
   `karyawan_alamat` text NOT NULL,
   `karyawan_tanggal` date NOT NULL DEFAULT curdate(),
   `karyawan_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_karyawan`
@@ -359,7 +358,7 @@ CREATE TABLE `t_kontak` (
   `kontak_npwp` text NOT NULL,
   `kontak_tanggal` date NOT NULL DEFAULT curdate(),
   `kontak_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_kontak`
@@ -381,7 +380,7 @@ CREATE TABLE `t_level` (
   `level_akses` text DEFAULT NULL,
   `level_tanggal` date DEFAULT curdate(),
   `level_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_level`
@@ -403,7 +402,7 @@ CREATE TABLE `t_logo` (
   `logo_telp` text NOT NULL,
   `logo_kota` text NOT NULL,
   `logo_alamat` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_logo`
@@ -424,7 +423,7 @@ CREATE TABLE `t_mesin` (
   `mesin_nama` text NOT NULL,
   `mesin_hapus` int(11) NOT NULL DEFAULT 0,
   `mesin_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_mesin`
@@ -445,7 +444,7 @@ CREATE TABLE `t_packing` (
   `packing_user` text DEFAULT NULL,
   `packing_tanggal` date DEFAULT curdate(),
   `packing_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_packing`
@@ -469,7 +468,7 @@ CREATE TABLE `t_packing_barang` (
   `packing_barang_jenis` text DEFAULT NULL,
   `packing_barang_warna` text DEFAULT NULL,
   `packing_barang_qty` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_packing_barang`
@@ -492,7 +491,7 @@ CREATE TABLE `t_pajak` (
   `pajak_persen` text NOT NULL,
   `pajak_tanggal` date NOT NULL DEFAULT curdate(),
   `pajak_update` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pajak`
@@ -518,7 +517,7 @@ CREATE TABLE `t_peleburan` (
   `peleburan_billet_sisa` text DEFAULT NULL,
   `peleburan_biaya` text DEFAULT NULL,
   `peleburan_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_peleburan`
@@ -541,7 +540,7 @@ CREATE TABLE `t_peleburan_barang` (
   `peleburan_barang_harga` text NOT NULL,
   `peleburan_barang_subtotal` text NOT NULL,
   `peleburan_barang_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_peleburan_barang`
@@ -576,7 +575,7 @@ CREATE TABLE `t_pembelian` (
   `pembelian_ppn` text DEFAULT NULL,
   `pembelian_total` text DEFAULT NULL,
   `pembelian_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pembelian`
@@ -608,7 +607,7 @@ CREATE TABLE `t_pembelian_barang` (
   `pembelian_barang_potongan` text NOT NULL,
   `pembelian_barang_harga` text NOT NULL,
   `pembelian_barang_subtotal` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pembelian_barang`
@@ -648,7 +647,7 @@ CREATE TABLE `t_pembelian_umum` (
   `pembelian_umum_ppn` text NOT NULL,
   `pembelian_umum_total` text NOT NULL,
   `pembelian_umum_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pembelian_umum`
@@ -672,7 +671,7 @@ CREATE TABLE `t_pembelian_umum_barang` (
   `pembelian_umum_barang_potongan` text NOT NULL,
   `pembelian_umum_barang_harga` text NOT NULL,
   `pembelian_umum_barang_subtotal` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pembelian_umum_barang`
@@ -709,7 +708,7 @@ CREATE TABLE `t_penjualan` (
   `penjualan_pelunasan_jumlah` text DEFAULT '0',
   `penjualan_pelunasan_keterangan` text DEFAULT NULL,
   `penjualan_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -729,7 +728,7 @@ CREATE TABLE `t_penjualan_barang` (
   `penjualan_barang_harga` text NOT NULL,
   `penjualan_barang_hps` text NOT NULL,
   `penjualan_barang_subtotal` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -746,7 +745,7 @@ CREATE TABLE `t_penyesuaian` (
   `penyesuaian_keterangan` text DEFAULT NULL,
   `penyesuaian_tanggal` date DEFAULT NULL,
   `penyesuaian_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -764,7 +763,7 @@ CREATE TABLE `t_penyesuaian_barang` (
   `penyesuaian_barang_stok` text DEFAULT NULL,
   `penyesuaian_barang_selisih` text DEFAULT NULL,
   `penyesuaian_barang_status` enum('bertambah','berkurang') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -778,7 +777,7 @@ CREATE TABLE `t_pewarnaan` (
   `pewarnaan_user` text DEFAULT NULL,
   `pewarnaan_tanggal` date DEFAULT curdate(),
   `pewarnaan_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pewarnaan`
@@ -806,7 +805,7 @@ CREATE TABLE `t_pewarnaan_barang` (
   `pewarnaan_barang_warna` text DEFAULT NULL,
   `pewarnaan_barang_qty` text DEFAULT NULL,
   `pewarnaan_barang_cacat` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_pewarnaan_barang`
@@ -841,7 +840,7 @@ CREATE TABLE `t_produk` (
   `produk_update` date NOT NULL DEFAULT curdate(),
   `produk_tanggal` date NOT NULL DEFAULT curdate(),
   `produk_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_produk`
@@ -875,7 +874,7 @@ CREATE TABLE `t_produksi` (
   `produksi_total_akhir` text DEFAULT NULL,
   `produksi_billet_sisa` text DEFAULT '0',
   `produksi_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_produksi`
@@ -901,7 +900,7 @@ CREATE TABLE `t_produksi_barang` (
   `produksi_barang_qty` text NOT NULL,
   `produksi_barang_subtotal` text NOT NULL,
   `produksi_barang_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_produksi_barang`
@@ -928,7 +927,7 @@ CREATE TABLE `t_produk_barang` (
   `produk_barang_hps` text DEFAULT '0',
   `produk_barang_harga` text DEFAULT '0',
   `produk_barang_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_produk_barang`
@@ -956,7 +955,7 @@ CREATE TABLE `t_rekening` (
   `rekening_no` text NOT NULL,
   `rekening_tanggal` date NOT NULL DEFAULT curdate(),
   `rekening_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_rekening`
@@ -977,7 +976,7 @@ CREATE TABLE `t_satuan` (
   `satuan_singkatan` text NOT NULL,
   `satuan_tanggal` date NOT NULL DEFAULT curdate(),
   `satuan_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_satuan`
@@ -1015,7 +1014,7 @@ CREATE TABLE `t_user` (
   `user_email_2` text DEFAULT NULL,
   `user_tanggal` date DEFAULT curdate(),
   `user_hapus` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_user`
@@ -1041,7 +1040,7 @@ CREATE TABLE `t_warna` (
   `warna_keterangan` text NOT NULL,
   `warna_tanggal` date NOT NULL DEFAULT curdate(),
   `warna_hapus` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_warna`
@@ -1066,7 +1065,7 @@ CREATE TABLE `t_warna_jenis` (
   `warna_jenis_keterangan` text NOT NULL,
   `warna_jenis_hapus` int(11) NOT NULL DEFAULT 0,
   `warna_jenis_tanggal` date NOT NULL DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `t_warna_jenis`

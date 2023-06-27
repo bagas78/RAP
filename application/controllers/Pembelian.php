@@ -18,7 +18,7 @@ class Pembelian extends CI_Controller{
 		$output = array(
 			"draw" => $_GET["draw"],
 			"recordsTotal" => $total,
-			"recordsFiltered" => $filter,
+			"recordsFiltered" => $filter, 
 			"data" => $data,
 		);
 
@@ -346,7 +346,6 @@ class Pembelian extends CI_Controller{
 						'bahan_nama' => strip_tags($_POST['nama']),
 						'bahan_kategori' => strip_tags($_POST['kategori']),
 						'bahan_satuan' => strip_tags($_POST['satuan']),
-						'bahan_harga' => strip_tags($_POST['harga']),
 					);
 
 		$db = $this->query_builder->add('t_bahan',$set);
@@ -376,7 +375,6 @@ class Pembelian extends CI_Controller{
 						'bahan_nama' => strip_tags($_POST['nama']),
 						'bahan_kategori' => strip_tags($_POST['kategori']),
 						'bahan_satuan' => strip_tags($_POST['satuan']),
-						'bahan_harga' => strip_tags($_POST['harga']),
 					);
 
 		$where = ['bahan_id' => $id];

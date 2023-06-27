@@ -13,7 +13,7 @@ class Stok{
  
   function bahan(){ 
     //sum stok bahan update
-      $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang")->result_array();
+      $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah, ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang")->result_array();
 
       $peleburan = $this->sql->db->query("SELECT b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor WHERE peleburan_hapus = 0 GROUP BY b.peleburan_barang_barang")->result_array();
 
@@ -27,8 +27,10 @@ class Stok{
       foreach ($pembelian as $pb) {
         $id = $pb['pembelian_barang'];
         $jum = $pb['pembelian_jumlah'];
+        $harga = $pb['pembelian_harga'];
 
-        $set = ['bahan_stok' => $jum];
+
+        $set = ['bahan_stok' => $jum, 'bahan_harga' => $harga];
         $where = ['bahan_id' => $id];
 
         $this->sql->db->set($set);
