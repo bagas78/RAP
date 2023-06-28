@@ -18,7 +18,7 @@ class Laporan extends CI_Controller{
 			"data" => $data,
 		);
 
-		return $output; 
+		return $output;  
 	}
 	/////////////////////////////////////////////////////////////
 
@@ -65,16 +65,21 @@ class Laporan extends CI_Controller{
 	function produksi(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
+		    $filter1 = @$_POST['filter1'];
+		    $filter2 = @$_POST['filter2'];
 
-		    if (@$_POST['filter']) {
+		    if (@$filter1) {
 		    	
-		    	$filter = @$_POST['filter'];
+		    	$date1 = $filter1;
+		    	$date2 = $filter2;
+
 		    }else{
 
-		    	$filter = date('Y-m-d');
+		    	$date1 = date('Y-m-d');
+		    	$date2 = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id WHERE a.produksi_hapus = 0 AND a.produksi_tanggal = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_produksi as a JOIN t_user as b ON a.produksi_shift = b.user_id JOIN t_produksi_barang AS c ON a.produksi_nomor = c.produksi_barang_nomor JOIN t_produk AS d ON c.produksi_barang_barang = d.produk_id LEFT JOIN t_satuan AS e ON d.produk_satuan = e.satuan_id WHERE a.produksi_hapus = 0 AND a.produksi_tanggal BETWEEN '$date1' AND '$date2'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/produksi');
@@ -110,16 +115,21 @@ class Laporan extends CI_Controller{
 	function pembelian(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
+		    $filter1 = @$_POST['filter1'];
+		    $filter2 = @$_POST['filter2'];
 
-		    if (@$_POST['filter']) {
+		    if ($filter1) {
 		    	
-		    	$filter = @$_POST['filter'];
+		    	$date1 = $filter1;
+		    	$date2 = $filter2;
+
 		    }else{
 
-		    	$filter = date('Y-m-d');
+		    	$date1 = date('Y-m-d');
+		    	$date2 = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT pembelian_tanggal AS tanggal ,pembelian_nomor AS nomor, pembelian_total AS total, pembelian_status AS status, 'Pembelian Bahan' AS kategori FROM t_pembelian WHERE pembelian_tanggal = '$filter' AND pembelian_hapus = 0 UNION ALL SELECT pembelian_umum_tanggal AS tanggal ,pembelian_umum_nomor AS nomor, pembelian_umum_total AS total, pembelian_umum_status AS status, 'Pembelian Umum' AS kategori FROM t_pembelian_umum WHERE pembelian_umum_tanggal = '$filter' AND pembelian_umum_hapus = 0");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor LEFT JOIN t_kontak AS c ON a.pembelian_supplier = c.kontak_id LEFT JOIN t_bahan AS d ON b.pembelian_barang_barang = d.bahan_id WHERE pembelian_hapus = 0 AND a.pembelian_status = 'lunas' AND pembelian_tanggal BETWEEN '$date1' AND '$date2'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/pembelian');
@@ -173,16 +183,21 @@ class Laporan extends CI_Controller{
 	function penjualan(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
+		    $filter1 = @$_POST['filter1'];
+		    $filter2 = @$_POST['filter2'];
 
-		    if (@$_POST['filter']) {
+		    if ($filter1) {
 		    	
-		    	$filter = @$_POST['filter'];
+		    	$date1 = $filter1;
+		    	$date2 = $filter2;
+
 		    }else{
 
-		    	$filter = date('Y-m-d');
+		    	$date1 = date('Y-m-d');
+		    	$date2 = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_tanggal = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor LEFT JOIN t_kontak AS c ON a.penjualan_pelanggan = c.kontak_id LEFT JOIN t_produk AS d ON b.penjualan_barang_barang = d.produk_id WHERE a.penjualan_hapus = 0 AND a.penjualan_po = 0 AND a.penjualan_status = 'lunas' AND a.penjualan_tanggal BETWEEN '$date1' AND '$date2'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/penjualan');

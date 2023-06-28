@@ -3,7 +3,7 @@
     <section class="content">
  
       <!-- Default box -->
-      <div class="box"> 
+      <div class="box">  
         <div class="box-header with-border">
 
           <div class="box-tools pull-right">
@@ -28,7 +28,9 @@
 
           <div class="sx-right" align="right">
             <form action="" method="POST" class="sc">
-              <input name="filter" type="date" class="p03">
+              <input required name="filter1" type="date" class="p03">
+              <span> - </span> 
+              <input required name="filter2" type="date" class="p03"> 
               <button class="p03 filter">Filter <i class="fa fa-search"></i></button>
             </form>
           </div>
@@ -36,21 +38,27 @@
           <table id="table" class="table table-bordered table-hover" style="width: 100%;">
             <thead>
             <tr>
-              <th>Nomor</th>
-              <th>Total</th>
-              <th>Kategori</th>
-              <th>Status</th>
               <th>Tanggal</th>
+              <th>Supplier</th>
+              <th>Avalan</th>
+              <th>Qty</th>
+              <th>Potongan</th>
+              <th>Qty Akhir</th>
+              <th>Harga</th>
+              <th>Subtotal</th>
             </tr>
             </thead>
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?=$val['nomor'] ?></td>
-                  <td class="total"><?=$val['total'] ?></td>
-                  <td><?=$val['kategori'] ?></td>
-                  <td><?=($val['status'] == 'lunas')?'Lunas':'Belum'?></td>
-                  <td><?php $dt = date_create($val['tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?php $dt = date_create(@$val['pembelian_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?=@$val['kontak_nama']?></td>
+                  <td><?=@$val['bahan_nama']?></td>
+                  <td><?=@$val['pembelian_barang_qty']?></td>
+                  <td><?=@$val['pembelian_barang_potongan']?></td>
+                  <td><?=@$val['pembelian_barang_qty'] - @$val['pembelian_barang_potongan']?></td>
+                  <td><?=@$val['pembelian_barang_harga']?></td>
+                  <td class="total"><?=@$val['pembelian_barang_subtotal']?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>

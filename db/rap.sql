@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2023 at 12:12 PM
+-- Generation Time: Jun 28, 2023 at 07:33 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -583,14 +583,14 @@ CREATE TABLE `t_pembelian` (
 --
 
 INSERT INTO `t_pembelian` (`pembelian_id`, `pembelian_user`, `pembelian_po`, `pembelian_po_tanggal`, `pembelian_nomor`, `pembelian_supplier`, `pembelian_tanggal`, `pembelian_jatuh_tempo`, `pembelian_status`, `pembelian_hutang`, `pembelian_pelunasan`, `pembelian_pelunasan_keterangan`, `pembelian_pembayaran`, `pembelian_keterangan`, `pembelian_lampiran`, `pembelian_qty_akhir`, `pembelian_ppn`, `pembelian_total`, `pembelian_hapus`) VALUES
-(68, '85', 0, '', 'PB-14062023-1', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '630', '11', '21575070', 1),
-(69, '85', 0, '', 'PB-14062023-2', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '600', '0', '18600000', 1),
-(70, '85', 0, '', 'PB-14062023-3', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '12000', '0', '336000000', 1),
-(71, '85', 0, '', 'PB-14062023-4', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '3000', '0', '97500000', 1),
-(72, '85', 0, '', 'PB-14062023-5', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '2000', '0', '60000000', 1),
-(73, '85', 0, '', 'PB-14062023-6', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '1000', '0', '29000000', 1),
+(68, '85', 0, '', 'PB-14062023-1', '16', '2023-06-14', '2023-06-28', 'lunas', '1', NULL, '', 'tunai', '', '', '630', '11', '21575070', 0),
+(69, '85', 0, '', 'PB-14062023-2', '16', '2023-06-14', '2023-06-28', 'lunas', '1', NULL, '', 'tunai', '', '', '600', '0', '18600000', 0),
+(70, '85', 0, '', 'PB-14062023-3', '16', '2023-06-14', '2023-06-28', 'lunas', '1', NULL, '', 'tunai', '', '', '12000', '0', '336000000', 0),
+(71, '85', 0, '', 'PB-14062023-4', '16', '2023-06-14', '2023-06-28', 'lunas', '1', NULL, '', 'tunai', '', '', '3000', '0', '97500000', 0),
+(72, '85', 0, '', 'PB-14062023-5', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '2000', '0', '60000000', 0),
+(73, '85', 0, '', 'PB-14062023-6', '16', '2023-06-14', '2023-06-28', 'belum', '1', NULL, '', 'tunai', '', '', '1000', '0', '29000000', 0),
 (74, '85', 0, '', 'PB-16062023-7', '16', '2023-06-16', '2023-06-16', 'lunas', '1', '2023-06-16', 'Lunas', 'tunai', '', '', '200', '11', '6122760', 0),
-(75, '85', 0, '', 'PB-16062023-8', '16', '2023-06-16', '2023-06-30', 'belum', '1', NULL, '', 'tunai', '', '', '500', '0', '14940000', 1),
+(75, '85', 0, '', 'PB-16062023-8', '16', '2023-06-16', '2023-06-30', 'belum', '1', NULL, '', 'tunai', '', '', '500', '0', '14940000', 0),
 (76, '85', 0, '', 'PB-16062023-9', '16', '2023-06-16', '2023-06-30', 'lunas', '1', '2023-06-16', 'Lunas', 'tunai', '', '', '1000', '11', '33233400', 0);
 
 -- --------------------------------------------------------
@@ -711,6 +711,13 @@ CREATE TABLE `t_penjualan` (
   `penjualan_hapus` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `t_penjualan`
+--
+
+INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_piutang`, `penjualan_status`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
+(100, 0, 'PJ-29062023-1', '17', '2023-06-29', '2023-06-29', 'tunai', '-', '', '10', '0', '315000', '0', 'lunas', NULL, '0', NULL, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -730,6 +737,13 @@ CREATE TABLE `t_penjualan_barang` (
   `penjualan_barang_hps` text NOT NULL,
   `penjualan_barang_subtotal` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penjualan_barang`
+--
+
+INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor`, `penjualan_barang_barang`, `penjualan_barang_jenis`, `penjualan_barang_warna`, `penjualan_barang_stok`, `penjualan_barang_qty`, `penjualan_barang_potongan`, `penjualan_barang_harga`, `penjualan_barang_hps`, `penjualan_barang_subtotal`) VALUES
+(390, 'PJ-29062023-1', '16', '1', '13', '502', '10', '0', '31500', '0', '315000');
 
 -- --------------------------------------------------------
 
@@ -1419,13 +1433,13 @@ ALTER TABLE `t_pembelian_umum_barang`
 -- AUTO_INCREMENT for table `t_penjualan`
 --
 ALTER TABLE `t_penjualan`
-  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `t_penjualan_barang`
 --
 ALTER TABLE `t_penjualan_barang`
-  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=391;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian`
