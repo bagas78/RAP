@@ -250,19 +250,52 @@ class Laporan extends CI_Controller{
 	function packing(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'laporan';
+		    $filter1 = @$_POST['filter1'];
+		    $filter2 = @$_POST['filter2'];
 
-		    if (@$_POST['filter']) {
+		    if ($filter1) {
 		    	
-		    	$filter = @$_POST['filter'];
+		    	$date1 = $filter1;
+		    	$date2 = $filter2;
+
 		    }else{
 
-		    	$filter = date('Y-m-d');
+		    	$date1 = date('Y-m-d');
+		    	$date2 = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_packing as a JOIN t_packing_barang as b ON a.packing_nomor = b.packing_barang_nomor JOIN t_produk as c ON b.packing_barang_barang = c.produk_id WHERE a.packing_hapus = 0 AND a.packing_tanggal = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_packing as a JOIN t_packing_barang as b ON a.packing_nomor = b.packing_barang_nomor JOIN t_produk as c ON b.packing_barang_barang = c.produk_id WHERE a.packing_hapus = 0 AND a.packing_tanggal BETWEEN '$date1' AND '$date2'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/packing');
+		    $this->load->view('v_template_admin/admin_footer');
+
+		}
+		else{
+			redirect(base_url('login'));
+		}
+	}
+	function pewarnaan(){
+		if ( $this->session->userdata('login') == 1) {
+		    $data['title'] = 'laporan';
+		    $filter1 = @$_POST['filter1'];
+		    $filter2 = @$_POST['filter2'];
+
+		    if ($filter1) {
+		    	
+		    	$date1 = $filter1;
+		    	$date2 = $filter2;
+
+		    }else{
+
+		    	$date1 = date('Y-m-d');
+		    	$date2 = date('Y-m-d');
+		    }
+
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor LEFT JOIN t_produk AS c ON b.pewarnaan_barang_barang = c.produk_id LEFT JOIN t_warna AS d ON b.pewarnaan_barang_warna = d.warna_id WHERE a.pewarnaan_hapus = 0 AND a.pewarnaan_tanggal BETWEEN '$date1' AND '$date2'");
+
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('laporan/pewarnaan');
 		    $this->load->view('v_template_admin/admin_footer');
 
 		}

@@ -18,8 +18,8 @@
           <div class="col-md-4 row">
             <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
-                <td style="background: lightgreen;">Total Packing ( Btg )</td>
-                <td id="tot_packing"></td>
+                <td style="background: lightgreen;">Total Pewarnaan ( Btg )</td>
+                <td id="tot_pewarnaan"></td>
               </tr>
             </table>
           </div>
@@ -40,15 +40,21 @@
             <tr>
               <th>Tanggal</th>
               <th>Nama Barang</th>
+              <th>Warna</th>
               <th>Qty ( Btg )</th>
+              <th>Cacat ( Btg )</th>
+              <th>Subtotal ( Btg )</th>
             </tr>
             </thead>
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?php $dt = date_create($val['packing_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?php $dt = date_create($val['pewarnaan_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                   <td><?=$val['produk_nama'] ?></td>
-                  <td class="total"><?=$val['packing_barang_qty'] ?></td>
+                  <td><?=$val['warna_nama'] ?></td>
+                  <td><?=$val['pewarnaan_barang_qty']?></td>
+                  <td><?=$val['pewarnaan_barang_cacat']?></td>
+                  <td class="total"><?=$val['pewarnaan_barang_qty'] - $val['pewarnaan_barang_cacat'] ?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -89,6 +95,6 @@ $(document).ready(function() {
     $(this).text(number_format(parse));
  });
 
- $('#tot_packing').text(number_format(p));
+ $('#tot_pewarnaan').text(number_format(p));
 
 </script>

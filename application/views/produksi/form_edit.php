@@ -22,7 +22,7 @@
   $('#stok_billet').text(stok_billet);
   $('#qty_billet').val('<?=@$data['produksi_billet_qty']?>');
   $('#jasa').val('<?=@$data['produksi_jasa']?>');
-  $('#sisa_billet').val('<?=@$data['produksi_billet_sisa']?>');
+  $('#sisa_billet').val('<?=@$data['produksi_billet_sisa']?>'); 
 
   //get produksi
   $.get('<?=base_url('produksi/get_produksi/'.$data['produksi_nomor'])?>', function(data) {
@@ -47,8 +47,10 @@
       //insert value
       $('#copy:nth-child('+i+') > td:nth-child(1) > input').val(val.produksi_barang_matras);
       $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.produksi_barang_barang); 
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val.produksi_barang_berat)); 
-      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(number_format(val.produksi_barang_qty));    
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.produksi_barang_berat); 
+      
+      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(val.produksi_barang_qty);    
+      
       $('#copy:nth-child('+i+') > td:nth-child(6) > input').val(val.produksi_barang_id);
 
       //satuan

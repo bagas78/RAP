@@ -544,7 +544,13 @@ thead{
                 <span class="multi-li">Piutang Jatuh Tempo</span>
               </a>
             </li>
-             <li class="laporan_packing">
+            <li class="laporan_pewarnaan">
+              <a href="<?= base_url('laporan/pewarnaan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Pewarnaan</span>
+              </a>
+            </li>
+            <li class="laporan_packing">
               <a href="<?= base_url('laporan/packing') ?>">
                 <i class="material-icons">more_horiz</i>
                 <span class="multi-li">Packing</span>

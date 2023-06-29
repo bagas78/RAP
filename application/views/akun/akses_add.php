@@ -583,6 +583,15 @@
                   <td>-</td>
                 </tr>
                 <tr>
+                  <td>Pewarnaan</td>
+                  <td>
+                    <input type="radio" name="laporan_pewarnaan" value="0" class="radio">
+                    <input type="radio" name="laporan_pewarnaan" value="0" checked hidden>
+                  </td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
                   <td>Packing</td>
                   <td>
                     <input type="radio" name="laporan_packing" value="0" class="radio">

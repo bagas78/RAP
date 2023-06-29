@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2023 at 07:33 PM
+-- Generation Time: Jun 29, 2023 at 06:42 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -45,7 +45,7 @@ CREATE TABLE `t_bahan` (
 --
 
 INSERT INTO `t_bahan` (`bahan_id`, `bahan_kode`, `bahan_nama`, `bahan_stok`, `bahan_satuan`, `bahan_kategori`, `bahan_harga`, `bahan_tanggal`, `bahan_hapus`) VALUES
-(0, 'BH000', 'Produk cacat', 552, '1', 'utama', '0', '2023-05-16', 0),
+(0, 'BH000', 'Produk cacat', 552, '8', 'utama', '0', '2023-05-16', 0),
 (13, 'BH001', 'Avalan Siku', 200, '1', 'utama', '28000', '2023-06-13', 0),
 (14, 'BH002', 'Avalan Kawat', 3000, '1', 'utama', '31000', '2023-06-13', 0),
 (15, 'BH003', 'Ceramic Filter', -3250, '7', 'pembantu', '300000', '2023-06-13', 0),
