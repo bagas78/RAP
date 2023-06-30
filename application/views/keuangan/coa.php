@@ -14,6 +14,27 @@
           </div>
         </div>
         <div class="box-body">
+
+          <table class="table table-bordered" style="width: 100%;">
+            <thead>
+              <tr>
+                <td>Nomor</td>
+                <td>Akun</td>
+                <td>Mutasi</td>
+              </tr>
+              <tr colspan="2">
+                <td>+</td>
+                <td>-</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
           
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>

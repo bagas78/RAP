@@ -6,36 +6,38 @@ class Stok{
   }
   function cek($table, $where){
     $this->sql->db->where($where);
-    return $this->sql->db->get($table)->num_rows();
+    return $this->sql->db->get($table)->num_rows(); 
   }
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
  
   function bahan(){ 
     //sum stok bahan update
-      $pembelian = $this->sql->db->query("SELECT b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah, ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_hapus = 0 AND a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang")->result_array();
+      $pembelian = $this->sql->db->query("SELECT ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga, a.pembelian_hapus AS pembelian_hapus,b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang, a.pembelian_hapus")->result_array();
 
-      $peleburan = $this->sql->db->query("SELECT b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor WHERE peleburan_hapus = 0 GROUP BY b.peleburan_barang_barang")->result_array();
+      $pewarnaan = $this->sql->db->query("SELECT SUM(b.pewarnaan_barang_cacat) AS cacat FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor")->result_array();
 
-      $produksi = $this->sql->db->query("SELECT b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor WHERE produksi_hapus = 0 GROUP BY b.produksi_barang_barang")->result_array();
+      $peleburan = $this->sql->db->query("SELECT a.peleburan_hapus as peleburan_hapus, b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor GROUP BY b.peleburan_barang_barang, a.peleburan_hapus")->result_array();
 
-      $pewarnaan = $this->sql->db->query("SELECT SUM(b.pewarnaan_barang_cacat) AS cacat FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor WHERE a.pewarnaan_hapus = 0")->result_array();
+      $produksi = $this->sql->db->query("SELECT a.produksi_hapus as produksi_hapus, b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor GROUP BY b.produksi_barang_barang, a.produksi_hapus")->result_array();
 
-      $penyesuaian = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status")->result_array();
+      $penyesuaian = $this->sql->db->query("SELECT a.penyesuaian_hapus as hapus, b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status, a.penyesuaian_hapus")->result_array();
+
+      //0 stok
+      $this->sql->db->query("UPDATE t_bahan SET bahan_stok = 0, bahan_harga = 0");
 
       //pembelian update stok produk
       foreach ($pembelian as $pb) {
         $id = $pb['pembelian_barang'];
         $jum = $pb['pembelian_jumlah'];
+        $hapus = $pb['pembelian_hapus'];
         $harga = $pb['pembelian_harga'];
 
+        if ($pb['pembelian_hapus'] == 0) {
+         
+         $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum}, bahan_harga = '$harga' WHERE bahan_id = '$id'");
 
-        $set = ['bahan_stok' => $jum, 'bahan_harga' => $harga];
-        $where = ['bahan_id' => $id];
-
-        $this->sql->db->set($set);
-        $this->sql->db->where($where);
-        $this->sql->db->update('t_bahan');
+        }      
 
       }
 
@@ -47,18 +49,24 @@ class Stok{
         }
       }
 
-      //kurangi peleburan
+      // //kurangi peleburan
       foreach ($peleburan as $pl) {
         $id = $pl['peleburan_barang'];
         $jum = $pl['peleburan_jumlah'];
-        $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+        if ($pl['peleburan_hapus'] == 0) {
+          
+          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}"); 
+        }
       }
 
       //kurangi produksi
       foreach ($produksi as $pr) {
         $id = $pr['produksi_barang'];
         $jum = $pr['produksi_jumlah'];
-        $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+        if ($pr['produksi_hapus'] == 0) {
+
+          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}"); 
+        }
       }
 
       //kurangi penyesuain stok
@@ -68,13 +76,17 @@ class Stok{
         $status = $pn['status'];
         $jenis = $pn['jenis'];
 
-        if ($status == 'bertambah') {
-          //bertambah
-          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = {$id}");   
+        if ($pn['hapus'] == 0) {
+            
+          if ($status == 'bertambah') {
+            //bertambah
+            $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = {$id}");   
 
-        }else{
-          //berkurang
-          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+          }else{
+            //berkurang
+            $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}");
+
+          }
 
         }
        
@@ -110,9 +122,9 @@ class Stok{
   }
   function produk(){
 
-    $db1 = $this->sql->db->query("SELECT a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor  WHERE b.produksi_hapus = 0 GROUP BY a.produksi_barang_barang")->result_array();
+    $db1 = $this->sql->db->query("SELECT b.produksi_hapus as hapus, a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor GROUP BY a.produksi_barang_barang, b.produksi_hapus")->result_array();
 
-    $db2 = $this->sql->db->query("SELECT b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'penjualan' AND a.penyesuaian_hapus = 0 GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status")->result_array();
+    $db2 = $this->sql->db->query("SELECT a.penyesuaian_hapus as hapus, b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'penjualan' GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status, a.penyesuaian_hapus")->result_array();
 
     $table = 't_produk_barang';
     
@@ -121,18 +133,23 @@ class Stok{
       $produk = @$val1['produk'];
       $stok = @$val1['stok'];
       $total = @$val1['total'] / @$stok;
+      $hapus = @$val1['hapus'];
 
-      $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => 3, 'produk_barang_warna' => 0, 'produk_barang_hps' => $total]);
-      
-      $where = ['produk_barang_barang' => $produk, 'produk_barang_warna' => 0];
+      if ($hapus == 0) {
 
-      if ($this->cek($table, $where)) {
-        //update
-        $this->sql->db->where($where);
-        $this->sql->db->update($table);
-      }else{
-        //insert
-        $this->sql->db->insert($table);
+        $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => 3, 'produk_barang_warna' => 0, 'produk_barang_hps' => $total]);
+        
+        $where = ['produk_barang_barang' => $produk, 'produk_barang_warna' => 0];
+
+        if ($this->cek($table, $where)) {
+          //update
+          $this->sql->db->where($where);
+          $this->sql->db->update($table);
+        }else{
+          //insert
+          $this->sql->db->insert($table);
+        }
+
       }
       
     }
@@ -143,14 +160,19 @@ class Stok{
       $jum = $value['jumlah'];
       $status = $value['status'];
       $jenis = $value['jenis'];
+      $hapus = $value['hapus'];
 
-      if ($status == 'bertambah') {
-        //bertambah
-        $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok + {$jum} WHERE produk_barang_barang = {$id}");   
+      if ($hapus == 0) {
+       
+       if ($status == 'bertambah') {
+          //bertambah
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok + {$jum} WHERE produk_barang_barang = {$id}");   
 
-      }else{
-        //berkurang
-        $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$id}");
+        }else{
+          //berkurang
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$id}");
+
+        }
 
       }
      
@@ -161,7 +183,7 @@ class Stok{
   }
 
   function pewarnaan(){
-    $db1 = $this->sql->db->query("SELECT b.pewarnaan_barang_barang AS produk, b.pewarnaan_barang_jenis AS jenis, b.pewarnaan_barang_warna AS warna, SUM(b.pewarnaan_barang_qty) AS jumlah FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor WHERE a.pewarnaan_hapus = 0 GROUP BY b.pewarnaan_barang_barang, b.pewarnaan_barang_jenis, b.pewarnaan_barang_warna")->result_array();
+    $db1 = $this->sql->db->query("SELECT a.pewarnaan_hapus as hapus, b.pewarnaan_barang_barang AS produk, b.pewarnaan_barang_jenis AS jenis, b.pewarnaan_barang_warna AS warna, SUM(b.pewarnaan_barang_qty) AS jumlah FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor GROUP BY b.pewarnaan_barang_barang, b.pewarnaan_barang_jenis, b.pewarnaan_barang_warna, a.pewarnaan_hapus")->result_array();
 
      foreach ($db1 as $value) {
        
@@ -169,27 +191,32 @@ class Stok{
       $jenis = $value['jenis'];
       $warna = $value['warna'];
       $jumlah = $value['jumlah'];
+      $hapus = $value['hapus'];
 
-      //tambah
-      $cek = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}")->num_rows();
+      if ($hapus == 0) {
+       
+       //tambah
+        $cek = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}")->num_rows();
 
-      if (@$cek > 0) {
+        if (@$cek > 0) {
 
-        //update
-        $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = $jumlah WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");  
+          //update
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = $jumlah WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");  
 
-      }else{
+        }else{
 
-        //ambil hps
-        $get = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$produk} AND produk_barang_warna = 0")->row_array();
-        $hps = $get['produk_barang_hps'];
+          //ambil hps
+          $get = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$produk} AND produk_barang_warna = 0")->row_array();
+          $hps = $get['produk_barang_hps'];
 
-        //add
-        $this->sql->db->query("INSERT INTO t_produk_barang (produk_barang_barang, produk_barang_stok, produk_barang_jenis, produk_barang_warna, produk_barang_hps) VALUES ($produk, $jumlah, $jenis, $warna, $hps)");
+          //add
+          $this->sql->db->query("INSERT INTO t_produk_barang (produk_barang_barang, produk_barang_stok, produk_barang_jenis, produk_barang_warna, produk_barang_hps) VALUES ($produk, $jumlah, $jenis, $warna, $hps)");
+        }
+
+        //kurangi
+        $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - $jumlah WHERE produk_barang_barang = {$produk} AND produk_barang_warna = 0"); 
+
       }
-
-      //kurangi
-      $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - $jumlah WHERE produk_barang_barang = {$produk} AND produk_barang_warna = 0"); 
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -200,7 +227,7 @@ class Stok{
 
   function packing(){
 
-     $db1 = $this->sql->db->query("SELECT a.packing_barang_barang AS produk, a.packing_barang_jenis AS jenis, a.packing_barang_warna AS warna, SUM(a.packing_barang_qty) AS jumlah FROM t_packing_barang AS a JOIN t_packing AS b ON a.packing_barang_nomor = b.packing_nomor WHERE packing_hapus = 0 GROUP BY a.packing_barang_barang, a.packing_barang_jenis, a.packing_barang_warna")->result_array();
+     $db1 = $this->sql->db->query("SELECT b.packing_hapus as hapus, a.packing_barang_barang AS produk, a.packing_barang_jenis AS jenis, a.packing_barang_warna AS warna, SUM(a.packing_barang_qty) AS jumlah FROM t_packing_barang AS a JOIN t_packing AS b ON a.packing_barang_nomor = b.packing_nomor GROUP BY a.packing_barang_barang, a.packing_barang_jenis, a.packing_barang_warna, b.packing_hapus")->result_array();
 
     foreach ($db1 as $value) {
       
@@ -208,10 +235,15 @@ class Stok{
       $jenis = $value['jenis'];
       $warna = $value['warna'];
       $jumlah = $value['jumlah'];
+      $hapus = $value['hapus'];
 
-      $this->sql->db->set(['produk_barang_packing' => $jumlah]);
-      $this->sql->db->where(['produk_barang_barang' => $produk, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
-      $this->sql->db->update('t_produk_barang');
+      if ($hapus == 0) {
+       
+        $this->sql->db->set(['produk_barang_packing' => $jumlah]);
+        $this->sql->db->where(['produk_barang_barang' => $produk, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
+        $this->sql->db->update('t_produk_barang');
+
+      }
 
     }
   }
@@ -222,10 +254,11 @@ class Stok{
     $this->bahan();
   }
   function update_billet(){
+    $this->bahan();
     $this->billet();
   }
   function update_produk(){
-
+    $this->bahan();
     $this->produk();
     $this->pewarnaan();
   }
@@ -236,8 +269,16 @@ class Stok{
     $this->bahan();
   }
   function update_packing(){
-
-   $this->packing();
+    $this->bahan();
+    $this->packing();
+    $this->produk();
+  }
+  function all(){
+    $this->bahan();
+    $this->billet();
+    $this->produk();
+    $this->pewarnaan();
+    $this->packing();
   }
 
 

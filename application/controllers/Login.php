@@ -25,6 +25,9 @@ class Login extends CI_Controller{
               $this->session->set_userdata('login','1');
               $this->session->set_userdata('level',$cek['user_level']);
 
+              //update stok
+              $this->stok->all();
+
               redirect(base_url('dashboard'));
 
       }else{

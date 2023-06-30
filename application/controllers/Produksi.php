@@ -134,8 +134,8 @@ class Produksi extends CI_Controller{
 		if ($db == 1) {
 			
 			//update
-			// $this->stok->update_billet();
-			// $this->stok->update_produk();	
+			$this->stok->update_billet();
+			$this->stok->update_produk();	
 
 			// if ($table == 'produksi') {
 			// 	$pro = $this->query_builder->view_row("SELECT * FROM t_produksi WHERE produksi_id = '$id'");
