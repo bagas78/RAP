@@ -19,13 +19,14 @@
     }
 
     $.each(json, function(index, val) { 
-      
+       
       var i = index+1;
 
       //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.peleburan_barang_barang).change();
+      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.peleburan_barang_barang);
       $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.peleburan_barang_qty);
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.peleburan_barang_potongan);
+      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.peleburan_barang_stok);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(val.peleburan_barang_harga);
 
     });
 

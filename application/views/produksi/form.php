@@ -111,7 +111,7 @@
 
              <tr id="copy">
               <td>
-                <input min="0" type="number" name="matras[]" class="matras form-control" value="0" required step='0.01'>
+                <input  type="text" name="matras[]" class="matras form-control" required>
               </td>
               <td>
                 <select required id="produk" class="produk form-control" name="produk[]">
@@ -124,7 +124,7 @@
 
               <td>
                 <div class="input-group">
-                  <input min="0" type="number" name="berat[]" class="berat form-control" value="0" required step="0.01">
+                  <input min="0" type="number" name="berat[]" class="berat form-control" value="0" required step="0.001">
                   <span class="input-group-addon">Kg</span>
                 </div>
               </td>

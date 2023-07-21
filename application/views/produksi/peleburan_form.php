@@ -70,12 +70,12 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+                  <input type="number" name="qty[]" class="qty form-control" value="0" min="0">
                   <span class="satuan input-group-addon"></span>
                 </div>
               <td>
                 <div class="input-group">
-                  <input readonly="" type="text" name="stok[]" class="stok form-control" required>
+                  <input readonly="" type="text" name="stok[]" class="stok form-control" value="0" required>
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
@@ -168,19 +168,18 @@ if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
 
   //get barang
   $(document).on('change', '#barang', function() {
+      
       var id = $(this).val();
       var index = $(this).closest('tr').index();
+      var target = $(this).closest('tr');
+
       $.get('<?=base_url('pembelian/get_barang/')?>'+id, function(data) {
         var val = JSON.parse(data);
         var i = (index + 1);
         
-        //stok
-        $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(number_format(val['bahan_stok']));
-        //harga
-        $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val['bahan_harga']));
-        //satuan
-        var satuan = $('#copy:nth-child('+i+')').find('.satuan');
-        $(satuan).empty().html(val['satuan_singkatan']);
+        target.find('.stok').val(number_format(val['bahan_stok']));
+        target.find('.harga').val(number_format(val['bahan_harga']));
+        target.find('.satuan').text(val['satuan_singkatan']);
 
 
         /////// cek exist barang ///////////
@@ -193,10 +192,13 @@ if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
         });
 
         if ($.inArray(id, arr) != -1) {
+
+          target.val('').change();
+          target.find('.stok').val(0);
+          target.find('.harga').val(0);
+          target.find('.satuan').text('');
+
           alert_sweet('Bahan avalan sudah ada');
-          $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
-          $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
-          $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
         }
         ////// end exist barang ///////////
 
@@ -224,12 +226,13 @@ if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
     var num_qty = 0;
     $.each($('.qty'), function(index, val) {
        var i = index+1;
+       var target = $(this).closest('tr');
 
-       var qty = $('#copy:nth-child('+i+') > td:nth-child(2) > div > input');
-       var harga = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val().replace(/,/g, '');
-       var stok = $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val().replace(/,/g, '');
+       var qty = target.find('.qty');
+       var harga = target.find('.harga').val().replace(/,/g, '');
+       var stok = target.find('.stok').val().replace(/,/g, '');
 
-       var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
+       var sub = target.find('.subtotal');
        var subtotal = parseInt(qty.val()) * parseInt(harga);
        num_qty += parseInt($(this).val());
 
@@ -240,7 +243,9 @@ if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
        if (parseInt(qty.val()) > parseInt(stok)) {
           
           alert_sweet('Stok barang kurang dari Qty');
-          qty.val(0);
+          target.find('.barang').val('').change();
+          target.find('.qty').val(0);
+          target.find('.stok').val(0);
        }
 
     });
