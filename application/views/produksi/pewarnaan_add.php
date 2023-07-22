@@ -54,7 +54,6 @@
               <th width="300">Jenis</th>
               <th width="300">Warna</th>
               <th width="200">Qty</th>
-              <th width="200">Cacat</th>
               <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
@@ -89,7 +88,6 @@
                 </select>
               </td>
               <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="1"></td>
-              <td><input type="number" name="cacat[]" class="cacat form-control" required value="0" min="0"></td>
               
               <td><button type="button" class="remove btn btn-danger btn-sm">-</button></td>
             </tr>

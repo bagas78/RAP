@@ -8,6 +8,7 @@
 
           <div align="left" class="pewarnaan_add">
             <a href="<?= base_url('produksi/pewarnaan_add/') ?>"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
+            <a href="<?= base_url('produksi/pewarnaan_cacat/') ?>"><button class="btn btn-success"><i class="fa fa-recycle"></i> Produk Cacat</button></a>
           </div>
 
           <div class="box-tools pull-right">

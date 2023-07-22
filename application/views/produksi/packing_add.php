@@ -7,7 +7,7 @@
   }
 </style>
 
-<!-- Main content --> 
+<!-- Main content -->  
 <section class="content">
  
   <!-- Default box -->  
@@ -124,49 +124,49 @@ $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 
   //get barang
-  $(document).on('change', '.produk, .jenis, .warna', function() {
+  // $(document).on('change', '.produk, .jenis, .warna', function() {
 
-    var produk = $(this).closest('tr').find('.produk').val();
-    var jenis = $(this).closest('tr').find('.jenis').val();
-    var warna = $(this).closest('tr').find('.warna').val();
+  //   var produk = $(this).closest('tr').find('.produk').val();
+  //   var jenis = $(this).closest('tr').find('.jenis').val();
+  //   var warna = $(this).closest('tr').find('.warna').val();
 
-    var index = $(this).closest('tr').index();
-    var arr = new Array(); 
-    var stok = $(this).closest('tr').find('.stok');
+  //   var index = $(this).closest('tr').index();
+  //   var arr = new Array(); 
+  //   var stok = $(this).closest('tr').find('.stok');
 
-   /////// cek exist barang ///////////
-    $.each($('.produk'), function(idx, val) {
+  //  /////// cek exist barang ///////////
+  //   $.each($('.produk'), function(idx, val) {
         
-        if (index != idx)
-        arr.push($(this).val());
+  //       if (index != idx)
+  //       arr.push($(this).val());
 
-    });
+  //   });
 
     
-    if ($.inArray(produk, arr) != -1) {
-      var i = index + 1;
+  //   if ($.inArray(produk, arr) != -1) {
+  //     var i = index + 1;
 
-      alert_sweet('Produk sudah ada');
+  //     alert_sweet('Produk sudah ada');
       
-      //null input
-      $(this).val('').change();
-      $(this).closest('tr').find('select').val('').change();
-      $(this).closest('tr').find('input').val(0);
+  //     //null input
+  //     $(this).val('').change();
+  //     $(this).closest('tr').find('select').val('').change();
+  //     $(this).closest('tr').find('input').val(0);
       
-    }else{
+  //   }else{
 
-      $.get('<?=base_url('produksi/packing_get_produk/')?>'+produk+'/'+jenis+'/'+warna, function(data) {
+  //     $.get('<?=base_url('produksi/packing_get_produk/')?>'+produk+'/'+jenis+'/'+warna, function(data) {
     
-        var val = JSON.parse(data);
+  //       var val = JSON.parse(data);
 
-        stok.val(val);
+  //       stok.val(val);
 
-      });
+  //     });
 
-    }
-    ////// end exist barang ///////////
+  //   }
+  //   ////// end exist barang ///////////
 
-  });
+  // });
 
   $(document).on('change', '#jenis', function() {
       var id = $(this).val();

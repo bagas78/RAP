@@ -6,7 +6,7 @@ class Stok{
   }
   function cek($table, $where){
     $this->sql->db->where($where);
-    return $this->sql->db->get($table)->num_rows(); 
+    return $this->sql->db->get($table)->num_rows();  
   }
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
@@ -15,7 +15,7 @@ class Stok{
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga, a.pembelian_hapus AS pembelian_hapus,b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang, a.pembelian_hapus")->result_array();
 
-      $pewarnaan = $this->sql->db->query("SELECT SUM(b.pewarnaan_barang_cacat) AS cacat FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor")->result_array();
+      $cacat = $this->sql->db->query("SELECT SUM(cacat_jumlah) AS cacat FROM t_cacat WHERE cacat_hapus = 0")->result_array();
 
       $peleburan = $this->sql->db->query("SELECT a.peleburan_hapus as peleburan_hapus, b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor GROUP BY b.peleburan_barang_barang, a.peleburan_hapus")->result_array();
 
@@ -42,8 +42,8 @@ class Stok{
       }
 
       //tambah stok bahan cacat BH000
-      foreach ($pewarnaan as $pw) {
-        $jum = $pw['cacat'];
+      foreach ($cacat as $ct) {
+        $jum = $ct['cacat'];
         if ($jum != '') {
           $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum} WHERE bahan_id = 0"); 
         }

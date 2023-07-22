@@ -8,6 +8,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_produk');
 		$this->load->model('m_pewarnaan');
 		$this->load->model('m_packing');
+		$this->load->model('m_cacat');
 	}   
 
 ///////////////// atribut //////////////////////////////////////////
@@ -590,7 +591,6 @@ class Produksi extends CI_Controller{
 							'pewarnaan_barang_jenis' => strip_tags(@$_POST['jenis'][$i]),
 							'pewarnaan_barang_warna' => strip_tags(@$_POST['warna'][$i]),
 							'pewarnaan_barang_qty' => strip_tags(@$_POST['qty'][$i]),
-							'pewarnaan_barang_cacat' => strip_tags(@$_POST['cacat'][$i]),
 						);
 				$this->query_builder->add('t_pewarnaan_barang',$set2);
 
@@ -640,9 +640,82 @@ class Produksi extends CI_Controller{
 		echo json_encode($data);
 	}
 	function pewarnaan_laporan($id){
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan_barang AS a LEFT JOIN t_produk AS b ON a.pewarnaan_barang_barang = b.produk_id LEFT JOIN t_produk_barang AS c ON b.produk_id = c.produk_barang_barang LEFT JOIN t_warna AS d ON c.produk_barang_warna = d.warna_id JOIN t_pewarnaan AS e ON e.pewarnaan_nomor = a.pewarnaan_barang_nomor WHERE e.pewarnaan_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_pewarnaan AS a JOIN t_pewarnaan_barang AS b ON a.pewarnaan_nomor = b.pewarnaan_barang_nomor JOIN t_produk AS c ON b.pewarnaan_barang_barang = c.produk_id JOIN t_warna AS d ON b.pewarnaan_barang_warna = d.warna_id WHERE a.pewarnaan_id = '$id'");
 
 	    $this->load->view('produksi/pewarnaan_laporan',$data);
+	}
+	function pewarnaan_cacat(){
+		$user = $this->session->userdata('id');
+
+		if (@$_POST) {
+			
+			$id = strip_tags(@$_POST['id']);
+			$set = array('cacat_user' => $user, 'cacat_jumlah' => strip_tags(@$_POST['jumlah']), 'cacat_tanggal' => strip_tags(@$_POST['tanggal']));
+
+			if ($id) {
+				//update
+				$db = $this->query_builder->update('t_cacat',$set,['cacat_id' => $id]);
+			}else{
+				//insert
+				$db = $this->query_builder->add('t_cacat',$set);
+			}
+
+			if ($db == 1) {
+				$this->session->set_flashdata('success', 'Data berhasil di simpan');
+			}else{
+				$this->session->set_flashdata('gagal', 'Data gagal di simpan');
+			}
+
+			//update stok
+			$this->stok->update_pewarnaan();
+
+			redirect(base_url('produksi/pewarnaan_cacat'));
+
+		}else{
+
+			$data["title"] = 'pewarnaan';
+		    $this->load->view('v_template_admin/admin_header',$data);
+		    $this->load->view('produksi/pewarnaan_cacat');
+		    $this->load->view('v_template_admin/admin_footer');
+		}
+	}
+	function pewarnaan_get_cacat(){
+		$where = array('cacat_hapus' => '0');
+
+		$data = $this->m_cacat->get_datatables($where);
+		$total = $this->m_cacat->count_all($where);
+		$filter = $this->m_cacat->count_filtered($where);
+
+		$output = array( 
+			"draw" => $_GET["draw"],
+			"recordsTotal" => $total,
+			"recordsFiltered" => $filter,
+			"data" => $data,
+		);
+
+		echo json_encode($output);
+	}
+	function pewarnaan_get_barang(){
+
+		$id = $_POST['id'];
+		$data = $this->query_builder->view_row("SELECT * FROM t_cacat WHERE cacat_id = '$id'");
+
+		echo json_encode($data);
+	}
+	function pewarnaan_cacat_delete($id){
+
+		$db = $this->query_builder->update('t_cacat', ['cacat_hapus' => 1], ['cacat_id' => $id]);
+		if ($db == 1) {
+
+			//update stok
+			$this->stok->update_pewarnaan();
+
+			$this->session->set_flashdata('success', 'Data berhasil di hapus');
+		}else{
+			$this->session->set_flashdata('gagal', 'Data gagal di hapus');
+		}
+
+		redirect(base_url('produksi/pewarnaan_cacat'));
 	}
 
 	//////////////////////// packing //////////////////////////

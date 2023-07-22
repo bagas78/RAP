@@ -9,26 +9,34 @@
     var json = JSON.parse(data);
 
     //clone
-    for (var num = 1; num <= json.length - 1; num++) {
+    var loop = (json.length - 1);
+    var i = 0;
+    for (var num = 1; num <= loop; num++) {
      
       //paste
       clone();
-
+      
+      i++
     }
 
-    $.each(json, function(index, val) {
-      
-      var i = index+1;
+   if (i == loop) {
 
-      //insert value
-      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.pewarnaan_barang_barang); 
-      $('#copy:nth-child('+i+') > td:nth-child(2) > input').val(number_format(val.pewarnaan_barang_stok)); 
-      $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.pewarnaan_barang_jenis); 
-      $('#copy:nth-child('+i+') > td:nth-child(4) > select').val(val.pewarnaan_barang_warna); 
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.pewarnaan_barang_qty)); 
-      $('#copy:nth-child('+i+') > td:nth-child(6) > input').val(number_format(val.pewarnaan_barang_cacat)); 
 
-    });
+      $.each(json, function(index, val) {
+
+        var to = index+1;
+        // insert value
+
+        $('#copy:nth-child('+to+') > td:nth-child(1) > select').val(val.pewarnaan_barang_barang); 
+        $('#copy:nth-child('+to+') > td:nth-child(2) > input').val(val.pewarnaan_barang_stok); 
+        $('#copy:nth-child('+to+') > td:nth-child(3) > select').val(val.pewarnaan_barang_jenis); 
+        $('#copy:nth-child('+to+') > td:nth-child(4) > select').val(val.pewarnaan_barang_warna); 
+        $('#copy:nth-child('+to+') > td:nth-child(5) > input').val(val.pewarnaan_barang_qty);
+
+      });
+
+
+   }
 
   });
 
