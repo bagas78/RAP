@@ -6,6 +6,11 @@
       <div class="box">  
         <div class="box-header with-border">
 
+          <div align="left" class="hutang_add">
+            <a href="<?=base_url('laporan/pembelian/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
+            <a href="<?=base_url('laporan/pembelian/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
+          </div>
+
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -40,7 +45,7 @@
             <tr>
               <th>Tanggal</th>
               <th>Supplier</th>
-              <th>Avalan</th>
+              <th>Barang</th>
               <th>Qty</th>
               <th>Potongan</th>
               <th>Qty Akhir</th>
@@ -51,14 +56,14 @@
             <tbody>
               <?php foreach ($data as $val): ?>
                 <tr>
-                  <td><?php $dt = date_create(@$val['pembelian_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
-                  <td><?=@$val['kontak_nama']?></td>
-                  <td><?=@$val['bahan_nama']?></td>
-                  <td><?=@$val['pembelian_barang_qty']?></td>
-                  <td><?=@$val['pembelian_barang_potongan']?></td>
-                  <td><?=@$val['pembelian_barang_qty'] - @$val['pembelian_barang_potongan']?></td>
-                  <td><?=@$val['pembelian_barang_harga']?></td>
-                  <td class="total"><?=@$val['pembelian_barang_subtotal']?></td>
+                  <td><?php $dt = date_create(@$val['tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
+                  <td><?=@$val['supplier']?></td>
+                  <td><?=@$val['barang']?></td>
+                  <td><?=@$val['qty']?></td>
+                  <td><?=@$val['potongan']?></td>
+                  <td><?=@$val['qty'] - @$val['potongan']?></td>
+                  <td><?=number_format(@$val['harga'])?></td>
+                  <td class="total"><?=@$val['subtotal']?></td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -71,6 +76,13 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+//active btn
+if ('<?=@$active?>' == 'bahan') {
+  $('.b-bahan').addClass('active').css('background', 'powderblue');
+}else{
+  $('.b-umum').addClass('active').css('background', 'powderblue');
+}
+
 //data table
 var table;
 $(document).ready(function() {

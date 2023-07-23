@@ -532,10 +532,21 @@ class Penjualan extends CI_Controller{
 			$status = 'belum';
 		}
 
+		//jika sudah dibayar
+		$cek = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+
+		if ($cek) {
+			
+			$hitung = $cek['penjualan_pelunasan_jumlah'] + $jumlah;
+		}else{
+
+			$hitung = $jumlah;
+		}
+
 		$set = array(
 						'penjualan_status' => $status,
 						'penjualan_pelunasan' => $tanggal,
-						'penjualan_pelunasan_jumlah' => $jumlah,
+						'penjualan_pelunasan_jumlah' => $hitung,
 						'penjualan_pelunasan_keterangan' => $keterangan
 					); 
 		
@@ -566,7 +577,7 @@ class Penjualan extends CI_Controller{
 	}
 	function get_nominal($id){
 
-		$db = $this->query_builder->view_row("SELECT penjualan_total - penjualan_pelunasan_jumlah AS total FROM t_penjualan WHERE penjualan_id = '$id'");
+		$db = $this->query_builder->view_row("SELECT IF(penjualan_total > penjualan_pelunasan_jumlah, (penjualan_total - penjualan_pelunasan_jumlah), 0) AS total FROM t_penjualan WHERE penjualan_id = '$id'");
 
 		echo json_encode($db);
 

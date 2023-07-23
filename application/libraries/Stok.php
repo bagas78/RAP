@@ -19,8 +19,6 @@ class Stok{
 
       $peleburan = $this->sql->db->query("SELECT a.peleburan_hapus as peleburan_hapus, b.peleburan_barang_barang AS peleburan_barang, SUM(b.peleburan_barang_qty) AS peleburan_jumlah FROM t_peleburan AS a JOIN t_peleburan_barang AS b ON a.peleburan_nomor = b.peleburan_barang_nomor GROUP BY b.peleburan_barang_barang, a.peleburan_hapus")->result_array();
 
-      $produksi = $this->sql->db->query("SELECT a.produksi_hapus as produksi_hapus, b.produksi_barang_barang AS produksi_barang, SUM(b.produksi_barang_qty) AS produksi_jumlah FROM t_produksi AS a JOIN t_produksi_barang AS b ON a.produksi_nomor = b.produksi_barang_nomor GROUP BY b.produksi_barang_barang, a.produksi_hapus")->result_array();
-
       $penyesuaian = $this->sql->db->query("SELECT a.penyesuaian_hapus as hapus, b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'pembelian' GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status, a.penyesuaian_hapus")->result_array();
 
       //0 stok
@@ -55,16 +53,6 @@ class Stok{
         $jum = $pl['peleburan_jumlah'];
         if ($pl['peleburan_hapus'] == 0) {
           
-          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}"); 
-        }
-      }
-
-      //kurangi produksi
-      foreach ($produksi as $pr) {
-        $id = $pr['produksi_barang'];
-        $jum = $pr['produksi_jumlah'];
-        if ($pr['produksi_hapus'] == 0) {
-
           $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}"); 
         }
       }
@@ -128,6 +116,9 @@ class Stok{
 
     $table = 't_produk_barang';
     
+    //0 stok
+    $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = 0");
+
     foreach ($db1 as $val1) {
 
       $produk = @$val1['produk'];
@@ -246,7 +237,7 @@ class Stok{
       }
 
     }
-  }
+  } 
 
   ///////////////////////////////////// end tribut ////////////////////////////////////////////////////
 

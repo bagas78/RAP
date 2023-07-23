@@ -4,7 +4,7 @@
  
       <!-- Default box -->
       <div class="box"> 
-        <div class="box-header with-border">
+        <div class="box-header with-border"> 
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -40,6 +40,8 @@
             <tr>
               <th>Tanggal</th>
               <th>Nama Barang</th>
+              <th>Jenis</th>
+              <th>Warna</th>
               <th>Qty ( Btg )</th>
             </tr>
             </thead>
@@ -48,6 +50,8 @@
                 <tr>
                   <td><?php $dt = date_create($val['packing_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                   <td><?=$val['produk_nama'] ?></td>
+                  <td><?=$val['warna_jenis_type'] ?></td>
+                  <td><?=$val['warna_nama'] ?></td>
                   <td class="total"><?=$val['packing_barang_qty'] ?></td>
                 </tr>
               <?php endforeach ?>

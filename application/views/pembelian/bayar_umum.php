@@ -50,52 +50,71 @@
     $('.b-umum').addClass('active').css('background', 'powderblue');
   }
 
-    var table;
-    $(document).ready(function() {
-        //datatables
-        table = $('#example').DataTable({ 
+  var table;
+  $(document).ready(function() {
+      //datatables
+      table = $('#example').DataTable({ 
 
-            "processing": true, 
-            "serverSide": true,
-            "order":[], 
-            "scrollX": true, 
-            
-            "ajax": {
-                "url": "<?=site_url('pembelian/bayar_get_data/umum')?>",
-                "type": "GET"
-            },
-            "columns": [                               
-                        { "data": "pembelian_umum_nomor"},
-                        { "data": "pembelian_umum_jatuh_tempo",
-                        "render": 
-                        function( data ) {
-                            return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
-                          }
-                        },
-                        { "data": "pembelian_umum_pelunasan",
-                        "render": 
-                        function( data ) {
-                            if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
-                            return "<span class='pelunasan'>"+p+"</span>";
-                          }
-                        },
-                        { "data": "pembelian_umum_pelunasan_keterangan",
-                        "render": 
-                        function( data ) {
-                            if (data != null) {var k = data;}else{var k = '-';}
-                            return "<span>"+k+"</span>";
-                          }
-                        },
-                        { "data": "pembelian_umum_id",
-                        "render": 
-                        function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
-                          }
-                        },
-                        
-                    ],
-        });
+          "processing": true, 
+          "serverSide": true,
+          "order":[], 
+          "scrollX": true, 
+          
+          "ajax": {
+              "url": "<?=site_url('pembelian/bayar_get_data/umum')?>",
+              "type": "GET"
+          },
+          "columns": [                               
+                      { "data": "pembelian_umum_nomor"},
+                      { "data": "pembelian_umum_jatuh_tempo",
+                      "render": 
+                      function( data ) {
+                          return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";
+                        }
+                      },
+                      { "data": "pembelian_umum_pelunasan",
+                      "render": 
+                      function( data ) {
+                          if (data != null) {var p = moment(data).format("DD/MM/YYYY");}else{var p = '-';}
+                          return "<span class='pelunasan'>"+p+"</span>";
+                        }
+                      },
+                      { "data": "pembelian_umum_pelunasan_keterangan",
+                      "render": 
+                      function( data ) {
+                          if (data != null) {var k = data;}else{var k = '-';}
+                          return "<span>"+k+"</span>";
+                        }
+                      },
+                      { "data": "pembelian_umum_id",
+                      "render": 
+                      function( data ) {
+                          return "<button onclick='bayar("+data+")' class='bayar btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button> "+
+                          "<button onclick='batal("+data+")' class='batal btn btn-xs btn-danger hutang_add'>Batal <i class='fa fa-times'></i></button>";
+                        }
+                      },
+                      
+                  ],
+      });
 
+  });
+
+  function auto(){
+
+    $.each($('.pelunasan'), function(index, val) {
+       var val = $(this).text();
+       if (val != '-') {
+        $(this).closest('tr').find('.bayar').css('display', 'none');
+       }else{
+        $(this).closest('tr').find('.batal').css('display', 'none');
+       }
     });
+
+    setTimeout(function() {
+        auto();
+    }, 100);
+}
+
+auto();
  
 </script>

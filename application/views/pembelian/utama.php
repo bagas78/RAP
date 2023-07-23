@@ -26,7 +26,7 @@
                 <tr>
                   <th>Nomor</th> 
                   <th>Supplier</th>
-                  <th>Jatuh Tempo</th>
+                  <th>Tanggal</th>
                   <th>Status</th>
                   <th width="60">Action</th>
                 </tr>
@@ -60,7 +60,7 @@
             "columns": [                               
                         { "data": "pembelian_nomor"},
                         { "data": "kontak_nama"},
-                        { "data": "pembelian_jatuh_tempo",
+                        { "data": "pembelian_tanggal",
                         "render": 
                         function( data ) {
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";

@@ -91,7 +91,8 @@
                         { "data": "pembelian_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
+                            return "<button onclick='bayar("+data+")' class='bayar btn btn-xs btn-success hutang_add'>Bayar <i class='fa fa-clipboard'></i></button> "+
+                            "<button onclick='batal("+data+")' class='batal btn btn-xs btn-danger hutang_add'>Batal <i class='fa fa-times'></i></button>";
                           }
                         },
                         
@@ -100,12 +101,14 @@
 
     });
 
-  function auto(){
+function auto(){
 
     $.each($('.pelunasan'), function(index, val) {
        var val = $(this).text();
        if (val != '-') {
-        $(this).closest('tr').find('.btn').attr('disabled', 'true');
+        $(this).closest('tr').find('.bayar').css('display', 'none');
+       }else{
+        $(this).closest('tr').find('.batal').css('display', 'none');
        }
     });
 

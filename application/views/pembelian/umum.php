@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                   <th>Nomor</th>
-                  <th>Jatuh Tempo</th>
+                  <th>Tanggal</th>
                   <th>Status</th>
                   <th width="60">Action</th>
                 </tr>
@@ -58,7 +58,7 @@
             },
             "columns": [                               
                         { "data": "pembelian_umum_nomor"},
-                        { "data": "pembelian_umum_jatuh_tempo",
+                        { "data": "pembelian_umum_tanggal",
                         "render": 
                         function( data ) {
                             return "<span>"+moment(data).format("DD/MM/YYYY")+"</span>";

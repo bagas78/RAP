@@ -40,4 +40,24 @@
     $('form').attr('action', '<?=base_url('pembelian/bayar_rotate/'.@$bayar_active).'/'?>'+id);
 
   }
+
+  function batal(id){
+
+    var url = '<?=base_url('pembelian/bayar_batal/'.@$bayar_active).'/'?>'+id;
+
+    swal({
+      title: "Apa kamu yakin?",
+      text: "Batalkan Pembayaran ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+
+        $(location).attr('href',url);
+        
+      }
+    });
+  }
 </script>

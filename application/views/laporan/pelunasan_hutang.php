@@ -6,6 +6,11 @@
       <div class="box"> 
         <div class="box-header with-border">
 
+          <div align="left" class="hutang_add">
+            <a href="<?=base_url('laporan/pelunasan_hutang/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
+            <a href="<?=base_url('laporan/pelunasan_hutang/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
+          </div>
+
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -37,8 +42,8 @@
             <thead>
             <tr>
               <th>Nomor</th>
+              <th>Suplier</th>
               <th>Total</th>
-              <th>Kategori</th>
               <th>Tanggal</th>
             </tr>
             </thead>
@@ -46,8 +51,8 @@
               <?php foreach ($data as $val): ?>
                 <tr>
                   <td><?=$val['nomor'] ?></td>
+                  <td><?=$val['supplier'] ?></td>
                   <td class="total"><?=$val['total'] ?></td>
-                  <td><?=$val['kategori'] ?></td>
                   <td><?php $dt = date_create($val['tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                 </tr>
               <?php endforeach ?>
@@ -61,6 +66,14 @@
       <!-- /.box -->
 
 <script type="text/javascript">
+
+//active btn
+if ('<?=@$active?>' == 'bahan') {
+  $('.b-bahan').addClass('active').css('background', 'powderblue');
+}else{
+  $('.b-umum').addClass('active').css('background', 'powderblue');
+}
+
 //data table
 var table;
 $(document).ready(function() {

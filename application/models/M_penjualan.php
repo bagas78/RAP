@@ -62,7 +62,7 @@ class M_penjualan extends CI_Model {
 	function get_datatables($where)
 	{
 		$this->db->select('*');
-		$this->db->select('(penjualan_total - penjualan_pelunasan_jumlah) AS kekurangan');
+		$this->db->select('IF(penjualan_total > penjualan_pelunasan_jumlah, (penjualan_total - penjualan_pelunasan_jumlah), 0) AS kekurangan');
 		$this->_get_datatables_query();
 		if($_GET['length'] != -1)
 		$this->db->where($where);

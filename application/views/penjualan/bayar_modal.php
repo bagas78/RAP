@@ -16,7 +16,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Pembayaran Piutang</h4>
-      </div>
+      </div> 
       <div class="modal-body">
 
         <form role="form" method="post" enctype="multipart/form-data">
@@ -79,6 +79,8 @@
       $('form').attr('action', '<?=base_url('penjualan/bayar_rotate/')?>'+id);
 
     });
+
+    console.log(id)
 
   }
 

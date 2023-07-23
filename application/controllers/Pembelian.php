@@ -876,7 +876,7 @@ class Pembelian extends CI_Controller{
 
 			//pembelian umum
 
-			$set = ['pembelian_umum_status' => 'l', 'pembelian_umum_pelunasan' => $tanggal, 'pembelian_umum_pelunasan_keterangan' => $keterangan];
+			$set = ['pembelian_umum_status' => 'lunas', 'pembelian_umum_pelunasan' => $tanggal, 'pembelian_umum_pelunasan_keterangan' => $keterangan];
 			$where = ['pembelian_umum_id' => $id];
 
 			$db = $this->query_builder->update('t_pembelian_umum',$set,$where);
@@ -894,31 +894,46 @@ class Pembelian extends CI_Controller{
 
 		redirect(base_url('pembelian/bayar/'.$jenis));
 	}
-	function bayar_edit($id, $jenis = ''){
+	function bayar_batal($jenis, $id){
+		
+		if ($jenis == 'bahan') {
 
-		if ($jenis == 'umum') {
+			//pembelian bahan
 
-			$this->umum_edit($id);
+			$set = ['pembelian_status' => 'belum', 'pembelian_pelunasan' => NULL, 'pembelian_pelunasan_keterangan' => ''];
+			$where = ['pembelian_id' => $id];
 
+			$db = $this->query_builder->update('t_pembelian',$set,$where);
+
+			if ($db == 1) {
+				
+				//update stok bahan
+				$this->stok->update_bahan();
+
+				$this->session->set_flashdata('success','Berhasil di batalkan');
+			} else {
+				$this->session->set_flashdata('gagal','Gagal di batalkan');
+			}	
 		}else{
 
-			//ambil kategori
-			$db = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+			//pembelian umum
 
-			$active = 'bayar';
-			$data = $this->edit($id, $active);
-			$data["title"] = $active;
+			$set = ['pembelian_umum_status' => 'belum', 'pembelian_umum_pelunasan' => NULL, 'pembelian_umum_pelunasan_keterangan' => ''];
+			$where = ['pembelian_umum_id' => $id];
 
-			$this->load->view('v_template_admin/admin_header',$data);
-		    $this->load->view('pembelian/form');
-		    $this->load->view('pembelian/form_edit');
-		    $this->load->view('v_template_admin/admin_footer');
+			$db = $this->query_builder->update('t_pembelian_umum',$set,$where);
+
+			if ($db == 1) {
+				
+				//update stok bahan
+				$this->stok->update_bahan();
+
+				$this->session->set_flashdata('success','Berhasil di batalkan');
+			} else {
+				$this->session->set_flashdata('gagal','Gagal di batalkan');
+			}	
 		}
-	}
-	function bayar_update(){
 
-		$po = 0;
-		$redirect = 'bayar';
-		$this->update($po, $redirect);
+		redirect(base_url('pembelian/bayar/'.$jenis));
 	}
 }
