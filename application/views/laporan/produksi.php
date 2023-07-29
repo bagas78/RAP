@@ -19,7 +19,11 @@
             <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
                 <td style="background: lightgreen;">Total Produksi ( Kg )</td>
-                <td id="tot_produksi"></td>
+                <td id="tot_produksi">0</td>
+              </tr>
+              <tr>
+                <td style="background: wheat;">Average ( Kg / Btg )</td>
+                <td id="rata_produksi">0</td>
               </tr>
             </table>
           </div>
@@ -52,8 +56,8 @@
                   <td><?php $dt = date_create($val['produksi_tanggal']); echo date_format($dt, 'd/m/Y'); ?></td>
                   <td><?=$val['produksi_barang_matras']?></td>
                   <td><?=$val['produk_nama'] ?></td>
-                  <td><?=$val['produksi_barang_berat'] ?></td>
-                  <td><?=$val['produksi_barang_qty'] ?></td>
+                  <td class="berat"><?=$val['produksi_barang_berat'] ?></td>
+                  <td class="batang"><?=$val['produksi_barang_qty'] ?></td>
                   <td class="produksi_qty"><?=$val['produksi_barang_berat'] * $val['produksi_barang_qty'] ?></td>
                 </tr>
               <?php endforeach ?>
@@ -89,12 +93,30 @@ $(document).ready(function() {
  //produksi
  var p = 0;
  $.each($('.produksi_qty'), function(index, val) {
-    var parse = parseInt($(this).text());
+    var parse = Number($(this).text());
     p += parse;
 
     $(this).text(number_format(parse));
  });
 
  $('#tot_produksi').text(number_format(p));
+
+ var br = 0;
+ var bt = 0
+ $.each($('.berat'), function() {
+    
+    br += Number($(this).text());
+
+ });
+
+ $.each($('.batang'), function() {
+    
+    bt += Number($(this).text());
+
+ });
+
+var average = (br / bt).toFixed(2);
+
+if (average != 'NaN') {$('#rata_produksi').text(average)}
 
 </script>

@@ -123,7 +123,7 @@ class Stok{
 
       $produk = @$val1['produk'];
       $stok = @$val1['stok'];
-      $total = @$val1['total'] / @$stok;
+      $total = round(@$val1['total'] / @$stok);
       $hapus = @$val1['hapus'];
 
       if ($hapus == 0) {
@@ -254,15 +254,14 @@ class Stok{
     $this->pewarnaan();
   }
   function update_pewarnaan(){
-
     $this->produk();
     $this->pewarnaan();
-    $this->bahan();
+    $this->packing();
   }
   function update_packing(){
-    $this->bahan();
-    $this->packing();
     $this->produk();
+    $this->pewarnaan();
+    $this->packing();
   }
   function all(){
     $this->bahan();

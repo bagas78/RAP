@@ -5,6 +5,8 @@ class Laporan extends CI_Controller{
 		parent::__construct();
 		$this->load->model('m_bahan');
 		$this->load->model('m_produk');
+		$this->load->model('m_produk_barang');
+		$this->load->model('m_produk_packing');
 	}  
 	function serverside($where,$model){
 	    $data = $this->$model->get_datatables($where);
@@ -55,10 +57,25 @@ class Laporan extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
-	function get_produk_data(){
+	function get_produk_data($filter){
 
-		$model = 'm_produk';
-		$where = array('produk_hapus' => 0);
+		if ($filter == 'mf') {
+			$v = 'produk_barang_warna =';
+			$f = 0;
+		}else{
+			$v = 'produk_barang_warna !=';
+			$f = 0;
+		}
+
+		$model = 'm_produk_barang';
+		$where = array('produk_hapus' => 0, $v => $f);
+		$output = $this->serverside($where, $model);
+		echo json_encode($output);
+	}
+	function get_produk_packing(){
+
+		$model = 'm_produk_packing';
+		$where = array('packing_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}

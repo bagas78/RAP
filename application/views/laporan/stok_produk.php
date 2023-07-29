@@ -1,3 +1,13 @@
+<style type="text/css">
+  #title {
+      background: dimgray;
+      padding: 1%;
+      text-align: center;
+      color: white;
+      font-weight: lighter;
+      font-size: medium;
+  }
+</style>
 
     <!-- Main content --> 
     <section class="content">
@@ -15,18 +25,53 @@
         </div>
         <div class="box-body">
           
-          <table id="table" class="table table-bordered table-hover table-responsive" style="width: 100%;">
-                <thead>
-                <tr>
-                  <th>Nama</th>
-                  <th>Stok</th>
-                  <th>Satuan</th>
-                </tr>
-                </thead>
-                <tbody>
+          <h4 id="title">Barang MF <span id="tit"></span></h4>
 
-                </tbody>
-              </table>
+          <table id="table1" class="table table-bordered table-hover table-responsive" style="width: 100%;">
+            <thead>
+            <tr> 
+              <th>Nama</th>
+              <th>Jenis</th>
+              <th>Warna</th>
+              <th>Stok</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+
+          <h4 id="title">Barang yang sudah melalui proses pewarnaan <span id="tit"></span></h4>
+
+          <table id="table2" class="table table-bordered table-hover table-responsive" style="width: 100%;">
+            <thead>
+            <tr> 
+              <th>Nama</th>
+              <th>Jenis</th>
+              <th>Warna</th>
+              <th>Stok</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+
+          <h4 id="title">Barang yang sudah melalui proses packing <span id="tit"></span></h4>
+
+          <table id="table3" class="table table-bordered table-hover table-responsive" style="width: 100%;">
+            <thead>
+            <tr> 
+              <th>Nama</th>
+              <th>Jenis</th>
+              <th>Warna</th>
+              <th>Stok</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
 
         </div>
 
@@ -35,11 +80,11 @@
       <!-- /.box -->
 
 <script type="text/javascript">
-    var table;
+    var table1;
     $(document).ready(function() {
 
         //datatables
-        table = $('#table').DataTable({ 
+        table1 = $('#table1').DataTable({ 
 
             "processing": true, 
             "serverSide": true,
@@ -47,13 +92,73 @@
             "order":[],  
             
             "ajax": {
-                "url": "<?=site_url('laporan/get_produk_data') ?>",
+                "url": "<?=site_url('laporan/get_produk_data/mf') ?>",
                 "type": "GET"
             },
             "columns": [ 
                         { "data": "produk_nama"},
-                        { "data": "stok"},
-                        { "data": "satuan_singkatan"},
+                        { "data": "warna_jenis_type"},
+                        { "data": "warna_nama"},
+                        { "data": "produk_barang_stok"},
+                    ],
+            "dom": "Bfrtip",
+            "buttons": [
+                "excel", "pdf", "print",
+            ]
+        });
+
+    });
+
+
+    var table2;
+    $(document).ready(function() {
+
+        //datatables
+        table2 = $('#table2').DataTable({ 
+
+            "processing": true, 
+            "serverSide": true,
+            "scrollX": true, 
+            "order":[],  
+            
+            "ajax": {
+                "url": "<?=site_url('laporan/get_produk_data/pw') ?>",
+                "type": "GET"
+            },
+            "columns": [ 
+                        { "data": "produk_nama"},
+                        { "data": "warna_jenis_type"},
+                        { "data": "warna_nama"},
+                        { "data": "produk_barang_stok"},
+                    ],
+            "dom": "Bfrtip",
+            "buttons": [
+                "excel", "pdf", "print",
+            ]
+        });
+
+    });
+
+    var table3;
+    $(document).ready(function() {
+
+        //datatables
+        table3 = $('#table3').DataTable({ 
+
+            "processing": true, 
+            "serverSide": true,
+            "scrollX": true, 
+            "order":[],  
+            
+            "ajax": {
+                "url": "<?=site_url('laporan/get_produk_packing/') ?>",
+                "type": "GET"
+            },
+            "columns": [ 
+                        { "data": "produk_nama"},
+                        { "data": "warna_jenis_type"},
+                        { "data": "warna_nama"},
+                        { "data": "packing_barang_qty"},
                     ],
             "dom": "Bfrtip",
             "buttons": [
