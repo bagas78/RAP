@@ -30,6 +30,7 @@
       $('#copy').find('.qty').val(1);
       $('#copy').find('.harga').val(0);
       $('#copy').find('.subtotal').val(0);
+      $('#copy').find('.stok').val(0);
       $('#copy').find('.satuan').html('');
     
     }
@@ -40,18 +41,20 @@
 
       //insert value
       $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang);
-      $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(val.penjualan_barang_qty); 
+      $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.penjualan_barang_jenis);
+      $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.penjualan_barang_warna);
+      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(val.penjualan_barang_qty); 
 
       //$('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.produk_barang_stok);
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.produk_barang_harga));
-      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.produk_barang_hps);
+      $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(val.penjualan_barang_harga);
+      $('#copy:nth-child('+i+') > td:nth-child(9) > input').val(val.penjualan_barang_hps);
 
-      $('#copy:nth-child('+i+') > td:nth-child(8) > input').val(val.penjualan_barang_jenis);
-      $('#copy:nth-child('+i+') > td:nth-child(9) > input').val(val.penjualan_barang_warna);
+      $('#copy:nth-child('+i+') > td:nth-child(11) > input').val(val.penjualan_barang_jenis);
+      $('#copy:nth-child('+i+') > td:nth-child(13) > input').val(val.penjualan_barang_warna);
 
       //kembalikan stok
       var re = parseInt(val.penjualan_barang_qty) + parseInt(val.produk_barang_stok);
-      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(re);
+      $('#copy:nth-child('+i+') > td:nth-child(5) > div > input').val(re);
 
       //satuan
       var satuan = $('.satuan');
