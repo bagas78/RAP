@@ -110,8 +110,10 @@ class Stok{
   }
   function produk(){
 
+    //produksi
     $db1 = $this->sql->db->query("SELECT b.produksi_hapus as hapus, a.produksi_barang_barang AS produk, SUM(a.produksi_barang_qty) AS stok, b.produksi_total_akhir AS total FROM t_produksi_barang as a JOIN t_produksi as b ON a.produksi_barang_nomor = b.produksi_nomor GROUP BY a.produksi_barang_barang, b.produksi_hapus")->result_array();
 
+    //penyesuaian
     $db2 = $this->sql->db->query("SELECT a.penyesuaian_hapus as hapus, b.penyesuaian_barang_barang AS id, a.penyesuaian_jenis AS jenis, SUM(b.penyesuaian_barang_selisih) AS jumlah, b.penyesuaian_barang_status AS status FROM t_penyesuaian AS a JOIN t_penyesuaian_barang AS b ON a.penyesuaian_nomor = b.penyesuaian_barang_nomor WHERE a.penyesuaian_jenis = 'penjualan' GROUP BY b.penyesuaian_barang_barang, b.penyesuaian_barang_status, a.penyesuaian_hapus")->result_array();
 
     $table = 't_produk_barang';
@@ -239,6 +241,30 @@ class Stok{
     }
   } 
 
+  function penjualan(){
+
+    //penjualan
+    $db = $this->sql->db->query("SELECT a.penjualan_hapus as hapus, b.penjualan_barang_barang AS barang, b.penjualan_barang_jenis AS jenis, b.penjualan_barang_warna AS warna, b.penjualan_barang_qty AS jumlah FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_po = 0")->result_array();
+
+    //kurang penjualan
+    foreach ($db as $value) {
+      $barang = $value['barang'];
+      $jenis = $value['jenis'];
+      $warna = $value['warna'];
+      $jum = $value['jumlah'];
+      $hapus = $value['hapus'];
+
+      if ($hapus == 0) {
+
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
+
+      }
+     
+    }
+
+    return;
+  }
+
   ///////////////////////////////////// end tribut ////////////////////////////////////////////////////
 
   function update_bahan(){
@@ -249,10 +275,10 @@ class Stok{
     $this->billet();
   }
   function update_produk(){
-    $this->bahan();
     $this->produk();
     $this->pewarnaan();
     $this->packing();
+    $this->penjualan();
   }
   function update_pewarnaan(){
     $this->produk();

@@ -143,14 +143,14 @@ class Penjualan extends CI_Controller{
 
 		if ($db == 1) {
 
+			//update produk
+			$this->stok->update_produk();
+
 			//update produksi status
 			$pesanan = @$_POST['pesanan'];
 			if ($pesanan != '0') {
 				$x = $this->query_builder->update('t_produksi',['produksi_penjualan' => '1'],['produksi_nomor' => $pesanan]);
 			}
-
-			//update produk
-			$this->stok->update_produk();
 
 			//jurnal
 			// if ($po != 1) {

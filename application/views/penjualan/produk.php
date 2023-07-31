@@ -77,7 +77,6 @@
                         "render":  
                         function( data ) {
                             return "<a href='<?php echo base_url('penjualan/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a hidden href='<?php echo base_url('penjualan/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary penjualan_produk_add'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger penjualan_produk_del'><i class='fa fa-trash'></i></button> "+
                             "<a <?=(@$url == 'produk')? '':'hidden'?> href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> "+
                              "<a <?=(@$url == 'packing')? '':'hidden'?> href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-truck'></i></button></a>";
