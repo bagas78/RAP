@@ -23,7 +23,8 @@
                 <thead>
                 <tr>
                   <th>Nama</th>
-                  <th>Stok</th>
+                  <th>Seluruh Stok</th>
+                  <th>Di Packing</th>
                   <th>jenis</th>
                   <th>Warna</th>
                   <th>Harga Produksi Satuan</th>
@@ -94,6 +95,12 @@
             "columns": [                               
                         { "data": "produk_nama"},
                         { "data": "produk_barang_stok",
+                        "render": 
+                        function( data ) {
+                            return number_format(data);
+                          }
+                        },
+                        { "data": "produk_barang_packing",
                         "render": 
                         function( data ) {
                             return number_format(data);

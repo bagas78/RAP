@@ -338,12 +338,12 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     //empty
     target.find('.stok').val(0);
     target.find('.harga').val(0);
-    target.find('.satuan').val('');
+    target.find('.satuan').val(''); 
 
     $.get('<?=base_url('penjualan/get_produk/')?>'+id+'/'+jenis+'/'+warna, function(data) {
       
       var pro = JSON.parse(data);
-      target.find('.stok').val(pro['produk_barang_stok']);
+      target.find('.stok').val(pro['produk_barang_packing']);
       target.find('.harga').val(pro['produk_barang_harga']);
       target.find('.satuan').val(pro['satuan_singkatan']);
       target.find('.hps').val(pro['produk_barang_hps']);
@@ -399,10 +399,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        var qty = target.find('.qty');
        var stok = target.find('.stok').val();
        var harga = target.find('.harga').val();
-       var diskon = target.find('.stok').val();
+       var diskon = target.find('.potongan').val();
 
        var sub = target.find('.subtotal');
        var potongan = (parseInt(diskon) / 100) * (parseInt(harga) * parseInt(qty.val()));
+
        var subtotal = parseInt(qty.val()) * parseInt(harga) - potongan;
        num_qty += parseInt($(this).val());
 

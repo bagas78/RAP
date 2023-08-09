@@ -24,8 +24,8 @@
       $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.packing_barang_barang); 
       $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.packing_barang_jenis); 
       $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.packing_barang_warna); 
-      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(number_format(val.packing_barang_stok)); 
-      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(number_format(val.packing_barang_qty)); 
+      $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(val.packing_barang_stok); 
+      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(val.packing_barang_qty); 
 
     });
 

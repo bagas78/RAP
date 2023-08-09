@@ -11,7 +11,7 @@
 <section class="content">
  
   <!-- Default box -->  
-  <div class="box"> 
+  <div class="box">  
     <div class="box-header with-border">
 
       <div class="back" align="left" hidden>
@@ -263,26 +263,26 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     var satuan = $(this).closest('tr').find('.satuan');
 
    /////// cek exist barang ///////////
-    $.each($('.produk'), function(idx, val) {
+    // $.each($('.produk'), function(idx, val) {
         
-        if (index != idx)
-        arr.push($(this).val());
+    //     if (index != idx)
+    //     arr.push($(this).val());
 
-    });
+    // });
 
-    if (id != '') {
+    // if (id != '') {
 
-      if ($.inArray(id, arr) != -1) {
-        var i = index + 1;
+      // if ($.inArray(id, arr) != -1) {
+      //   var i = index + 1;
 
-        alert_sweet('Produk sudah ada');
+      //   alert_sweet('Produk sudah ada');
 
-        //empty
-        $(this).val('').change();
-        berat.val(0);
-        satuan.text('');
+      //   //empty
+      //   $(this).val('').change();
+      //   berat.val(0);
+      //   satuan.text('');
         
-      }else{
+      //}else{
 
         $.get('<?= base_url('produksi/proses_get_produk/') ?>'+id, function(data) {
       
@@ -291,9 +291,9 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
         });
 
-      }
+      //}
       ////// end exist barang ///////////
-    }
+    //}
 
   });
 
@@ -307,6 +307,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
     $('#copy').find('.qty').val(0);
     $('#copy').find('.id').val(0);
     $('#copy').find('.berat').val(0);
+    $('#copy').find('.matras').val('');
 
   }
 

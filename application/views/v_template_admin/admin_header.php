@@ -278,6 +278,26 @@ thead{
           </ul>
         </li>
 
+         <li class="treeview menu_satuan">
+          <a href="#">
+            <div class="col-md-1 col-xs-1"><i class="material-icons">toll</i></div> 
+            <div class="col-md-5 col-xs-5"><span>Satuan</span></div>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+
+            <li class="satuan">
+              <a href="<?php echo base_url('satuan') ?>">
+                <i class="material-icons">more_horiz</i>
+                <span class="multi-li">Satuan Barang</span>
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+
         <li class="treeview menu_pembelian">
           <a href="#">
             <div class="col-md-1 col-xs-1"><i class="material-icons">add_shopping_cart</i></div> 

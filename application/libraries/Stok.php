@@ -11,7 +11,7 @@ class Stok{
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
  
-  function bahan(){ 
+  function bahan(){  
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga, a.pembelian_hapus AS pembelian_hapus,b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang, a.pembelian_hapus")->result_array();
 
@@ -222,6 +222,9 @@ class Stok{
 
      $db1 = $this->sql->db->query("SELECT b.packing_hapus as hapus, a.packing_barang_barang AS produk, a.packing_barang_jenis AS jenis, a.packing_barang_warna AS warna, SUM(a.packing_barang_qty) AS jumlah FROM t_packing_barang AS a JOIN t_packing AS b ON a.packing_barang_nomor = b.packing_nomor GROUP BY a.packing_barang_barang, a.packing_barang_jenis, a.packing_barang_warna, b.packing_hapus")->result_array();
 
+    //0 stok
+    $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = 0");
+
     foreach ($db1 as $value) {
       
       $produk = $value['produk'];
@@ -256,7 +259,7 @@ class Stok{
 
       if ($hapus == 0) {
 
-          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = produk_barang_packing - {$jum}, produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
 
       }
      
