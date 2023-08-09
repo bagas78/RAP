@@ -6,7 +6,6 @@ class Laporan extends CI_Controller{
 		$this->load->model('m_bahan');
 		$this->load->model('m_produk');
 		$this->load->model('m_produk_barang');
-		$this->load->model('m_produk_packing');
 	}  
 	function serverside($where,$model){
 	    $data = $this->$model->get_datatables($where);
@@ -72,10 +71,10 @@ class Laporan extends CI_Controller{
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}
-	function get_produk_packing(){
+	function get_produk_packing(){ 
 
-		$model = 'm_produk_packing';
-		$where = array('packing_hapus' => 0);
+		$model = 'm_produk_barang';
+		$where = array('produk_hapus' => 0);
 		$output = $this->serverside($where, $model);
 		echo json_encode($output);
 	}

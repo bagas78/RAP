@@ -128,6 +128,31 @@
                 </tr>
 
                 <tr>
+                  <td class="bg-w">SATUAN</td>
+                  <td>
+                    <input type="radio" name="menu_satuan" value="0" class="radio">
+                    <input type="radio" name="menu_satuan" value="0" checked hidden>
+                  </td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>Satuan Barang</td>
+                  <td>
+                    <input type="radio" name="satuan" value="0" class="radio">
+                    <input type="radio" name="satuan" value="0" checked hidden>
+                  </td>
+                  <td>
+                    <input type="radio" name="satuan_add" value="0" class="radio">
+                    <input type="radio" name="satuan_add" value="0" checked hidden>
+                  </td>
+                  <td>
+                    <input type="radio" name="satuan_del" value="0" class="radio">
+                    <input type="radio" name="satuan_del" value="0" checked hidden>
+                  </td>
+                </tr>
+
+                <tr>
                   <td class="bg-w">PEMBELIAN</td>
                   <td>
                     <input type="radio" name="menu_pembelian" value="0" class="radio">

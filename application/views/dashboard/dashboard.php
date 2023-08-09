@@ -44,8 +44,9 @@
           <tr>
             <th>Produk</th>
             <th>Warna</th>
-            <th width="1">Stok</th>
-            <th width="1">Satuan</th>
+            <th>Seluruh Stok</th>
+            <th>Di Packing</th>
+            <th>Satuan</th>
           </tr>
         </thead>
       </table> 
@@ -137,6 +138,11 @@
                         { "data": "produk_nama"},
                         { "data": "warna_nama"},
                         { "data": "produk_barang_stok",
+                        "render":
+                        function(data) {
+                          return "<span>"+number_format(data)+"</span>";
+                        }},
+                        { "data": "produk_barang_packing",
                         "render":
                         function(data) {
                           return "<span>"+number_format(data)+"</span>";

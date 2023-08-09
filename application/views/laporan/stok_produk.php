@@ -158,7 +158,7 @@
                         { "data": "produk_nama"},
                         { "data": "warna_jenis_type"},
                         { "data": "warna_nama"},
-                        { "data": "packing_barang_qty"},
+                        { "data": "produk_barang_packing"},
                     ],
             "dom": "Bfrtip",
             "buttons": [
