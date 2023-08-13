@@ -23,8 +23,8 @@
                 <thead>
                 <tr>
                   <th>Nama</th>
-                  <th>Seluruh Stok</th>
-                  <th>Di Packing</th>
+                  <th>Belum Packing</th>
+                  <th>Sudah Packing</th>
                   <th>jenis</th>
                   <th>Warna</th>
                   <th>Harga Produksi Satuan</th>

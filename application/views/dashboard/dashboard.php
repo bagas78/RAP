@@ -44,8 +44,8 @@
           <tr>
             <th>Produk</th>
             <th>Warna</th>
-            <th>Seluruh Stok</th>
-            <th>Di Packing</th>
+            <th>Belum Packing</th>
+            <th>Sudah Packing</th>
             <th>Satuan</th>
           </tr>
         </thead>

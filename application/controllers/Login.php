@@ -28,6 +28,9 @@ class Login extends CI_Controller{
               //update stok
               $this->stok->all();
 
+              //login
+              $this->session->set_flashdata('login_alert','1');
+
               redirect(base_url('dashboard'));
 
       }else{

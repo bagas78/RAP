@@ -200,6 +200,18 @@ $(function () {
     });
   }
 
+  //login
+  <?php if($this->session->flashdata('login_alert') == 1): ?>
+
+  swal({
+        title: "Pembelian , Produksi , Penjualan",
+        text: 'Hapus data dari menu tersebut dapat mempengaruhi stok',
+        icon: "warning",
+        dangerMode: true,
+    });
+
+  <?php endif ?>
+
 //active menu
 $(document).ready(function() {
     var url = window.location; 

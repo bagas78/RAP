@@ -234,10 +234,8 @@ class Stok{
       $hapus = $value['hapus'];
 
       if ($hapus == 0) {
-       
-        $this->sql->db->set(['produk_barang_packing' => $jumlah]);
-        $this->sql->db->where(['produk_barang_barang' => $produk, 'produk_barang_jenis' => $jenis, 'produk_barang_warna' => $warna]);
-        $this->sql->db->update('t_produk_barang');
+        
+        $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = $jumlah, produk_barang_stok = produk_barang_stok - {$jumlah} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}"); 
 
       }
 
@@ -259,7 +257,7 @@ class Stok{
 
       if ($hapus == 0) {
 
-          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = produk_barang_packing - {$jum}, produk_barang_stok = produk_barang_stok - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
+          $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = produk_barang_packing - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
 
       }
      

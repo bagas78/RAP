@@ -520,7 +520,7 @@ class Produksi extends CI_Controller{
 
 	//////////////// pewarnaan ////////////
 
-	function pewarnaan(){
+	function pewarnaan(){ 
 		$data['title'] = 'pewarnaan';
 		$this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('produksi/pewarnaan');
@@ -753,13 +753,13 @@ class Produksi extends CI_Controller{
 	}
 	function packing_get_produk($id, $jenis, $warna){
 
-		$data = $this->query_builder->view_row("SELECT * ,(produk_barang_stok - produk_barang_packing) AS stok FROM t_produk_barang WHERE produk_barang_barang = '$id' AND produk_barang_jenis = '$jenis' AND produk_barang_warna = '$warna'");
+		$data = $this->query_builder->view_row("SELECT * ,produk_barang_stok AS stok FROM t_produk_barang WHERE produk_barang_barang = '$id' AND produk_barang_jenis = '$jenis' AND produk_barang_warna = '$warna'");
 
 		if (@$data) {
 			$stok = $data['stok'];	
 		}else{
 			$stok = 0;
-		}
+		} 
 
 		echo json_encode($stok);
 	}
