@@ -7,7 +7,8 @@ class Keuangan extends CI_Controller{
 	function coa(){
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'coa';
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_coa as a JOIN t_coa_sub as b ON a.coa_sub = b.coa_sub_id");
+		    $data['normal_data'] = $this->query_builder->view("SELECT * FROM t_akun_normal");
+		    $data['akun_data'] = $this->query_builder->view("SELECT * FROM t_akun as a JOIn t_akun_normal as b ON a.akun_normal = b.akun_normal_id"); 
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/coa');
