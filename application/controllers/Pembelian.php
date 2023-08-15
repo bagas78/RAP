@@ -51,11 +51,11 @@ class Pembelian extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			// if ($table == 'pembelian') {
-			// 	$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
-			// 	$nomor = $pem['pembelian_nomor'];
-			// 	$this->stok->jurnal_delete($nomor, 1);	
-			// }
+			if ($table == 'pembelian') {
+				$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'");
+				$nomor = $pem['pembelian_nomor'];
+				$this->stok->jurnal_delete($nomor);	
+			}
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -121,6 +121,7 @@ class Pembelian extends CI_Controller{
 		$barang = $_POST['barang'];
 		$jum = count($barang);
 		
+		$bar = array();
 		for ($i = 0; $i < $jum; ++$i) {
 			$set2 = array(
 						'pembelian_barang_nomor' => $nomor,
@@ -133,6 +134,11 @@ class Pembelian extends CI_Controller{
 					);	
 
 			$this->query_builder->add('t_pembelian_barang',$set2);
+
+			//array id barang
+			$bid = $_POST['barang'][$i];
+			$bval= $this->db->query("SELECT * FROM t_bahan WHERE bahan_id = '$bid'")->row_array();
+			$bar[] = $bval['bahan_nama'];
 		}
 
 		if ($db == 1) {
@@ -141,18 +147,18 @@ class Pembelian extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			//if ($po == 0) {
+			if ($po == 0) {
 				
-				// if ($status == 'l') {
-				// 	//lunas
-				// 	$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-				// 	$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total);	
-				// } else {
-				// 	//belum
-				// 	$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total);
-				// 	$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total);
-				// }	
-			//}
+				if ($status == 'lunas') {
+					//lunas
+					$this->stok->jurnal($nomor, 4, 'debit', 'pembelian bahan lunas', $total, json_encode($bar));
+					$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
+				} else {
+					//belum
+					$this->stok->jurnal($nomor, 4, 'debit', 'pembelian bahan kredit', $total, json_encode($bar));
+					$this->stok->jurnal($nomor, 5, 'kredit', 'hutang bertambah', $total);
+				}	
+			}
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -186,101 +192,6 @@ class Pembelian extends CI_Controller{
 		//pembelian barang
 		$db = $this->query_builder->view("SELECT * FROM t_pembelian_barang WHERE pembelian_barang_nomor = '$nomor'");
 		echo json_encode($db);
-	}
-	function update($po, $redirect){
-		$nomor = strip_tags($_POST['nomor']);
-		$total = strip_tags(str_replace(',', '', $_POST['total']));
-		$status = strip_tags($_POST['status']);
-
-		$set1 = array(
-						'pembelian_po' => $po,
-						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
-						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
-						'pembelian_supplier' => strip_tags($_POST['supplier']),
-						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
-						'pembelian_status' => $status,
-						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
-						'pembelian_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
-						'pembelian_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
-						'pembelian_total' => $total, 
-					);
-
-		//upload lampiran
-		$lampiran = @$_FILES['lampiran'];
-		if ($lampiran['name']) {
-
-			$file = $lampiran;
-			$path = './assets/gambar/pembelian';
-			$name = 'lampiran';
-			$upload = $this->upload_builder->single($file,$path,$name);	
-
-      		if ($upload != 0) {
-      			$push = array('pembelian_lampiran' => $upload);
-	          	$result = array_merge($set1,$push);
-     		}	
-
-		}else{
-			$result = $set1;
-		}
-
-		$where1 = ['pembelian_nomor' => $nomor];
-		$db = $this->query_builder->update('t_pembelian',$result,$where1);
-
-		//delete barang
-		$where2 = ['pembelian_barang_nomor' => $nomor];
-		$this->query_builder->delete('t_pembelian_barang',$where2);
-
-		//save barang
-		$barang = $_POST['barang'];
-		$jum = count($barang);
-		
-		for ($i = 0; $i < $jum; ++$i) {
-			$set2 = array(
-						'pembelian_barang_nomor' => $nomor,
-						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
-						'pembelian_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
-						'pembelian_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
-						'pembelian_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
-						'pembelian_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
-						'pembelian_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
-					);	
-
-			$this->query_builder->add('t_pembelian_barang',$set2);
-		}
-
-		if ($db == 1) {
-			
-			//update stok
-			$this->stok->update_bahan();
-
-			//jurnal
-			// if ($po == 0) {
-
-			// 	//get kategori
-			// 	$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian WHERE pembelian_nomor = '$nomor'");
-			// 	$kategori = $pem['pembelian_kategori'];
-			// 	$tanggal = $pem['pembelian_tanggal'];
-
-			// 	//delete jurnal
-			// 	$this->stok->jurnal_delete($nomor);
-				
-			// 	if ($status == 'l') {
-			// 		//lunas
-			// 		$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
-			// 		$this->stok->jurnal($nomor, 1, 'kredit', 'kas ( pembelian bahan '.$kategori.' )', $total, $tanggal);	
-			// 	} else {
-			// 		//belum
-			// 		$this->stok->jurnal($nomor, 4, 'debit', 'stok bahan baku'.$kategori, $total, $tanggal);
-			// 		$this->stok->jurnal($nomor, 6, 'kredit', 'utang ( pembelian bahan '.$kategori.' )', $total, $tanggal);
-			// 	}	
-			// }
-
-			$this->session->set_flashdata('success','Data berhasil di rubah');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di rubah');
-		}
-
-		redirect(base_url('pembelian/'.$redirect));
 	}
 	function search(){
 		$output = $this->query_builder->view("SELECT pembelian_nomor as nomor FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 1");
@@ -629,13 +540,19 @@ class Pembelian extends CI_Controller{
 		$user = $this->session->userdata('id');
 		$nomor = strip_tags($_POST['nomor']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
+		$status = strip_tags($_POST['status']);
+
+		//piutang status
+		if ($status == 'belum') { $hutang = '1'; }else{ $hutang = '0'; }
+
 		$set1 = array(
 						'pembelian_umum_user' => $user,
 						'pembelian_umum_nomor' => $nomor,
+						'pembelian_umum_hutang' => $hutang,
 						'pembelian_umum_tanggal' => strip_tags($_POST['tanggal']),
 						'pembelian_umum_pembayaran' => strip_tags($_POST['pembayaran']),
 						'pembelian_umum_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
-						'pembelian_umum_status' => strip_tags($_POST['status']),
+						'pembelian_umum_status' => $status,
 						'pembelian_umum_keterangan' => strip_tags($_POST['keterangan']),
 						'pembelian_umum_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'pembelian_umum_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
@@ -666,7 +583,7 @@ class Pembelian extends CI_Controller{
 		$barang = $_POST['barang'];
 		$jum = count($barang);
 
-		print_r($jum);
+		$bar = array();
 		
 		for ($i = 0; $i < $jum; ++$i) {
 			$set2 = array(
@@ -679,9 +596,21 @@ class Pembelian extends CI_Controller{
 					);	
 
 			$this->query_builder->add('t_pembelian_umum_barang',$set2);
+
+			$bar[] = $_POST['barang'][$i];
 		}
 
 		if ($db == 1) {
+
+			if ($status == 'lunas') {
+				//lunas
+				$this->stok->jurnal($nomor, 4, 'debit', 'pembelian umum lunas', $total, json_encode($bar));
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
+			} else {
+				//belum
+				$this->stok->jurnal($nomor, 4, 'debit', 'pembelian umum kredit', $total, json_encode($bar));
+				$this->stok->jurnal($nomor, 5, 'kredit', 'hutang bertambah', $total);
+			}	
 			
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
@@ -689,24 +618,6 @@ class Pembelian extends CI_Controller{
 		}
 
 		redirect(base_url('pembelian/umum'));
-	}
-	function umum_edit($id){
-
-		//data
-	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'");
-
-	    //rekening
-	    $data['rekening_data'] = $this->query_builder->view("SELECT * FROM t_rekening WHERE rekening_hapus = 0");
-
-	    //ppn
-	    $data['ppn'] = $this->query_builder->view_row("SELECT * FROM t_pajak WHERE pajak_jenis = 'pembelian'");
-		
-		$data["title"] = 'pembelian umum';
-		    
-		$this->load->view('v_template_admin/admin_header',$data);
-		$this->load->view('pembelian/umum_add');
-		$this->load->view('pembelian/umum_edit');
-		$this->load->view('v_template_admin/admin_footer');
 	}
 	function umum_view($id){
 
@@ -732,76 +643,16 @@ class Pembelian extends CI_Controller{
 		$db = $this->query_builder->view("SELECT * FROM t_pembelian_umum_barang WHERE pembelian_umum_barang_nomor = '$nomor'");
 		echo json_encode($db);
 	}	
-	function umum_update($nomor){
-
-		$total = strip_tags(str_replace(',', '', $_POST['total']));
-		$set1 = array(
-						'pembelian_umum_tanggal' => strip_tags($_POST['tanggal']),
-						'pembelian_umum_pembayaran' => strip_tags($_POST['pembayaran']),
-						'pembelian_umum_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
-						'pembelian_umum_status' => strip_tags($_POST['status']),
-						'pembelian_umum_keterangan' => strip_tags($_POST['keterangan']),
-						'pembelian_umum_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
-						'pembelian_umum_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
-						'pembelian_umum_total' => $total, 
-					);
-
-		//upload lampiran
-		$lampiran = @$_FILES['lampiran'];
-		if ($lampiran['name']) {
-
-			$file = $lampiran;
-			$path = './assets/gambar/pembelian_umum';
-			$name = 'lampiran';
-			$upload = $this->upload_builder->single($file,$path,$name);	
-
-      		if ($upload != 0) {
-      			$push = array('pembelian_umum_lampiran' => $upload);
-	          	$result = array_merge($set1,$push);
-     		}	
-
-		}else{
-			$result = $set1;
-		}
-
-		$where1 = ['pembelian_umum_nomor' => $nomor];
-		$db = $this->query_builder->update('t_pembelian_umum',$result,$where1);
-
-		//delete barang
-		$where2 = ['pembelian_umum_barang_nomor' => $nomor];
-		$this->query_builder->delete('t_pembelian_umum_barang',$where2);
-
-		//save barang
-		$barang = $_POST['barang'];
-		$jum = count($barang);
-		
-		for ($i = 0; $i < $jum; ++$i) {
-			$set2 = array(
-						'pembelian_umum_barang_nomor' => $nomor,
-						'pembelian_umum_barang_barang' => strip_tags($_POST['barang'][$i]),
-						'pembelian_umum_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
-						'pembelian_umum_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
-						'pembelian_umum_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
-						'pembelian_umum_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
-					);	
-
-			$this->query_builder->add('t_pembelian_umum_barang',$set2);
-		}
-
-		if ($db == 1) {
-
-			$this->session->set_flashdata('success','Data berhasil di rubah');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di rubah');
-		}
-
-		redirect(base_url('pembelian/umum'));
-	}
 	function umum_delete($id){
 		
 		$db = $this->query_builder->update("t_pembelian_umum",['pembelian_umum_hapus' => 1],['pembelian_umum_id' => $id]);
 
 		if ($db == 1) {
+
+			//delete jurnal
+			$pem = $this->query_builder->view_row("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'");
+			$nomor = $pem['pembelian_umum_nomor'];
+			$this->stok->jurnal_delete($nomor);	
 
 			$this->session->set_flashdata('success','Data berhasil di hapus');
 		} else {
@@ -868,6 +719,22 @@ class Pembelian extends CI_Controller{
 				//update stok bahan
 				$this->stok->update_bahan();
 
+				//jurnal
+				$b = $this->db->query("SELECT * FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor JOIN t_bahan AS c ON b.pembelian_barang_barang = c.bahan_id WHERE a.pembelian_hapus = 0 AND a.pembelian_id = '$id'")->result_array();
+
+				$bar = array();
+				$total = '';
+				$nomor = '';
+				foreach ($b as $v) {
+					//array barang
+					$bar[] = $v['bahan_nama'];
+					$total = $v['pembelian_total'];
+					$nomor = $v['pembelian_nomor'];
+				}
+
+				$this->stok->jurnal($nomor, 5, 'debit', 'hutang berkurang', $total, json_encode($bar));
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas bertambah', $total);	
+
 				$this->session->set_flashdata('success','Berhasil di bayar');
 			} else {
 				$this->session->set_flashdata('gagal','Gagal di bayar');
@@ -885,6 +752,22 @@ class Pembelian extends CI_Controller{
 				
 				//update stok bahan
 				$this->stok->update_bahan();
+
+				//jurnal
+				$b = $this->db->query("SELECT * FROM t_pembelian_umum AS a JOIN t_pembelian_umum_barang AS b ON a.pembelian_umum_nomor = b.pembelian_umum_barang_nomor WHERE a.pembelian_umum_hapus = 0 AND a.pembelian_umum_id = '$id'")->result_array();
+
+				$bar = array();
+				$total = '';
+				$nomor = '';
+				foreach ($b as $v) {
+					//array barang
+					$bar[] = $v['pembelian_umum_barang_barang'];
+					$total = $v['pembelian_umum_total'];
+					$nomor = $v['pembelian_umum_nomor'];
+				}
+
+				$this->stok->jurnal($nomor, 5, 'debit', 'hutang berkurang', $total, json_encode($bar));
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas bertambah', $total);	
 
 				$this->session->set_flashdata('success','Berhasil di bayar');
 			} else {

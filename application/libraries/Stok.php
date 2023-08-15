@@ -304,45 +304,24 @@ class Stok{
 
 
 
+///////////////////////////////////////// JURNAL /////////////////////
 
+  function jurnal_delete($nomor){
 
-
-
-
-
-
-
-
-
-  function jurnal_delete($nomor, $status = ''){
-
-    if (@$status) {
-      //status
-      $this->sql->db->where('jurnal_nomor', $nomor);
-      $this->sql->db->set('jurnal_hapus', $status);  
-      $this->sql->db->update('t_jurnal');  
-    } else {
-      //permanen
-      $this->sql->db->where('jurnal_nomor', $nomor);
-      $this->sql->db->delete('t_jurnal');  
-    }
+    $this->sql->db->where('jurnal_nomor', $nomor);
+    $this->sql->db->set('jurnal_hapus', 1);  
+    $this->sql->db->update('t_jurnal');  
 
   }
-  function jurnal($nomor, $akun, $type, $keterangan, $nominal, $tanggal = ''){
+  function jurnal($nomor, $akun, $type, $keterangan, $nominal, $barang = ''){
 
-    if (@$tanggal) {
-      $tgl = $tanggal;
-    } else {
-      $tgl = date('Y-m-d');
-    }
-
-    $set = array(
+   $set = array(
                   'jurnal_nomor' => $nomor,
                   'jurnal_akun' => $akun,
                   'jurnal_keterangan' => $keterangan,
                   'jurnal_type' => $type,
                   'jurnal_nominal' => $nominal,
-                  'jurnal_tanggal' => $tgl,
+                  'jurnal_barang' => $barang,
                 );
 
     $this->sql->db->set($set);

@@ -123,7 +123,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input readonly="" type="number" name="stok[]" class="stok form-control" value="0">
+                  <input readonly="" type="text" name="stok[]" class="stok form-control" value="0">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>

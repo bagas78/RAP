@@ -65,7 +65,7 @@ class Keuangan extends CI_Controller{
 		    	$date = date('Y-m');	
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = 1 AND a.jurnal_type = 'kredit' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun as b ON a.jurnal_akun = b.akun_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = 1 AND a.jurnal_type = 'kredit' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/kas');
