@@ -793,6 +793,11 @@ class Pembelian extends CI_Controller{
 				//update stok bahan
 				$this->stok->update_bahan();
 
+				//jurnal hapus
+				$get = $this->db->query("SELECT * FROM t_pembelian WHERE pembelian_id = '$id'")->row_array();
+				$nomor = $get['pembelian_nomor'];
+				$this->db->query("DELETE FROM t_jurnal WHERE jurnal_nomor = '$nomor' ORDER BY jurnal_id DESC LIMIT 2");
+
 				$this->session->set_flashdata('success','Berhasil di batalkan');
 			} else {
 				$this->session->set_flashdata('gagal','Gagal di batalkan');
@@ -810,6 +815,11 @@ class Pembelian extends CI_Controller{
 				
 				//update stok bahan
 				$this->stok->update_bahan();
+
+				//jurnal hapus
+				$get = $this->db->query("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'")->row_array();
+				$nomor = $get['pembelian_umum_nomor'];
+				$this->db->query("DELETE FROM t_jurnal WHERE jurnal_nomor = '$nomor' ORDER BY jurnal_id DESC LIMIT 2");
 
 				$this->session->set_flashdata('success','Berhasil di batalkan');
 			} else {

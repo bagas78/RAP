@@ -38,6 +38,7 @@
                 <tr>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
+                  <th>Barang</th>
                   <th>Ref</th>
                   <th>Debit</th>
                   <th>Kredit</th>
@@ -48,19 +49,20 @@
                     <tr>
                       <td class="<?=@$val['jurnal_nomor']?>"><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
                       <td><?=@$val['jurnal_keterangan']?></td>
+                      <td><?= str_replace(['"',']','['], '', @$val['jurnal_barang'])?></td>
                       <td><?=@$val['coa_nomor']?></td>
                       <td class="debit"><?=(@$val['jurnal_type'] == 'debit')? @$val['jurnal_nominal']:'-'?></td>
                       <td class="kredit"><?=(@$val['jurnal_type'] == 'kredit')? @$val['jurnal_nominal']:'-'?></td>
                     </tr>
 
                     <tr>
-                      <td class="<?=@$val['jurnal_nomor']?>" colspan="5" style="background: silver;"></td>
+                      <td class="batas" colspan="5" style="background: silver;"></td>
                     </tr>
 
                   <?php endforeach ?>
 
                   <tr>
-                    <td colspan="3" style="background: moccasin;">TOTAL</td>
+                    <td colspan="4" style="background: moccasin;">TOTAL</td>
                     <td class="total_debit" style="background: antiquewhite;"></td>
                     <td class="total_kredit" style="background: antiquewhite;"></td>
                   </tr>
@@ -112,21 +114,20 @@
     
     });
 
-    //hapus tanggal
-    <?php foreach ($data as $val): ?>
+    //hapus batas
+    var s = 0; 
+    $.each($('.batas'), function() {
+       s += 1;
+    });
 
-      $.each($('.<?=$val['jurnal_nomor']?>'), function(index, val) {
-         
-         if (index == 2) {
-            $(this).text('');
-         }
+    for (var i = 0; i < s; i++) {
+      
+      if (i % 2 == 0) {
 
-         if (index == 1) {
-            $(this).attr('hidden', true);;
-         }
+        $('.batas:eq('+i+')').attr('hidden', true);
 
-      });
-    
-    <?php endforeach ?>
+      }
+
+    }
 
   </script>

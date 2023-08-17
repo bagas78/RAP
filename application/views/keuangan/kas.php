@@ -13,7 +13,7 @@
 
 
     <!-- Main content --> 
-    <section class="content">
+    <section class="content"> 
 
       <!-- Default box -->
       <div class="box"> 
@@ -38,20 +38,23 @@
                 <tr>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
+                  <th>Barang</th>
                   <th>Nominal</th>
                 </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($data as $val): ?>
                     <tr>
-                      <td><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
-                      <td><?=@$val['jurnal_keterangan']?></td>
+                      <td hidden class="nomor"><?=@$val['jurnal_nomor']?></td>
+                      <td class="tanggal"><?=@$val['jurnal_tanggal']?></td>
+                      <td class="keterangan"></td>
+                      <td class="barang"></td>
                       <td class="nominal"><?=@$val['jurnal_nominal']?></td>
                     </tr>
                   <?php endforeach ?>
 
                   <tr>
-                    <td colspan="2" style="background: moccasin;">Total</td>
+                    <td colspan="3" style="background: moccasin;">Total</td>
                     <td class="total" style="background: antiquewhite;"></td>
                   </tr>
 
@@ -80,6 +83,28 @@
 
     });
 
+    //get
+    $.each($('.tanggal'), function() {
+      
+      var nomor = $(this).closest('tr').find('.nomor').text(); 
+      var date_old = $(this).text();
+      var target = $(this).closest('tr');
+
+      $.get('<?=base_url('keuangan/kas_get/')?>'+nomor+'/'+date_old, function(data) {
+        
+        var val = $.parseJSON(data);
+        target.find('.keterangan').text(val['jurnal_keterangan']);
+
+        var barang = JSON.parse(val['jurnal_barang']).toString().replace(',',', ');
+        target.find('.barang').text(barang);
+
+      });
+
+      var date_new = moment($(this).text()).format('MM/DD/YYYY');
+      $(this).text(date_new);
+
+    });
+
     //total
     var tot = 0;
     $.each($('.nominal'), function(index, val) {
@@ -92,6 +117,5 @@
     });
 
     $('.total').text(number_format(tot));
-
 
   </script>

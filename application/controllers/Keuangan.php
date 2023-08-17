@@ -63,7 +63,7 @@ class Keuangan extends CI_Controller{
 		    	$date = $d;
 		    } else {
 		    	$date = date('Y-m');	
-		    }
+		    } 
 
 		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun as b ON a.jurnal_akun = b.akun_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = 1 AND a.jurnal_type = 'kredit' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
 
@@ -74,6 +74,10 @@ class Keuangan extends CI_Controller{
 		else{
 			redirect(base_url('login'));
 		}
+	}
+	function kas_get($nomor, $tanggal){
+		$db = $this->db->query("SELECT * FROM t_jurnal WHERE jurnal_barang != '' AND jurnal_nomor = '$nomor' AND jurnal_tanggal = '$tanggal'")->row_array();
+		echo json_encode($db);
 	}
 	function jurnal($d = ''){
 		if ( $this->session->userdata('login') == 1) {
@@ -86,7 +90,7 @@ class Keuangan extends CI_Controller{
 		    	$date = date('Y-m');	
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_hapus = 0 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun_normal as b ON a.jurnal_akun = b.akun_normal_id WHERE a.jurnal_hapus = 0 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/jurnal');

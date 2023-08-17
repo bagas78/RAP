@@ -282,6 +282,7 @@ class Stok{
     $this->penjualan();
   }
   function update_pewarnaan(){
+    $this->bahan();
     $this->produk();
     $this->pewarnaan();
     $this->packing();
