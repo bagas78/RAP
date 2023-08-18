@@ -131,7 +131,7 @@ class Keuangan extends CI_Controller{
 
 		//jurnal
 		$this->stok->jurnal($nomor, 6, 'kredit', $keterangan, $nominal, 'saldo');
-		$this->stok->jurnal($nomor, 1, 'debit', 'kas bertambah', $nominal, 'saldo');
+		$this->stok->jurnal($nomor, 1, 'debit', 'kas bertambah', $nominal);
 
 		$this->session->set_flashdata('success','Data berhasil di tambah');
 		
