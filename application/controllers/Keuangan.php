@@ -23,16 +23,16 @@ class Keuangan extends CI_Controller{
 		if ( $this->session->userdata('login') == 1) {
 		    $data['title'] = 'buku besar';
 
-		    $data['coa_data'] = $this->query_builder->view("SELECT * FROM t_coa");
+		    $data['normal_data'] = $this->query_builder->view("SELECT * FROM t_akun_normal");
 
 		    //get first akun
-		    $coa = $this->query_builder->view_row("SELECT * FROM t_coa ORDER BY coa_id ASC LIMIT 1");
+		    $normal = $this->query_builder->view_row("SELECT * FROM t_akun_normal ORDER BY akun_normal_id ASC LIMIT 1");
 
 		    //akun
 		    if (@$akun) {
 		    	$ak = $akun;
 		    } else {
-		    	$ak = $coa['coa_id'];	
+		    	$ak = $normal['akun_normal_id'];	
 		    }
 
 		    //filter tahun & tanggal
@@ -44,7 +44,7 @@ class Keuangan extends CI_Controller{
 
 		    $data['akun'] = $ak;
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = '$ak' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun as b ON a.jurnal_akun = b.akun_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = '$ak' AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/buku_besar');
@@ -90,7 +90,7 @@ class Keuangan extends CI_Controller{
 		    	$date = date('Y-m');	
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun_normal as b ON a.jurnal_akun = b.akun_normal_id WHERE a.jurnal_hapus = 0 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_akun as b ON a.jurnal_akun = b.akun_id WHERE a.jurnal_hapus = 0 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/jurnal');
@@ -112,7 +112,7 @@ class Keuangan extends CI_Controller{
 		    	$date = date('Y-m');	
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal as a JOIN t_coa as b ON a.jurnal_akun = b.coa_id WHERE a.jurnal_hapus = 0 AND a.jurnal_akun = 7 AND DATE_FORMAT(a.jurnal_tanggal, '%Y-%m') = '$date' ORDER BY a.jurnal_tanggal ASC");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_jurnal WHERE jurnal_akun = 6 AND DATE_FORMAT(jurnal_tanggal, '%Y-%m') = '$date' ORDER BY jurnal_tanggal ASC");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('keuangan/saldo');
@@ -129,11 +129,9 @@ class Keuangan extends CI_Controller{
 		$keterangan = strip_tags($_POST['keterangan']);
 		$nomor = 'SAL-'.date(time());
 
-		//kredit
-		$this->stok->jurnal($nomor, 7 ,'kredit' , $keterangan, $nominal);
-
-		//debit
-		$this->stok->jurnal($nomor, 1 ,'debit', 'kas ( penyesuaian saldo )', $nominal);
+		//jurnal
+		$this->stok->jurnal($nomor, 6, 'kredit', $keterangan, $nominal, 'saldo');
+		$this->stok->jurnal($nomor, 1, 'debit', 'kas bertambah', $nominal, 'saldo');
 
 		$this->session->set_flashdata('success','Data berhasil di tambah');
 		

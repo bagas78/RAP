@@ -39,7 +39,6 @@
                   <th>Tanggal</th>
                   <th>Keterangan</th>
                   <th>Barang</th>
-                  <th>Ref</th>
                   <th>Debit</th>
                   <th>Kredit</th>
                 </tr>
@@ -50,7 +49,6 @@
                       <td class="<?=@$val['jurnal_nomor']?>"><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
                       <td><?=@$val['jurnal_keterangan']?></td>
                       <td><?= str_replace(['"',']','['], '', @$val['jurnal_barang'])?></td>
-                      <td><?=@$val['coa_nomor']?></td>
                       <td class="debit"><?=(@$val['jurnal_type'] == 'debit')? @$val['jurnal_nominal']:'-'?></td>
                       <td class="kredit"><?=(@$val['jurnal_type'] == 'kredit')? @$val['jurnal_nominal']:'-'?></td>
                     </tr>
@@ -62,7 +60,7 @@
                   <?php endforeach ?>
 
                   <tr>
-                    <td colspan="4" style="background: moccasin;">TOTAL</td>
+                    <td colspan="3" style="background: moccasin;">TOTAL</td>
                     <td class="total_debit" style="background: antiquewhite;"></td>
                     <td class="total_kredit" style="background: antiquewhite;"></td>
                   </tr>

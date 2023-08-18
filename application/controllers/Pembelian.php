@@ -733,7 +733,7 @@ class Pembelian extends CI_Controller{
 				}
 
 				$this->stok->jurnal($nomor, 5, 'debit', 'hutang berkurang', $total, json_encode($bar));
-				$this->stok->jurnal($nomor, 1, 'kredit', 'kas bertambah', $total);	
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
 
 				$this->session->set_flashdata('success','Berhasil di bayar');
 			} else {
@@ -767,7 +767,7 @@ class Pembelian extends CI_Controller{
 				}
 
 				$this->stok->jurnal($nomor, 5, 'debit', 'hutang berkurang', $total, json_encode($bar));
-				$this->stok->jurnal($nomor, 1, 'kredit', 'kas bertambah', $total);	
+				$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
 
 				$this->session->set_flashdata('success','Berhasil di bayar');
 			} else {

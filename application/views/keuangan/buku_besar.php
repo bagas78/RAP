@@ -20,8 +20,8 @@
         <div class="box-header with-border">
 
            <div align="left">
-              <?php foreach ($coa_data as $val): ?>
-                <button class="btn btn-sm btn-primary <?=(@$val['coa_id'] == @$akun)?'active':''?>"> <?=@$val['coa_akun']?><span hidden><?=@$val['coa_id']?></span></button>
+              <?php foreach ($normal_data as $val): ?>
+                <button class="btn btn-sm btn-primary <?=(@$val['akun_normal_id'] == @$akun)?'active':''?>"> <?=@$val['akun_normal_nama']?><span hidden><?=@$val['akun_normal_id']?></span></button>
               <?php endforeach ?>
             </div>
 
@@ -46,7 +46,7 @@
                 <tr>
                   <th>Tanggal</th>
                   <th>Keterangan</th>
-                  <th>Ref</th>
+                  <th>Barang</th>
                   <th>Debit</th>
                   <th>Kredit</th>
                   <th>Saldo</th>
@@ -56,9 +56,10 @@
                 <tbody>
                   <?php foreach ($data as $val): ?>
                     <tr>
-                      <td><?=date_format(date_create(@$val['jurnal_tanggal']), 'd/m/Y')?></td>
+                      <td hidden class="nomor"><?=@$val['jurnal_nomor']?></td>
+                      <td class="tanggal"><?=@$val['jurnal_tanggal']?></td>
                       <td><?=@$val['jurnal_keterangan']?></td>
-                      <td>JU</td>
+                      <td class="barang"><?=@$val['jurnal_barang']?></td>
                       <td class="debit"><?=(@$val['jurnal_type'] == 'debit')? @$val['jurnal_nominal']:'-'?></td>
                       <td class="kredit"><?=(@$val['jurnal_type'] == 'kredit')? @$val['jurnal_nominal']:'-'?></td>
                       <td class="saldo"></td>
@@ -164,6 +165,31 @@
          }
       });
     
+    });
+
+    //get
+    $.each($('.tanggal'), function() {
+      
+      var nomor = $(this).closest('tr').find('.nomor').text(); 
+      var date_old = $(this).text();
+      var target = $(this).closest('tr');
+
+      $.get('<?=base_url('keuangan/kas_get/')?>'+nomor+'/'+date_old, function(data) {
+        
+        var val = $.parseJSON(data);
+
+        var barang = JSON.parse(val['jurnal_barang']).toString().replace(',',', ');
+
+        if (barang) {
+          target.find('.barang').text(barang);
+        }
+        
+
+      });
+
+      var date_new = moment($(this).text()).format('MM/DD/YYYY');
+      $(this).text(date_new);
+
     });
 
   </script>
