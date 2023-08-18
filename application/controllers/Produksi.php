@@ -9,7 +9,7 @@ class Produksi extends CI_Controller{
 		$this->load->model('m_pewarnaan');
 		$this->load->model('m_packing');
 		$this->load->model('m_cacat');
-	}   
+	}    
 
 ///////////////// atribut //////////////////////////////////////////
 
@@ -265,7 +265,9 @@ class Produksi extends CI_Controller{
 		//table peleburan barang
 		$barang = @$_POST['barang'];
 		$jum = count($barang);
+		$total = strip_tags(str_replace(',', '', @$_POST['subtotal'][$i]));
 		
+		$bar = array();
 		for ($i = 0; $i < $jum; ++$i) {
 			$set2 = array(
 						'peleburan_barang_nomor' => $nomor,
@@ -273,10 +275,15 @@ class Produksi extends CI_Controller{
 						'peleburan_barang_stok' => strip_tags(str_replace(',', '', @$_POST['stok'][$i])),
 						'peleburan_barang_qty' => strip_tags(str_replace(',', '', @$_POST['qty'][$i])),
 						'peleburan_barang_harga' => strip_tags(str_replace(',', '', @$_POST['harga'][$i])),
-						'peleburan_barang_subtotal' => strip_tags(str_replace(',', '', @$_POST['subtotal'][$i])),
+						'peleburan_barang_subtotal' => $total,
 					);	
 
 			$this->query_builder->add('t_peleburan_barang',$set2);
+
+			//array id barang
+			$bid = $_POST['barang'][$i];
+			$bval= $this->db->query("SELECT * FROM t_bahan WHERE bahan_id = '$bid'")->row_array();
+			$bar[] = $bval['bahan_nama'];
 		}
 
 		if ($db == 1) {
@@ -288,8 +295,8 @@ class Produksi extends CI_Controller{
 			$this->stok->update_bahan();
 
 			//jurnal
-			$this->stok->jurnal($nomor, 9, 'debit', 'biaya peleburan', $biaya);
-			$this->stok->jurnal($nomor, 5, 'kredit', 'stok billet', $biaya);	
+			$this->stok->jurnal($nomor, 4, 'debit', 'biaya peleburan', $total, json_encode($bar));
+			$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
 
 			$this->session->set_flashdata('success','Data berhasil di tambah');
 		} else {
