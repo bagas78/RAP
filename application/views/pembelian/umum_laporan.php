@@ -79,7 +79,7 @@
 								<td><?=@$val['pembelian_umum_barang_qty'].' '.@$val['satuan_singkatan']?></td>
 								<td><?=@$val['pembelian_umum_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
 								<td><?=number_format(@$val['pembelian_umum_barang_harga'])?></td>
-								<td class="subtotal"><?=number_format(@$val['pembelian_umum_total'])?></td>
+								<td class="subtotal"><?=number_format(@$val['pembelian_umum_barang_subtotal'])?></td>
 							</tr>
 						
 						<?php $i++ ?>

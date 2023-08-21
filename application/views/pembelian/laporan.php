@@ -93,7 +93,7 @@
 								<td><?=@$val['pembelian_barang_qty'].' '.@$val['satuan_singkatan']?></td>
 								<td><?=@$val['pembelian_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
 								<td><?=number_format(@$val['pembelian_barang_harga'])?></td>
-								<td class="subtotal"><?=number_format(@$val['pembelian_total'])?></td>
+								<td class="subtotal"><?=number_format(@$val['pembelian_barang_subtotal'])?></td>
 							</tr>
 						
 						<?php $i++ ?>
@@ -129,7 +129,7 @@
 
 			<div class="col-md-4 col-xs-4">
 				<center>
-				<p>PT. Alumunium</p>
+				<p>PT. Alumunium Perkasa</p>
 				<br/><br/><br/>
 				<p>( ___________________  )</p>
 				</center>
