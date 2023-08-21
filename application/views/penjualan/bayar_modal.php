@@ -84,6 +84,26 @@
 
   }
 
+  function batal(id){
+
+    var url = '<?=base_url('penjualan/bayar_batal/'.@$bayar_active).'/'?>'+id;
+
+    swal({
+      title: "Apa kamu yakin?",
+      text: "Batalkan Pembayaran ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+
+        $(location).attr('href',url);
+        
+      }
+    });
+  }
+
   function kem(){
 
     var nominal = Number($('.tot_nominal').text().replaceAll(',',''));

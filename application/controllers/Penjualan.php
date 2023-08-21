@@ -494,4 +494,35 @@ class Penjualan extends CI_Controller{
 		echo json_encode($db);
 
 	}
+	function bayar_batal($id){
+		
+		$set = ['penjualan_status' => 'belum', 'penjualan_pelunasan' => NULL, 'penjualan_pelunasan_keterangan' => '', 'penjualan_pelunasan_jumlah' => 0];
+		$where = ['penjualan_id' => $id];
+
+		$db = $this->query_builder->update('t_penjualan',$set,$where);
+
+		if ($db == 1) {
+			
+			//update stok bahan
+			$this->stok->update_bahan();
+
+			//jurnal hapus
+			$get = $this->query_builder->view_row("SELECT * FROM t_penjualan WHERE penjualan_id = '$id'");
+			$nomor = $get['penjualan_nomor'];
+			$i = $this->query_builder->view("SELECT * FROM t_jurnal WHERE jurnal_nomor = '$nomor' LIMIT 2, 100");
+
+			foreach ($i as $v) {
+				
+				//delete jurnal
+				$j_id = $v['jurnal_id'];
+				$this->query_builder->delete('t_jurnal', ['jurnal_id' => $j_id]);
+			}
+
+			$this->session->set_flashdata('success','Berhasil di batalkan');
+		} else {
+			$this->session->set_flashdata('gagal','Gagal di batalkan');
+		}
+
+		redirect(base_url('penjualan/bayar'));
+	}
 }

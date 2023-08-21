@@ -4,7 +4,7 @@
  
       <!-- Default box -->
       <div class="box"> 
-        <div class="box-header with-border">
+        <div class="box-header with-border"> 
  
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -94,7 +94,8 @@
                         { "data": "penjualan_id",
                         "render": 
                         function( data ) {
-                            return "<button onclick='bayar("+data+")' class='btn btn-xs btn-success piutang_add'>Bayar <i class='fa fa-clipboard'></i></button>";
+                            return "<button onclick='bayar("+data+")' class='bayar btn btn-xs btn-success piutang_add'>Bayar <i class='fa fa-clipboard'></i></button> "+
+                            "<button onclick='batal("+data+")' class='batal btn btn-xs btn-danger hutang_add'>Batal <i class='fa fa-times'></i></button>";
                           }
                         },
                         
@@ -107,8 +108,10 @@ function auto(){
 
     $.each($('.kekurangan'), function(index, val) {
        var val = $(this).text();
-       if (val == '0') {
-        $(this).closest('tr').find('.btn').attr('disabled', 'true');
+       if (val == 0) {
+        $(this).closest('tr').find('.bayar').css('display', 'none');
+       }else{
+        $(this).closest('tr').find('.batal').css('display', 'none');
        }
     });
 

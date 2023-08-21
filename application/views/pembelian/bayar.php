@@ -5,7 +5,7 @@
       <!-- Default box -->
       <div class="box"> 
         <div class="box-header with-border"> 
- 
+  
             <div align="left" class="hutang_add">
               <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
               <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
