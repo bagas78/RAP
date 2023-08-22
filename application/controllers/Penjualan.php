@@ -231,7 +231,7 @@ class Penjualan extends CI_Controller{
 	function surat($id){
 
 		$data["title"] = 'surat jalan';
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_satuan as e ON c.produk_satuan = e.satuan_id WHERE a.penjualan_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_satuan as e ON c.produk_satuan = e.satuan_id LEFT JOIN t_user as f ON a.penjualan_user = f.user_id LEFT JOIN t_warna as g ON g.warna_id = b.penjualan_barang_warna WHERE a.penjualan_id = '$id'");
 
 		
 		$this->load->view('penjualan/surat',$data);

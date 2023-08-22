@@ -21,10 +21,10 @@
   			padding: 3%;
   		}
   		.tit{
+  			border-width: 2px;
+		    border-style: solid;
 		    padding: 0.5%;
 		    font-weight: bold;
-		    font-size: x-large;
-		    text-decoration: underline;
   		}
   	</style>
 
@@ -34,90 +34,101 @@
 	<div class="box">
 
 		<div class="col-md-6 col-xs-6">
-			<center style="float: left;">
 			<h4><?=strtoupper($set['logo_nama'])?></h4>
 			<p><?=strtoupper($set['logo_alamat'])?></p>
 			<p>Telp : <?=$set['logo_telp']?></p>
-			</center>
-		</div>
-		<div align="right" class="col-md-6 col-xs-6" style="font-weight: bolder;">
-			<p>KEPADA &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
-			<p>YTH ________________</p>
-			<p>____________________</p>
-			<p>____________________</p>
 		</div>
 
+		<div class="col-md-6 col-xs-6" style="text-align: right;">
+			<p><?=@$data[0]['penjualan_nomor']?></p>
+			<p><?=date_format(date_create(@$data[0]['penjualan_tanggal']), 'd M Y')?></p>
+			<p><?=@$data[0]['user_name']?></p>
+		</div>	
+
+		<div class="col-md-12 col-xs-12" align="center">
+			<span class="tit">SURAT JALAN</span>
+			<br/><br/><br/>
+		</div>	
+
+		<div class="col-md-12 col-xs-12">
+			<table>
+				<tr>
+					<td>Nama Customer : <?=@$data[0]['kontak_nama']?></td>
+				</tr>
+				<tr><td><p></td></tr>
+				<tr>
+					<td><?=@$data[0]['kontak_alamat']?>, Telp : <?=@$data[0]['kontak_tlp']?></td>
+				</tr>
+			</table>
+		</div>	
+
 		<div class="clearfix"></div><br/>
-
-		<center><span class="tit">SURAT JALAN</span></center>
-
-		<div class="clearfix"></div><br/>
-
-		<p>No : <?=@$data[0]['penjualan_nomor']?></p>
-		<p>Harap di terima dengan baik barang - barang tersebut di bawah ini :</p>
 		
-		<table class="table table-responsive table-bordered">
+		<table class="table table-responsive table-borderless">
 			<thead>
 				<tr>
 					<th style="width: 1px;">No</th>
-					<th>Macam / Jenis Barang</th>
-					<th>Jumlah</th>
-					<th>Ketebalan</th>
-					<th>Panjang</th>
-					<th>Lebar</th>
-					<th>Berat</th>
+					<th>Nama Barang</th>
+					<th>Warna</th>
+					<th>Total Batang</th>
+					<th>Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php $i = 1; ?>
 				<?php foreach ($data as $val): ?>
 
+					<?php $num = round(@$val['penjualan_barang_qty'] / @$val['produk_colly']); if($num == 0){ $isi = 1; }else{ $isi = $num; } ?>
+
 					<tr>
 						<td><?=$i?></td>
-						<td><?=@$val['master_produk_nama']?></td>
-						<td><?=number_format(@$val['penjualan_barang_qty']).' '.@$val['satuan_singkatan']?></td>
-						<td><?=@$val['master_produk_ketebalan']?> Cm</td>
-						<td><?=@$val['master_produk_panjang']?> Cm</td>
-						<td><?=@$val['master_produk_lebar']?> Cm</td>
-						<td><?=@$val['master_produk_berat']?> Kg</td>
+						<td><?=@$val['produk_nama']?></td>
+						<td><?=@$val['warna_nama']?></td>
+						<td class="qty"><?=@$val['penjualan_barang_qty']?></td>
+						<td><?=@$val['produk_colly'].' Colly @ '.$isi?></td>
 					</tr>
 				
 				<?php $i++ ?>
 				<?php endforeach ?>
 
 				<tr>
-					<td>Keterangan</td>
-					<td colspan="7"><?=@$data[0]['penjualan_keterangan']?></td>
+					<td colspan="3">Barang sudah di terima dengan baik dan jumlah yang benar</td>
+					<td>Total Batang</td>
+					<td class="sum_qty"></td>
 				</tr>
 
 			</tbody>
 		</table>
 
-		<?php $d = date_create(date('Y-m-d'));?>
+		<div class="clearfix"></div><br/>
 
-		<p align="right"><?=strtoupper($set['logo_kota']).', '.date_format($d, 'd M Y')?></p>
-		<br/><br/>
+		<div class="col-md-12 col-xs-12 row">
+			<table>
+				<tr>
+					<td>Nama Security</td>
+					<td>&#160;&#160;: </td>
+				</tr>
+				<tr>
+					<td>Nama Sopir</td>
+					<td>&#160;&#160;: </td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="clearfix"></div><br/><br/>
 
 		<div class="col-md-4 col-xs-4">
 			<center style="float: left;">
-			<p>Penerima :</p>
-			<br/><br/>
+			<p>Penerima</p>
+			<br/><br/><br/>
 			<p>( ___________________  )</p>
 			</center>
 		</div>
 
 		<div class="col-md-4 col-xs-4">
 			<center>
-			<p>Pengirim :</p>
-			<br/><br/>
-			<p>( ___________________  )</p>
-			</center>
-		</div>
-
-		<div class="col-md-4 col-xs-4">
-			<center style="float: right;">
-			<p>Mengetahui :</p>
-			<br/><br/>
+			<p>Yang Menyerahkan</p>
+			<br/><br/><br/>
 			<p>( ___________________  )</p>
 			</center>
 		</div>
@@ -129,18 +140,14 @@
 
 <script type="text/javascript">
 	
-	var subtotal = $('.subtotal');
 	var num = 0;
-	$.each(subtotal, function(index, val) {
+	$.each($('.qty'), function() {
 		 
 		 num += parseInt($(this).text().replace(/,/g, ''));
 		 
-	});
+	});	
 
-	var ppn = (<?=@$data[0]['penjualan_ppn']?>) * num / 100;
-	var total = ppn + num;
-
-	$('#total_akhir').text(number_format(total));
+	$('.sum_qty').text(number_format(num));
 
 	
 	//print

@@ -47,6 +47,7 @@
 
 		<div class="col-md-12 col-xs-12" align="center">
 			<span class="tit">INVOICE PENJUALAN</span>
+			<br/><br/><br/>
 		</div>	
 
 		<div class="col-md-12 col-xs-12">
@@ -63,7 +64,7 @@
 
 		<div class="clearfix"></div><br/>
 		
-		<table class="table table-responsive table-bordered">
+		<table class="table table-responsive table-borderless">
 			<thead>
 				<tr>
 					<th width="70">No</th>
@@ -85,10 +86,10 @@
 						<td><?=$val['produk_nama']?></td>
 						<td><?=$val['warna_jenis_type']?></td>
 						<td><?=$val['warna_nama']?></td>
-						<td><?=number_format($val['penjualan_barang_qty'])?></td>
-						<td><?=number_format($val['penjualan_barang_potongan'])?></td>
-						<td><?=number_format($val['penjualan_barang_harga'])?></td>
-						<td class="subtotal"><?=number_format($val['penjualan_total'])?></td>
+						<td class="qty"><?=number_format($val['penjualan_barang_qty'])?></td>
+						<td class="diskon"><?=number_format($val['penjualan_barang_potongan'])?></td>
+						<td class="harga"><?=number_format($val['penjualan_barang_harga'])?></td>
+						<td class="subtotal"><?=number_format($val['penjualan_barang_subtotal'])?></td>
 					</tr>
 				
 				<?php $i++ ?>
@@ -96,18 +97,26 @@
 
 				<tr>
 					<td colspan="6"></td>
-					<td>PPN</td>
-					<td id="ppn"><?=@$data[0]['penjualan_ppn']?>%</td>
+					<td>Total</td>
+					<td id="total_akhir"></td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+					<td>Total Disc</td>
+					<td id="total_diskon"></td>
+				</tr>
+				<tr>
+					<td>Terbilang</td>
+					<td colspan="4">dua juta</td>
+					<td></td>
+					<td>PPN <?=@$data[0]['penjualan_ppn']?>%</td>
+					<td id="ppn"></td>
 				</tr>
 				<tr>
 					<td>Jatuh Tempo</td>
 					<td colspan="5"><?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
 					<td>Total Akhir</td>
-					<td id="total_akhir"></td>
-				</tr>
-				<tr>
-					<td>Keterangan</td>
-					<td colspan="7"><?=@$data[0]['penjualan_keterangan']?></td>
+					<td id="akhir"></td>
 				</tr>
 
 			</tbody>
@@ -125,7 +134,7 @@
 
 		<div class="col-md-4 col-xs-4">
 			<center>
-			<p>PT. Alumunium Perkasa</p>
+			<p>Yang Menyerahkan</p>
 			<br/><br/><br/>
 			<p>( ___________________  )</p>
 			</center>
@@ -138,20 +147,34 @@
 
 <script type="text/javascript">
 	
-	var subtotal = $('.subtotal');
-	var num = 0;
-	$.each(subtotal, function(index, val) {
+	var total = 0;
+	var sum = 0;
+	$.each($('.subtotal'), function() {
 		 
-		 num += parseInt($(this).text().replace(/,/g, ''));
+		 total += parseInt($(this).text().replace(/,/g, ''));
+		 sum += parseInt($(this).closest('tr').find('.qty').text().replace(/,/g, '')) * parseInt($(this).closest('tr').find('.harga').text().replace(/,/g, ''));
 		 
 	});
 
-	var ppn = (<?=@$data[0]['penjualan_ppn']?>) * num / 100;
-	var total = ppn + num;
-
 	$('#total_akhir').text(number_format(total));
 
-	
+	//diskon
+	var diskon = 0;
+	$.each($('.diskon'), function() {
+		 
+		 diskon += parseInt($(this).text().replace(/,/g, ''));
+		 
+	});
+
+	$('#total_diskon').text(number_format(sum - total));
+
+	//ppn
+	var ppn = (<?=@$data[0]['penjualan_ppn']?>) * total / 100;
+	$('#ppn').text(number_format(ppn));
+
+	//total akhir
+	$('#akhir').text(number_format(ppn + total));
+
 	// print
 	window.print();
     window.onafterprint = back;
