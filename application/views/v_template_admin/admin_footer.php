@@ -256,6 +256,9 @@ $(document).ready(function() {
 //show menu
 setTimeout(function(){ $('.sidebar-menu').removeAttr('hidden'); }, 1000);
 
+//select2 100%
+$('.select2').css('width', '100%');
+
 </script>
 
 </body>

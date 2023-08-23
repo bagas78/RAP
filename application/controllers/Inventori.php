@@ -81,13 +81,13 @@ class Inventori extends CI_Controller{
 
 		//generate nomor
 	    $nomor = $this->query_builder->count("SELECT * FROM t_penyesuaian");
-	    $data['nomor'] = 'PN-'.date('dmY').'-'.($nomor+1);
+	    $data['nomor'] = 'PN-'.time().'-'.($nomor+1);
 
 	    //atribut
 	    $jenis = @$_POST['jenis'];
 	    $data['jenis'] = $jenis;
 	    $data['transaksi'] = @$_POST['transaksi'];
-	    $data['kategori'] = @$_POST['kategori'];
+	    $data['kategori'] = @$_POST['kategori']; 
 	    $data['tanggal'] = @$_POST['tanggal'];
 
 	    //barang

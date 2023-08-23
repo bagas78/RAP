@@ -7,7 +7,7 @@
 <!-- Main content --> 
 <section class="content">
 
-  <!-- Default box -->  
+  <!-- Default box -->   
   <div class="box"> 
     <div class="box-header with-border">
       <div class="box-tools pull-right">
@@ -59,9 +59,11 @@
           </thead>
           <tbody id="paste">
 
+            <?php $uri = $this->uri->segment(2); ?>
+
              <tr id="copy">
               <td>
-                <select required id="barang" class="barang form-control" name="barang[]">
+                <select required id="barang" class="barang form-control <?=($uri == 'peleburan_add')? 'select2':'' ?>" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>

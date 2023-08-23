@@ -130,9 +130,11 @@
           </thead>
           <tbody id="paste">
 
+            <?php $uri = $this->uri->segment(2); ?>
+
              <tr id="copy">
               <td>
-                <select required id="produk" class="produk form-control" name="barang[]">
+                <select required id="produk" class="produk form-control <?=($uri == 'po_add' || $uri == 'produk_add')? 'select2':'' ?>" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $b): ?>
                     <option value="<?=@$b['produk_id']?>"><?=@$b['produk_nama']?></option>

@@ -59,9 +59,11 @@
           </thead>
           <tbody id="paste">
 
+            <?php $uri = $this->uri->segment(2); ?>
+
              <tr id="copy">
               <td>
-                <select required id="produk" class="produk form-control" name="produk[]">
+                <select required id="produk" class="produk form-control <?=($uri == 'pewarnaan_add')? 'select2':'' ?>" name="produk[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $p): ?>
                     <option value="<?=@$p['produk_id']?>"><?=@$p['produk_nama']?></option>
@@ -133,26 +135,26 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     var stok = $(this).closest('tr').find('.stok');
 
    /////// cek exist barang ///////////
-    $.each($('.produk'), function(idx, val) {
+    // $.each($('.produk'), function(idx, val) {
         
-        if (index != idx)
-        arr.push($(this).val());
+    //     if (index != idx)
+    //     arr.push($(this).val());
 
-    });
+    // });
 
-    if (id != '') {
+    // if (id != '') {
 
-      if ($.inArray(id, arr) != -1) {
-        var i = index + 1;
+    //   if ($.inArray(id, arr) != -1) {
+    //     var i = index + 1;
 
-        alert_sweet('Produk sudah ada');
+    //     alert_sweet('Produk sudah ada');
         
-        //null input
-        $(this).val('').change();
-        $(this).closest('tr').find('select').val('').change();
-        $(this).closest('tr').find('input').val(0);
+    //     //null input
+    //     $(this).val('').change();
+    //     $(this).closest('tr').find('select').val('').change();
+    //     $(this).closest('tr').find('input').val(0);
         
-      }else{
+    //   }else{
 
         $.get('<?=base_url('produksi/pewarnaan_get_produk/')?>'+id, function(data) {
       
@@ -162,9 +164,9 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
 
         });
 
-      }
+      //}
       ////// end exist barang ///////////
-    }
+    //}
 
   });
 

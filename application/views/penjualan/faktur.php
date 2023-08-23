@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?= strtoupper(@$title) ?> | <?=@$set['logo_nama'] ?></title> 
@@ -107,14 +107,14 @@
 				</tr>
 				<tr>
 					<td>Terbilang</td>
-					<td colspan="4">dua juta</td>
+					<td colspan="4"> :</td> 
 					<td></td>
 					<td>PPN <?=@$data[0]['penjualan_ppn']?>%</td>
 					<td id="ppn"></td>
 				</tr>
 				<tr>
 					<td>Jatuh Tempo</td>
-					<td colspan="5"><?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
+					<td colspan="5">: <?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
 					<td>Total Akhir</td>
 					<td id="akhir"></td>
 				</tr>
@@ -173,7 +173,21 @@
 	$('#ppn').text(number_format(ppn));
 
 	//total akhir
-	$('#akhir').text(number_format(ppn + total));
+	var akhir = number_format(ppn + total);
+	$('#akhir').text(akhir);
+
+	//translate
+	// $.ajax({
+	//   url: '<?php //echo base_url('translate/content/id') ?>',
+	//   type: 'POST',
+	//   dataType: 'json',
+	//   data: {text: akhir.replace(/,/g, '')},
+	// })
+	// .done(function(data) {
+	    
+	//   console.log(data);
+
+	// });
 
 	// print
 	window.print();

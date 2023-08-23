@@ -15,7 +15,7 @@
         </div>
         <div class="box-body"> 
 
-          <div class="col-md-4 row">
+          <div class="col-md-4 row"> 
             <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <tr>
                 <td style="background: lightgreen;">Total Pewarnaan ( Btg )</td>
@@ -42,7 +42,6 @@
               <th>Nama Barang</th>
               <th>Warna</th>
               <th>Qty ( Btg )</th>
-              <th>Cacat ( Btg )</th>
               <th>Subtotal ( Btg )</th>
             </tr>
             </thead>
@@ -53,7 +52,6 @@
                   <td><?=$val['produk_nama'] ?></td>
                   <td><?=$val['warna_nama'] ?></td>
                   <td><?=$val['pewarnaan_barang_qty']?></td>
-                  <td><?=$val['pewarnaan_barang_cacat']?></td>
                   <td class="total"><?=$val['pewarnaan_barang_qty'] - $val['pewarnaan_barang_cacat'] ?></td>
                 </tr>
               <?php endforeach ?>

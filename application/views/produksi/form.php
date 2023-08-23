@@ -109,12 +109,14 @@
           </thead>
           <tbody id="paste">
 
+            <?php $uri = $this->uri->segment(2); ?>
+
              <tr id="copy">
               <td>
                 <input  type="text" name="matras[]" class="matras form-control" required>
               </td>
               <td>
-                <select required id="produk" class="produk form-control" name="produk[]">
+                <select required id="produk" class="produk form-control <?=($uri == 'proses_add')? 'select2':'' ?>" name="produk[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $p): ?>
                     <option value="<?=@$p['produk_id']?>"><?=@$p['produk_nama']?></option>

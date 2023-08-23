@@ -112,9 +112,11 @@
           </thead>
           <tbody id="paste">
 
+            <?php $uri = $this->uri->segment(2); ?>
+
              <tr id="copy">
               <td>
-                <select required id="barang" class="form-control" name="barang[]">
+                <select required id="barang" class="form-control <?=($uri == 'utama_add' || $uri == 'po_add')? 'select2':'' ?>" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($bahan_data as $b): ?>
                     <option value="<?=@$b['bahan_id']?>"><?=@$b['bahan_nama']?></option>

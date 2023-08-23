@@ -20,7 +20,7 @@ class Penjualan extends CI_Controller{
 			"data" => $data,
 		);
 
-		return $output;
+		return $output; 
 	}
 	function add($active){
 
@@ -80,11 +80,13 @@ class Penjualan extends CI_Controller{
 		$nomor = strip_tags($_POST['nomor']);
 		$status = strip_tags($_POST['status']);
 		$total = strip_tags(str_replace(',', '', $_POST['total']));
+		$user = $this->session->userdata('id');
 
 		//piutang status
 		if ($status == 'belum') { $piutang = '1'; }else{ $piutang = '0'; }
 
 		$set1 = array(
+						'penjualan_user' => $user,	
 						'penjualan_piutang' => $piutang,
 						'penjualan_po' => $po,
 						'penjualan_nomor' => $nomor,
