@@ -203,8 +203,14 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
   //copy paste
   function clone(){
     //paste
+    $('#copy').find('.produk').select2('destroy');
     $('#paste').prepend($('#copy').clone());
     
+    //all select2
+    $(".produk").select2({
+        placeholder: "-- Pilih --",
+        allowClear: true
+    });
 
     //blank new input
     $('#copy').find('#warna > option').attr('hidden',true);

@@ -83,7 +83,7 @@
             </div>
             <div class="form-group">
               <label>Status Pembayaran</label>
-              <select name="status" class="form-control" required id="status">
+              <select name="status" class="form-control select2" required id="status">
                 <option value="" hidden>-- Pilih --</option>
                 <option value="lunas">Lunas</option>
                 <option value="belum">Belum Lunas</option>
@@ -357,7 +357,14 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
   //copy paste
   function clone(){
     //paste
+    $('#copy').find('.produk').select2('destroy');
     $('#paste').prepend($('#copy').clone());
+
+    //all select2
+    $(".produk").select2({
+        placeholder: "-- Pilih --",
+        allowClear: true
+    });
 
     //blank new input
     $('#copy').find('select').val('');

@@ -15,7 +15,7 @@
 
     //clone
     for (var num = 1; num <= json.length - 1; num++) {
-       clone();
+       $('#paste').prepend($('#copy').clone());
     }
 
     $.each(json, function(index, val) { 

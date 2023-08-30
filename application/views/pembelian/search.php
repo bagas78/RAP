@@ -60,6 +60,7 @@ $(document).on('click', '#po_get', function() {
 		      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.pembelian_barang_barang).change();
 		      $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val(val.pembelian_barang_qty);
 		      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(val.pembelian_barang_potongan);
+		      $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(val.pembelian_barang_harga);
 
 		    });
 

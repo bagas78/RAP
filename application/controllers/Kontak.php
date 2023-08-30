@@ -119,6 +119,7 @@ class Kontak extends CI_Controller{
 		$data['bank'] = $this->query_builder->view("SELECT * FROM t_bank");
 
 		$data['title'] = 'Supplier';
+		$data['jenis'] = $data['data']['kontak_jenis'];
 
 	    $this->load->view('v_template_admin/admin_header',$data);
 	    $this->load->view('kontak/edit');

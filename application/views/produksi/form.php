@@ -302,7 +302,14 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
   //copy paste
   function clone(){
     //paste
+    $('#copy').find('select').select2('destroy');
     $('#paste').prepend($('#copy').clone());
+
+    //all select2
+    $(".select2").select2({
+        placeholder: "-- Pilih --",
+        allowClear: true
+    });
     
     //blank new input
     $('#copy').find('select').val('');

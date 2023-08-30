@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fa fa-times"></i></button>
+          <i class="fa fa-times"></i></button> 
       </div>
 
       <div hidden id="search" align="left">
@@ -210,7 +210,14 @@ if ('<?=@$this->uri->segment(2)?>' == 'peleburan_add') {
   //copy paste
   function clone(){
     //paste
+    $('#copy').find('select.select2-hidden-accessible').select2('destroy');
     $('#paste').prepend($('#copy').clone());
+
+    //all select2
+    $(".select2").select2({
+        placeholder: "-- Pilih --",
+        allowClear: true
+    }); 
 
     //blank new input
     $('#copy').find('select').val('');

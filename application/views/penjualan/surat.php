@@ -18,7 +18,7 @@
 
   	<style type="text/css">
   		.box{
-  			padding: 3%;
+  			padding: 3%; 
   		}
   		.tit{
   			border-width: 2px;
@@ -83,7 +83,7 @@
 					<tr>
 						<td><?=$i?></td>
 						<td><?=@$val['produk_nama']?></td>
-						<td><?=@$val['warna_nama']?></td>
+						<td><?=@$val['warna_jenis_type']?></td>
 						<td class="qty"><?=@$val['penjualan_barang_qty']?></td>
 						<td><?=@$val['produk_colly'].' Colly @ '.$isi?></td>
 					</tr>

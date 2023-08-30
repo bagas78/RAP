@@ -6,7 +6,7 @@ class Pembelian extends CI_Controller{
 		$this->load->model('m_pembelian');
 		$this->load->model('m_pembelian_umum');
 		$this->load->model('m_bahan');
-	}  
+	}   
 
 ///////////////////////// pembelian //////////////////////////////////////////////////
 
@@ -192,6 +192,99 @@ class Pembelian extends CI_Controller{
 		//pembelian barang
 		$db = $this->query_builder->view("SELECT * FROM t_pembelian_barang WHERE pembelian_barang_nomor = '$nomor'");
 		echo json_encode($db);
+	}
+	function update($po, $redirect){
+		$nomor = strip_tags($_POST['nomor']);
+		$total = strip_tags(str_replace(',', '', $_POST['total']));
+		$status = strip_tags($_POST['status']);
+
+		$set1 = array(
+						'pembelian_po' => $po,
+						'pembelian_tanggal' => strip_tags($_POST['tanggal']),
+						'pembelian_pembayaran' => strip_tags($_POST['pembayaran']),
+						'pembelian_supplier' => strip_tags($_POST['supplier']),
+						'pembelian_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
+						'pembelian_status' => $status,
+						'pembelian_keterangan' => strip_tags($_POST['keterangan']),
+						'pembelian_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
+						'pembelian_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
+						'pembelian_total' => $total, 
+					);
+
+		//upload lampiran
+		$lampiran = @$_FILES['lampiran'];
+		if ($lampiran['name']) {
+
+			$file = $lampiran;
+			$path = './assets/gambar/pembelian';
+			$name = 'lampiran';
+			$upload = $this->upload_builder->single($file,$path,$name);	
+
+      		if ($upload != 0) {
+      			$push = array('pembelian_lampiran' => $upload);
+	          	$result = array_merge($set1,$push);
+     		}	
+
+		}else{
+			$result = $set1;
+		}
+
+		$where1 = ['pembelian_nomor' => $nomor];
+		$db = $this->query_builder->update('t_pembelian',$result,$where1);
+
+		//delete barang
+		$where2 = ['pembelian_barang_nomor' => $nomor];
+		$this->query_builder->delete('t_pembelian_barang',$where2);
+
+		//save barang
+		$barang = $_POST['barang'];
+		$jum = count($barang);
+		
+		$bar = array();
+		for ($i = 0; $i < $jum; ++$i) {
+			$set2 = array(
+						'pembelian_barang_nomor' => $nomor,
+						'pembelian_barang_barang' => strip_tags($_POST['barang'][$i]),
+						'pembelian_barang_qty' => strip_tags(str_replace(',', '', $_POST['qty'][$i])),
+						'pembelian_barang_stok' => strip_tags(str_replace(',', '', $_POST['stok'][$i])),
+						'pembelian_barang_potongan' => strip_tags(str_replace(',', '', $_POST['potongan'][$i])),
+						'pembelian_barang_harga' => strip_tags(str_replace(',', '', $_POST['harga'][$i])),
+						'pembelian_barang_subtotal' => strip_tags(str_replace(',', '', $_POST['subtotal'][$i])),
+					);	
+
+			$this->query_builder->add('t_pembelian_barang',$set2);
+
+			//array id barang
+			$bid = $_POST['barang'][$i];
+			$bval= $this->db->query("SELECT * FROM t_bahan WHERE bahan_id = '$bid'")->row_array();
+			$bar[] = $bval['bahan_nama'];
+		}
+
+		if ($db == 1) {
+			
+			//update stok
+			$this->stok->update_bahan();
+
+			//jurnal
+			if ($po == 0) {
+				
+				if ($status == 'lunas') {
+					//lunas
+					$this->stok->jurnal($nomor, 4, 'debit', 'pembelian bahan lunas', $total, json_encode($bar));
+					$this->stok->jurnal($nomor, 1, 'kredit', 'kas berkurang', $total);	
+				} else {
+					//belum
+					$this->stok->jurnal($nomor, 4, 'debit', 'pembelian bahan kredit', $total, json_encode($bar));
+					$this->stok->jurnal($nomor, 2, 'kredit', 'hutang bertambah', $total);
+				}	
+			}
+
+			$this->session->set_flashdata('success','Data berhasil di rubah');
+		} else {
+			$this->session->set_flashdata('gagal','Data gagal di rubah');
+		}
+
+		redirect(base_url('pembelian/'.$redirect));
 	}
 	function search(){
 		$output = $this->query_builder->view("SELECT pembelian_nomor as nomor FROM t_pembelian WHERE pembelian_hapus = 0 AND pembelian_po = 1");
