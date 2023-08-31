@@ -2,7 +2,7 @@
 class Penjualan extends CI_Controller{
 
 	function __construct(){
-		parent::__construct();
+		parent::__construct(); 
 		$this->load->model('m_penjualan'); 
 	} 
 
@@ -322,7 +322,7 @@ class Penjualan extends CI_Controller{
 	}
 	function faktur($id){
 		$data["title"] = 'faktur';
-		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_warna_jenis as e ON b.penjualan_barang_jenis = e.warna_jenis_id JOIN t_warna as f ON b.penjualan_barang_warna = f.warna_id LEFT JOIN t_user as g ON a.penjualan_user = g.user_id WHERE a.penjualan_id = '$id'");
+		$data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor JOIN t_produk AS c ON b.penjualan_barang_barang = c.produk_id JOIN t_kontak as d ON a.penjualan_pelanggan = d.kontak_id JOIN t_warna_jenis as e ON b.penjualan_barang_jenis = e.warna_jenis_id JOIN t_warna as f ON b.penjualan_barang_warna = f.warna_id LEFT JOIN t_user as g ON a.penjualan_user = g.user_id LEFT JOIN t_satuan as h ON h.satuan_id = c.produk_satuan WHERE a.penjualan_id = '$id'");
 
 		
 		$this->load->view('penjualan/faktur',$data);

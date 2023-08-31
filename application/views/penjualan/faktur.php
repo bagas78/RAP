@@ -46,7 +46,7 @@
 		</div>	
 
 		<div class="col-md-12 col-xs-12" align="center">
-			<span class="tit">INVOICE PENJUALAN</span>
+			<span class="tit">NOTA PENJUALAN</span>
 			<br/><br/><br/>
 		</div>	
 
@@ -69,8 +69,6 @@
 				<tr>
 					<th width="70">No</th>
 					<th>Produk</th>
-					<th>Jenis</th>
-					<th>Warna</th>
 					<th>Qty</th>
 					<th>Disc</th>
 					<th>Harga</th>
@@ -83,40 +81,35 @@
 
 					<tr>
 						<td><?=$i?></td>
-						<td><?=$val['produk_nama']?></td>
-						<td><?=$val['warna_jenis_type']?></td>
-						<td><?=$val['warna_nama']?></td>
-						<td class="qty"><?=number_format($val['penjualan_barang_qty'])?></td>
-						<td class="diskon"><?=number_format($val['penjualan_barang_potongan'])?></td>
-						<td class="harga"><?=number_format($val['penjualan_barang_harga'])?></td>
-						<td class="subtotal"><?=number_format($val['penjualan_barang_subtotal'])?></td>
+						<td><?=@$val['produk_nama']?> ( <?=@$val['warna_nama']?> )</td>
+						<td class="qty"><?=number_format(@$val['penjualan_barang_qty']).' '.@$val['satuan_singkatan']?></td>
+						<td>Rp. <span class="diskon"><?=number_format(@$val['penjualan_barang_potongan'])?></span></td>
+						<td>Rp. <span class="harga"><?=number_format(@$val['penjualan_barang_harga'])?></span></td>
+						<td>Rp. <span class="subtotal"><?=number_format(@$val['penjualan_barang_subtotal'])?></span></td>
 					</tr>
 				
 				<?php $i++ ?>
 				<?php endforeach ?>
 
 				<tr>
-					<td colspan="6"></td>
+					<td colspan="4"></td>
 					<td>Total</td>
-					<td id="total_akhir"></td>
+					<td>Rp. <span id="total_akhir"></span></td>
 				</tr>
 				<tr>
-					<td colspan="6"></td>
-					<td>Total Disc</td>
-					<td id="total_diskon"></td>
+					<td style="border-top: 0;" colspan="4">Terbilang : </td>
+					<td style="border-top: 0;">Diskon</td>
+					<td style="border-top: 0;">Rp. <span id="total_diskon"></span></td>
 				</tr>
 				<tr>
-					<td>Terbilang</td>
-					<td colspan="4"> :</td> 
-					<td></td>
-					<td>PPN <?=@$data[0]['penjualan_ppn']?>%</td>
-					<td id="ppn"></td>
+					<td style="border-top: 0;" colspan="4">Jatuh Tempo : <?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
+					<td style="border-top: 0;">PPN <?=@$data[0]['penjualan_ppn']?>%</td>
+					<td style="border-top: 0;">Rp. <span id="ppn"></span></td>
 				</tr>
 				<tr>
-					<td>Jatuh Tempo</td>
-					<td colspan="5">: <?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
-					<td>Total Akhir</td>
-					<td id="akhir"></td>
+					<td style="border-top: 0;" colspan="4"></td>
+					<td style="border-top: 0;">Total Transfer</td>
+					<td style="border-top: 0;">Rp. <span id="akhir"></span></td>
 				</tr>
 
 			</tbody>
@@ -134,7 +127,7 @@
 
 		<div class="col-md-4 col-xs-4">
 			<center>
-			<p>Yang Menyerahkan</p>
+			<p>PT. Rajawali Alumunium Perkasa</p>
 			<br/><br/><br/>
 			<p>( ___________________  )</p>
 			</center>

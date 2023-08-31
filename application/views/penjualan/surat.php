@@ -19,7 +19,7 @@
   	<style type="text/css">
   		.box{
   			padding: 3%; 
-  		}
+  		} 
   		.tit{
   			border-width: 2px;
 		    border-style: solid;
@@ -69,8 +69,7 @@
 				<tr>
 					<th style="width: 1px;">No</th>
 					<th>Nama Barang</th>
-					<th>Warna</th>
-					<th>Total Batang</th>
+					<th>QTY</th>
 					<th>Keterangan</th>
 				</tr>
 			</thead>
@@ -83,9 +82,8 @@
 					<tr>
 						<td><?=$i?></td>
 						<td><?=@$val['produk_nama']?></td>
-						<td><?=@$val['warna_jenis_type']?></td>
-						<td class="qty"><?=@$val['penjualan_barang_qty']?></td>
-						<td><?=@$val['produk_colly'].' Colly @ '.$isi?></td>
+						<td class="qty"><?=@$val['penjualan_barang_qty']?> Btg</td>
+						<td><!-- <?=@$val['produk_colly'].' Colly @ '.$isi?> --></td>
 					</tr>
 				
 				<?php $i++ ?>
@@ -147,7 +145,7 @@
 		 
 	});	
 
-	$('.sum_qty').text(number_format(num));
+	$('.sum_qty').text(number_format(num)+' Btg');
 
 	
 	//print

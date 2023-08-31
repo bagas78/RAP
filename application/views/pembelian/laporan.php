@@ -79,6 +79,7 @@
 							<th>Produk</th>
 							<th>Qty</th>
 							<th>Potongan</th>
+							<th>Qty Akhir</th>
 							<th>Harga</th>
 							<th>Subtotal</th>
 						</tr>
@@ -92,25 +93,26 @@
 								<td><?=@$val['bahan_nama']?></td>
 								<td><?=@$val['pembelian_barang_qty'].' '.@$val['satuan_singkatan']?></td>
 								<td><?=@$val['pembelian_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
-								<td><?=number_format(@$val['pembelian_barang_harga'])?></td>
-								<td class="subtotal"><?=number_format(@$val['pembelian_barang_subtotal'])?></td>
+								<td><?=@$val['pembelian_barang_qty'] - @$val['pembelian_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
+								<td>Rp. <?=number_format(@$val['pembelian_barang_harga'])?></td>
+								<td>Rp. <span class="subtotal"><?=number_format(@$val['pembelian_barang_subtotal'])?></span></td>
 							</tr>
 						
 						<?php $i++ ?>
 						<?php endforeach ?>
 
 						<tr>
-							<td colspan="4"></td>
+							<td colspan="5"></td>
 							<td>PPN</td>
 							<td id="ppn"><?=@$data[0]['pembelian_ppn']. '%'?></td>
 						</tr>
 						<tr>
-							<td style="border-top: 0;" colspan="4">Jatuh Tempo : <?php @$d = date_create($data[0]['pembelian_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
-							<td><b>Total</b></td>
-							<td><b id="total_akhir"></b></td>
+							<td style="border-top: 0;" colspan="5">Terbilang : </td>
+							<td style="border-top: 0;"><b>Total</b></td>
+							<td style="border-top: 0;"><b id="total_akhir"></b></td>
 						</tr>
 						<tr>
-							<td style="border-top: 0;" colspan="6">Keterangan : <?=@$data[0]['pembelian_keterangan']?></td>
+							<td style="border-top: 0;" colspan="3">Jatuh Tempo : <?php @$d = date_create($data[0]['pembelian_jatuh_tempo']); echo date_format($d, 'd-M-Y') ?></td>
 						</tr>
 
 					</tbody>
@@ -155,7 +157,7 @@
 	var ppn = (<?=@$data[0]['pembelian_ppn']?>) * num / 100;
 	var total = ppn + num;
 
-	$('#total_akhir').text(number_format(total));
+	$('#total_akhir').text('Rp. '+number_format(total));
 
 	
 	//print
