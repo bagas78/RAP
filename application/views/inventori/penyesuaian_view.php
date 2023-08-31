@@ -13,7 +13,7 @@
 	for (var i = 1; i < n; i++) {
 		
 		//clone
-		clone();
+		$('#paste').prepend($('#copy').clone());
 	}
 
 	//loop

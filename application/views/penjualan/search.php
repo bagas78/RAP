@@ -50,7 +50,7 @@ $(document).on('click', '#po_get', function() {
 
 			//clone
 			for (var num = 1; num <= json.length - 1; num++) {
-		       clone();
+		       $('#paste').prepend($('#copy').clone());
 		    }
 
 			//keranjang
@@ -61,7 +61,7 @@ $(document).on('click', '#po_get', function() {
 		      //insert value
 		      $('#copy:nth-child('+i+') > td:nth-child(1) > select').val(val.penjualan_barang_barang);
 		      $('#copy:nth-child('+i+') > td:nth-child(2) > select').val(val.penjualan_barang_jenis);
-      		  $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.penjualan_barang_warna).change();
+      		  $('#copy:nth-child('+i+') > td:nth-child(3) > select').val(val.penjualan_barang_warna);
 
 		      $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val(val.penjualan_barang_qty);
 

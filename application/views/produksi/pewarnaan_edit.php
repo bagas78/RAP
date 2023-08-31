@@ -14,7 +14,7 @@
     for (var num = 1; num <= loop; num++) {
      
       //paste
-      clone();
+      $('#paste').prepend($('#copy').clone());
       
       i++
     }

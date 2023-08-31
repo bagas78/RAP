@@ -186,9 +186,9 @@ $('#tanggal').val('<?=@$tanggal?>');
   $(document).on('change', '#barang', function() {
 
       //null
-      $('#barang_jenis').val('').change();
-      $('.stok').val(0);
-      $('.selisih').val(0);
+      // $('#barang_jenis').val('').change();
+      // $('.stok').val(0);
+      // $('.selisih').val(0);
       
       var id = $(this).val();
       var index = $(this).closest('tr').index();
@@ -197,7 +197,7 @@ $('#tanggal').val('<?=@$tanggal?>');
       var jumlah = $(this).closest('tr').find('.jumlah');
       var selisih = $(this).closest('tr').find('.selisih');
       var status = $(this).closest('tr').find('.status');
-      var select = $(this).closest('tr').find('select');
+      var barang = $(this).closest('tr').find('.barang');
 
       $.get('<?=base_url('inventori/penyesuaian_get/'.$jenis.'/')?>'+id, function(data) {
         var json = JSON.parse(data);
@@ -227,7 +227,7 @@ $('#tanggal').val('<?=@$tanggal?>');
         if ($.inArray(id, arr) != -1) {
           alert_sweet('Bahan / Produk sudah ada');
           
-          select.val('');
+          barang.val('').change();
           jumlah.val(0);
           stok.val(0);
           selisih.val(0);
@@ -316,7 +316,14 @@ $('#tanggal').val('<?=@$tanggal?>');
   //copy paste
   function clone(){
     //paste
+    $('#copy').find('select.select2-hidden-accessible').select2('destroy');
     $('#paste').prepend($('#copy').clone());
+
+    //all select2
+    $(".select2").select2({
+        placeholder: "-- Pilih --", 
+        allowClear: true
+    });
 
     //blank new input
     $('#copy').find('select').val('');
