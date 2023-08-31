@@ -265,7 +265,7 @@ class Stok{
   function penjualan(){
 
     //penjualan
-    $db = $this->sql->db->query("SELECT a.penjualan_hapus as hapus, b.penjualan_barang_barang AS barang, b.penjualan_barang_jenis AS jenis, b.penjualan_barang_warna AS warna, b.penjualan_barang_qty AS jumlah FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_po = 0")->result_array();
+    $db = $this->sql->db->query("SELECT a.penjualan_hapus as hapus, b.penjualan_barang_barang AS barang, b.penjualan_barang_jenis AS jenis, b.penjualan_barang_warna AS warna, b.penjualan_barang_qty AS jumlah FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor WHERE a.penjualan_so = 0")->result_array();
 
     //kurang penjualan
     foreach ($db as $value) {

@@ -1,6 +1,6 @@
 <script>
 
-$(document).on('keyup | change | keydown | keypress', '#po', function() {
+$(document).on('keyup | change | keydown | keypress', '#so', function() {
 
 	var val = $(this).val();
 
@@ -15,7 +15,7 @@ $(document).on('keyup | change | keydown | keypress', '#po', function() {
 	  		data.push(val.penjualan_nomor);
 	  	}); 
 
-	  	$("#po").autocomplete({
+	  	$("#so").autocomplete({
 		    source: data
 			});
 	 
@@ -26,11 +26,11 @@ $(document).on('keyup | change | keydown | keypress', '#po', function() {
   
 });
 
-$(document).on('click', '#po_get', function() {
+$(document).on('click', '#so_get', function() {
 
 	$("table").load(location.href+" table>*","", function(){
 
-			var nomor = $('#po').val().split('_');
+			var nomor = $('#so').val().split('_');
 
 	     $.get('<?=base_url('penjualan/search_data/')?>'+nomor[0], function(response) {
 	     	

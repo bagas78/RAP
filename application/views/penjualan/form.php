@@ -33,10 +33,10 @@
  
       <div id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
-          <input id="po" type="text" class="form-control" placeholder="PO-xxxxx">
+          <input id="so" type="text" class="form-control" placeholder="SO-xxxxx">
         </div>
         <div class="col-md-1 col-xs-1">
-          <button id="po_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+          <button id="so_get" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
         </div>
       </div>
 
@@ -134,7 +134,7 @@
 
              <tr id="copy">
               <td>
-                <select required id="produk" class="produk form-control <?=($uri == 'po_add' || $uri == 'produk_add')? 'select2':'' ?>" name="barang[]">
+                <select required id="produk" class="produk form-control <?=($uri == 'so_add' || $uri == 'produk_add')? 'select2':'' ?>" name="barang[]">
                   <option value="" hidden>-- Pilih --</option>
                   <?php foreach ($produk_data as $b): ?>
                     <option value="<?=@$b['produk_id']?>"><?=@$b['produk_nama']?></option>
@@ -246,56 +246,36 @@ $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
 
-  //get barang
-  // $(document).on('change', '#produk', function() {
-  //     var id = $(this).val();
-  //     var text = $(this).text();
-  //     var index = $(this).closest('tr').index();
+//cek exist barang
+$(document).on('change', '.produk, .jenis, .warna', function() {
 
-  //     /////// cek exist barang ///////////
-  //     var arr = new Array(); 
-  //     $.each($('.produk'), function(idx, val) {
+    var target = $(this).closest('tr');
+    var arr_cek = [];
+    $.each($('.produk'), function(index, val) {
+       
+       var produk = $(this).closest('tr').find('.produk').val();
+       var jenis = $(this).closest('tr').find('.jenis').val();
+       var warna = $(this).closest('tr').find('.warna').val();
+       var push = produk+'_'+jenis+'_'+warna;  
+
+       if (warna != '') {
+
+          if ($.inArray(push, arr_cek) == -1){
+            arr_cek.push(push);
+          }else{
+
+            //ada
+            target.find('select').val('').change();
+            target.find('.potongan').val(0);
+            target.find('.harga').val(0);
+            alert_sweet('Produk sudah ada');
+          }
           
-  //         if (index != idx)
-  //         arr.push($(this).val());
+       }
 
-  //     });
+    });
 
-  //     if (id != '') {
-
-  //       if ($.inArray(id, arr) != -1) {
-  //         var i = index + 1;
-
-  //         alert_sweet('Produk sudah ada');
-          
-  //         $('#copy:nth-child('+i+') > td:nth-child(1) > select').val('').change();
-  //         $('#copy:nth-child('+i+') > td:nth-child(2) > div > input').val(0);
-  //         $('#copy:nth-child('+i+') > td:nth-child(3) > div > input').val('');
-  //         $('#copy:nth-child('+i+') > td:nth-child(4) > input').val(0);
-  //         $('#copy:nth-child('+i+') > td:nth-child(5) > input').val(0);
-  //         $('#copy:nth-child('+i+') > td:nth-child(7) > input').val(0);
-          
-  //       }else{
-
-  //         //empty
-  //         $('.stok-produk').val(0);
-  //         $('.jenis-produk').val('').change();
-  //         $('.satuan-produk').val('');
-
-  //         //index
-  //         $('.index-produk').val(index);
-
-  //         //produk
-  //         $('.id-produk').val(id).change().attr('readonly',true).css('pointer-events','none');
-
-  //         //modal
-  //         $('.modal').modal('toggle');
-        
-  //       }
-  //       ////// end exist barang ///////////
-  //     }
-
-  // });
+  });
 
   $(document).on('change', '.jenis', function() {
    
@@ -345,6 +325,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     $.get('<?=base_url('penjualan/get_produk/')?>'+id+'/'+jenis+'/'+warna, function(data) {
       
       var pro = JSON.parse(data);
+      
       target.find('.stok').val(pro['produk_barang_packing']);
       target.find('.harga').val(pro['produk_barang_harga']);
       target.find('.satuan').val(pro['satuan_singkatan']);

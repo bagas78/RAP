@@ -81,7 +81,7 @@
 
 					<tr>
 						<td><?=$i?></td>
-						<td><?=@$val['produk_nama']?></td>
+						<td><?=@$val['produk_nama']?> <?=@$val['warna_nama']?></td>
 						<td class="qty"><?=@$val['penjualan_barang_qty']?> Btg</td>
 						<td><!-- <?=@$val['produk_colly'].' Colly @ '.$isi?> --></td>
 					</tr>

@@ -428,9 +428,9 @@ thead{
           <ul class="treeview-menu">
 
             <li class="penjualan_po">
-              <a href="<?php echo base_url('penjualan/po') ?>">
+              <a href="<?php echo base_url('penjualan/so') ?>">
                 <i class="material-icons">more_horiz</i>
-                <span class="multi-li">Purchase Order ( PO )</span>
+                <span class="multi-li">Sales Order (SO)</span>
               </a>
             </li>
             <li class="penjualan_produk">

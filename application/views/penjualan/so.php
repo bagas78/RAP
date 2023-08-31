@@ -6,7 +6,7 @@
       <div class="box"> 
         <div class="box-header with-border">
  
-            <div align="left" class="penjualan_po_add">
+            <div align="left" class="penjualan_so_add">
               <a href="<?= base_url('penjualan/'.@$url.'_add') ?>"><button class="btn-tambah btn btn-primary"><i class="fa fa-plus"></i> Tambah</button></a>
                <button onclick="filter('lunas')" class="btn-lunas btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
               <button onclick="filter('belum')" class="btn-belum btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
@@ -77,7 +77,7 @@
                         "render":  
                         function( data ) {
                             return "<a href='<?php echo base_url('penjualan/produk_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger penjualan_po_del'><i class='fa fa-trash'></i></button> "+
+                            "<button onclick=del('<?php echo base_url('penjualan/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger penjualan_so_del'><i class='fa fa-trash'></i></button> "+
                             "<a <?=(@$url == 'produk')? '':'hidden'?> href='<?php echo base_url('penjualan/faktur/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> "+
                              "<a <?=(@$url == 'packing')? '':'hidden'?> href='<?php echo base_url('penjualan/surat/')?>"+data+"'><button class='btn btn-xs btn-info'><i class='fa fa-truck'></i></button></a>";
                           }

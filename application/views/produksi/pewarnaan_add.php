@@ -5,7 +5,7 @@
     padding: 5px 10px;
     text-align: center;
   }
-</style>
+</style> 
 
 <!-- Main content --> 
 <section class="content">
@@ -126,48 +126,50 @@ $('form').attr('action', '<?=base_url('produksi/pewarnaan_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
 
+//cek exist barang
+$(document).on('change', '.jenis, .warna', function() {
+
+    var target = $(this).closest('tr');
+    var arr_cek = [];
+    $.each($('.produk'), function(index, val) { 
+       
+       var produk = $(this).closest('tr').find('.produk').val();
+       var jenis = $(this).closest('tr').find('.jenis').val();
+       var warna = $(this).closest('tr').find('.warna').val();
+       var push = produk+'_'+jenis+'_'+warna;  
+
+       if (warna != '') {
+
+          if ($.inArray(push, arr_cek) == -1){
+            arr_cek.push(push);
+          }else{
+
+            //ada
+            target.find('.jenis').val('').change();
+            target.find('.warna').val('').change();
+            target.find('.qty').val(0);
+            alert_sweet('Produk sudah ada');
+          }
+          
+       }
+
+    });
+
+  });
+
   //get barang
   $(document).on('change', '.produk', function() {
 
     var id = $(this).val();
-    var index = $(this).closest('tr').index();
-    var arr = new Array(); 
     var stok = $(this).closest('tr').find('.stok');
 
-   /////// cek exist barang ///////////
-    // $.each($('.produk'), function(idx, val) {
-        
-    //     if (index != idx)
-    //     arr.push($(this).val());
-
-    // });
-
-    // if (id != '') {
-
-    //   if ($.inArray(id, arr) != -1) {
-    //     var i = index + 1;
-
-    //     alert_sweet('Produk sudah ada');
-        
-    //     //null input
-    //     $(this).val('').change();
-    //     $(this).closest('tr').find('select').val('').change();
-    //     $(this).closest('tr').find('input').val(0);
-        
-    //   }else{
-
-        $.get('<?=base_url('produksi/pewarnaan_get_produk/')?>'+id, function(data) {
+    $.get('<?=base_url('produksi/pewarnaan_get_produk/')?>'+id, function(data) {
       
-          var val = JSON.parse(data);
+        var val = JSON.parse(data);
 
-          stok.val(val.stok);
+        stok.val(val.stok);
 
-        });
-
-      //}
-      ////// end exist barang ///////////
-    //}
-
+      });
   });
 
   $(document).on('change', '#jenis', function() {

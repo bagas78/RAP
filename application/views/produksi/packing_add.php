@@ -124,6 +124,37 @@
 $('form').attr('action', '<?=base_url('produksi/packing_save')?>');
 $('#nomor').val('<?=@$nomor?>');
 $('#tanggal').val('<?=date('Y-m-d')?>');
+  
+  //cek exist barang
+$(document).on('change', '.produk, .jenis, .warna', function() {
+
+    var target = $(this).closest('tr');
+    var arr_cek = [];
+    $.each($('.produk'), function(index, val) { 
+       
+       var produk = $(this).closest('tr').find('.produk').val();
+       var jenis = $(this).closest('tr').find('.jenis').val();
+       var warna = $(this).closest('tr').find('.warna').val();
+       var push = produk+'_'+jenis+'_'+warna;  
+
+       if (warna != '') {
+
+          if ($.inArray(push, arr_cek) == -1){
+            arr_cek.push(push);
+          }else{
+
+            //ada
+            target.find('.jenis').val('').change();
+            target.find('.warna').val('').change();
+            target.find('.qty').val(0);
+            alert_sweet('Produk sudah ada');
+          }
+          
+       }
+
+    });
+
+  });
 
   //get barang
   $(document).on('change', '.produk, .jenis, .warna', function() {
@@ -136,37 +167,13 @@ $('#tanggal').val('<?=date('Y-m-d')?>');
     var arr = new Array(); 
     var stok = $(this).closest('tr').find('.stok');
 
-   /////// cek exist barang ///////////
-    // $.each($('.produk'), function(idx, val) {
-        
-    //     if (index != idx)
-    //     arr.push($(this).val());
-
-    // });
-
+    $.get('<?=base_url('produksi/packing_get_produk/')?>'+produk+'/'+jenis+'/'+warna, function(data) {
     
-  //   if ($.inArray(produk, arr) != -1) {
-  //     var i = index + 1;
+      var val = JSON.parse(data);
 
-  //     alert_sweet('Produk sudah ada');
-      
-  //     //null input
-  //     $(this).val('').change();
-  //     $(this).closest('tr').find('select').val('').change();
-  //     $(this).closest('tr').find('input').val(0);
-      
-  //   }else{
+      stok.val(val);
 
-      $.get('<?=base_url('produksi/packing_get_produk/')?>'+produk+'/'+jenis+'/'+warna, function(data) {
-    
-        var val = JSON.parse(data);
-
-        stok.val(val);
-
-      });
-
-  //   }
-  //   ////// end exist barang ///////////
+    });
 
   });
 

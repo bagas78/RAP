@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2023 at 07:09 AM
+-- Generation Time: Aug 31, 2023 at 07:36 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -341,12 +341,8 @@ INSERT INTO `t_jurnal` (`jurnal_id`, `jurnal_nomor`, `jurnal_akun`, `jurnal_kete
 (434, 'PLB-30082023-1', '1', 'kas berkurang', '', 'kredit', '64000', 0, '2023-08-30'),
 (435, 'PR-31082023-1', '5', 'biaya produksi', '[\"HOLLOW 20 X 20 OVAL 0.50\",\"HOLLOW 20 X 20 KOTAK 0.50\"]', 'debit', '52000', 0, '2023-08-31'),
 (436, 'PR-31082023-1', '1', 'kas berkurang', '', 'kredit', '52000', 0, '2023-08-31'),
-(437, 'PO-31082023-1', '4', 'penjualan kredit', '[\"HOLLOW 20 X 20 OVAL 0.50\",\"HOLLOW 20 X 20 KOTAK 0.50\"]', 'kredit', '22000', 0, '2023-08-31'),
-(438, 'PO-31082023-1', '1', 'piutang bertambah', '', 'debit', '22000', 0, '2023-08-31'),
-(441, 'PJ-31082023-2', '4', 'penjualan kredit', '[\"HOLLOW 20 X 20 OVAL 0.50\",\"HOLLOW 20 X 20 KOTAK 0.50\"]', 'kredit', '24000', 0, '2023-08-31'),
-(442, 'PJ-31082023-2', '1', 'piutang bertambah', '', 'debit', '24000', 0, '2023-08-31'),
-(443, 'PJ-31082023-2', '1', 'piutang berkurang', '[\"HOLLOW 20 X 20 OVAL 0.50\",\"HOLLOW 20 X 20 KOTAK 0.50\"]', 'kredit', '24000', 0, '2023-08-31'),
-(444, 'PJ-31082023-2', '1', 'kas bertambah', '', 'debit', '24000', 0, '2023-08-31');
+(445, 'SO-01092023-1', '4', 'penjualan kredit', '[\"HOLLOW 20 X 20 OVAL 0.50\",\"HOLLOW 20 X 20 KOTAK 0.50\"]', 'kredit', '0', 0, '2023-09-01'),
+(446, 'SO-01092023-1', '1', 'piutang bertambah', '', 'debit', '0', 0, '2023-09-01');
 
 -- --------------------------------------------------------
 
@@ -713,7 +709,7 @@ INSERT INTO `t_pembelian_umum_barang` (`pembelian_umum_barang_id`, `pembelian_um
 CREATE TABLE `t_penjualan` (
   `penjualan_id` int(11) NOT NULL,
   `penjualan_user` text NOT NULL,
-  `penjualan_po` int(11) NOT NULL DEFAULT 0,
+  `penjualan_so` int(11) NOT NULL DEFAULT 0,
   `penjualan_nomor` text NOT NULL,
   `penjualan_pelanggan` text NOT NULL,
   `penjualan_tanggal` date NOT NULL,
@@ -736,9 +732,8 @@ CREATE TABLE `t_penjualan` (
 -- Dumping data for table `t_penjualan`
 --
 
-INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_user`, `penjualan_po`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_piutang`, `penjualan_status`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
-(117, '5', 0, 'PO-31082023-1', '17', '2023-08-31', '2023-08-31', 'tunai', '-', '', '2', '0', 22000, '0', 'lunas', NULL, 0, NULL, 0),
-(119, '5', 0, 'PJ-31082023-2', '17', '2023-08-31', '2023-08-31', 'tunai', '-', '', '2', '0', 24000, '1', 'lunas', '2023-08-31', 24000, 'lunas', 0);
+INSERT INTO `t_penjualan` (`penjualan_id`, `penjualan_user`, `penjualan_so`, `penjualan_nomor`, `penjualan_pelanggan`, `penjualan_tanggal`, `penjualan_jatuh_tempo`, `penjualan_pembayaran`, `penjualan_keterangan`, `penjualan_lampiran`, `penjualan_qty_akhir`, `penjualan_ppn`, `penjualan_total`, `penjualan_piutang`, `penjualan_status`, `penjualan_pelunasan`, `penjualan_pelunasan_jumlah`, `penjualan_pelunasan_keterangan`, `penjualan_hapus`) VALUES
+(120, '5', 0, 'SO-01092023-1', '17', '2023-09-01', '2023-09-01', 'tunai', '-', '', '4', '0', 0, '1', 'belum', NULL, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -765,10 +760,8 @@ CREATE TABLE `t_penjualan_barang` (
 --
 
 INSERT INTO `t_penjualan_barang` (`penjualan_barang_id`, `penjualan_barang_nomor`, `penjualan_barang_barang`, `penjualan_barang_jenis`, `penjualan_barang_warna`, `penjualan_barang_stok`, `penjualan_barang_qty`, `penjualan_barang_potongan`, `penjualan_barang_harga`, `penjualan_barang_hps`, `penjualan_barang_subtotal`) VALUES
-(411, 'PO-31082023-1', '16', '1', '12', '2', '1', '0', '10000', '0', '10000'),
-(412, 'PO-31082023-1', '15', '1', '12', '2', '1', '0', '12000', '0', '12000'),
-(415, 'PJ-31082023-2', '16', '1', '12', '1', '1', '0', '12000', '0', '12000'),
-(416, 'PJ-31082023-2', '15', '1', '12', '1', '1', '0', '12000', '0', '12000');
+(419, 'SO-01092023-1', '16', '1', '12', '2', '2', '0', '0', '0', '0'),
+(420, 'SO-01092023-1', '15', '1', '12', '2', '2', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -1094,7 +1087,7 @@ CREATE TABLE `t_warna` (
 --
 
 INSERT INTO `t_warna` (`warna_id`, `warna_kode`, `warna_jenis`, `warna_nama`, `warna_keterangan`, `warna_tanggal`, `warna_hapus`) VALUES
-(0, 'WR000', '3', 'Tanpa Warna', '-', '2023-02-18', 0),
+(0, 'WR000', '3', 'MF', '-', '2023-02-18', 0),
 (12, 'WR002', '1', 'CA', 'Clear Anodized', '2023-06-14', 0),
 (13, 'WR003', '1', 'BR', 'Brown', '2023-06-14', 0),
 (14, 'WR004', '2', 'ARTIC WHITE', 'PC Artic', '2023-06-14', 0);
@@ -1121,7 +1114,7 @@ CREATE TABLE `t_warna_jenis` (
 INSERT INTO `t_warna_jenis` (`warna_jenis_id`, `warna_jenis_kode`, `warna_jenis_type`, `warna_jenis_keterangan`, `warna_jenis_hapus`, `warna_jenis_tanggal`) VALUES
 (1, 'JN001', 'Anodizing', 'Warna CA / BR', 0, '2023-01-04'),
 (2, 'JN002', 'Powder Coating', 'Warna warni', 0, '2023-01-04'),
-(3, 'JN003', 'MF', 'Tidak di warnai', 0, '2023-01-04');
+(3, 'JN003', 'Tanpa Warna', 'Tidak di warnai', 0, '2023-01-04');
 
 --
 -- Indexes for dumped tables
@@ -1387,7 +1380,7 @@ ALTER TABLE `t_cacat`
 -- AUTO_INCREMENT for table `t_jurnal`
 --
 ALTER TABLE `t_jurnal`
-  MODIFY `jurnal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=445;
+  MODIFY `jurnal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
 
 --
 -- AUTO_INCREMENT for table `t_karyawan`
@@ -1477,13 +1470,13 @@ ALTER TABLE `t_pembelian_umum_barang`
 -- AUTO_INCREMENT for table `t_penjualan`
 --
 ALTER TABLE `t_penjualan`
-  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `penjualan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `t_penjualan_barang`
 --
 ALTER TABLE `t_penjualan_barang`
-  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=417;
+  MODIFY `penjualan_barang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 
 --
 -- AUTO_INCREMENT for table `t_penyesuaian`

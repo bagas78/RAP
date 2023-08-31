@@ -81,7 +81,7 @@
 
 					<tr>
 						<td><?=$i?></td>
-						<td><?=@$val['produk_nama']?> ( <?=@$val['warna_nama']?> )</td>
+						<td><?=@$val['produk_nama']?> <?=@$val['warna_nama']?></td>
 						<td class="qty"><?=number_format(@$val['penjualan_barang_qty']).' '.@$val['satuan_singkatan']?></td>
 						<td>Rp. <span class="diskon"><?=number_format(@$val['penjualan_barang_potongan'])?></span></td>
 						<td>Rp. <span class="harga"><?=number_format(@$val['penjualan_barang_harga'])?></span></td>
