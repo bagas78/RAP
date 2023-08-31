@@ -90,7 +90,7 @@
 				<?php endforeach ?>
 
 				<tr>
-					<td colspan="3">Barang sudah di terima dengan baik dan jumlah yang benar</td>
+					<td colspan="2">Barang sudah di terima dengan baik dan jumlah yang benar</td>
 					<td>Total Batang</td>
 					<td class="sum_qty"></td>
 				</tr>
