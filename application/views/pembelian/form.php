@@ -101,13 +101,13 @@
         <table class="table table-responsive table-borderless">
           <thead>
             <tr>
-              <th width="200">Bahan</th>
-              <th>Stok</th>
-              <th>Qty</th>
-              <th>Potongan</th>
-              <th>Harga</th>
-              <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th width="300">Bahan</th>
+              <th width="200">Stok</th>
+              <th width="200">Qty</th>
+              <th width="200">Potongan</th>
+              <th width="200">Harga</th>
+              <th width="200">Subtotal</th>
+              <th width="1"><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
             </tr>
           </thead>
           <tbody id="paste">

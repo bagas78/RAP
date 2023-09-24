@@ -73,9 +73,9 @@
 								<td><?=@$val['produk_nama']?></td>
 								<td></td>
 								<td><?=@$val['produk_panjang'].' Cm'?></td>
-								<td><?=number_format(@$val['produk_berat']).' Kg'?></td>
-								<td><?=number_format(@$val['produksi_barang_qty'])?></td>
-								<td class="subtotal"><?=number_format(@$val['produk_berat'] * @$val['produksi_barang_qty']).' Kg'?></td>
+								<td><?=@number_format(@$val['produk_berat']).' Kg'?></td>
+								<td><?=@number_format(@$val['produksi_barang_qty'])?></td>
+								<td class="subtotal"><?=@number_format(@$val['produk_berat'] * @$val['produksi_barang_qty']).' Kg'?></td>
 							</tr>
 						
 						<?php $i++ ?>

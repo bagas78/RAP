@@ -69,8 +69,8 @@
 								<td><?=$i?></td>
 								<td><?=@$val['produk_nama']?></td>
 								<td><?=@$val['warna_nama']?></td>
-								<td><?=@$val['produk_panjang'].' Cm'?></td>
-								<td><?=@$val['produk_colly']?></td>
+								<td><?=@number_format(@$val['produk_panjang']).' Cm'?></td>
+								<td><?=@number_format(@$val['produk_colly'])?></td>
 								<td class="masuk"><?=number_format(@$val['packing_barang_qty'])?></td>
 							</tr>
 						

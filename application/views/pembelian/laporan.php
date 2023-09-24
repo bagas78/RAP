@@ -20,7 +20,7 @@
   		.box{
   			padding: 3%;
   		}
-  		.tit{
+  		.tit{ 
   			border-width: 2px;
 		    border-style: solid;
 		    padding: 0.5%;
@@ -91,9 +91,9 @@
 							<tr>
 								<td><?=$i?></td>
 								<td><?=@$val['bahan_nama']?></td>
-								<td><?=@$val['pembelian_barang_qty'].' '.@$val['satuan_singkatan']?></td>
-								<td><?=@$val['pembelian_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
-								<td><?=@$val['pembelian_barang_qty'] - @$val['pembelian_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
+								<td><?=number_format(@$val['pembelian_barang_qty']).' '.@$val['satuan_singkatan']?></td>
+								<td><?=number_format(@$val['pembelian_barang_potongan']).' '.@$val['satuan_singkatan']?></td>
+								<td><?=number_format(@$val['pembelian_barang_qty'] - @$val['pembelian_barang_potongan']).' '.@$val['satuan_singkatan']?></td>
 								<td>Rp. <?=number_format(@$val['pembelian_barang_harga'])?></td>
 								<td>Rp. <span class="subtotal"><?=number_format(@$val['pembelian_barang_subtotal'])?></span></td>
 							</tr>
@@ -103,8 +103,8 @@
 
 						<tr>
 							<td colspan="5"></td>
-							<td>PPN</td>
-							<td id="ppn"><?=@$data[0]['pembelian_ppn']. '%'?></td>
+							<td>PPN <?=@$data[0]['pembelian_ppn']. '%'?></td>
+							<td id="ppn"></td>
 						</tr>
 						<tr>
 							<td style="border-top: 0;" colspan="5">Terbilang : </td>
@@ -131,7 +131,7 @@
 
 			<div class="col-md-4 col-xs-4">
 				<center>
-				<p>PT. Alumunium Perkasa</p>
+				<p>PT. Rajawali Alumunium Perkasa</p>
 				<br/><br/><br/>
 				<p>( ___________________  )</p>
 				</center>
@@ -156,6 +156,9 @@
 
 	var ppn = (<?=@$data[0]['pembelian_ppn']?>) * num / 100;
 	var total = ppn + num;
+
+	//ppn
+	$('#ppn').text('Rp.'+number_format(ppn));
 
 	$('#total_akhir').text('Rp. '+number_format(total));
 

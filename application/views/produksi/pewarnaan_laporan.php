@@ -70,10 +70,10 @@
 								<td><?=$i?></td>
 								<td><?=@$val['produk_nama']?></td>
 								<td><?=@$val['warna_nama']?></td>
-								<td><?=@$val['produk_panjang'].' Cm'?></td>
-								<td><?=@$val['produk_berat'].' Kg'?></td>
-								<td><?=number_format(@$val['pewarnaan_barang_qty'])?></td>
-								<td><?=number_format(@$val['pewarnaan_barang_warna_cacat'])?></td>
+								<td><?=@number_format(@$val['produk_panjang']).' Cm'?></td>
+								<td><?=@number_format(@$val['produk_berat']).' Kg'?></td>
+								<td><?=@number_format(@$val['pewarnaan_barang_qty'])?></td>
+								<td><?=@number_format(@$val['pewarnaan_barang_warna_cacat'])?></td>
 							</tr>
 						
 						<?php $i++ ?>

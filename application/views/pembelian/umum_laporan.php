@@ -76,8 +76,8 @@
 							<tr>
 								<td><?=$i?></td>
 								<td><?=@$val['pembelian_umum_barang_barang']?></td>
-								<td><?=@$val['pembelian_umum_barang_qty'].' '.@$val['satuan_singkatan']?></td>
-								<td><?=@$val['pembelian_umum_barang_potongan'].' '.@$val['satuan_singkatan']?></td>
+								<td><?=number_format(@$val['pembelian_umum_barang_qty']).' '.@$val['satuan_singkatan']?></td>
+								<td><?=number_format(@$val['pembelian_umum_barang_potongan']).' '.@$val['satuan_singkatan']?></td>
 								<td><?=number_format(@$val['pembelian_umum_barang_harga'])?></td>
 								<td class="subtotal"><?=number_format(@$val['pembelian_umum_barang_subtotal'])?></td>
 							</tr>
@@ -115,7 +115,7 @@
 
 			<div class="col-md-4 col-xs-4">
 				<center>
-				<p>PT. Alumunium</p>
+				<p>PT. Rajawali Alumunium Perkasa</p>
 				<br/><br/><br/>
 				<p>( ___________________  )</p>
 				</center>
