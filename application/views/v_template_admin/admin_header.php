@@ -66,6 +66,13 @@
   <script src="<?php echo base_url('assets/') ?>sweetalert/sweet-alert.js"></script>
 
 <style type="text/css">
+  .scroll-sidebar{
+    height: auto; 
+    position: fixed; 
+    overflow-y: scroll; 
+    top: 0; 
+    bottom: 0;
+  }
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -201,7 +208,7 @@ thead{
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar scroll-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->

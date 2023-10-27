@@ -250,7 +250,7 @@ class Laporan extends CI_Controller{
 		    	$date2 = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor LEFT JOIN t_kontak AS c ON a.penjualan_pelanggan = c.kontak_id LEFT JOIN t_produk AS d ON b.penjualan_barang_barang = d.produk_id WHERE a.penjualan_hapus = 0 AND a.penjualan_po = 0 AND a.penjualan_status = 'lunas' AND a.penjualan_tanggal BETWEEN '$date1' AND '$date2'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan AS a JOIN t_penjualan_barang AS b ON a.penjualan_nomor = b.penjualan_barang_nomor LEFT JOIN t_kontak AS c ON a.penjualan_pelanggan = c.kontak_id LEFT JOIN t_produk AS d ON b.penjualan_barang_barang = d.produk_id WHERE a.penjualan_hapus = 0 AND a.penjualan_so = 0 AND a.penjualan_status = 'lunas' AND a.penjualan_tanggal BETWEEN '$date1' AND '$date2'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/penjualan');
@@ -273,7 +273,7 @@ class Laporan extends CI_Controller{
 		    	$filter = date('Y-m-d');
 		    }
 
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_pelunasan = '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_so = 0 AND penjualan_pelunasan = '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/pelunasan_piutang');
@@ -289,7 +289,7 @@ class Laporan extends CI_Controller{
 		    $data['title'] = 'laporan';
 
 		    $filter = date('Y-m-d');
-		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_po = 0 AND penjualan_status = 'belum' AND penjualan_jatuh_tempo < '$filter'");
+		    $data['data'] = $this->query_builder->view("SELECT * FROM t_penjualan WHERE penjualan_hapus = 0 AND penjualan_so = 0 AND penjualan_status = 'belum' AND penjualan_jatuh_tempo < '$filter'");
 
 		    $this->load->view('v_template_admin/admin_header',$data);
 		    $this->load->view('laporan/piutang_jatuh_tempo');
