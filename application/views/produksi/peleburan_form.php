@@ -54,7 +54,9 @@
               <th>Stok</th>
               <th>Harga</th>
               <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+              </button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -83,7 +85,9 @@
               </td>
               <td><input readonly="" type="text" name="harga[]" class="harga form-control" required value="0" min="0"></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>
             </tr>
 
             <tr>

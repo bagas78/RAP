@@ -28,7 +28,7 @@
                   <th>Pelanggan</th>
                   <th>Jatuh Tempo</th>
                   <th>Status</th>
-                  <th width="80">Action</th>
+                  <th width="90">Action</th>
                 </tr>
                 </thead>
                 <tbody>

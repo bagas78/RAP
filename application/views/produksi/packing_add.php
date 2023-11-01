@@ -54,7 +54,9 @@
               <th width="300">Warna</th>
               <th width="300">Stok</th>
               <th width="200">Qty</th>
-              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+              </button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -90,7 +92,9 @@
                <td><input readonly type="number" name="stok[]" class="stok form-control" required value="0" min="0"></td>
               <td><input type="number" name="qty[]" class="qty form-control" required value="0" min="1"></td>
              
-              <td><button type="button" class="remove btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>
             </tr>
 
             <tr class="save">

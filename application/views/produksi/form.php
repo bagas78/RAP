@@ -18,7 +18,7 @@
         <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
       </div>
  
-      <div class="box-tools pull-right"> 
+      <div class="box-tools pull-right">  
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
@@ -104,7 +104,9 @@
               <th width="300">Subtotal</th>
               <th hidden width="150">ID</th>
               <th hidden width="150">Delete</th>
-              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+              </button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -153,7 +155,9 @@
                 <input type="text" name="delete[]" class="delete form-control" value="0" style="width: 100px;">
               </td>
               
-              <td><button type="button" class="remove btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>
             </tr>
 
             <tr>
@@ -274,17 +278,17 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
     if (id != '') {
 
-      if ($.inArray(id, arr) != -1) {
-        var i = index + 1;
+      // if ($.inArray(id, arr) != -1) {
+      //   var i = index + 1;
 
-        alert_sweet('Produk sudah ada');
+      //   alert_sweet('Produk sudah ada');
 
-        //empty
-        $(this).val('').change();
-        berat.val(0);
-        satuan.text('');
+      //   //empty
+      //   $(this).val('').change();
+      //   berat.val(0);
+      //   satuan.text('');
         
-      }else{
+      //}else{
 
         $.get('<?= base_url('produksi/proses_get_produk/') ?>'+id, function(data) {
       
@@ -293,7 +297,7 @@ $('#previewImg2').attr('src', '<?=base_url('assets/gambar/2.png')?>');
 
         });
 
-      }
+      //}
       //// end exist barang ///////////
     }
 

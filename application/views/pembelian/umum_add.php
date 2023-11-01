@@ -97,7 +97,9 @@
               <th width="200">Qty</th>
               <th width="200">Potongan ( % )</th>
               <th width="200">Subtotal</th>
-              <th width="1"><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th width="1"><button type="button" onclick="clone()" class="add btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+              </button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -111,7 +113,9 @@
               </td>
               <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
               <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>
             </tr>
 
             <tr>

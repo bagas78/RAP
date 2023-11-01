@@ -125,7 +125,9 @@
               <th>Potongan ( % )</th>
               <th>Harga</th>
               <th>Subtotal</th>
-              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">+</button></th>
+              <th><button type="button" onclick="clone()" class="add btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+              </button></th>
             </tr>
           </thead>
           <tbody id="paste">
@@ -176,7 +178,9 @@
               <!--hidden-->
               <td hidden><input readonly="" type="text" name="hps[]" class="hps form-control" value="0"></td>
 
-              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">-</button></td>
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>
             </tr>
 
             <tr>
