@@ -646,7 +646,7 @@ class Pembelian extends CI_Controller{
 						'pembelian_umum_pembayaran' => strip_tags($_POST['pembayaran']),
 						'pembelian_umum_jatuh_tempo' => strip_tags($_POST['jatuh_tempo']),
 						'pembelian_umum_status' => $status,
-						'pembelian_umum_keterangan' => strip_tags($_POST['keterangan']),
+						'pembelian_umum_keterangan' => $_POST['keterangan'],
 						'pembelian_umum_qty_akhir' => strip_tags(str_replace(',', '', $_POST['qty_akhir'])),
 						'pembelian_umum_ppn' => strip_tags(str_replace(',', '', $_POST['ppn'])),
 						'pembelian_umum_total' => $total, 

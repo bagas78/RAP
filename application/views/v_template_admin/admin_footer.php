@@ -24,7 +24,7 @@
 <script src="<?php echo base_url() ?>adminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <!-- Bootstrap WYSIHTML5 -->
-<script src="<?php echo base_url() ?>adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="<?php echo base_url() ?>adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>
 <!-- Slimscroll -->
 <script src="<?php echo base_url() ?>adminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -65,7 +65,6 @@
 <script src="<?php echo base_url() ?>assets/datatable/js/buttons.html5.js"></script>
 <script src="<?php echo base_url() ?>assets/datatable/js/buttons.print.js"></script>
 
-
 <script>
 
 $(function () {
@@ -75,7 +74,7 @@ $(function () {
     });
 
     //bootstrap WYSIHTML5 - text editor
-    $('.textarea').wysihtml5()
+    $('.textarea').wysihtml5();
   })
 
 
@@ -254,7 +253,9 @@ $(document).ready(function() {
 <?php endif ?>
 
 //show menu
-setTimeout(function(){ $('.sidebar-menu').removeAttr('hidden'); }, 1000);
+setTimeout(function(){ 
+    $('.sidebar-menu').removeAttr('hidden'); 
+}, 1000);
 
 //select2 100%
 $('.select2').css('width', '100%');

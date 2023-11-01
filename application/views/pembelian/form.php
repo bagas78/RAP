@@ -82,7 +82,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 110px;" id="keterangan"></textarea>
+              <textarea name="keterangan" class="form-control textarea" style="height: 110px;" id="keterangan"></textarea>
             </div>
           </div>
           <div class="col-md-2">

@@ -69,7 +69,7 @@
             </div>
             <div class="form-group">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" id="keterangan"></textarea>
+              <textarea name="keterangan" class="form-control textarea" id="keterangan" style="height: 100px;"></textarea>
             </div>
           </div>
           <div class="col-md-2">

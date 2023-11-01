@@ -93,7 +93,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Keterangan</label>
-              <textarea name="keterangan" class="form-control" style="height: 100px;" id="keterangan"></textarea>
+              <textarea name="keterangan" class="form-control textarea" style="height: 100px;" id="keterangan"></textarea>
 
               <!-- hidden pesanan nomor-->
               <input type="hidden" name="pesanan" id="pesanan" value="0">
