@@ -294,13 +294,19 @@ class Pembelian extends CI_Controller{
 		$output = $this->query_builder->view("SELECT * FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_nomor = '$nomor'");
 		echo json_encode($output);
 	}
-	function laporan($id){
+	function laporan($id, $jenis = ''){
 
 		$data['title'] = 'laporan';
 
 		$data['data'] = $this->query_builder->view("SELECT * FROM t_pembelian as a JOIN t_pembelian_barang as b ON a.pembelian_nomor = b.pembelian_barang_nomor JOIN t_kontak as c ON a.pembelian_supplier = c.kontak_id JOIN t_bahan as d ON b.pembelian_barang_barang = d.bahan_id JOIN t_user as e ON a.pembelian_user = e.user_id JOIN t_satuan as f ON d.bahan_satuan = f.satuan_id WHERE a.pembelian_hapus = 0 AND a.pembelian_id = '$id'");
 
-		$this->load->view('pembelian/laporan', $data);
+		if ($jenis == 'po') {
+			
+			$this->load->view('pembelian/laporan_po', $data);
+		}else{
+
+			$this->load->view('pembelian/laporan', $data);
+		}
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////

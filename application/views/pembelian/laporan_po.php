@@ -33,7 +33,8 @@
 		}
 		table .r {
 		  text-align: right;
-		}  	</style>
+		}
+  	</style>
 
 </head>
 <body>
@@ -57,7 +58,7 @@
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span class="tit">PEMBELIAN AVALAN</span>
+				<span class="tit">PUCHASE ORDER</span>
 			</div>
 
 			<div class="clearfix"></div><br>
@@ -122,7 +123,7 @@
 				</table>
 			</div>
 
-			<div class="clearfix"></div><br/>
+			<div class="clearfix"></div>
 
 			<div class="col-md-4 col-xs-4">
 				<center style="float: left;">

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?= strtoupper(@$title) ?> | <?=@$set['logo_nama'] ?></title> 
 
@@ -18,14 +18,22 @@
 
   	<style type="text/css">
   		.box{
-  			padding: 3%; 
-  		} 
-  		.tit{
+  			padding: 3%;
+  		}
+  		.tit{ 
   			border-width: 2px;
 		    border-style: solid;
 		    padding: 0.5%;
 		    font-weight: bold;
+		    font-size: large;
   		}
+  		table {
+			max-width: 100%;
+			max-height: 100%;
+		}
+		table .r {
+		  text-align: right;
+		}
   	</style>
 
 </head>
@@ -34,7 +42,7 @@
 	<div class="box">
 
 		<div class="col-md-6 col-xs-6">
-			<h4><?=strtoupper($set['logo_nama'])?></h4>
+			<h5><?=strtoupper($set['logo_nama'])?></h5>
 			<p><?=strtoupper($set['logo_alamat'])?></p>
 			<p>Telp : <?=$set['logo_telp']?></p>
 		</div>
@@ -47,7 +55,7 @@
 
 		<div class="col-md-12 col-xs-12" align="center">
 			<span class="tit">SURAT JALAN</span>
-			<br/><br/><br/>
+			<br/><br/>
 		</div>	
 
 		<div class="col-md-12 col-xs-12">
@@ -69,8 +77,8 @@
 				<tr>
 					<th style="width: 1px;">No</th>
 					<th>Nama Barang</th>
-					<th>QTY</th>
-					<th>Keterangan</th>
+					<th class="r">QTY</th>
+					<th class="r">Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -82,7 +90,7 @@
 					<tr>
 						<td><?=$i?></td>
 						<td><?=@$val['produk_nama']?> <?=@$val['warna_nama']?></td>
-						<td class="qty"><?=@$val['penjualan_barang_qty']?> Btg</td>
+						<td class="qty r"><?=@$val['penjualan_barang_qty']?> Btg</td>
 						<td><!-- <?=@$val['produk_colly'].' Colly @ '.$isi?> --></td>
 					</tr>
 				
@@ -91,14 +99,14 @@
 
 				<tr>
 					<td colspan="2">Barang sudah di terima dengan baik dan jumlah yang benar</td>
-					<td>Total Batang</td>
-					<td class="sum_qty"></td>
+					<td class="r">Total Batang</td>
+					<td class="sum_qty r"></td>
 				</tr>
 
 			</tbody>
 		</table>
 
-		<div class="clearfix"></div><br/>
+		<div class="clearfix"></div>
 
 		<div class="col-md-12 col-xs-12 row">
 			<table>

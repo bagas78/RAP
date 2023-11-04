@@ -25,7 +25,7 @@
 		    border-style: solid;
 		    padding: 0.5%;
 		    font-weight: bold;
-		    font-size: x-large;
+		    font-size: large;
   		}
   	</style>
 
@@ -43,7 +43,7 @@
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span style="font-size: x-large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_pewarnaan_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
+				<span style="font-size: large;">Tanggal : <?php $d = date_create(@$data[0]['produksi_pewarnaan_tanggal']); echo date_format($d, 'd/m/Y'); ?></span>
 			</div>
 
 			<div class="clearfix"></div><br/>

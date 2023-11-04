@@ -20,12 +20,20 @@
   		.box{
   			padding: 3%;
   		}
-  		.tit{
+  		.tit{ 
   			border-width: 2px;
 		    border-style: solid;
 		    padding: 0.5%;
 		    font-weight: bold;
+		    font-size: large;
   		}
+  		table {
+			max-width: 100%;
+			max-height: 100%;
+		}
+		table .r {
+		  text-align: right;
+		}
   	</style>
 
 </head>
@@ -34,7 +42,7 @@
 	<div class="box">
 
 		<div class="col-md-6 col-xs-6">
-			<h4><?=strtoupper($set['logo_nama'])?></h4>
+			<h5><?=strtoupper($set['logo_nama'])?></h5>
 			<p><?=strtoupper($set['logo_alamat'])?></p>
 			<p>Telp : <?=$set['logo_telp']?></p>
 		</div>
@@ -69,10 +77,10 @@
 				<tr>
 					<th width="70">No</th>
 					<th>Produk</th>
-					<th>Qty</th>
-					<th>Disc</th>
-					<th>Harga</th>
-					<th>Subtotal</th>
+					<th class="r">Qty</th>
+					<th class="r">Disc</th>
+					<th class="r">Harga</th>
+					<th class="r">Subtotal</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -82,10 +90,10 @@
 					<tr>
 						<td><?=$i?></td>
 						<td><?=@$val['produk_nama']?> <?=@$val['warna_nama']?></td>
-						<td class="qty"><?=@number_format(@$val['penjualan_barang_qty']).' '.@$val['satuan_singkatan']?></td>
-						<td>Rp. <span class="diskon"><?=@number_format(@$val['penjualan_barang_potongan'])?></span></td>
-						<td>Rp. <span class="harga"><?=@number_format(@$val['penjualan_barang_harga'])?></span></td>
-						<td>Rp. <span class="subtotal"><?=@number_format(@$val['penjualan_barang_subtotal'])?></span></td>
+						<td class="qty r"><?=@number_format(@$val['penjualan_barang_qty']).' '.@$val['satuan_singkatan']?></td>
+						<td class="r">Rp. <span class="diskon"><?=@number_format(@$val['penjualan_barang_potongan'])?></span></td>
+						<td class="r">Rp. <span class="harga"><?=@number_format(@$val['penjualan_barang_harga'])?></span></td>
+						<td class="r">Rp. <span class="subtotal"><?=@number_format(@$val['penjualan_barang_subtotal'])?></span></td>
 					</tr>
 				
 				<?php $i++ ?>
@@ -93,29 +101,29 @@
 
 				<tr>
 					<td colspan="4"></td>
-					<td>Total</td>
-					<td>Rp. <span id="total_akhir"></span></td>
-				</tr>
-				<tr>
-					<td style="border-top: 0;" colspan="4">Terbilang : </td>
-					<td style="border-top: 0;">Diskon</td>
-					<td style="border-top: 0;">Rp. <span id="total_diskon"></span></td>
-				</tr>
-				<tr>
-					<td style="border-top: 0;" colspan="4">Jatuh Tempo : <?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
-					<td style="border-top: 0;">PPN <?=@$data[0]['penjualan_ppn']?>%</td>
-					<td style="border-top: 0;">Rp. <span id="ppn"></span></td>
+					<td class="r">Total</td>
+					<td class="r">Rp. <span id="total_akhir"></span></td>
 				</tr>
 				<tr>
 					<td style="border-top: 0;" colspan="4"></td>
-					<td style="border-top: 0;">Total Transfer</td>
-					<td style="border-top: 0;">Rp. <span id="akhir"></span></td>
+					<td class="r" style="border-top: 0;">Diskon</td>
+					<td class="r" style="border-top: 0;">Rp. <span id="total_diskon"></span></td>
+				</tr>
+				<tr>
+					<td style="border-top: 0;" colspan="4">Jatuh Tempo : <?php @$d = date_create($data[0]['penjualan_jatuh_tempo']); echo date_format($d, 'd M Y') ?></td>
+					<td class="r" style="border-top: 0;">PPN <?=@$data[0]['penjualan_ppn']?>%</td>
+					<td class="r" style="border-top: 0;">Rp. <span id="ppn"></span></td>
+				</tr>
+				<tr>
+					<td style="border-top: 0;" colspan="4"></td>
+					<td class="r" style="border-top: 0;">Total Transfer</td>
+					<td class="r" style="border-top: 0;">Rp. <span id="akhir"></span></td>
 				</tr>
 
 			</tbody>
 		</table>
 
-		<div class="clearfix"></div><br/>
+		<div class="clearfix"></div>
 
 		<div class="col-md-4 col-xs-4">
 			<center style="float: left;">
