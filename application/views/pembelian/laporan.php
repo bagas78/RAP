@@ -33,7 +33,8 @@
 		}
 		table .r {
 		  text-align: right;
-		}  	</style>
+		}  	
+	</style>
 
 </head>
 <body>

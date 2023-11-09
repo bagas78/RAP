@@ -6,7 +6,7 @@
   $('#tanggal').val('<?=@$data['pembelian_umum_tanggal']?>');
   $('#pembayaran').val('<?=@$data['pembelian_umum_pembayaran']?>').change();
   $('#jatuh_tempo').val('<?=@$data['pembelian_umum_jatuh_tempo']?>');
-  $('#status').val('<?=@$data['pembelian_umum_status']?>').change();
+  $('#status').val('<?=@$data['pembelian_umum_status']?>').change(); 
   $('#keterangan').val('<?=@$data['pembelian_umum_keterangan']?>');
 
   if ('<?=@$data['pembelian_umum_lampiran']?>' != '') {

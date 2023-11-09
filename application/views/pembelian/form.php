@@ -39,7 +39,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>Nomor Transaksi</label>
-              <input type="text" name="nomor" class="form-control" required id="nomor">
+              <input type="text" name="nomor" class="form-control" required id="nomor" readonly>
             </div>
             <div class="form-group">
               <label>Tanggal Transaksi</label>
@@ -275,9 +275,9 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > div > input').val();
 
        var sub = '#copy:nth-child('+i+') > td:nth-child(6) > input';
-       var potongan = parseInt(diskon) * parseInt(harga);  
-       var subtotal = parseInt(qty) * parseInt(harga) - potongan;
-       num_qty += parseInt($(this).val());
+       var potongan = Number(diskon) * Number(harga);  
+       var subtotal = Number(qty) * Number(harga) - potongan;
+       num_qty += Number($(this).val()) - Number(diskon);
 
        //subtotal
        $(sub).val(number_format(subtotal));
@@ -291,11 +291,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     var num_total = 0;
     $.each($('.subtotal'), function(index, val) {
         
-      num_total += parseInt($(this).val().replace(/,/g, ''));
+      num_total += Number($(this).val().replace(/,/g, ''));
     });
 
     //total akhir
-    var ppn = (parseInt($('#ppn').val()) * parseInt(num_total) / 100);
+    var ppn = (Number($('#ppn').val()) * Number(num_total) / 100);
     var total = ppn + num_total;
     $('#total').val(number_format(total));
 

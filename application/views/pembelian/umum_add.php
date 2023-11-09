@@ -39,7 +39,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>Nomor Transaksi</label>
-              <input type="text" name="nomor" class="form-control" required id="nomor">
+              <input type="text" name="nomor" class="form-control" required id="nomor" readonly>
             </div>
             <div class="form-group">
               <label>Tanggal Transaksi</label>

@@ -718,7 +718,7 @@ class Pembelian extends CI_Controller{
 
 		redirect(base_url('pembelian/umum'));
 	}
-	function umum_view($id){
+	function umum_view($id){ 
 
 		//data
 	    $data['data'] = $this->query_builder->view_row("SELECT * FROM t_pembelian_umum WHERE pembelian_umum_id = '$id'");
