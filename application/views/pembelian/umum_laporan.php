@@ -102,9 +102,9 @@
 							<td class="r" style="border-top: 0;"><b>Total</b></td>
 							<td class="r" style="border-top: 0;"><b id="total_akhir"></b></td>
 						</tr>
-						<!-- <tr>
+						<tr>
 							<td style="border-top: 0;" colspan="6">Keterangan : <?=@$data[0]['pembelian_umum_keterangan']?></td>
-						</tr> -->
+						</tr>
 
 					</tbody>
 				</table>
