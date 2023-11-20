@@ -10,7 +10,7 @@ class Stok{
   }
 
   /////////////////////////////////////////// atribut /////////////////////////////////////////////////
- 
+  
   function bahan(){  
     //sum stok bahan update
       $pembelian = $this->sql->db->query("SELECT ROUND(SUM(b.pembelian_barang_subtotal) / SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan)) AS pembelian_harga, a.pembelian_hapus AS pembelian_hapus,b.pembelian_barang_barang AS pembelian_barang ,SUM(b.pembelian_barang_qty - b.pembelian_barang_potongan) AS pembelian_jumlah FROM t_pembelian AS a JOIN t_pembelian_barang AS b ON a.pembelian_nomor = b.pembelian_barang_nomor WHERE a.pembelian_po = 0 GROUP BY b.pembelian_barang_barang, a.pembelian_hapus")->result_array();
@@ -31,7 +31,7 @@ class Stok{
         $hapus = $pb['pembelian_hapus'];
         $harga = $pb['pembelian_harga'];
 
-        if ($pb['pembelian_hapus'] == 0) {
+        if ($pb['pembelian_hapus'] != null && $pb['pembelian_hapus'] == 0) {
          
          $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok + {$jum}, bahan_harga = '$harga' WHERE bahan_id = '$id'");
 
@@ -51,7 +51,7 @@ class Stok{
       foreach ($peleburan as $pl) {
         $id = $pl['peleburan_barang'];
         $jum = $pl['peleburan_jumlah'];
-        if ($pl['peleburan_hapus'] == 0) {
+        if ($pl['peleburan_hapus'] != null && $pl['peleburan_hapus'] == 0) {
           
           $this->sql->db->query("UPDATE t_bahan SET bahan_stok = bahan_stok - {$jum} WHERE bahan_id = {$id}"); 
         }
@@ -64,7 +64,7 @@ class Stok{
         $status = $pn['status'];
         $jenis = $pn['jenis'];
 
-        if ($pn['hapus'] == 0) {
+        if ($pn['hapus'] != null && $pn['hapus'] == 0) {
             
           if ($status == 'bertambah') {
             //bertambah
@@ -128,7 +128,7 @@ class Stok{
       $total = round(@$val1['total'] / @$stok);
       $hapus = @$val1['hapus'];
 
-      if ($hapus == 0) {
+      if ($hapus != null && $hapus == 0) {
 
         $this->sql->db->set(['produk_barang_barang' => $produk, 'produk_barang_stok' => $stok, 'produk_barang_jenis' => 3, 'produk_barang_warna' => 0, 'produk_barang_hps' => $total]);
         
@@ -157,7 +157,7 @@ class Stok{
       $status = $value['status'];
       $hapus = $value['hapus'];
 
-      if ($hapus == 0) {
+      if ($hapus != null && $hapus == 0) {
 
         //cek
         $cek = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}")->num_rows();
@@ -181,10 +181,15 @@ class Stok{
 
           //ambil hps
           $get = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$barang} AND produk_barang_warna = 0")->row_array();
-          $hps = $get['produk_barang_hps'];
 
-          //add
-          $this->sql->db->query("INSERT INTO t_produk_barang (produk_barang_barang, produk_barang_stok, produk_barang_jenis, produk_barang_warna, produk_barang_hps) VALUES ($barang, $jum, $jenis, $warna, $hps)");
+          if (@$get != null) {
+            
+            $hps = $get['produk_barang_hps'];
+
+            //add
+            $this->sql->db->query("INSERT INTO t_produk_barang (produk_barang_barang, produk_barang_stok, produk_barang_jenis, produk_barang_warna, produk_barang_hps) VALUES ($barang, $jum, $jenis, $warna, $hps)");
+          }
+          
         }
 
       }
@@ -206,7 +211,7 @@ class Stok{
       $jumlah = $value['jumlah'];
       $hapus = $value['hapus'];
 
-      if ($hapus == 0) {
+      if ($hapus != null && $hapus == 0) {
        
        //tambah
         $cek = $this->sql->db->query("SELECT * FROM t_produk_barang WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}")->num_rows();
@@ -253,7 +258,7 @@ class Stok{
       $jumlah = $value['jumlah'];
       $hapus = $value['hapus'];
 
-      if ($hapus == 0) {
+      if ($hapus != null && $hapus == 0) {
         
         $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = $jumlah, produk_barang_stok = produk_barang_stok - {$jumlah} WHERE produk_barang_barang = {$produk} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}"); 
 
@@ -275,7 +280,7 @@ class Stok{
       $jum = $value['jumlah'];
       $hapus = $value['hapus'];
 
-      if ($hapus == 0) {
+      if ($hapus != null && $hapus == 0) {
 
           $this->sql->db->query("UPDATE t_produk_barang SET produk_barang_packing = produk_barang_packing - {$jum} WHERE produk_barang_barang = {$barang} AND produk_barang_jenis = {$jenis} AND produk_barang_warna = {$warna}");   
 
