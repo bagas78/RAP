@@ -19,7 +19,7 @@
                     case 1:
                       echo 'Email';
                       break;
-                    case 2:
+                    case 2: 
                       echo 'NIP';
                       break;
                     case 3:
@@ -158,16 +158,22 @@
                       var newpass = $('#newpass').val();
                       var confpass = $('#confpass').val();
 
-                      if (newpass == confpass) {
-                         if (oldpass == newpass) {
-                            alert('"password lama" dan "password baru" tidak boleh sama');
-                         }
-                         else{
-                            $('#form').trigger('submit');
-                         }
-                      }
-                      else{
-                        alert('Periksa kembali inputan "password"');
+                      if (newpass != '' || confpass != '') {
+
+                        if (newpass == confpass) {
+                           if (oldpass == newpass) {
+                              alert('"password lama" dan "password baru" tidak boleh sama');
+                           }
+                           else{
+                              $('#form').trigger('submit');
+                           }
+                        }
+                        else{
+                          alert('Periksa kembali inputan "password"');
+                        }
+
+                      }else{
+                        alert('Ada inputan kosong');
                       }
 
                     }

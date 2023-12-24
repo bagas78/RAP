@@ -11,7 +11,7 @@
   <div class="box"> 
     <div class="box-header with-border">
 
-      <div class="back" align="left" hidden>
+      <div class="back" align="left" hidden> 
         <a href="<?= @$_SERVER['HTTP_REFERER'] ?>"><button class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</button></a>
       </div>
 
@@ -224,15 +224,15 @@ $('#tanggal').val('<?=@$tanggal?>');
 
         });
 
-        if ($.inArray(id, arr) != -1) {
-          alert_sweet('Bahan / Produk sudah ada');
+        // if ($.inArray(id, arr) != -1) {
+        //   alert_sweet('Bahan / Produk sudah ada');
           
-          barang.val('').change();
-          jumlah.val(0);
-          stok.val(0);
-          selisih.val(0);
-          satuan.text('');
-        }
+        //   barang.val('').change();
+        //   jumlah.val(0);
+        //   stok.val(0);
+        //   selisih.val(0);
+        //   satuan.text('');
+        // }
         ////// end exist barang ///////////
 
       });

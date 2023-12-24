@@ -184,7 +184,7 @@ class Stok{
 
           if (@$get != null) {
             
-            $hps = $get['produk_barang_hps'];
+            $hps = @$get['produk_barang_hps'];
 
             //add
             $this->sql->db->query("INSERT INTO t_produk_barang (produk_barang_barang, produk_barang_stok, produk_barang_jenis, produk_barang_warna, produk_barang_hps) VALUES ($barang, $jum, $jenis, $warna, $hps)");

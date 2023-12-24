@@ -58,7 +58,7 @@
 			<div class="clearfix"></div><br/>
 
 			<div class="col-md-12" align="center">
-				<span class="tit">PEMBELIAN AVALAN</span>
+				<span class="tit">PEMBELIAN</span>
 			</div>
 
 			<div class="clearfix"></div><br>
