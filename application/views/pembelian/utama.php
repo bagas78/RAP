@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="box-body">
-          
+           
           <table id="example" class="table table-bordered table-hover" style="width: 100%;">
                 <thead>
                 <tr>
@@ -28,6 +28,7 @@
                   <th>Supplier</th>
                   <th>Tanggal</th>
                   <th>Status</th>
+                  <th>Nominal</th>
                   <th width="60">Action</th>
                 </tr>
                 </thead>
@@ -71,6 +72,12 @@
                         function( data ) {
                             if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
                             return "<span>"+s+"</span>";
+                          }
+                        },
+                        { "data": "pembelian_total",
+                        "render": 
+                        function( data ) {
+                            return "<span>Rp. "+number_format(data)+"</span>";
                           }
                         },
                         { "data": "pembelian_id",

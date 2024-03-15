@@ -3,7 +3,7 @@
     <section class="content">
  
       <!-- Default box -->
-      <div class="box"> 
+      <div class="box">  
         <div class="box-header with-border">
  
             <div align="left" class="pembelian_umum_add">
@@ -27,6 +27,7 @@
                   <th>Nomor</th>
                   <th>Tanggal</th>
                   <th>Status</th>
+                  <th>Nominal</th>
                   <th width="60">Action</th>
                 </tr>
                 </thead>
@@ -69,6 +70,12 @@
                         function( data ) {
                             if (data == 'lunas') {var s = 'Lunas';} else {var s = 'Belum Lunas';}
                             return "<span>"+s+"</span>";
+                          }
+                        },
+                        { "data": "pembelian_umum_total",
+                        "render": 
+                        function( data ) {
+                            return "<span>Rp. "+number_format(data)+"</span>";
                           }
                         },
                         { "data": "pembelian_umum_id",

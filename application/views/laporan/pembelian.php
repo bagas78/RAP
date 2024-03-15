@@ -10,7 +10,7 @@
             <a href="<?=base_url('laporan/pembelian/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
             <a href="<?=base_url('laporan/pembelian/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
           </div>
-
+ 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -93,6 +93,7 @@ $(document).ready(function() {
         "bPaginate": false,
         "bFilter": false,
         "scrollX": true, 
+        "ordering": false,
         "dom": "Bfrtip",
         "buttons": [
             "excel", "pdf", "print",

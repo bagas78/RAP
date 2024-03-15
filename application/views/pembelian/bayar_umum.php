@@ -7,8 +7,13 @@
         <div class="box-header with-border">
   
             <div align="left" class="hutang_add">
+
               <a href="<?=base_url('pembelian/bayar/bahan')?>"><button class="b-bahan btn btn-default"><i class="fa fa-filter"></i> Pembelian Bahan</button></a>
               <a href="<?=base_url('pembelian/bayar/umum')?>"><button class="b-umum btn btn-default"><i class="fa fa-filter"></i> Pembelian Umum</button></a>
+
+              <button onclick="filter('lunas')" class="btn btn-default"><i class="fa fa-filter"></i> Lunas</button>
+              <button onclick="filter('belum')" class="btn btn-default"><i class="fa fa-filter"></i> Belum Lunas</button>
+
             </div>
 
           <div class="box-tools pull-right">
@@ -27,6 +32,8 @@
                   <th>Jatuh Tempo</th>
                   <th>Pelunasan</th>
                   <th>Keterangan</th>
+                  <th>Status</th>
+                  <th>Nominal</th>
                   <th width="1">Action</th>
                 </tr>
                 </thead>
@@ -86,6 +93,19 @@
                           return "<span>"+k+"</span>";
                         }
                       },
+                      { "data": "pembelian_umum_status",
+                        "render": 
+                        function( data ) {
+                            if (data == 'lunas') { var d = "<span class='bg-success'>Lunas</span>" }else{ var d = "<span class='bg-danger'>Belum</span>" }
+                            return d;
+                          }
+                        },
+                        { "data": "pembelian_umum_total",
+                        "render": 
+                        function( data ) {
+                            return "<span>Rp. "+number_format(data)+"</span>";
+                          }
+                        },
                       { "data": "pembelian_umum_id",
                       "render": 
                       function( data ) {
@@ -116,5 +136,10 @@
 }
 
 auto();
+
+function filter($val){
+  var table = $('#example').DataTable();
+  table.search($val).draw();
+}
  
 </script>

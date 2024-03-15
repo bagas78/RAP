@@ -10,7 +10,7 @@ class Pembelian extends CI_Controller{
 
 ///////////////////////// pembelian //////////////////////////////////////////////////
 
-	function serverside($where,$model){
+	function serverside($where,$model){ 
 	    $data = $this->$model->get_datatables($where);
 		$total = $this->$model->count_all($where);
 		$filter = $this->$model->count_filtered($where);

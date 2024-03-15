@@ -3,13 +3,13 @@
 class M_produk_barang extends CI_Model { 
 
 	//nama tabel
-	var $table = 't_produk_barang'; 
+	var $table = 't_produk_barang';  
 
 	//kolom yang di tampilkan
-	var $column_order = array(null, 'produk_barang_nama','produk_nomor'); 
+	var $column_order = array(null, 'produk_nama'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('produk_barang_nama','produk_nomor'); 
+	var $column_search = array('produk_nama'); 
 
 	//urutan 
 	var $order = array('produk_barang_id' => 'desc'); 

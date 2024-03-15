@@ -6,11 +6,11 @@ class M_penjualan extends CI_Model {
 	var $table = 't_penjualan'; 
 
 	//kolom yang di tampilkan
-	var $column_order = array(null,'penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status','kekurangan'); 
+	var $column_order = array(null,'penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status'); 
 
 	//kolom yang di tampilkan setelah seacrh
-	var $column_search = array('penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status','kekurangan'); 
-
+	var $column_search = array('penjualan_nomor','kontak_nama','penjualan_jatuh_tempo','penjualan_status'); 
+ 
 	//urutan 
 	var $order = array('penjualan_id' => 'desc');  
 
