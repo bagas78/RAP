@@ -29,7 +29,7 @@
                   <th>Tanggal</th>
                   <th>Status</th>
                   <th>Nominal</th>
-                  <th width="60">Action</th>
+                  <th width="100">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,7 +84,7 @@
                         "render": 
                         function( data ) {
                             return "<a href='<?php echo base_url('pembelian/'.@$url.'_view/')?>"+data+"'><button class='btn btn-xs btn-success'><i class='fa fa-eye'></i></button></a> "+
-                            "<a hidden href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary pembelian_bahan_add'><i class='fa fa-edit'></i></button></a> "+
+                            "<a href='<?php echo base_url('pembelian/'.@$url.'_edit/')?>"+data+"'><button class='btn btn-xs btn-primary pembelian_bahan_add'><i class='fa fa-edit'></i></button></a> "+
                             "<button onclick=del('<?php echo base_url('pembelian/'.@$url.'_delete/')?>"+data+"') class='btn btn-xs btn-danger pembelian_bahan_del'><i class='fa fa-trash'></i></button> "+
                             "<a href='<?php echo base_url('pembelian/laporan/')?>"+data+"'><button class='btn btn-xs btn-warning'><i class='fa fa-file-text'></i></button></a> ";
                           }

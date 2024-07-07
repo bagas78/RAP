@@ -14,7 +14,7 @@
 </style> 
 
 <!-- Main content --> 
-<section class="content">
+<section class="content"> 
 
   <!-- Default box -->   
   <div class="box">  
@@ -171,7 +171,7 @@
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
-              <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
+              <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required step="any"></td>
               <td><input readonly type="text" name="harga[]" class="harga form-control" value="0" min="1"></td>
               <td><input type="text" name="subtotal[]" class="subtotal form-control readonly" value="0" min="1"></td>
 
@@ -396,16 +396,16 @@ $(document).on('change', '.produk, .jenis, .warna', function() {
        var diskon = target.find('.potongan').val();
 
        var sub = target.find('.subtotal');
-       var potongan = (parseInt(diskon) / 100) * (parseInt(harga) * parseInt(qty.val()));
+       var potongan = (Number(diskon) / 100) * (Number(harga) * Number(qty.val()));
 
-       var subtotal = parseInt(qty.val()) * parseInt(harga) - potongan;
-       num_qty += parseInt($(this).val());
+       var subtotal = Number(qty.val()) * Number(harga) - Number(potongan);
+       num_qty += Number($(this).val());
 
        //subtotal
        $(sub).val(number_format(subtotal));
 
        //cek stok
-       if (parseInt(qty.val()) > parseInt(stok)) {
+       if (Number(qty.val()) > Number(stok)) {
           
           alert_sweet('Stok produk kurang dari Qty');
           qty.val(0);
@@ -420,11 +420,11 @@ $(document).on('change', '.produk, .jenis, .warna', function() {
     var num_total = 0;
     $.each($('.subtotal'), function(index, val) {
         
-      num_total += parseInt($(this).val().replace(/,/g, ''));
+      num_total += Number($(this).val().replace(/,/g, ''));
     });
 
     //total akhir
-    var ppn = (parseInt($('#ppn').val()) * parseInt(num_total) / 100);
+    var ppn = (Number($('#ppn').val()) * Number(num_total) / 100);
     var total = ppn + num_total;
     $('#total').val(number_format(total));
 

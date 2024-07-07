@@ -207,6 +207,8 @@ class Penjualan extends CI_Controller{
 
 	    $data['url'] = $active;
 
+	    $data["title"] = 'penjualan';
+
 	    return $data;
 	}
 	function get_penjualan($nomor){ 
