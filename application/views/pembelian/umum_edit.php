@@ -1,7 +1,7 @@
 <script>
 
   //atribut form
-  $('form').attr('action', '<?=base_url('pembelian/umum_update/'.@$data['pembelian_umum_nomor'])?>');
+  $('form').attr('action', '<?=base_url('pembelian/umum_update/'.@$data['pembelian_umum_id'])?>');
   $('#nomor').val('<?=@$data['pembelian_umum_nomor']?>');
   $('#tanggal').val('<?=@$data['pembelian_umum_tanggal']?>');
   $('#pembayaran').val('<?=@$data['pembelian_umum_pembayaran']?>').change();

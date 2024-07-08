@@ -10,7 +10,7 @@
 <!-- Main content --> 
 <section class="content">
  
-  <!-- Default box -->  
+  <!-- Default box -->   
   <div class="box">  
     <div class="box-header with-border">
 
@@ -132,7 +132,7 @@
                   <span class="input-group-addon">Kg</span>
                 </div>
               </td>
-
+ 
               <td>
                 <div class="input-group">
                   <input type="number" name="qty[]" class="qty form-control" required value="0" min="0">
@@ -154,10 +154,16 @@
               <td hidden>
                 <input type="text" name="delete[]" class="delete form-control" value="0" style="width: 100px;">
               </td>
+              <!-- end -->
               
-              <td><button type="button" class="remove btn btn-danger btn-sm">
+              <!-- <td><button type="button" class="remove btn btn-danger btn-sm">
+                <i class="fa fa-minus"></i>
+              </button></td>  -->
+
+              <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">
                 <i class="fa fa-minus"></i>
               </button></td>
+
             </tr>
 
             <tr>
