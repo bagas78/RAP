@@ -7,7 +7,7 @@
 <!-- Main content --> 
 <section class="content"> 
  
-  <!-- Default box -->  
+  <!-- Default box -->   
   <div class="box">  
     <div class="box-header with-border">
 
@@ -227,7 +227,7 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
   function clone(){
     //paste
     $('#copy').find('select.select2-hidden-accessible').select2('destroy');
-    $('#paste').prepend($('#copy').clone());
+    //$('#paste').prepend($('#copy').clone());
 
     //all select2
     $(".select2").select2({
