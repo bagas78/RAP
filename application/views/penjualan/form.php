@@ -161,13 +161,13 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="0" min="1">
+                  <input type="number" name="qty[]" class="qty form-control" value="0" min="1" step="0.01">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" name="stok[]" class="stok form-control" min="0" readonly="" value="0">
+                  <input type="text" name="stok[]" class="stok form-control" min="0" readonly="" value="0" step="0.01">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>

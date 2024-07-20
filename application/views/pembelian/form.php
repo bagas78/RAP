@@ -133,7 +133,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+                  <input type="number" name="qty[]" class="qty form-control" value="1" min="1" step="0.01">
                   <span class="satuan input-group-addon"></span>
                 </div>
               </td>
