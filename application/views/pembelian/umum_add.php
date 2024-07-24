@@ -109,10 +109,10 @@
                 <input required type="text" name="barang[]" class="barang form-control" placeholder="Nama Barang">
               </td>
               <td><input type="number" name="harga[]" class="harga form-control" required min="0" placeholder="Harga Barang"></td>
-              <td><input type="number" name="qty[]" class="qty form-control" value="1" min="1">
+              <td><input type="number" name="qty[]" class="qty form-control" value="1" min="1" step="0.01">
               </td>
-              <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required></td>
-              <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0"></td>
+              <td><input min="0" type="number" name="potongan[]" class="potongan form-control" value="0" required step="0.01"></td>
+              <td><input readonly="" type="text" name="subtotal[]" class="subtotal form-control" required value="0" min="0" step="0.01"></td>
               <td><button type="button" onclick="$(this).closest('tr').remove()" class="remove btn btn-danger btn-sm">
                 <i class="fa fa-minus"></i>
               </button></td>
