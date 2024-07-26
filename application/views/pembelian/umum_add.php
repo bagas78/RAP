@@ -20,7 +20,7 @@
           <i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
           <i class="fa fa-times"></i></button> 
-      </div>
+      </div> 
  
       <div hidden id="search" align="left">
         <div class="col-md-3 col-xs-11 row" style="margin-bottom: 0;">
@@ -217,10 +217,10 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
        var diskon = $('#copy:nth-child('+i+') > td:nth-child(4) > input').val();
        var sub = '#copy:nth-child('+i+') > td:nth-child(5) > input';
 
-       var potongan = (parseInt(diskon) / 100) * (parseInt(harga) * parseInt(qty));
+       var potongan = (Number(diskon) / 100) * (Number(harga) * Number(qty));
 
-       var subtotal = parseInt(qty) * parseInt(harga) - potongan;
-       num_qty += parseInt($(this).val());
+       var subtotal = Number(qty) * Number(harga) - potongan;
+       num_qty += Number($(this).val());
 
        //subtotal
        $(sub).val(number_format(subtotal));
@@ -234,11 +234,11 @@ $('#previewImg').attr('src', '<?=base_url('assets/gambar/camera.png')?>');
     var num_total = 0;
     $.each($('.subtotal'), function(index, val) {
         
-      num_total += parseInt($(this).val().replace(/,/g, ''));
+      num_total += Number($(this).val().replace(/,/g, ''));
     });
 
     //total akhir
-    var ppn = (parseInt($('#ppn').val()) * parseInt(num_total) / 100);
+    var ppn = (Number($('#ppn').val()) * Number(num_total) / 100);
     var total = ppn + num_total;
     $('#total').val(number_format(total));
 

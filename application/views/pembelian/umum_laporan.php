@@ -83,8 +83,8 @@
 							<tr>
 								<td><?=$i?></td>
 								<td><?=@$val['pembelian_umum_barang_barang']?></td>
-								<td class="r"><?=number_format(@$val['pembelian_umum_barang_qty']).' '.@$val['satuan_singkatan']?></td>
-								<td class="r"><?=number_format(@$val['pembelian_umum_barang_potongan']).' '.@$val['satuan_singkatan']?></td>
+								<td class="r"><?=str_replace('.0', '', number_format(@$val['pembelian_umum_barang_qty'], 1, '.', ',')).' '.@$val['satuan_singkatan']?></td>
+								<td class="r"><?=str_replace('.0', '', number_format(@$val['pembelian_umum_barang_potongan'], 1, '.', ',')).' '.@$val['satuan_singkatan']?></td>
 								<td class="r">Rp. <?=number_format(@$val['pembelian_umum_barang_harga'])?></td>
 								<td class="r">Rp. <span class="subtotal"><?=number_format(@$val['pembelian_umum_barang_subtotal'])?></span></td>
 							</tr>
